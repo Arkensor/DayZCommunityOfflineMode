@@ -4,6 +4,8 @@ who did not have the chance to play on a stress test server for long alreay, the
 There is not much to do ingame, but you can explore the map, fight some infected, test your hardware limits by spawning alot of them
 and most important of all CLIMB LADDERS!!! (Jokes aside, ladders have become really nice, definitely try them out)  
 
+This is UNOFFICIAL, so don't blame the DayZ development team if this is not working at all for you!
+
 Note to other developers:  
 Yes the code might be messy, yes there are things that do not look like they should work or do anything!  
 DayZ is not opened for modding or scripting, so this is pretty much a hacky solution to everything.  
