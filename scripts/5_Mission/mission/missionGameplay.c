@@ -72,6 +72,8 @@ class MissionGameplay extends MissionBase
 	bool m_IsWinHolding = false;
 	bool m_IsLeftAltHolding = false;
 	bool m_IsRightAltHolding = false;
+	bool m_IsLeftShiftHolding = false;
+	bool m_IsRightShiftHolding = false;
 	
 	void MissionGameplay()
 	{
@@ -776,6 +778,11 @@ class MissionGameplay extends MissionBase
 		return m_IsWinHolding;
 	}
 	
+	bool SHIFT()
+	{
+		return ( m_IsLeftShiftHolding || m_IsRightShiftHolding );
+	}
+	
 	bool ALT()
 	{
 		return ( m_IsLeftAltHolding || m_IsRightAltHolding );
@@ -818,6 +825,18 @@ class MissionGameplay extends MissionBase
 			{
 				m_IsRightAltHolding = true;
 				break;
+			}
+			
+			case KeyCode.KC_LSHIFT:
+			{
+				m_IsLeftShiftHolding = true;
+				break:
+			}
+			
+			case KeyCode.KC_RSHIFT:
+			{
+				m_IsRightShiftHolding = true;
+				break:
 			}
 			
 			case KeyCode.KC_DELETE:
@@ -868,7 +887,7 @@ class MissionGameplay extends MissionBase
 				{
 					GetGame().CreateObject( "Animal_CanisLupus_Grey", GetCursorPos(), false, true );
 				}
-				else if( ALT() )
+				else if( SHIFT() )
 				{
 					GetGame().CreateObject( GetRandomChildFromBaseClass( "cfgVehicles", "AnimalBase" ), GetCursorPos(), false, true );
 				}
@@ -1044,6 +1063,18 @@ class MissionGameplay extends MissionBase
 			{
 				m_IsRightAltHolding = false;
 				break;
+			}
+			
+			case KeyCode.KC_LSHIFT:
+			{
+				m_IsLeftShiftHolding = false;
+				break:
+			}
+			
+			case KeyCode.KC_RSHIFT:
+			{
+				m_IsRightShiftHolding = false;
+				break:
 			}
 		}
 	}
