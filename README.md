@@ -48,3 +48,4 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * Adding loot to buildings
 * Adding randomly spawning infected
 * Adding dedicated logfile
+* Adding a new admin menu for easier item spawning
