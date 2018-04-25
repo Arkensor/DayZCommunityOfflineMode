@@ -1,0 +1,3 @@
+class HandDrillKit extends ItemBase
+{
+}

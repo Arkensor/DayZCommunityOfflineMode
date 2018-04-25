@@ -1,0 +1,846 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project name="DAY_Z">
+	<Package name="UI">
+		<Container name="Menu">
+			<Container name="Main">
+				<Key ID="main_menu_play">
+					<English>PLAY</English>
+				</Key>
+				<Key ID="main_menu_character">
+					<English>CHARACTER</English>
+				</Key>
+				<Key ID="main_menu_change_server">
+					<English>CHANGE SERVER</English>
+				</Key>
+				<Key ID="main_menu_configure">
+					<English>CONFIGURE</English>
+				</Key>
+				<Key ID="main_menu_exit">
+					<English>EXIT</English>
+				</Key>
+				<Key ID="main_menu_restart">
+					<English>RESTART</English>
+				</Key>
+        <Key ID="main_menu_respawn">
+          <English>RESPAWN</English>
+        </Key>
+        <Key ID="main_menu_respawn_question">
+          <English>Are you sure you would like to respawn? This will kill your current character.</English>
+        </Key>
+				<Key ID="main_menu_continue">
+					<English>CONTINUE</English>
+				</Key>
+				<Key ID="main_menu_version">
+					<English>Version:</English>
+				</Key>
+				<Key ID="character_menu_header">
+					<English>Default Character</English>
+				</Key>
+				<Key ID="menu_back">
+					<English>Back</English>
+				</Key>
+				<Key ID="menu_apply">
+					<English>Apply</English>
+				</Key>
+				<Key ID="menu_default">
+					<English>Default</English>
+				</Key>
+				<Key ID="menu_reset">
+					<English>Reset</English>
+				</Key>
+				<Key ID="menu_random">
+					<English>Random</English>
+				</Key>
+				<Key ID="menu_random_capital">
+					<English>RANDOM</English>
+				</Key>
+				<Key ID="menu_enable">
+					<English>Enable</English>
+				</Key>
+				<Key ID="menu_disable">
+					<English>Disable</English>
+				</Key>
+				<Key ID="menu_enabled">
+					<English>Enabled</English>
+				</Key>
+				<Key ID="menu_disabled">
+					<English>Disabled</English>
+				</Key>
+				<Key ID="menu_warning">
+					<English>Warning</English>
+				</Key>
+				<Key ID="menu_add">
+					<English>Add</English>
+				</Key>
+				<Key ID="menu_remove">
+					<English>Remove</English>
+				</Key>
+				<Key ID="menu_yes">
+					<English>Yes</English>
+				</Key>
+				<Key ID="menu_no">
+					<English>No</English>
+				</Key>
+				<Key ID="menu_ok">
+					<English>OK</English>
+				</Key>
+				<Key ID="menu_cancel">
+					<English>CANCEL</English>
+				</Key>
+				<Key ID="menu_test_settings">
+					<English>Test Settings</English>
+				</Key>
+				<Key ID="menu_restart_needed">
+					<English>You need to restart the game to apply some of the changes made.</English>
+				</Key>
+				<Key ID="early_access_header">
+					<English>Early Access Game</English>
+				</Key>
+				<Key ID="early_access_text">
+					<English>Thank you for participating in the DayZ Early Access! This game is in Alpha, and will be so for some time. This means you will experience bugs, unfinished features, problematic design decision, and many more things that disrupt your game experience. We will be working with the community to fix these, to help us please visit dayzgame.com for development information. Above all, please remember this game is not finished, and is a work in progress.</English>
+				</Key>
+				<Key ID="early_access_alpha">
+					<English>Early Access Alpha</English>
+				</Key>
+				<Key ID="early_access_alpha_understand">
+					<English>I Understand</English>
+				</Key>
+				<Key ID="copyright_disclamer">
+					<English>Copyright © 2018 Bohemia Interactive. Created by Dean Hall. All Rights Reserved.</English>
+				</Key>
+			</Container>
+			<Container name="ServerBrowser">
+				<Key ID="server_browser_servers">
+					<English>Server Browser</English>
+				</Key>
+				<Key ID="server_browser_tab_internet">
+					<English>Internet</English>
+				</Key>
+				<Key ID="server_browser_tab_official">
+					<English>Official</English>
+				</Key>
+				<Key ID="server_browser_tab_community">
+					<English>Community</English>
+				</Key>
+				<Key ID="server_browser_tab_favorite">
+					<English>Favorite</English>
+				</Key>
+				<Key ID="server_browser_tab_history">
+					<English>History</English>
+				</Key>
+				<Key ID="server_browser_tab_friends">
+					<English>Friends</English>
+				</Key>
+				<Key ID="server_browser_tab_lan">
+					<English>LAN</English>
+				</Key>
+				<Key ID="server_browser_tab_remote">
+					<English>Remote</English>
+				</Key>
+				<Key ID="server_browser_column_host">
+					<English>Host</English>
+				</Key>
+				<Key ID="server_browser_column_pass">
+					<English>PASSWORD</English>
+				</Key>
+				<Key ID="server_browser_column_hive">
+					<English>HIVE</English>
+				</Key>
+				<Key ID="server_browser_column_mode">
+					<English>MODE</English>
+				</Key>
+				<Key ID="server_browser_column_version">
+					<English>VERSION</English>
+				</Key>
+				<Key ID="server_browser_column_time">
+					<English>Time</English>
+				</Key>
+				<Key ID="server_browser_column_friends">
+					<English>FRIENDS</English>
+				</Key>
+				<Key ID="server_browser_column_players">
+					<English>PLAYERS</English>
+				</Key>
+				<Key ID="server_browser_column_ping">
+					<English>Ping</English>
+				</Key>
+				<Key ID="server_browser_column_popularity">
+					<English>Pop.</English>
+				</Key>
+				<Key ID="server_browser_column_slots">
+					<English>Slots</English>
+				</Key>
+				<Key ID="server_browser_refresh">
+					<English>Refresh List</English>
+				</Key>
+				<Key ID="server_browser_filter">
+					<English>Filter</English>
+				</Key>
+				<Key ID="server_browser_add_favorite">
+					<English>Add To Favorites</English>
+				</Key>
+				<Key ID="server_browser_remove_favorite">
+					<English>Remove From Favorites</English>
+				</Key>
+				<Key ID="server_browser_details">
+					<English>Details</English>
+				</Key>
+				<Key ID="server_browser_connect">
+					<English>Connect</English>
+				</Key>
+				<Key ID="server_browser_agree_battleye_license">
+					<English>This server is using BattlEye anti-cheat. To connect you will need to agree to the BattlEye license.</English>
+				</Key>
+				<Key ID="server_browser_connect_label">
+					<English>CONNECT</English>
+				</Key>
+				<Key ID="multi_server_not_compatible_message">
+					<English>Your currently installed game version is not compatible with this server</English>
+				</Key>
+
+				<Key ID="multi_enter_server_password_label">
+					<English>PASSWORD PROTECTED SERVER</English>
+				</Key>
+				<Key ID="multi_enter_server_password_message">
+					<English>Enter game password</English>
+				</Key>
+				<Key ID="multi_enter_server_password_edit_label">
+					<English>Password:</English>
+				</Key>
+
+				<Key ID="multi_enter_server_host_label">
+					<English>Host IP Address</English>
+				</Key>
+				<Key ID="multi_enter_server_host_message">
+					<English>Enter Host IP address and port</English>
+				</Key>
+				<Key ID="multi_enter_server_address_edit_label">
+					<English>Address:</English>
+				</Key>
+				<Key ID="multi_enter_server_port_edit_label">
+					<English>Port:</English>
+				</Key>
+
+				<Key ID="multi_server_password_invalid_message">
+					<English>You entered a invalid password</English>
+				</Key>
+				
+				<Key ID="server_browser_agree">
+					<English>AGREE</English>
+				</Key>
+				<Key ID="server_browser_disagree">
+					<English>DISAGREE</English>
+				</Key>
+				<Key ID="server_browser_license">
+					<English>LICENSE</English>
+				</Key>
+				<Key ID="server_browser_wrong_password">
+					<English>Cannot join the session. Wrong password was given.</English>
+				</Key>
+				<Key ID="server_browser_wrong_version">
+					<English>Bad version, server rejected connection.</English>
+				</Key>
+				<Key ID="server_browser_wrong_connect_error">
+					<English>Connecting failed.</English>
+				</Key>
+				<Key ID="server_browser_session_full">
+					<English>Maximum number of players has been reached.</English>
+				</Key>
+				
+				<Key ID="server_browser_steam_friends_text">
+					<English>Steam friends</English>
+				</Key>
+				<Key ID="server_browser_no_steam_friends">
+					<English>none</English>
+				</Key>
+				<Key ID="server_browser_name_filter_default">
+					<English>Full-Text Server name</English>
+				</Key>
+				<Key ID="server_browser_ping_filter">
+					<English>Ping</English>
+				</Key>
+				<Key ID="server_browser_favorite_filter">
+					<English>Favorited</English>
+				</Key>
+				<Key ID="server_browser_friend_filter">
+					<English>Friends playing</English>
+				</Key>
+				<Key ID="server_browser_battleye_filter">
+					<English>BattlEye protected</English>
+				</Key>
+				<Key ID="server_browser_password_filter">
+					<English>Passworded</English>
+				</Key>
+				<Key ID="server_browser_prev_play_filter">
+					<English>Previously played</English>
+				</Key>
+				<Key ID="server_browser_version_filter">
+					<English>Proper version match</English>
+				</Key>
+				<Key ID="server_browser_full_servers_filter">
+					<English>Full Servers</English>
+				</Key>
+				<Key ID="server_browser_third_person_filter">
+					<English>Third Person</English>
+				</Key>
+				<Key ID="server_browser_acc_time_filter">
+					<English>Accelerated Time</English>
+				</Key>
+				<Key ID="server_browser_public_filter">
+					<English>Public</English>
+				</Key>
+				<Key ID="server_browser_expand">
+					<English>Expand all server details</English>
+				</Key>
+				
+				<Key ID="server_browser_collapse">
+					<English>Collapse all server details</English>
+				</Key>
+				
+				<Key ID="server_browser_remote_default">
+					<English>IP address[:port]</English>
+				</Key>
+				<Key ID="server_browser_filter_reset">
+					<English>Reset Filters</English>
+				</Key>
+				<Key ID="server_browser_password_default">
+					<English>Server password...</English>
+				</Key>
+				
+				<Key ID="servers_count">
+					<English>servers found</English>
+				</Key>
+				<Key ID="server_browser_char_restrict">
+					<English>Restrict to selected character</English>
+				</Key>
+			</Container>
+			<Container name="ServerDetails">
+				<Key ID="server_details_header">
+					<English>Server Details</English>
+				</Key>
+				<Key ID="server_details_name">
+					<English>Name:</English>
+				</Key>
+				<Key ID="server_details_address">
+					<English>Address:</English>
+				</Key>
+				<Key ID="server_details_shard">
+					<English>Shard:</English>
+				</Key>
+				<Key ID="server_details_hive">
+					<English>Hive:</English>
+				</Key>
+				<Key ID="server_details_mode">
+					<English>Mode:</English>
+				</Key>
+				<Key ID="server_details_version">
+					<English>Version:</English>
+				</Key>
+				<Key ID="server_details_current_time">
+					<English>Current time:</English>
+				</Key>
+				<Key ID="server_details_last_played">
+					<English>Last played:</English>
+				</Key>
+				<Key ID="server_details_character_alive">
+					<English>Character alive:</English>
+				</Key>
+				<Key ID="server_details_character_none">
+					<English>none</English>
+				</Key>
+				<Key ID="server_details_ip">
+					<English>IP:</English>
+				</Key>
+				<Key ID="server_details_time_multiplier">
+					<English>Time multiplier:</English>
+				</Key>
+				<Key ID="server_details_friends">
+					<English>Friends:</English>
+				</Key>
+				<Key ID="server_details_players">
+					<English>Players:</English>
+				</Key>
+				<Key ID="server_details_ping">
+					<English>Ping:</English>
+				</Key>
+				<Key ID="server_details_popularity_low">
+					<English>Low</English>
+				</Key>
+				<Key ID="server_details_popularity_medium">
+					<English>Medium</English>
+				</Key>
+				<Key ID="server_details_popularity_high">
+					<English>High</English>
+				</Key>
+				<Key ID="server_details_popularity_full">
+					<English>Full</English>
+				</Key>
+				
+			</Container>
+			<Container name="ServerFilter">
+				<Key ID="server_filter_filter_settings">
+					<English>Filter Settings</English>
+				</Key>
+				<Key ID="server_filter_host">
+					<English>Host:</English>
+				</Key>
+				<Key ID="server_filter_version">
+					<English>Version:</English>
+				</Key>
+				<Key ID="server_filter_max_players">
+					<English>Max. Players:</English>
+				</Key>
+				<Key ID="server_filter_min_players">
+					<English>Min. Players:</English>
+				</Key>
+				<Key ID="server_filter_max_ping">
+					<English>Max. Ping:</English>
+				</Key>
+				<Key ID="server_filter_full_servers">
+					<English>Show full servers:</English>
+				</Key>
+				<Key ID="server_filter_passworded">
+					<English>Show passworded only:</English>
+				</Key>
+				<Key ID="server_filter_battle_eye">
+					<English>BattlEye Required:</English>
+				</Key>
+			</Container>
+
+			<Container name="Options">
+				<Key ID="options_system_chat_messages">
+					<English>Show System Chat Messages</English>
+				</Key>
+				<Key ID="options_global_chat_messages">
+					<English>Show Global Chat Messages</English>
+				</Key>
+				<Key ID="options_direct_chat_messages">
+					<English>Show Direct Chat Messages</English>
+				</Key>
+				<Key ID="options_vehicle_chat_messages">
+					<English>Show Vehicle Chat Messages</English>
+				</Key>
+				<Key ID="options_radio_chat_messages">
+					<English>Show Radio Chat Messages</English>
+				</Key>
+				
+				<Key ID="options_label">
+					<English>OPTIONS</English>
+				</Key>
+				<Key ID="options_presets">
+							<English>PRESETS</English>
+						</Key>
+				<Key ID="options_assign">
+				  <English>ASSIGN</English>
+				</Key>
+				<Key ID="options_default_preset_label">
+				  <English>SELECT A DEFAULY SCHEME</English>
+				</Key>
+				<Key ID="options_tab_game">
+					<English>GAME</English>
+				</Key>
+				<Key ID="options_tab_sound">
+					<English>SOUND</English>
+				</Key>
+				<Key ID="options_tab_video">
+					<English>VIDEO</English>
+				</Key>
+				<Key ID="options_tab_controls">
+					<English>CONTROLS</English>
+				</Key>
+				<Container name="Game">
+					<Key ID="options_game_general">
+						<English>GENERAL</English>
+					</Key>
+					<Key ID="options_game_camera">
+						<English>CAMERA</English>
+					</Key>
+					<Key ID="options_game_gameplay">
+						<English>GAMEPLAY</English>
+					</Key>
+					<Key ID="options_game_language">
+						<English>LANGUAGE</English>
+					</Key>
+					<Key ID="options_game_perspective">
+						<English>PERSPECTIVE</English>
+					</Key>
+					<Key ID="options_game_inv_mouse">
+						<English>INVERT MOUSE</English>
+					</Key>
+					<Key ID="options_game_fov">
+						<English>FIELD OF VIEW</English>
+					</Key>
+					<Key ID="options_head_bob">
+						<English>HEAD BOB</English>
+					</Key>
+					<Key ID="options_HUD">
+						<English>SHOW HUD</English>
+					</Key>
+					<Key ID="options_CROSSHAIR">
+						<English>CROSSHAIR</English>
+					</Key>
+					<Key ID="options_SERVER_MESSAGES">
+						<English>SERVER MESSAGES</English>
+					</Key>
+					<Key ID="options_USERS_CHAT">
+						<English>USERS CHAT</English>
+					</Key>
+					<Key ID="options_RADIO_CHAT">
+						<English>RADIO CHAT</English>
+					</Key>
+					<Key ID="options_QUICKBAR">
+						<English>SHOW QUICKBAR</English>
+					</Key>
+				</Container>
+				<Container name="Sound">
+					<Key ID="options_sound_volume">
+						<English>VOLUME</English>
+					</Key>
+					<Key ID="options_sound_effects">
+						<English>EFFECTS</English>
+					</Key>
+					<Key ID="options_sound_music">
+						<English>MUSIC</English>
+					</Key>
+					<Key ID="options_sound_voip">
+						<English>VOIP</English>
+					</Key>
+					<Key ID="options_sound_master">
+						<English>MASTER</English>
+					</Key>
+				</Container>
+				<Container name="Video">
+					<Key ID="options_video_overall_label">
+						<English>OVERALL QUALITY</English>
+					</Key>
+					<Key ID="options_overall_set_button">
+						<English>SET</English>
+					</Key>
+					<Key ID="options_video_overall_quality">
+						<English>QUALITY</English>
+					</Key>
+					<Key ID="options_video_rendring_resolution">
+						<English>RENDER RESOLUTION</English>
+					</Key>
+					<Key ID="options_video_brightness">
+						<English>BRIGHTNESS</English>
+					</Key>
+					<Key ID="options_video_gamma">
+						<English>GAMMA</English>
+					</Key>
+					<Key ID="options_video_vsynch">
+						<English>V-SYNC</English>
+					</Key>
+					
+					<Key ID="options_video_ui_label">
+						<English>SCREEN</English>
+					</Key>
+					<Key ID="options_video_ui_resolution">
+						<English>RESOLUTION</English>
+					</Key>
+					<Key ID="options_video_ui_size">
+						<English>SIZE</English>
+					</Key>
+					<Key ID="options_video_ui_aspect">
+						<English>ASPECT RATIO</English>
+					</Key>
+					
+					<Key ID="options_video_textures_label">
+						<English>TEXTURES</English>
+					</Key>
+					<Key ID="options_video_textures_video_memory">
+						<English>VIDEO MEMORY</English>
+					</Key>
+					<Key ID="options_video_textures_filtering">
+						<English>TEXTURES FILTERING</English>
+					</Key>
+					<Key ID="options_video_scene_complexity">
+						<English>SCENE COMPLEXITY</English>
+					</Key>
+					<Key ID="options_video_quality_model_details">
+						<English>MODEL DETAIL</English>
+					</Key>
+					<Key ID="options_video_quality_terrain">
+						<English>TERRAIN DETAIL</English>
+					</Key>
+					<Key ID="options_video_textures_detail">
+						<English>TEXTURE DETAIL</English>
+					</Key>
+					<Key ID="options_video_quality_clouds">
+						<English>CLOUDS DETAIL</English>
+					</Key>
+					<Key ID="options_video_quality_shadows">
+						<English>SHADOWS DETAIL</English>
+					</Key>
+					
+					<Key ID="options_video_rendering_label">
+						<English>RENDERING</English>
+					</Key>
+					<Key ID="options_video_rendering_antialiasing">
+						<English>ANTIALIASING</English>
+					</Key>
+					<Key ID="options_video_rendering_atc">
+						<English>ALPHA TO COVERAGE</English>
+					</Key>
+					<Key ID="options_video_rendering_edge_smooth">
+						<English>EDGE SMOOTHING</English>
+					</Key>
+					<Key ID="options_video_rendering_hdr">
+						<English>HDR QUALITY</English>
+					</Key>
+					<Key ID="options_video_rendering_ao">
+						<English>AMBIENT OCCLUSION</English>
+					</Key>
+					<Key ID="options_video_rendering_postprocess">
+						<English>POSTPROCESS QUALITY</English>
+					</Key>
+					<Key ID="options_video_rendering_bloom">
+						<English>BLOOM</English>
+					</Key>
+					<Key ID="options_video_rendering_rot_blur">
+						<English>ROTATION BLUR</English>
+					</Key>
+				</Container>
+				<Container name="Controls">
+					<Key ID="options_controls_mouse_label">
+						<English>MOUSE</English>
+					</Key>
+					<Key ID="options_controls_keyboard_label">
+						<English>KEYBOARD</English>
+					</Key>
+					<Key ID="options_controls_horizontal_sensitivity">
+						<English>HORIZONTAL SENSITIVITY</English>
+					</Key>
+					<Key ID="options_controls_vertical_sensitivity">
+						<English>VERTICAL SENSITIVITY</English>
+					</Key>
+					<Key ID="options_controls_devices_label">
+						<English>DEVICES</English>
+					</Key>
+					<Key ID="options_controls_devices_xinput">
+						<English>USE XINPUT</English>
+					</Key>
+					<Key ID="options_controls_features_label">
+						<English>Mouse Features:</English>
+					</Key>
+					<Key ID="options_controls_smoothing">
+						<English>SMOOTHING</English>
+					</Key>
+					<Key ID="options_controls_deadzone">
+						<English>Aiming Deadzone</English>
+					</Key>
+					<Key ID="options_controls_lock_sprint">
+						<English>Lock Sprint</English>
+					</Key>
+					<Key ID="options_controls_lock_freelook">
+						<English>Lock Freelook</English>
+					</Key>
+					<Key ID="options_controls_lock_zoom">
+						<English>Lock Zoom</English>
+					</Key>
+					<Key ID="options_controls_keyboard_assignments_label">
+						<English>CONFIGURE KEYS ASSIGNMENTS</English>
+					</Key>
+					<Key ID="options_controls_assignments_label">
+						<English>ASSIGNMENTS</English>
+					</Key>
+					<Key ID="options_controls_controller_label">
+						<English>CONTROLLER</English>
+					</Key>
+					<Key ID="options_controls_controller_sensitivity_h_label">
+						<English>HORIZONTAL SENSITIVITY</English>
+					</Key>
+					<Key ID="options_controls_controller_sensitivity_v_label">
+						<English>VERTICAL SENSITIVITY</English>
+					</Key>
+					
+					<Key ID="options_controls_controller_invert_h_axis">
+						<English>INVERT HORIZONTAL AXIS</English>
+					</Key>
+					<Key ID="options_controls_controller_invert_v_axis">
+						<English>INVERT VERTICAL AXIS</English>
+					</Key>
+					
+					<Key ID="options_controls_controller_switch_sticks">
+						<English>SWITCH MOVEMENT AND LOOK STICKS</English>
+					</Key>
+					<Key ID="options_controls_controller_vibrations">
+						<English>VIBRATIONS</English>
+					</Key>
+					
+				</Container>
+				<Container name="Assignments">
+					<Key ID="options_controls_assignments_label2">
+						<English>ASSIGNMENTS</English>
+					</Key>
+					<Key ID="options_controls_action_label">
+						<English>Action:</English>
+					</Key>
+					<Key ID="options_controls_assigned_keys">
+						<English>ASSIGNED KEYS</English>
+					</Key>
+					<Key ID="options_controls_special_keys">
+						<English>Special keys</English>
+					</Key>
+					<Key ID="options_controls_add_special">
+						<English>Add Special</English>
+					</Key>
+					<Key ID="options_controls_press_key">
+						<English>Press key to assign:</English>
+					</Key>
+				</Container>
+			</Container>
+
+			<Container name="MessageDialog">
+				<Key ID="message_dialog_ok">
+					<English>OK</English>
+				</Key>
+				<Key ID="message_dialog_yes">
+					<English>YES</English>
+				</Key>
+				<Key ID="message_dialog_cancel">
+					<English>CANCEL</English>
+				</Key>
+				<Key ID="message_dialog_continuewithoutsave">
+					<English>Could not locate a storage device with sufficient space. Continue without saving?</English>
+				</Key>
+				<Key ID="message_dialog_no">
+					<English>NO</English>
+				</Key>
+				<Key ID="message_dialog_diskisfull">
+					<English>MEMORY FULL!</English>
+				</Key>
+				<Key ID="message_dialog_off">
+					<English>OFF</English>
+				</Key>
+				<Key ID="message_dialog_on">
+					<English>ON</English>
+				</Key>
+			</Container>
+			<Container name="Inventory">
+				<Container name="ContextMenu">
+					<Key ID="inv_context_inspect">
+						<English>Inspect</English>
+					</Key>
+					<Key ID="inv_context_remove_from_hands">
+						<English>Remove from hands</English>
+					</Key>
+					<Key ID="inv_context_take_to_hands">
+						<English>Take to hands</English>
+					</Key>
+					<Key ID="inv_context_take_to_hands">
+						<English>Take to hands</English>
+					</Key>
+					<Key ID="inv_context_add_as_attachment">
+						<English>Add As Attachment</English>
+					</Key>
+					<Key ID="inv_context_add_as_cargo">
+						<English>Add As Cargo</English>
+					</Key>
+					<Key ID="inv_context_combine">
+						<English>Combine</English>
+					</Key>
+					<Key ID="inv_context_repair">
+						<English>Repair</English>
+					</Key>
+					<Key ID="inv_context_swap">
+						<English>Swap</English>
+					</Key>
+					<Key ID="inv_context_load_chamber">
+						<English>Load bullet</English>
+					</Key>
+					<Key ID="inv_context_attach_magazine">
+						<English>Attach magazine</English>
+					</Key>
+					<Key ID="inv_context_swap_magazine">
+						<English>Swap magazine</English>
+					</Key>
+          <Key ID="inv_receiving">
+            <English>Receiving...</English>
+          </Key>          
+        </Container>
+				<Key ID="inspect_title">
+					<English>Inspect</English>
+				</Key>
+				<Key ID="container_empty">
+					<English>EMPTY</English>
+				</Key>
+				<Key ID="container_hands">
+					<English>HANDS</English>
+				</Key>
+				<Key ID="container_containers">
+					<English>CONTAINERS</English>
+				</Key>
+				<Key ID="container_inventory">
+					<English>EQUIPMENT</English>
+				</Key>
+				<Key ID="container_vicinity">
+					<English>VICINITY</English>
+				</Key>
+				<Key ID="container_shortcuts">
+					<English>Shortcuts</English>
+				</Key>
+				<Key ID="container_type_cargo">
+				  <English>Cargo:</English>
+				</Key>
+				<Key ID="container_type_attachment">
+				  <English>Attachment:</English>
+				</Key>
+			</Container>
+			<Container name="Players">
+				<Key ID="players_title">
+					<English>Players</English>
+				</Key>
+				<Key ID="players_name">
+					<English>NAME</English>
+				</Key>
+				<Key ID="players_ping_min">
+					<English>PING MIN</English>
+				</Key>
+				<Key ID="players_ping_max">
+					<English>MAX</English>
+				</Key>
+				<Key ID="players_ping_avg">
+					<English>AVG</English>
+				</Key>
+				<Key ID="players_bandwidth_min">
+					<English>BANDWIDTH MIN</English>
+				</Key>
+				<Key ID="players_bandwidth_max">
+					<English>MAX</English>
+				</Key>
+				<Key ID="players_bandwidth_avg">
+					<English>AVG</English>
+				</Key>
+				<Key ID="players_desynch">
+					<English>DESYNCH</English>
+				</Key>
+			</Container>
+		</Container>
+	</Package>
+	<Package name="UserActions">
+		<Container name="ActionsElectricity">
+			<Key ID="user_action_elect_installed_sparkplug">
+				<English>I've installed the sparkplug into the generator.</English>
+			</Key>
+			<Key ID="user_action_elect_removed_sparkplug">
+				<English>I've removed the sparkplug from the generator.</English>
+			</Key>
+			<Key ID="range_finder_distance">
+				<English>Distance</English>
+			</Key>
+			<Key ID="meters">
+				<English>meters.</English>
+			</Key>
+			
+		</Container>
+	</Package>
+	<Package name="Recipes">
+		<Container name="PlayerMessages">
+			<Key ID="blood_type_result">
+				<English>Blood type is </English>
+			</Key>
+		</Container>
+	</Package>
+</Project>
+      

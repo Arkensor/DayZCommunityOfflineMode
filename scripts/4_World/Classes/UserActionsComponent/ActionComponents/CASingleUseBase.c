@@ -1,0 +1,3 @@
+class CASingleUseBase : CABase
+{	
+};

@@ -1,0 +1,7 @@
+enum EStaminaModifiers
+{
+	HOLD_BREATH,
+	MELEE_LIGHT,
+	MELEE_HEAVY,
+	MELEE_EVADE,
+}

@@ -1,0 +1,4 @@
+class ObjectTyped extends Object
+{
+	
+};

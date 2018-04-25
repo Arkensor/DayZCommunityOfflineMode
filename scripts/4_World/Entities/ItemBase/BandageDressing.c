@@ -1,0 +1,3 @@
+class BandageDressing extends ItemBase
+{
+}

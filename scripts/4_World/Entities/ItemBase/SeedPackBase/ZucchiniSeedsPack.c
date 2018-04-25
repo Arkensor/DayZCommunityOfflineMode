@@ -1,0 +1,3 @@
+class ZucchiniSeedsPack extends SeedPackBase
+{	
+}

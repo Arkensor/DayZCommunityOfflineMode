@@ -1,0 +1,3 @@
+class Tripod extends ItemBase
+{
+}

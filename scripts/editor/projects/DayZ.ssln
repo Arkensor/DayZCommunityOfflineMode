@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<solution>
+    <project path="scripts/editor/projects/Engine.sproj">
+        <project path="scripts/editor/projects/GameLib.sproj">
+            <project path="scripts/editor/projects/Game.sproj">
+                <project path="scripts/editor/projects/World.sproj">
+                    <project path="scripts/editor/projects/Mission.sproj" />
+                </project>
+            </project>
+        </project>
+        <project path="scripts/editor/projects/Workbench.sproj" />
+    </project>
+</solution>

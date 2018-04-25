@@ -1,0 +1,3 @@
+class Matchbox extends ItemBase
+{
+}

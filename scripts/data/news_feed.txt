@@ -1,0 +1,27 @@
+<h scale="0.8">
+<image set="dayz_gui" name="icon_pin" />  Welcome to the DayZ 0.63 Stress Test Branch! 
+</h>
+<h scale="0.6">
+This branch serves for time-limited development tests that are open to the community. Our goal in each of these tests is to gather performance and stability data from servers under heavy load.
+</h>
+</br>
+<h scale="0.8">
+<image set="dayz_gui" name="icon_pin" />  Stress test Schedule 
+</h>
+<h scale="0.6">
+We'll only run the Stress Tests when our development team needs data and/or specific feedback. Stress Tests will be announced on our Twitter and Forums, and will usually run for a couple of hours.
+</h>
+</br>
+<h scale="0.8">
+<image set="dayz_gui" name="icon_pin" />  Current Stress Test
+</h>
+<h scale="0.6">
+In the first bunch of Stress Tests, we'll mostly focus on watching server performance under heavy PvP gameplay load. For detailed information about an ongoing Stress Test (inlcuding known issues), please visit dayz.com/dev-hub 
+</h>
+</br>
+<h scale="0.8">
+<image set="dayz_gui" name="icon_pin" />  Important Note
+</h>
+<h scale="0.6">
+Stress Tests do not represent a typical DayZ 0.63 gameplay experience. Spawn points, starting gear, loot, and also the available feature set are all modified for the purpose of specific test cases.
+</h>

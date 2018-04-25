@@ -1,0 +1,4 @@
+class ZombieBase extends Zombie
+{
+	
+}
