@@ -27,7 +27,7 @@ You might delete your whole dta folder and validate your game files via steam to
 * T - Teleport at the position you are looking at
 * O - Spawn a random infected (Zombies)
 * O + CTRL - Spawn a doge (Actually a wolf, but you can pet him if you have godmode enabled!)
-* O + ALT - Spawn a random animal
+* O + SHIFT - Spawn a random animal
 * R - Reload the weapon and refill the ammo (Infinite ammo)
 * P - Display your current position in the chat and print it to your logfiles (See logfiles section for their location)
 * B - Toggle debug monitor
