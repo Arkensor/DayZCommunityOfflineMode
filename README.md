@@ -10,7 +10,7 @@ DayZ is not opened for modding or scripting, so this is pretty much a hacky solu
 If you want to improve something, go ahead and create a pullrequest ;)
 
 # Installation:
-Download [this](https://github.com/Arkensor/DayZCommunitySingleplayer/archive/master.zip) zip archive.  
+Download [this](https://github.com/Arkensor/DayZCommunitySingleplayer/archive/v1.0.zip) zip archive.  
 Place the Mission folder (containing one .pbo file) inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
 Make a backup from your scripts.pbo inside the DayZ dta folder. Maybe rename it to "scripts.pbo.disabled".  
 Now put the scripts.pbo that came with the downloaded zip in the dta folder.  
