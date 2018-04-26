@@ -763,7 +763,7 @@ class MissionGameplay extends MissionBase
 			}
 		}
 		
-		return class_names.GetRandomElement()
+		return class_names.GetRandomElement();
 	}
 	
 	// ---------- Keyhandler part
