@@ -800,7 +800,12 @@ class MissionGameplay extends MissionBase
 		super.OnKeyPress(key);
 		
 		m_hud.KeyPress(key);
-
+		
+		if( GetGame().GetUIManager().GetMenu() )
+		{
+			return;
+		}
+		
 		switch( key )
 		{
 			case KeyCode.KC_LCONTROL:
