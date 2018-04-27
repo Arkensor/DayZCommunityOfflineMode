@@ -1,5 +1,5 @@
-# DayZCommunitySingleplayer
-DayZ Community Singleplayer is a small sideproject to offer all of you,  
+# DayZCommunityOfflineMode
+DayZ Community Offline Mode is a small sideproject to offer all of you,  
 who did not have the chance to play on a stress test server for long alreay, the chance to enjoy the 0.63 stress test update.  
 There is not much to do ingame, but you can explore the map, fight some infected, test your hardware limits by spawning alot of them
 and most important of all CLIMB LADDERS!!! (Jokes aside, ladders have become really nice, definitely try them out)  
@@ -12,7 +12,7 @@ DayZ is not opened for modding or scripting, so this is pretty much a hacky solu
 If you want to improve something, go ahead and create a pullrequest ;)
 
 # Installation:
-Download [this](https://github.com/Arkensor/DayZCommunitySingleplayer/releases/download/v1.0/DayZ.Community.Singleplayer.zip) zip archive.  
+Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v1.0/DayZ.Community.OfflineMode.zip) zip archive.  
 Place the Mission folder (containing one .pbo file) inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
 Make a backup from your scripts.pbo inside the DayZ dta folder. Maybe rename it to "scripts.pbo.disabled".  
 Now put the scripts.pbo that came with the downloaded zip in the dta folder.  
@@ -20,7 +20,7 @@ It now replaces the old .pbo.
 
 Even though this is not directly bannable by Battleye, just to make sure: Rename your Battleye folder to Battleye.disabled, and rename the DayZ_BE.exe to DayZ_BE.exe.disabled.
 
-Now you can double click the DayZ_x64.exe, to launch the game. You will be loaded directly into the singleplayer.
+Now you can double click the DayZ_x64.exe, to launch the game. You will be loaded directly into the offline mode.
 
 To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders and .pbos back to their original name.   
 You might delete your whole dta folder and validate your game files via steam to get the original DayZ files back.
@@ -38,6 +38,11 @@ You might delete your whole dta folder and validate your game files via steam to
 * DELETE - Open the DayZ developer admin tool
 * INSERT - Toggle free camera. This teleports your player to the position you looked at when turning it off
 * END - Toggle godmode
+
+Free Camera Controls
+* SCROLL WHEEL - Speed of Camera
+* Q / A - Raise Lower Camera
+* SHIFT - Fast Forward (Also altered with Mouse Wheel)
 
 # Logfiles:
 In case you want to report errors to us or the offical dayz dev team, you might need logfile info.
