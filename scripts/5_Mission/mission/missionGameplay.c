@@ -763,7 +763,7 @@ class MissionGameplay extends MissionBase
 			}
 		}
 		
-		return class_names.GetRandomElement();
+		return class_names.GetRandomElement()
 	}
 	
 	// ---------- Keyhandler part
@@ -848,10 +848,12 @@ class MissionGameplay extends MissionBase
 			{
 				if ( g_Game.GetUIManager().GetMenu() == NULL )
 				{
+					g_Game.GetUIManager().ShowUICursor(true);
 					g_Game.GetUIManager().EnterScriptedMenu(MENU_SCENE_EDITOR, NULL);
 				}
 				else if ( g_Game.GetUIManager().IsMenuOpen(MENU_SCENE_EDITOR) )
 				{
+					g_Game.GetUIManager().ShowUICursor(false);
 					g_Game.GetUIManager().Back();
 				}
 				
@@ -937,6 +939,16 @@ class MissionGameplay extends MissionBase
 				m_oPlayer.MessageStatus( "POS X:" + m_oPlayer.GetPosition()[0] + " Y:" + m_oPlayer.GetPosition()[2] + " Z:" + m_oPlayer.GetPosition()[1] );
 
 				m_oPlayer.MessageStatus( "Player position and direction vector were written to the game logs too." );
+				
+				break;
+			}
+			
+			case KeyCode.KC_D:
+			{
+				if( CTRL() )
+				{
+					GetGame().OpenURL( "https://github.com/Arkensor/DayZCommunityOfflineMode" );
+				}
 				
 				break;
 			}
@@ -1032,6 +1044,14 @@ class MissionGameplay extends MissionBase
 					m_bGodMode = true;
 				}
 				
+				break;
+			}		
+			
+			case KeyCode.KC_HOME:
+			{
+				DamageSystem.ExplosionDamage( NULL, NULL, "Dummy_Heavy", GetCursorPos() );
+				Particle.Play( ParticleList.EXPLOSION_TEST, GetCursorPos() );
+
 				break;
 			}
 		}	
