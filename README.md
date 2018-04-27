@@ -40,6 +40,7 @@ You might delete your whole dta folder and validate your game files via steam to
 * DELETE - Open the DayZ developer admin tool
 * INSERT - Toggle free camera. This teleports your player to the position you looked at when turning it off
 * END - Toggle godmode
+* POS1 - Particle effect demonstration (aka poof)
 
 Free Camera Controls
 * SCROLL WHEEL - Speed of Camera
