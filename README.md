@@ -58,3 +58,6 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * Adding randomly spawning infected
 * Adding dedicated logfile
 * Adding a new admin menu for easier item spawning
+
+# Contributors:
+* [DuhOneZ](https://twitter.com/DuhOneZ)
