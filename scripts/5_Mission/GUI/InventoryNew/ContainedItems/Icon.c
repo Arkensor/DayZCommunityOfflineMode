@@ -898,7 +898,8 @@ class Icon: ContainerBase
 	{
 		string name = w.GetName();
 		name.Replace( "PanelWidget", "Render" );
-
+		PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
+		
 		ItemPreviewWidget receiver_ipw = ItemPreviewWidget.Cast( receiver.FindAnyWidget( "Render" ) );
 		if( m_HandsIcon )
 		{
@@ -933,17 +934,18 @@ class Icon: ContainerBase
 		else if( GameInventory.CanSwapEntities( receiver_entity, w_entity ) )
 		{
 			Magazine mag = Magazine.Cast(w_entity);
-			Weapon_Base wpn = Weapon_Base.Cast(mag.GetHierarchyParent());
-			if( mag && wpn )
+			if( mag )
 			{
-				PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
-				if( player.GetWeaponManager().CanSwapMagazine( wpn,  Magazine.Cast(receiver_entity) ) )
-					player.GetWeaponManager().SwapMagazine( Magazine.Cast(receiver_entity) );
-				return;
+				Weapon_Base wpn = Weapon_Base.Cast(mag.GetHierarchyParent());
+				if( wpn )
+				{
+					if( player.GetWeaponManager().CanSwapMagazine( wpn,  Magazine.Cast(receiver_entity) ) )
+						player.GetWeaponManager().SwapMagazine( Magazine.Cast(receiver_entity) );
+					return;
+				}
 			}
-				
-
-			GetGame().GetPlayer().PredictiveSwapEntities( w_entity, receiver_entity );
+			
+			player.PredictiveSwapEntities( w_entity, receiver_entity );
 
 			Icon icon = ItemManager.GetInstance().GetDraggedIcon();
 			if( m_Parent.IsInherited( ItemsContainer ) )
@@ -953,9 +955,9 @@ class Icon: ContainerBase
 		}
 		else
 		{
-			if( m_HandsIcon && GetGame().GetPlayer().GetHumanInventory().CanAddEntityInHands( w_entity ) )
+			if( m_HandsIcon && player.GetHumanInventory().CanAddEntityInHands( w_entity ) )
 			{
-				GetGame().GetPlayer().PredictiveTakeEntityToHands( w_entity );
+				player.PredictiveTakeEntityToHands( w_entity );
 			}
 		}
 	}

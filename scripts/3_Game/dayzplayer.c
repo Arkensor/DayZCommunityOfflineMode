@@ -412,9 +412,9 @@ enum DayZPlayerConstants
     CMD_ACTIONMOD_DRINK = 0,					// erc,cro    		[end, end2]
 	CMD_ACTIONMOD_EAT = 1,						// erc,cro    		[end, end2]
 	CMD_ACTIONMOD_EMPTYCANISTER = 2,			// erc,cro          [end]
-	CMD_ACTIONMOD_CATCHRAIN = 3,				// erc,cro   	   [end]
-	CMD_ACTIONMOD_EATPILLS = 4,					// erc,cro  	    [end]
-	CMD_ACTIONMOD_EATTABLETS = 5,				// erc,cro   	   [end]
+	CMD_ACTIONMOD_CATCHRAIN = 3,				// erc,cro			[end]
+	CMD_ACTIONMOD_EATPILLS = 4,					// erc,cro			[end]
+	CMD_ACTIONMOD_EATTABLETS = 5,				// erc,cro   	    [end]
 	CMD_ACTIONMOD_EMPTYBOTTLE = 6,				// erc,cro          [end]
 	CMD_ACTIONMOD_OPENCOMPASS = 7,				// erc              [end]
 	CMD_ACTIONMOD_DRINKCAN = 8,					// erc,cro			[end]
@@ -426,7 +426,7 @@ enum DayZPlayerConstants
 	CMD_ACTIONMOD_EMPTYMAG = 14,				// erc,cro			[end]
 	CMD_ACTIONMOD_DRINKPOT = 15,				// erc,cro			[end]
 	CMD_ACTIONMOD_EMPTYPOT = 16,				// erc,cro			[end]
-	CMD_ACTIONMOD_CRAFTING = 17,				// erc,cro			[end]
+	CMD_ACTIONMOD_EATFRUIT = 17,				// erc,cro			[end]
 	
 	// onetime 
 	CMD_ACTIONMOD_LICKBATTERY = 100,    		// erc,cro,pne
@@ -499,6 +499,7 @@ enum DayZPlayerConstants
 	CMD_ACTIONFB_POURBOTTLE = 86,				// erc, cro			[end]
 	CMD_ACTIONFB_INTERACTITEM = 87,				// cro				[end]
 	CMD_ACTIONFB_POURCAN = 88,					// erc, cro			[end]
+	CMD_ACTIONFB_EATFRUIT = 89,					// pne				[end]
 	
 	// onetime 
 	CMD_ACTIONFB_LICKBATTERY = 100,    			// pne

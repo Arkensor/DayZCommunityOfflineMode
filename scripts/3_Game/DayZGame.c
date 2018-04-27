@@ -507,6 +507,7 @@ class DayZGame extends CGame
 			break;
 		
 		case MPSessionEndEventTypeID:
+			CancelQueueTime();
 			break;
 		
 		case MPSessionFailEventTypeID:
@@ -610,7 +611,7 @@ class DayZGame extends CGame
 		/* NOTE: StoreLoginData must be called for game to continue !!! */
 		
 		// turn the lights off
-		//GetGame().SetEVUser(-5); //caused bug when disconnecting mid-respawn. Unnescessary anyway?
+		GetGame().SetEVUser(-5);
 		// timer for spawning screen
 		if (queueTime > 0)
 		{

@@ -34,6 +34,8 @@ class VehicleManager
 						if ( GetGame().IsClient() )
 						{
 							ScriptInputUserData ctx = new ScriptInputUserData;
+							ctx.Write(INPUT_UDT_STANDARD_ACTION);
+							ctx.Write(action.GetType());
 							action.WriteToContext(ctx, target);
 							ctx.Send();
 						}

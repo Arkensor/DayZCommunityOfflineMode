@@ -60,6 +60,8 @@ class ActionManagerBase
 	
 	protected ActionBase 			m_RunningAction;
 	
+	protected Serializer			m_PendingActionData;
+	
 	void ActionManagerBase(PlayerBase player)
 	{
 		m_Player = player;

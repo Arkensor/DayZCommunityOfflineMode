@@ -563,6 +563,7 @@ class PluginDayzPlayerDebug extends PluginBase
 			m_ActionsSelector.AddItem("L CMD_ACTION_EMPTYMAG", new PluginDayzPlayerDebugUserData(DayZPlayerConstants.CMD_ACTIONMOD_EMPTYMAG, false), 0);
 			m_ActionsSelector.AddItem("L CMD_ACTION_DRINKPOT", new PluginDayzPlayerDebugUserData(DayZPlayerConstants.CMD_ACTIONMOD_DRINKPOT, false), 0);
 			m_ActionsSelector.AddItem("L CMD_ACTION_EMPTYPOT", new PluginDayzPlayerDebugUserData(DayZPlayerConstants.CMD_ACTIONMOD_EMPTYPOT, false), 0);
+			m_ActionsSelector.AddItem("L CMD_ACTION_EATFRUIT", new PluginDayzPlayerDebugUserData(DayZPlayerConstants.CMD_ACTIONMOD_EATFRUIT, false), 0);
 		}
 
         //! one time
@@ -640,6 +641,7 @@ class PluginDayzPlayerDebug extends PluginBase
 			m_ActionsSelector.AddItem("FB L CMD_ACTION_POURBOTTLE", new PluginDayzPlayerDebugUserData(DayZPlayerConstants.CMD_ACTIONFB_POURBOTTLE, true, DayZPlayerConstants.STANCEMASK_CROUCH | DayZPlayerConstants.STANCEMASK_ERECT), 0);
 			m_ActionsSelector.AddItem("FB L CMD_ACTION_INTERACTITEM", new PluginDayzPlayerDebugUserData(DayZPlayerConstants.CMD_ACTIONFB_INTERACTITEM, true, DayZPlayerConstants.STANCEMASK_CROUCH), 0);
 			m_ActionsSelector.AddItem("FB L CMD_ACTION_POURCAN", new PluginDayzPlayerDebugUserData(DayZPlayerConstants.CMD_ACTIONFB_POURCAN, true, DayZPlayerConstants.STANCEMASK_CROUCH | DayZPlayerConstants.STANCEMASK_ERECT), 0);
+			m_ActionsSelector.AddItem("FB L CMD_ACTION_EATFRUIT", new PluginDayzPlayerDebugUserData(DayZPlayerConstants.CMD_ACTIONFB_EATFRUIT, true, DayZPlayerConstants.STANCEMASK_PRONE), 0);
 			
 			
 			

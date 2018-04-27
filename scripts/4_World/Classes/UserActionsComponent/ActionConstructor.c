@@ -111,6 +111,7 @@ class ActionConstructor
 		actions.Insert(new ActionForceFeed);
 		actions.Insert(new ActionEat);
 		actions.Insert(new ActionEatMeat);
+		actions.Insert(new ActionEatFruit);
 		actions.Insert(new ActionDrink);
 		actions.Insert(new ActionDrinkCookingPot);
 		actions.Insert(new ActionBandageSelf);

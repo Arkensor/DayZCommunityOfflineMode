@@ -794,7 +794,7 @@ class MissionGameplay extends MissionBase
 		{
 			m_bWelcomeSeen = true;
 			
-			GetGame().GetUIManager().ShowDialog( "DayZ Singleplayer", "Enjoy the DayZ Community Singleplayer.\n \n \nThe current game build is still ALPHA!\nCrashes and bugs can occur.\nProvide feedback on the game via feedback.bistudio.com\n \n \nCreated by Arkensor", 76, DBT_OK, DBB_OK, DMT_INFO, m_oWelcomeManager );
+			GetGame().GetUIManager().ShowDialog( "DayZ OfflineMode", "Enjoy the DayZ Community Offline Mode.\n \n \nThe current game build is still ALPHA!\nCrashes and bugs can occur.\nNot all 0.63 features are impletemented yet!\nProvide feedback on the game via feedback.bistudio.com\n \n \nCreated by Arkensor.\nContributions from DuhOneZ", 76, DBT_OK, DBB_OK, DMT_INFO, m_oWelcomeManager );
 		}
 		
 		super.OnKeyPress(key);
@@ -842,6 +842,32 @@ class MissionGameplay extends MissionBase
 			{
 				m_IsRightShiftHolding = true;
 				break:
+			}
+			
+			//Gestures [.]
+			case KeyCode.KC_PERIOD:
+			{
+				//open gestures menu
+				if ( !GetUIManager().IsMenuOpen( MENU_GESTURES ) )
+				{
+					//TODO reconnect when appropriate
+					GesturesMenu.OpenMenu();
+				}
+				
+				break;
+			}
+			
+			//Radial Quickbar [,]
+			case KeyCode.KC_COMMA:
+			{
+				//open radial quickbar menu
+				if ( !GetGame().GetUIManager().IsMenuOpen( MENU_RADIAL_QUICKBAR ) )
+				{
+					//TODO reconnect when appropriate
+					RadialQuickbarMenu.OpenMenu();
+				}
+				
+				break;
 			}
 			
 			case KeyCode.KC_DELETE:

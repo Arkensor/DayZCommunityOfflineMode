@@ -76,29 +76,6 @@ class ActionWorldCraft: ActionContinuousBase
 		//Server
 		return true;		
 	}
-			
-	/*override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
-	{
-		if( !GetGame().IsMultiplayer() || GetGame().IsClient() )
-		{	
-			//Client	
-			if ( player.GetCraftingManager().IsWorldCraft() || player.GetCraftingManager().IsInventoryCraft() )
-			{
-				PluginRecipesManager module_recipes_manager = GetPlugin(PluginRecipesManager);
-				m_ActionPrompt = module_recipes_manager.GetRecipeName( player.GetCraftingManager().GetRecipeID() );
-				return true;
-			}
-			return false;
-		}
-		else
-		{
-			//Server
-			return true;
-		}
-				
-		return false;
-	}*/
-
 	
 	override void Start( PlayerBase player, ActionTarget target, ItemBase item ) //Setup on start of action
 	{
@@ -134,11 +111,22 @@ class ActionWorldCraft: ActionContinuousBase
 	
 	override void OnCompleteLoopServer( PlayerBase player, ActionTarget target, ItemBase item, Param acdata )
 	{
+		if (!GetGame().IsMultiplayer())
+		{
+			ActionManagerClient am = ActionManagerClient.Cast(player.GetActionManager());
+			am.UnlockInventory(this);
+		}
 		PluginRecipesManager module_recipes_manager;
 		Class.CastTo(module_recipes_manager,  GetPlugin(PluginRecipesManager) );
 		ItemBase item2;
 		Class.CastTo(item2,  target.GetObject() );
-		module_recipes_manager.PerformRecipeServer( player.GetCraftingRecipeID(), item, item2, player );
+			module_recipes_manager.PerformRecipeServer( player.GetCraftingRecipeID(), item, item2, player );
+	}
+	
+	override void OnCompleteLoopClient( PlayerBase player, ActionTarget target, ItemBase item, Param acdata )
+	{
+		ActionManagerClient am = ActionManagerClient.Cast(player.GetActionManager());
+		am.UnlockInventory(this);
 	}
 	
 	override void WriteToContext (ParamsWriteContext ctx, ActionTarget target)
@@ -146,11 +134,27 @@ class ActionWorldCraft: ActionContinuousBase
 		PlayerBase player;
 		Class.CastTo(player, GetGame().GetPlayer());
 
-		ctx.Write(INPUT_UDT_STANDARD_ACTION);
-		ctx.Write(GetType());
 		ctx.Write(player.GetCraftingManager().m_item1);
 		ctx.Write(player.GetCraftingManager().m_item2);
 		ctx.Write(player.GetCraftingRecipeID());
+	}
+	
+	override bool ReadFromContext(ParamsReadContext ctx, out ActionReceived actionReceived)
+	{
+		ItemBase item1 = null;
+		ItemBase item2 = null;
+		int recipeID = -1;
+		if (!ctx.Read(item1))
+				return false;
+		if (!ctx.Read(item2))
+				return false;
+		if (!ctx.Read(recipeID))
+				return false;
+		
+		actionReceived.baseItem = item1;			
+		actionReceived.Target = item2;
+		actionReceived.recipeID = recipeID;
+		return true;
 	}
 };
 

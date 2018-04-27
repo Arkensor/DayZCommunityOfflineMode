@@ -57,7 +57,11 @@ class CraftImprovisedBag extends RecipeBase
 
 	override bool CanDo(ItemBase ingredients[], PlayerBase player)//final check for recipe's validity
 	{
-		return true;
+		if (ingredients[1].IsEmpty())
+		{
+			return true;
+		}
+		return false;
 	}
 
 	override void Do(ItemBase ingredients[], PlayerBase player,array<ItemBase> results, float specialty_weight)//gets called upon recipe's completion

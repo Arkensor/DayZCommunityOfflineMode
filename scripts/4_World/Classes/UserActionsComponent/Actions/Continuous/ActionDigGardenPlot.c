@@ -171,11 +171,28 @@ class ActionDigGardenPlot: ActionContinuousBase
 	{
 		PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
 		
-		ctx.Write(INPUT_UDT_STANDARD_ACTION);
-		ctx.Write(GetType());
 		ctx.Write(player.GetHologramLocal().GetProjectionPosition());
 		ctx.Write(player.GetHologramLocal().GetProjectionOrientation());
 		
 		player.PlacingCompleteLocal();
 	}
+	
+	override bool ReadFromContext(ParamsReadContext ctx, out ActionReceived actionReceived)
+	{
+		vector entity_position = "0 0 0";
+		vector entity_orientation = "0 0 0";
+		if (!ctx.Read(entity_position))
+			return false;
+		if (!ctx.Read(entity_orientation))
+			return false;
+					
+		actionReceived.entity_position = entity_position;
+		actionReceived.entity_orientation = entity_orientation;
+
+		return true;
+	}
+	
+	
+
+	
 };

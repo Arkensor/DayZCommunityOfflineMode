@@ -107,11 +107,13 @@ class MissionBase extends Mission
 		//TODO clea up after Gamescom
 		m_ModuleServerInfo = PluginAdditionalInfo.Cast( GetPlugin(PluginAdditionalInfo) );
 		//
+		PPEffects.ResetAll();
 	}
 
 	void ~MissionBase()
 	{
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove(this.CheckNotification);
+		PPEffects.ResetAll();
 		PluginManagerDelete();
 	}
 	

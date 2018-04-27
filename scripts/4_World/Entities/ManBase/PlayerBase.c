@@ -6,13 +6,11 @@ class PlayerBase extends ManBase
 	private bool					m_HasBloodTypeVisible;
 	private bool					m_LiquidTendencyDrain;
 	private bool					m_HasBloodyHandsVisible;
-	private bool					m_PlayerSelected;
 	private int 					m_StoreLoadVersion;
 	
 	const int 						ACT_STORE_SAVE_VERSION = 2;
 
 	private PluginPlayerStatus		m_ModulePlayerStatus;
-	PluginObjectsInteractionManager m_ModuleObjectsInteractionManager;
 	PluginConfigEmotesProfile 		m_ConfigEmotesProfile;
 	private PluginLifespan 			m_ModuleLifespan;
 	
@@ -158,7 +156,6 @@ class PlayerBase extends ManBase
 			m_NotifiersManager = new NotifiersManager(this); // player notifiers 
 			m_AgentPool = new PlayerAgentPool(this); // agent pool manager
 			m_BleedingManager = new BleedingSourcesManager(this);
-			m_ModuleObjectsInteractionManager = PluginObjectsInteractionManager.Cast( GetPlugin(PluginObjectsInteractionManager) );
 			//m_Environment = new Environment(this);//environment effects on player
 			m_ModifiersManager = new ModifiersManager(this); // player modifiers 
 			//m_ItemsGenerator = new ItemsGenerator(this);// jtomasik - generaters stones around player, disabled due to possible performance cost on server 
@@ -1161,13 +1158,14 @@ class PlayerBase extends ManBase
 		if( m_NotifiersManager ) m_NotifiersManager.OnScheduledTick();
 		if( m_TrasferValues ) m_TrasferValues.OnScheduledTick(deltaTime);
 		if( m_DisplayStatus ) m_DisplayStatus.OnScheduledTick();
-		if( GetStateManager() ) GetStateManager().OnScheduledTick(deltaTime);
 	}
 	
 	void OnCommandHandlerTick(float deltaTime)
 	{
+		if( !IsPlayerSelected() || !IsAlive() ) return;
 		if( m_DebugMonitorValues ) m_DebugMonitorValues.OnScheduledTick(deltaTime);
-
+		if( GetStateManager() ) GetStateManager().OnScheduledTick(deltaTime);//needs to stay in command handler tick as it's playing animations
+		
 		#ifdef DEVELOPER
 		if( m_WeaponDebug && ( GetInstanceType() == DayZPlayerInstanceType.INSTANCETYPE_CLIENT ))
 		{ 
@@ -2181,11 +2179,6 @@ class PlayerBase extends ManBase
 		{
 			g_Game.GetMenuData().SetCharacterName(g_Game.GetMenuData().GetLastPlayedCharacter(), g_Game.GetPlayerGameName());
 		}
-	}
-	
-	bool IsPlayerSelected()
-	{
-		return m_PlayerSelected;
 	}
 
 	void CheckForBurlap()

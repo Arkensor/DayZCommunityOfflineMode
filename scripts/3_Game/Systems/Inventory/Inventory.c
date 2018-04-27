@@ -429,9 +429,9 @@ class GameInventory
 
 	///@{ reservations
 	const int c_InventoryReservationTimeoutMS = 15000;
-	proto native bool AddInventoryReservation (EntityAI item, InventoryLocation dst, int timeout_ms);
-	proto native bool ClearInventoryReservation (EntityAI item, InventoryLocation dst);
-	proto native bool HasInventoryReservation (EntityAI item, InventoryLocation dst);
+	static proto native bool AddInventoryReservation (EntityAI item, InventoryLocation dst, int timeout_ms);
+	static proto native bool ClearInventoryReservation (EntityAI item, InventoryLocation dst);
+	static proto native bool HasInventoryReservation (EntityAI item, InventoryLocation dst);
 	///@} reservations
 
 	///@{ locks

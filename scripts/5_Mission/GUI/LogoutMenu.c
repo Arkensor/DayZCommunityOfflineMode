@@ -74,6 +74,7 @@ class LogoutMenu extends UIScriptedMenu
 			case KeyCode.KC_DOWN:
 			case KeyCode.KC_LEFT:
 			case KeyCode.KC_RIGHT:
+			case KeyCode.KC_ESCAPE:
 				Cancel();
 		}
 		

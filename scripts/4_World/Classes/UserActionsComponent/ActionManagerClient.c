@@ -202,13 +202,13 @@ class ActionManagerClient: ActionManagerBase
 		ActionTarget action_target;
 		action_target = NULL;
 		int targetsCount = m_Targets.GetTargetsCount();
-		if( targetsCount /*&& m_Player.m_ModuleObjectsInteractionManager*/ )
+		if( targetsCount )
 		{
 			for( int i = 0; i < targetsCount; ++i )
 			{
 				action_target = m_Targets.GetTarget(i);
 				Object target = action_target.GetObject();					
-				if( target && (target.IsEntityAI() || target.IsWoodBase() || target.IsRock()) /*&& m_Player.m_ModuleObjectsInteractionManager.IsFree(target)*/ )
+				if( target && (target.IsEntityAI() || target.IsWoodBase() || target.IsRock()) )
 				{
 					break;
 				}
@@ -458,7 +458,7 @@ class ActionManagerClient: ActionManagerBase
 		}
 		return false;
 	}
-	protected void UnlockInventory(ActionBase action)
+	void UnlockInventory(ActionBase action)
 	{
 		if ( action.IsInstant() )
 		{
@@ -491,6 +491,8 @@ class ActionManagerClient: ActionManagerBase
 					return;
 				}
 				ScriptInputUserData ctx = new ScriptInputUserData;
+				ctx.Write(INPUT_UDT_STANDARD_ACTION);
+				ctx.Write(action.GetType());
 				action.WriteToContext(ctx, target);
 					
 				if (action.UseAcknowledgment())
@@ -627,6 +629,8 @@ class ActionManagerClient: ActionManagerBase
 				return;
 			}
 			ScriptInputUserData ctx = new ScriptInputUserData;
+			ctx.Write(INPUT_UDT_STANDARD_ACTION);
+			ctx.Write(i_action.GetType());
 			i_action.WriteToContext(ctx, NULL);
 			ctx.Send();
 		}

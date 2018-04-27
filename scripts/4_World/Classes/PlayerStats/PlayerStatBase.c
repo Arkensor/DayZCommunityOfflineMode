@@ -130,7 +130,7 @@ class PlayerStat<Class T> extends PlayerStatBase
 	override void OnStoreSave( ParamsWriteContext ctx )
 	{   
 		//ctx.Write(m_ValueLabel);
-		PrintString("saving " + ClassName()+" value:" +m_Value);
+		//PrintString("saving " + ClassName()+" value:" +m_Value);
 		ctx.Write(m_Value);
 	}
 
@@ -141,7 +141,7 @@ class PlayerStat<Class T> extends PlayerStatBase
 		//ctx.Read(name);
 		
 		ctx.Read(m_Value);
-		PrintString("loading " + ClassName()+" value:" +m_Value);
+		//PrintString("loading " + ClassName()+" value:" +m_Value);
 
 	}
 }

@@ -28,6 +28,7 @@ class DayZPlayerImplement extends DayZPlayer
 	protected float 									m_CameraIronsighsNotRaisedTime;
 	protected bool										m_IsTryingHoldBreath;
 	protected bool										m_IsShootingFromCamera;
+	protected bool										m_PlayerSelected;
 
 	ref WeaponDebug										m_WeaponDebug;
 
@@ -157,7 +158,7 @@ class DayZPlayerImplement extends DayZPlayer
 	void ShowDeadScreen(bool show)
 	{
 	#ifndef NO_GUI	
-		if (show)
+		if (show && IsPlayerSelected())
 		{
 			GetGame().GetUIManager().ScreenFadeIn(0.5, "You are dead", FadeColors.BLACK, FadeColors.WHITE);
 		}
@@ -821,7 +822,7 @@ class DayZPlayerImplement extends DayZPlayer
 		////////////////////////////////////////////////
 		// Eye Zoom logic
 		
-		if (hic.IsZoom() && !m_CameraEyeZoom)
+		if (hic.IsZoom() && !m_CameraEyeZoom && !hic.IsMeleeFastAttackModifier()) // tmp uses check for shift modifier
 		{
 			m_CameraEyeZoom = true;
 			//Print("To EyeZoom " +  m_CameraEyeZoom.ToString());
@@ -840,6 +841,7 @@ class DayZPlayerImplement extends DayZPlayer
 		m_CameraOptics = prevOptics;
 
 		//! check for raise double click
+		/*
 		bool	sightChange = false;
 		
 		if (hic.IsWeaponRaised())
@@ -854,8 +856,9 @@ class DayZPlayerImplement extends DayZPlayer
 		{
 			m_CameraIronsighsNotRaisedTime += pDt;
 		}
+		*/
 	
-		if (hic.IsSightChange() || sightChange)
+		if (hic.IsSightChange()) // || sightChange)
 		{
 			HumanItemAccessor 	hia = GetItemAccessor();
 			if (hia.IsItemInHandsWeapon())
@@ -1527,5 +1530,10 @@ class DayZPlayerImplement extends DayZPlayer
 	}
 
 #endif
+	
+	bool IsPlayerSelected()
+	{
+		return m_PlayerSelected;
+	}
 
 }

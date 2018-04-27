@@ -2,6 +2,12 @@ class SambucusBerry extends Edible_Base
 {
 	void SambucusBerry()
 	{
+		
+	}
+	
+	override bool IsFruit()
+	{
+		return true;
 	}
 	
 	bool ConditionAttach ( EntityAI parent )

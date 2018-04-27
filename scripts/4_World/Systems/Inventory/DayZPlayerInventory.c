@@ -10,73 +10,93 @@ class DayZPlayerInventory : HumanInventoryWithFSM
 
 	override void Init ()
 	{
-		//hndDebugPrint("[hndfsm] Creating DayZPlayer Inventory");
 		super.Init(); // @NOTE: temporary redirection, DZP will have own fsm
 	}
 
+	///@{ juncture
+	/**@fn			OnInventoryJunctureFromServer
+	 * @brief		reaction to engine callback
+	 *	originates in:
+	 *				engine - DayZPlayer::OnSyncJuncture
+	 *				script - PlayerBase.OnSyncJuncture
+	 **/
 	override bool OnInventoryJunctureFromServer (ParamsReadContext ctx)
 	{
 		int tmp = -1;
 		ctx.Read(tmp);
-		syncDebugPrint("[syncinv] Juncture packet!");
-		return OnInputData(true, false, ctx);
+		syncDebugPrint("[syncinv] store Juncture packet");
+		StoreJunctureData(ctx);
+		return true;
 	}
+
+	/**@fn			OnHandleStoredJunctureData
+	 * @brief		reaction to engine callback
+	 *	originates in engine - DayZPlayerInventory::HandleStoredJunctureData
+	 **/
+	protected void OnHandleStoredJunctureData (ParamsReadContext ctx)
+	{
+		int tmp = -1;
+		ctx.Read(tmp);
+		syncDebugPrint("[syncinv] handle JunctureData packet");
+		HandleInputData(true, false, ctx);
+	}
+
+	/**@fn			StoreJunctureData
+	 * @brief		stores received input user data for later handling
+	/aaa
+	 **/
+	proto native void StoreJunctureData (ParamsReadContext ctx);
+	///@} juncture
+
+
+	///@{ input user data
+	/**@fn			OnInputUserDataProcess
+	 * @brief		reaction to engine callback
+	 *	originates in:
+	 *				engine - DayZPlayer::OnInputUserDataReceived
+	 *				script - DayZPlayerImplement.OnInputUserDataReceived
+	 **/
 	override bool OnInputUserDataProcess (ParamsReadContext ctx)
 	{
-		syncDebugPrint("[syncinv] InputData packet!");
-		return OnInputData(false, false, ctx);
+		syncDebugPrint("[syncinv] store InputUserData packet");
+		StoreInputUserData(ctx);
+		return true;
 	}
+
+	/**@fn			OnHandleStoredInputUserData
+	 * @brief		reaction to engine callback
+	 *	originates in engine - DayZPlayerInventory::HandleStoredInputUserData
+	 **/
+	protected void OnHandleStoredInputUserData (ParamsReadContext ctx)
+	{
+		int tmp = -1;
+		ctx.Read(tmp);
+		syncDebugPrint("[syncinv] handle InputUserData packet");
+		HandleInputData(false, false, ctx);
+	}
+
+	/**@fn			StoreInputUserData
+	 * @brief		stores received input user data for later handling
+	 **/
+	proto native void StoreInputUserData (ParamsReadContext ctx);
+	///@} input user data
 	
 	bool OnInputUserDataFromRemote (ParamsReadContext ctx)
 	{
-		syncDebugPrint("[syncinv] remote InputData packet!");
-		return OnInputData(false, true, ctx);
+		syncDebugPrint("[syncinv] remote handling InputUserData packet from server");
+		return HandleInputData(false, true, ctx);
 	}
-	
+
 	override void OnServerInventoryCommand (ParamsReadContext ctx)
 	{
-		syncDebugPrint("[syncinv] DZPInventory command from server!");
-		
-		OnInputData(true, true, ctx);
+		syncDebugPrint("[syncinv] DZPInventory command from server");
+		HandleInputData(true, true, ctx);
 	}
 
-	bool OnSyncFromRemoteWeapon (ParamsReadContext ctx)
-	{
-		syncDebugPrint("[syncinv] 4Remote packet!");
-
-		if (GetEntityInHands())
-		{
-			Weapon_Base wpn = Weapon_Base.Cast(GetEntityInHands());
-			if (wpn)
-			{
-				wpn.OnSyncFromRemote(ctx);
-			}
-			else
-				Error("OnSyncFromRemoteWeapon - entity in hands, but not weapon. item=" + GetEntityInHands());
-		}
-		else
-			Error("OnSyncFromRemoteWeapon - no entity in hands");
-		return true;
-	}
-
-	bool OnEventFromRemoteWeapon (ParamsReadContext ctx)
-	{
-		if (GetEntityInHands())
-		{
-			Weapon_Base wpn = Weapon_Base.Cast(GetEntityInHands());
-			if (wpn)
-			{
-				wpn.OnEventFromRemote(ctx);
-			}
-			else
-				Error("OnEventFromRemoteWeapon - entity in hands, but not weapon. item=" + GetEntityInHands());
-		}
-		else
-			Error("OnEventFromRemoteWeapon - no entity in hands");
-		return true;
-	}
-
-	bool OnInputData (bool juncture, bool remote, ParamsReadContext ctx)
+	/**@fn			HandleInputData
+	 * @brief		real processing of the input data
+	 **/
+	bool HandleInputData (bool juncture, bool remote, ParamsReadContext ctx)
 	{
 		int type = -1;
 		if (!ctx.Read(type))
@@ -123,7 +143,7 @@ class DayZPlayerInventory : HumanInventoryWithFSM
 			{
 				HandEventBase e = HandEventBase.CreateHandEventFromContext(ctx);
 				syncDebugPrint("[syncinv] t=" + GetGame().GetTime() + "ms received cmd=" + typename.EnumToString(InventoryCommandType, type) + " event=" + e);
-				
+
 				if (remote && !e.m_Entity)
 				{
 					syncDebugPrint("[syncinv] remote input (cmd=HAND_EVENT) dropped, item not in bubble");
@@ -247,9 +267,57 @@ class DayZPlayerInventory : HumanInventoryWithFSM
 		GetDayZPlayerOwner().GetItemAccessor().OnItemInHandsChanged();
 	}
 
+	/**@fn			OnAfterStoreLoad
+	 * @brief		engine reaction to load from database
+	 *	originates in:
+	 *				engine - Person::BinLoad
+	 *				script - PlayerBase.OnAfterStoreLoad
+	 **/
 	override void OnAfterStoreLoad ()
 	{
 		GetDayZPlayerOwner().GetItemAccessor().OnItemInHandsChanged();
+	}
+
+	/**@fn			OnEventFromRemoteWeapon
+	 * @brief		reaction of remote weapon to (common user/anim/...) event sent from server
+	 **/
+	bool OnEventFromRemoteWeapon (ParamsReadContext ctx)
+	{
+		if (GetEntityInHands())
+		{
+			Weapon_Base wpn = Weapon_Base.Cast(GetEntityInHands());
+			if (wpn)
+			{
+				wpn.OnEventFromRemote(ctx);
+			}
+			else
+				Error("OnEventFromRemoteWeapon - entity in hands, but not weapon. item=" + GetEntityInHands());
+		}
+		else
+			Error("OnEventFromRemoteWeapon - no entity in hands");
+		return true;
+	}
+
+	/**@fn			OnSyncFromRemoteWeapon
+	 * @brief		stable state synchronization from weapon on server
+	 **/
+	bool OnSyncFromRemoteWeapon (ParamsReadContext ctx)
+	{
+		syncDebugPrint("[syncinv] remote weapon handling of stable-sync-event from server");
+
+		if (GetEntityInHands())
+		{
+			Weapon_Base wpn = Weapon_Base.Cast(GetEntityInHands());
+			if (wpn)
+			{
+				wpn.OnSyncFromRemote(ctx);
+			}
+			else
+				Error("OnSyncFromRemoteWeapon - entity in hands, but not weapon. item=" + GetEntityInHands());
+		}
+		else
+			Error("OnSyncFromRemoteWeapon - no entity in hands");
+		return true;
 	}
 };
 

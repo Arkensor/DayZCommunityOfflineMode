@@ -1,6 +1,7 @@
 class ActionTakeItem: ActionInteractBase
 {
 	string m_ItemName = "";
+	ref InventoryLocation il;
 
 	void ActionTakeItem()
 	{
@@ -8,6 +9,8 @@ class ActionTakeItem: ActionInteractBase
 		m_CommandUID        = DayZPlayerConstants.CMD_ACTIONMOD_PICKUP;
 		m_CommandUIDProne	= DayZPlayerConstants.CMD_ACTIONFB_PICKUP;
 		m_HUDCursorIcon     = CursorIcons.LootCorpse;
+		
+		il = new InventoryLocation;
 	}
 
 	override void CreateConditionComponents()  
@@ -33,6 +36,11 @@ class ActionTakeItem: ActionInteractBase
 
 	override bool ActionCondition( PlayerBase player, ActionTarget target, ItemBase item )
 	{
+		return true;
+	}
+	
+	override bool ActionConditionStart( PlayerBase player, ActionTarget target, ItemBase item )
+	{
 		EntityAI entity;
 	
 		if ( Class.CastTo(entity, target.GetObject()) && !target.GetParent() )
@@ -44,17 +52,64 @@ class ActionTakeItem: ActionInteractBase
 		}
 		return false;
 	}
+	
+	override void WriteToContext (ParamsWriteContext ctx, ActionTarget target)
+	{
+		super.WriteToContext(ctx, target);
+		il.WriteToContext(ctx);
+	}
+	
+	override bool ReadFromContext(ParamsReadContext ctx, out ActionReceived actionReceived)
+	{
+		if(super.ReadFromContext(ctx, actionReceived))
+			return il.ReadFromContext(ctx);
+		return false;
+	}
+	
+	
+	
+	override bool InventoryReservation(PlayerBase player, ActionTarget target, ItemBase item, out array<ref InventoryLocation> reservedLocations)
+	{		
+		bool success = true;
+		InventoryLocation targetInventoryLocation = NULL;
+		InventoryLocation handInventoryLocation = NULL;
+		
+		ItemBase targetItem;
+		if ( ItemBase.CastTo(targetItem,target.GetObject()) )
+		{
 
-	override void OnCompleteServer( PlayerBase player, ActionTarget target, ItemBase item, Param acdata )
+			
+			
+			player.GetInventory().FindFreeLocationFor( targetItem , FindInventoryLocationType.ANY, il );
+			if ( !player.GetInventory().AddInventoryReservation( targetItem, il, 10000) )
+			{
+				success = false;
+			}				
+		}	
+		
+		if ( success )
+		{
+			if( il )
+				reservedLocations.Insert(il);
+		}
+		
+		return success;
+	}
+	
+	override void OnExecuteServer( PlayerBase player, ActionTarget target, ItemBase item, Param acdata )
 	{
 		ItemBase ntarget = ItemBase.Cast(target.GetObject());
 		
-		player.PredictiveTakeEntityToInventory(FindInventoryLocationType.ANY, ntarget);
+		GameInventory.LocationAddEntity(il);
+		
+		//player. player.PredictiveTakeEntityToInventory(FindInventoryLocationType.ANY, ntarget);
 	}
 	
-	override void OnCompleteClient( PlayerBase player, ActionTarget target, ItemBase item, Param acdata )
+	override void OnExecuteClient( PlayerBase player, ActionTarget target, ItemBase item, Param acdata )
 	{
 		ItemBase ntarget = ItemBase.Cast(target.GetObject());
-		player.PredictiveTakeEntityToInventory(FindInventoryLocationType.ANY, ntarget);
+		
+		GameInventory.LocationAddEntity(il);
+		//player.PredictiveTakeEntityToInventory(FindInventoryLocationType.ANY, ntarget);
 	}
 };

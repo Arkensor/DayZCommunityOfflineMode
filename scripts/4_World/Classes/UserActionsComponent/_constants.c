@@ -147,6 +147,7 @@ const int AT_FILL_OIL = 224;
 const int AT_POUR_LIQUID = 225;
 const int AT_DRAIN_LIQUID = 226;
 const int AT_DRINK_COOKING_POT = 227;
+const int AT_EAT_FRUIT = 228;
 
 //SingleUse Actions
 const int AT_OPEN = 501;

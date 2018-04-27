@@ -2,6 +2,12 @@ class CaninaBerry extends Edible_Base
 {
 	void CaninaBerry()
 	{
+		
+	}
+	
+	override bool IsFruit()
+	{
+		return true;
 	}
 	
 	bool ConditionAttach ( EntityAI parent )

@@ -20,9 +20,7 @@ class ActionDebug : ActionInstantBase
 	}
 	
 	override void WriteToContext (ParamsWriteContext ctx,ActionTarget target)
-	{
-		super.WriteToContext(ctx, target); //Mandatory
-		
+	{	
 		if( m_Target )
 		{
 			ctx.Write(m_Target);

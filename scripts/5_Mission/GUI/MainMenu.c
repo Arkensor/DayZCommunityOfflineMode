@@ -51,6 +51,8 @@ class MainMenu extends UIScriptedMenu
 		RichTextWidget news_feed_widget = RichTextWidget.Cast( layoutRoot.FindAnyWidget( "NewsFeedRichtext" ) );
 		news_feed_widget.SetText( news_feed_text );
 		
+		GetGame().GetUIManager().ScreenFadeOut(0);
+		PPEffects.ResetAll();
 		// NotificationMessage m_notification_widget = new NotificationMessage( layoutRoot ); 
 		return layoutRoot;
 	}

@@ -14,7 +14,7 @@ class InGameMenu extends UIScriptedMenu
 		
 		TextWidget version_widget;
 		Class.CastTo(version_widget, layoutRoot.FindAnyWidget("VersionTextWidget"));
-		version_widget.SetText("DayZ Singleplayer by Arkensor for version #main_menu_version " + version);
+		version_widget.SetText("DayZ offline mode by Arkensor for version #main_menu_version " + version);
 
 		#ifdef PREVIEW_BUILD
 			version_widget.SetText("THIS IS PREVIEW");

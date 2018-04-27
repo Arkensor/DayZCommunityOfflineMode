@@ -25,8 +25,6 @@ class DayZPlayerImplementFallDamage
 	//! handle fall damage
 	void HandleFallDamage(float pHeight)
 	{
-		Print( pHeight );
-		
 		if (GetGame().IsServer())
 		{
 			//! no dmg height

@@ -203,12 +203,24 @@ class ActionPlaceObject: ActionContinuousBase
 		PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
 		vector player_position = player.GetHologramLocal().GetProjectionPosition();
 		vector player_orientation = player.GetHologramLocal().GetProjectionOrientation();
-		ctx.Write( INPUT_UDT_STANDARD_ACTION );
-		ctx.Write( GetType() );
 		ctx.Write( player_position );
 		ctx.Write( player_orientation );
 		
 		player.SetLocalProjectionPosition( player_position );
 		player.SetLocalProjectionOrientation( player_orientation );
+	}
+	override bool ReadFromContext(ParamsReadContext ctx, out ActionReceived actionReceived)
+	{
+		vector entity_position = "0 0 0";
+		vector entity_orientation = "0 0 0";
+		if (!ctx.Read(entity_position))
+			return false;
+		if (!ctx.Read(entity_orientation))
+			return false;
+		
+		actionReceived.entity_position = entity_position;
+		actionReceived.entity_orientation = entity_orientation;
+		
+		return true;
 	}
 };

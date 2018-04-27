@@ -11,6 +11,7 @@ class WeaponManager
 	protected ref InventoryLocation		m_PendingInventoryLocation;
 	
 	protected bool						m_InProgress;
+	protected bool						m_InIronSights;
 	
 	
 	void WeaponManager(PlayerBase player)
@@ -190,108 +191,42 @@ class WeaponManager
 //----------------------------------------------------------------------------
 	void AttachMagazine( Magazine mag )
 	{
-		if ( !ScriptInputUserData.CanStoreInputUserData() )
-			return;
-		if ( !InventoryReservation(mag,NULL) )
-			return;
-		
-		m_InProgress = true;
-		
-		if ( !GetGame().IsMultiplayer() )
-			m_player.PostWeaponEvent( new WeaponEventAttachMagazine(m_player, mag) );
-		else
-			Synchronize(AT_WPN_ATTACH_MAGAZINE,mag);
+		StartAction(AT_WPN_ATTACH_MAGAZINE, mag, NULL);
 	}
 	
 	void DetachMagazine( InventoryLocation invLoc)
 	{
-		if ( !ScriptInputUserData.CanStoreInputUserData() )
-			return;
-		if ( !InventoryReservation(NULL,invLoc) )
-			return;
-		
-		m_InProgress = true;
-		
-		if ( !GetGame().IsMultiplayer() )
-			{
-				WeaponEventBase evn = WeaponEventBase.Cast(new WeaponEventDetachMagazine(DayZPlayer.Cast(m_player), Magazine.Cast(invLoc.GetItem()), invLoc));
-				m_player.PostWeaponEvent( evn );
-			}
-		else
-			Synchronize(AT_WPN_DETACH_MAGAZINE, null, invLoc);
+		StartAction(AT_WPN_DETACH_MAGAZINE, NULL, invLoc);
 	}
 	
 	void SwapMagazine( Magazine mag )
 	{
-		if ( !ScriptInputUserData.CanStoreInputUserData() )
-			return;
-		if ( !InventoryReservation(mag,NULL) )
-			return;
-		
-		m_InProgress = true;
-		
-		if ( !GetGame().IsMultiplayer() )
-			m_player.PostWeaponEvent( new WeaponEventSwapMagazine(m_player, mag) );
-		else
-			Synchronize(AT_WPN_SWAP_MAGAZINE,mag);
+		StartAction(AT_WPN_SWAP_MAGAZINE, mag, NULL);
 	}
 	
 	void LoadBullet( Magazine mag )
 	{
-		if ( !ScriptInputUserData.CanStoreInputUserData() )
-			return;
-		if ( !InventoryReservation(mag,NULL) )
-			return;
-		
-		m_InProgress = true;
-		
-		if ( !GetGame().IsMultiplayer() )
-			m_player.PostWeaponEvent( new WeaponEventLoad1Bullet(m_player, mag) );
-		else
-			Synchronize(AT_WPN_LOAD_BULLET,mag);
+		StartAction(AT_WPN_LOAD_BULLET, mag, NULL);
 	}
 	
 	void Unjam()
 	{
-		if ( !ScriptInputUserData.CanStoreInputUserData() )
-			return;
-		if ( !InventoryReservation(NULL,NULL) )
-			return;
-		
-		m_InProgress = true;
-		
-		if ( !GetGame().IsMultiplayer() )
-			m_player.PostWeaponEvent( new WeaponEventUnjam(m_player, NULL) );
-		else
-			Synchronize(AT_WPN_UNJAM, NULL);
+		StartAction(AT_WPN_UNJAM, NULL, NULL);
 	}
 
 	void EjectBullet()
 	{
-		if ( !ScriptInputUserData.CanStoreInputUserData() )
-			return;
-		if ( !InventoryReservation(NULL,NULL) )
-			return;
-		
-		m_InProgress = true;
-		
-		if ( !GetGame().IsMultiplayer() )
-			m_player.PostWeaponEvent( new WeaponEventMechanism(m_player, NULL) );
-		else
-			Synchronize(AT_WPN_EJECT_BULLET, NULL);
+		StartAction(AT_WPN_EJECT_BULLET, NULL, NULL);
 	}
 //-------------------------------------------------------------------------------------	
 // Synchronize - initialize from client side
 //-------------------------------------------------------------------------------------
 
 	//Client
-	private void Synchronize(int actionID, Magazine mag, InventoryLocation il = NULL )
+	private void Synchronize( )
 	{
 		if( GetGame().IsClient() )
 		{
-			m_PendingWeaponAction = actionID;
-			m_PendingTargetMagazine = mag;
-			m_PendingInventoryLocation = il;
 			m_PendingWeaponActionAcknowledgmentID = m_LastAcknowledgmentID++;
 			ScriptInputUserData ctx = new ScriptInputUserData;
 			
@@ -300,26 +235,26 @@ class WeaponManager
 			ctx.Write(m_PendingWeaponActionAcknowledgmentID);
 			
 			
-			switch (actionID)
+			switch (m_PendingWeaponAction)
 			{
 				case AT_WPN_ATTACH_MAGAZINE:
 				{	
-					ctx.Write(mag);
+					ctx.Write(m_PendingTargetMagazine);
 					break;
 				}
 				case AT_WPN_SWAP_MAGAZINE:
 				{
-					ctx.Write(mag);
+					ctx.Write(m_PendingTargetMagazine);
 					break;
 				}
 				case AT_WPN_DETACH_MAGAZINE:
 				{
-					il.WriteToContext(ctx);
+					m_PendingInventoryLocation.WriteToContext(ctx);
 					break;
 				}
 				case AT_WPN_LOAD_BULLET:
 				{
-					ctx.Write(mag);
+					ctx.Write(m_PendingTargetMagazine);
 					break;
 				}
 				case AT_WPN_UNJAM:
@@ -364,7 +299,7 @@ class WeaponManager
 						
 						if( m_PendingTargetMagazine )
 						{
-							m_PendingTargetMagazine.GetInventory().ClearInventoryReservation(m_PendingTargetMagazine, NULL);
+							m_PendingTargetMagazine.GetInventory().ClearInventoryReservation(m_PendingTargetMagazine, m_TargetInventoryLocation );
 						}
 						
 						if( m_PendingInventoryLocation )
@@ -479,9 +414,32 @@ class WeaponManager
 		return accepted;
 	}
 	
+	bool StartAction(int action, Magazine mag, InventoryLocation il)
+	{
+		if ( !ScriptInputUserData.CanStoreInputUserData() )
+			return false;
+		if ( !InventoryReservation(mag, il) )
+			return false;
+		
+		m_PendingWeaponAction = action;
+		m_InProgress = true;
+		
+		if ( !GetGame().IsMultiplayer() )
+			StartPendingAction();
+		else
+			Synchronize();
+		
+		return true;
+	}
 	
 	void StartPendingAction()
 	{
+		m_InIronSights = m_player.IsInIronsights();
+		if(m_InIronSights)
+		{
+			m_player.ExitSights();
+		}
+		
 		switch (m_PendingWeaponAction)
 		{
 			case AT_WPN_ATTACH_MAGAZINE:
@@ -561,9 +519,15 @@ class WeaponManager
 			}
 		}
 		
+		//if(m_InIronSights)
+		//{
+		//	m_player.Sights();
+		//}
+		
 		m_PendingWeaponAction = -1;
 		m_PendingTargetMagazine = NULL;
 		m_PendingInventoryLocation = NULL;
+		m_TargetInventoryLocation = NULL;
 		m_PendingWeaponActionAcknowledgmentID = -1;
 		m_InProgress = false;
 		

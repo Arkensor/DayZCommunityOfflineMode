@@ -300,6 +300,11 @@ class ActionBase
 		return true;
 	}
 	
+	protected bool ActionConditionStart( PlayerBase player, ActionTarget target, ItemBase item ) //condition for action
+	{
+		return ActionCondition(player, target, item);
+	}
+	
 	void ApplyModifiers( PlayerBase player, ActionTarget target, ItemBase item ) // method that is planned to be called after every succesful completion of action to transfer diseases and other modifiers, now is called before oncompletes
 	{
 		PlayerBase targetPlayer;
@@ -311,10 +316,6 @@ class ActionBase
 
 	void WriteToContext (ParamsWriteContext ctx, ActionTarget target)
 	{
-		ctx.Write(INPUT_UDT_STANDARD_ACTION);
-		ctx.Write(GetType());
-		
-		
 		if( HasTarget() )
 		{
 			// callback data
@@ -325,6 +326,31 @@ class ActionBase
 			int componentIndex = target.GetComponentIndex();
 			ctx.Write(componentIndex);
 		}
+	}
+	
+	bool ReadFromContext(ParamsReadContext ctx, out ActionReceived actionReceived)
+	{
+		Object actionTargetObject = null;
+		Object actionTargetParent = null;
+		int componentIndex = -1;
+						
+		if( HasTarget() )
+		{
+			if ( !ctx.Read(actionTargetObject) )
+				return false;
+							
+			if ( !ctx.Read(actionTargetParent))
+				return false;
+							
+			if ( !ctx.Read(componentIndex) )
+				return false;
+		}
+						
+		actionReceived.Target = actionTargetObject;
+		actionReceived.Parent = actionTargetParent;
+		actionReceived.ComponentIndex = componentIndex;
+
+		return true;
 	}
 	
 	//----------------------------------------------------------------------------------------------
@@ -431,7 +457,7 @@ class ActionBase
 		{
 			return false;
 		}
-		if ( m_ConditionItem && m_ConditionItem.Can(player, item) && m_ConditionTarget && m_ConditionTarget.Can(player, target) && ActionCondition(player, target, item) ) 
+		if ( m_ConditionItem && m_ConditionItem.Can(player, item) && m_ConditionTarget && m_ConditionTarget.Can(player, target) && ActionConditionStart(player, target, item) ) 
 		{	
 			return true;
 		}
@@ -634,24 +660,6 @@ class ActionBase
 		}
 		//player.GetActionManager().EnableActions();
 	}
-	
-
-	/*
-	void LockTarget( PlayerBase player, ActionTarget target )
-	{
-		if ( m_LockTargetOnUse && player.m_ModuleObjectsInteractionManager ) 
-		{
-			player.m_ModuleObjectsInteractionManager.Lock(target.GetObject());
-		}
-	}
-	
-	void UnlockTarget( PlayerBase player, ActionTarget target )
-	{
-		if ( m_LockTargetOnUse && player.m_ModuleObjectsInteractionManager )
-		{
-			player.m_ModuleObjectsInteractionManager.Release(target.GetObject()); 
-		}
-	}*/
 	
 	// call only on client side for lock inventory before action
 	// return if has successfuly reserved inventory

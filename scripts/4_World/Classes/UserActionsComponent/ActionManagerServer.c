@@ -5,20 +5,23 @@ class ActionReceived
 		ActionID = -1;
 		Target = null;
 		Parent = null;
+		baseItem = null;
 		ComponentIndex = -1;
 		AcknowledgmentID = -1;
+		
 	}
 	
 	int ActionID;
 	//Standart Action
+	ItemBase baseItem; //normaly set item in hands (exeption for some potencial crafting recipes and etc. )
 	Object Target;
 	Object Parent;
 	int ComponentIndex;
 	int AcknowledgmentID;
 	
+	
+	
 	//Craft
-	ItemBase 	item1;
-	ItemBase 	item2;
 	int 		recipeID;
 	
 	//Advanced placement
@@ -118,6 +121,8 @@ class ActionManagerServer: ActionManagerBase
 				m_ActionReceived.ActionID = actionID;
 				
 				ActionBase recvAction = GetAction(actionID);
+				
+				m_ActionReceived.baseItem = m_Player.GetItemInHands();
 
 				switch (actionID)
 				{
@@ -132,78 +137,13 @@ class ActionManagerServer: ActionManagerBase
 							return false;
 						
 						targetItem.OnAction(debugActionID, m_Player, NULL);
-						//return true;
 						break;
 					}
-					case AT_WORLD_CRAFT:
-					{
-						ItemBase item1 = null;
-						ItemBase item2 = null;
-						int recipeID = -1;
-						if (!ctx.Read(item1))
-							return false;
-						if (!ctx.Read(item2))
-							return false;
-						if (!ctx.Read(recipeID))
-							return false;
 					
-						m_ActionReceived.item1 = item1;
-						m_ActionReceived.item2 = item2;
-						m_ActionReceived.recipeID = recipeID;
-						//return true;
-						break;
-					}
-					case AT_PLACE_OBJECT:
-					{
-						entity_position = "0 0 0";
-						entity_orientation = "0 0 0";
-						if (!ctx.Read(entity_position))
-							return false;
-						if (!ctx.Read(entity_orientation))
-							return false;
-					
-						m_ActionReceived.entity_position = entity_position;
-						m_ActionReceived.entity_orientation = entity_orientation;
-						//return true;
-						break;
-					}	
-					case AT_DIG_GARDEN_PLOT:
-					{
-						entity_position = "0 0 0";
-						entity_orientation = "0 0 0";
-						if (!ctx.Read(entity_position))
-							return false;
-						if (!ctx.Read(entity_orientation))
-							return false;
-					
-						m_ActionReceived.entity_position = entity_position;
-						m_ActionReceived.entity_orientation = entity_orientation;
-						//return true;
-						break;
-					}
 					default:
-					{
-						Object actionTargetObject = null;
-						Object actionTargetParent = null;
-						int componentIndex = -1;
-						
-						if( recvAction.HasTarget() )
-						{
-							if ( !ctx.Read(actionTargetObject) )
-								return false;
-							
-							if ( !ctx.Read(actionTargetParent))
-								return false;
-							
-							if ( !ctx.Read(componentIndex) )
-								return false;
-						}
-						m_ActionReceived.Target = actionTargetObject;
-						m_ActionReceived.Parent = actionTargetParent;
-						m_ActionReceived.ComponentIndex = componentIndex;
-						break;
-						//return true;
-					}
+						if (!recvAction.ReadFromContext(ctx, m_ActionReceived))
+							return false;
+
 				}
 					
 				if (recvAction.UseAcknowledgment())
@@ -240,46 +180,26 @@ class ActionManagerServer: ActionManagerBase
 		ref ActionTarget target;
 		ItemBase item;
 		
-		if (m_ActionReceived.ActionID == AT_WORLD_CRAFT)
+		if (m_ActionReceived.ActionID == AT_WORLD_CRAFT) //TODO - change to set in action onStart() 
 		{
-			is_target_free = m_Player.m_ModuleObjectsInteractionManager.IsFree(m_ActionReceived.item1);
-			is_target_free = is_target_free && m_Player.m_ModuleObjectsInteractionManager.IsFree(m_ActionReceived.item2);
-			
 			m_Player.SetCraftingRecipeID(m_ActionReceived.recipeID);
-			picked_action = GetAction(AT_WORLD_CRAFT);
-			target = new ActionTarget(m_ActionReceived.item2, m_ActionReceived.Parent, -1, vector.Zero, 0);
-			item = m_ActionReceived.item1;
+
 		}
 		else if (m_ActionReceived.ActionID == AT_PLACE_OBJECT)
 		{		
-			picked_action = GetAction(AT_PLACE_OBJECT);
-			target = new ActionTarget(m_ActionReceived.Target, m_ActionReceived.Parent, m_ActionReceived.ComponentIndex, vector.Zero, 0);
-			item = m_Player.GetItemInHands();	
-			
 			m_Player.SetLocalProjectionPosition( m_ActionReceived.entity_position );
 			m_Player.SetLocalProjectionOrientation( m_ActionReceived.entity_orientation );
 		}
 		else if (m_ActionReceived.ActionID == AT_DIG_GARDEN_PLOT)
 		{		
-			picked_action = GetAction(AT_PLACE_OBJECT);
-			target = new ActionTarget(m_ActionReceived.Target, m_ActionReceived.Parent, m_ActionReceived.ComponentIndex, vector.Zero, 0);
-			item = m_Player.GetItemInHands();	
-			
 			m_Player.SetLocalProjectionPosition( m_ActionReceived.entity_position );
 			m_Player.SetLocalProjectionOrientation( m_ActionReceived.entity_orientation );
 		}
-		else
-		{
-			if ( m_ActionReceived.Target && m_Player.m_ModuleObjectsInteractionManager ) 
-			{
-				is_target_free = m_Player.m_ModuleObjectsInteractionManager.IsFree(m_ActionReceived.Target);
-			}
-			
-			picked_action = GetAction(m_ActionReceived.ActionID);
-			target = new ActionTarget(m_ActionReceived.Target, m_ActionReceived.Parent, m_ActionReceived.ComponentIndex, vector.Zero, 0);
-			item = m_Player.GetItemInHands();			
-		}
 		
+		picked_action = GetAction(m_ActionReceived.ActionID);
+		target = new ActionTarget(m_ActionReceived.Target, m_ActionReceived.Parent, m_ActionReceived.ComponentIndex, vector.Zero, 0);
+		item = m_ActionReceived.baseItem;
+
 		if( is_target_free && !m_Player.GetCommandModifier_Action() && !m_Player.GetCommand_Action() && !m_Player.IsSprinting() && picked_action && picked_action.Can(m_Player,target,item)) 
 		{
 			accepted = true;

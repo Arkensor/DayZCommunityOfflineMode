@@ -126,6 +126,11 @@ class Edible_Base extends ItemBase
 		return false;
 	}
 	
+	bool IsFruit()
+	{
+		return false;
+	}
+	
 	//================================================================
 	// NUTRITIONAL VALUES
 	//================================================================	

@@ -199,6 +199,10 @@ class EmoteManager
 		{	
 			return false;
 		}
+		if ( m_Player.GetWeaponManager().IsRunning() || m_Player.GetActionManager().GetRunningAction() )
+		{
+			return false;
+		}
 		m_CurrentGestureID = id;
 		if( id > 0)
 		{

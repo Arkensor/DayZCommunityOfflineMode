@@ -241,8 +241,10 @@ class StateManager
 	{	
 		//if( GetGame().IsClient() && !m_Player.IsPlayer() ) return;
 		//primary
-		if( GetCurrentPrimaryActiveState() ) GetCurrentPrimaryActiveState().Update(deltatime);
-		
+		if( GetCurrentPrimaryActiveState() )
+		{ 
+			GetCurrentPrimaryActiveState().Update(deltatime);
+		}
 		//secondary
 		for(int i = 0; i < m_StateQueueSecondary.Count(); i++)
 		{

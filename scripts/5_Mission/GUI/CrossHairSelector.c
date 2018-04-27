@@ -1,20 +1,17 @@
 class CrossHair
 {
 	protected string					m_Name;
-	protected bool 						m_Faded;
+	protected bool 						m_Shown;
 	protected bool 						m_Current;
 
 	protected Widget 					m_Widget;
-	protected ref WidgetFadeTimer		m_FadeTimer;
 	
 	void CrossHair(Widget w)
 	{
 		m_Widget = w;
 		m_Name = w.GetName();
-		m_Faded = true;
+		m_Shown = true;
 		m_Current = false;
-		
-		m_FadeTimer = new WidgetFadeTimer;
 	}
 
 	void ~CrossHair() {}
@@ -29,23 +26,21 @@ class CrossHair
 		return m_Current;
 	}
 
-	bool IsFaded()
+	bool IsShown()
 	{
-		return m_Faded;
+		return m_Shown;
 	}
 
-	void FadeIn(float fadeTime)
+	void Show()
 	{
-		m_FadeTimer.FadeIn(m_Widget, fadeTime);
-		m_Faded = false;
+		m_Shown = false;
 		m_Current = true;
 		m_Widget.Show(true);
 	}
 	
-	void FadeOut(float fadeTime)
+	void Hide()
 	{
-		m_FadeTimer.FadeOut(m_Widget, fadeTime);
-		m_Faded = true;
+		m_Shown = true;
 		m_Current = false;
 		m_Widget.Show(false);
 	}
@@ -53,9 +48,6 @@ class CrossHair
 
 class CrossHairSelector extends ScriptedWidgetEventHandler
 {
-	reference float							FadeIn_Time;
-	reference float							FadeOut_Time;
-
 	protected PlayerBase 					m_Player;
 	protected ActionManagerBase 			m_AM;
 	
@@ -166,8 +158,8 @@ class CrossHairSelector extends ScriptedWidgetEventHandler
 		ActionBase action = m_AM.GetRunningAction();
 
 		if ( m_Player.IsFireWeaponRaised() && !m_Player.IsInIronsights() && !hic.CameraIsFreeLook() )	// Firearms
-			ShowCrossHair(GetCrossHairByName("cross_128x128"));
-			//ShowCrossHair(GetCrossHairByName("cross_stretched"));
+			ShowCrossHair(GetCrossHairByName("crossT_128x128"));
+			//ShowCrossHair(GetCrossHairByName("cross_128x128"));
 		else if (action && action.GetActionCategory() == AC_CONTINUOUS) // On Continuous Actions
 		{
 			int actionState = m_AM.GetActionState(action);
@@ -183,22 +175,22 @@ class CrossHairSelector extends ScriptedWidgetEventHandler
 	
 	protected void ShowCrossHair(CrossHair crossHair)
 	{
-		//! no crosshair + clean + fade the previous
+		//! no crosshair + clean + hide the previous
 		if(!crossHair)
 		{
 			if(GetCurrentCrossHair())
-				GetCurrentCrossHair().FadeOut(FadeOut_Time);
+				GetCurrentCrossHair().Hide();
 			
 			return;
 		}
-		else //! fade out prev crosshair
+		else //! hide prev crosshair
 		{
 			if(GetCurrentCrossHair() && GetCurrentCrossHair() != crossHair)
-				GetCurrentCrossHair().FadeOut(FadeOut_Time);
+				GetCurrentCrossHair().Hide();
 		}
 		
-		//! fadein the new one
-		if(!crossHair.IsCurrent() && crossHair.IsFaded())
-			crossHair.FadeIn(FadeIn_Time);
+		//! show the new one
+		if(!crossHair.IsCurrent() && crossHair.IsShown())
+			crossHair.Show();
 	}
 }

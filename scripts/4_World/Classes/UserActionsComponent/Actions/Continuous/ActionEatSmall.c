@@ -11,6 +11,8 @@ class ActionEatSmall: ActionEat
 	void ActionEatSmall()
 	{
 		m_CallbackClass = ActionEatSmallCB;
+		m_CommandUID = DayZPlayerConstants.CMD_ACTIONMOD_EATFRUIT;
+		m_CommandUIDProne = DayZPlayerConstants.CMD_ACTIONFB_EATFRUIT;
 	}
 	
 	override int GetType()
