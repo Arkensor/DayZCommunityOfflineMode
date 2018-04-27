@@ -39,6 +39,11 @@ You might delete your whole dta folder and validate your game files via steam to
 * INSERT - Toggle free camera. This teleports your player to the position you looked at when turning it off
 * END - Toggle godmode
 
+Free Camera Controls
+* SCROLL WHEEL - Speed of Camera
+* Q / A - Raise Lower Camera
+* SHIFT - Fast Forward (Also altered with Mouse Wheel)
+
 # Logfiles:
 In case you want to report errors to us or the offical dayz dev team, you might need logfile info.
 We also save the positions you printed ingame in it so that you might revisit them later on by saving them in some textfile.
