@@ -128,19 +128,28 @@ class MissionGameplay extends MissionBase
 		
 		item = m_oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
 
-		item = m_oPlayer.GetInventory().CreateInInventory( "UMP45" );
-
+		// item = m_oPlayer.GetInventory().CreateInInventory( "UMP45" );
+		// item.GetInventory().CreateAttachment( "Mag_UMP_25Rnd" );
+		// item.GetInventory().CreateAttachment( "ReflexOptic" );
+		// item.GetInventory().CreateAttachment( "PistolSuppressor" );
+		// m_oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
+		// m_oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
+		// m_oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
+		
+		item = m_oPlayer.GetInventory().CreateInInventory( "AKM" );
+		
+		item.GetInventory().CreateAttachment( "AK74_Hndgrd" );
+		item.GetInventory().CreateAttachment( "AK_Suppressor" );
+		item.GetInventory().CreateAttachment( "AK_WoodBttstck" );
+		item.GetInventory().CreateAttachment( "Mag_AKM_30Rnd" );
+		m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_30Rnd" );
+		m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_30Rnd" );
+		m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_30Rnd" );
+		
 		m_oPlayer.LocalTakeEntityToHands( item );
 		
 		m_oPlayer.SetQuickBarEntityShortcut( item, 0, true );
-		
-		item.GetInventory().CreateAttachment( "Mag_UMP_25Rnd" );
-		// item.GetInventory().CreateAttachment( "ReflexOptic" );
-		item.GetInventory().CreateAttachment( "PistolSuppressor" );
-		item = m_oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
-		item = m_oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
-		item = m_oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
-		
+
 		m_oPlayer.SetAllowDamage( false );
 		
 		// Cherno downtown 
