@@ -44,8 +44,14 @@ You might delete your whole dta folder and validate your game files via steam to
 
 Free Camera Controls
 * SCROLL WHEEL - Speed of Camera
-* Q / A - Raise Lower Camera
-* SHIFT - Fast Forward (Also altered with Mouse Wheel)
+* Q / Z - Raise Lower Camera
+* SHIFT/CTRL - Fast Forward (Also altered with Mouse Wheel)
+* ALT - Slow Speed
+
+Control Tips
+* DEL + SCENE MANAGER - Time and Weather Settings
+* DEL + POSITION MANAGER - Teleport to preset positions on the map
+* ALT + MOUSE - Turning Camera without turning player (For Freecam Pictures with Player)
 
 # Logfiles:
 In case you want to report errors to us or the offical dayz dev team, you might need logfile info.
@@ -62,3 +68,4 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 
 # Contributors:
 * [DuhOneZ](https://twitter.com/DuhOneZ)
+* [Watchman](https://twitter.com/watchman113) - Minor Changes
