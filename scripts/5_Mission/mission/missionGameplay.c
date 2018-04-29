@@ -810,7 +810,7 @@ class MissionGameplay extends MissionBase
 		{
 			m_bWelcomeSeen = true;
 			
-			GetGame().GetUIManager().ShowDialog( ""DayZ OfflineMode", "Enjoy the DayZ Community Offline Mode.\n \n \nThe current game build is still ALPHA!\nCrashes and bugs can occur.\nNot all 0.63 features are impletemented yet!\nProvide feedback on the game via feedback.bistudio.com\n \n \nCreated by Arkensor.\nContributions from DuhOneZ"", 76, DBT_OK, DBB_OK, DMT_INFO, m_oWelcomeManager );
+			GetGame().GetUIManager().ShowDialog( "DayZ OfflineMode", "Enjoy the DayZ Community Offline Mode.\n \n \nThe current game build is still ALPHA!\nCrashes and bugs can occur.\nNot all 0.63 features are impletemented yet!\nProvide feedback on the game via feedback.bistudio.com\n \n \nCreated by Arkensor.\nContributions from DuhOneZ", 76, DBT_OK, DBB_OK, DMT_INFO, m_oWelcomeManager );
 		}
 		
 		super.OnKeyPress(key);
