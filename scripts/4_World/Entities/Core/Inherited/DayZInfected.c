@@ -15,6 +15,7 @@ enum DayZInfectedConstants
 	MINDSTATE_FIGHT
 };
 
+static int death = 0;
 class DayZInfectedCommandMove
 {
 	proto native void SetStanceVariation(int pStanceVariation);
@@ -173,11 +174,20 @@ class DayZInfected extends DayZCreatureAI
 		if( !IsAlive() )
 		{
 			StartCommand_Death();
+			death++;
 			return true;
 		}
 
 		return false;
 	}	
+	
+static int getDeath(){
+	return death;
+}
+
+static void resetDeath(){
+	death = 0;
+}
 	
 	//-------------------------------------------------------------
 	//!
