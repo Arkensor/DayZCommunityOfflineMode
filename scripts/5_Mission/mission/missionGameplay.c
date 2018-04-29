@@ -467,7 +467,6 @@ class MissionGameplay extends MissionBase
 		{
 			//open gestures menu
 			if ( !GetUIManager().IsMenuOpen( MENU_GESTURES ) )
-			if ( !GetUIManager().IsMenuOpen( MENU_GESTURES ) )
 			{
 				GesturesMenu.OpenMenu();
 			}
