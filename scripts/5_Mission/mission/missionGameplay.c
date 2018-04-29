@@ -1502,10 +1502,7 @@ class MissionGameplay extends MissionBase
 		{
 			
 			m_killed_infected = DayZInfected.getDeath();
-					if(m_killed_infected == backup){
-						m_oPlayer.MessageStatus( "no new zombies killed" );
-					}
-					else {
+					if(m_killed_infected != backup)
 						//m_oPlayer.MessageStatus( m_killed_infected.ToString() ); DEBUG
 						backup = m_killed_infected;
 						m_spawned_infected = m_spawned_infected - m_killed_infected;
