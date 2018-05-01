@@ -31,6 +31,9 @@ class DebugMonitor
 		m_pNamesListboxWidget.AddItem("LAST DAMAGE:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 		
+		m_pNamesListboxWidget.AddItem("ZOMBIE COUNT:", NULL, 0);
+		m_pValuesListboxWidget.AddItem("", NULL, 0);
+		
 		m_pNamesListboxWidget.AddItem("POSITION:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
@@ -61,10 +64,16 @@ class DebugMonitor
 		m_pValuesListboxWidget.SetItem(2, lastDamage, NULL, 0);
 	}
 	
+	void SetInfectedCount(string value)
+	{
+		string infectedCount = string.Format(" %1", value);
+		m_pValuesListboxWidget.SetItem(3, infectedCount, NULL, 0);
+	}
+	
 	void SetPosition(vector value)
 	{
 		string position = string.Format(" %1 %2 %3", value[0].ToString(), value[1].ToString(), value[2].ToString());
-		m_pValuesListboxWidget.SetItem(3, position, NULL, 0);
+		m_pValuesListboxWidget.SetItem(4, position, NULL, 0);
 	}
 
 	void Hide()

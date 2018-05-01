@@ -21,6 +21,9 @@ class WelcomeManager extends UIScriptedMenu
 class MissionGameplay extends MissionBase
 {
 	int		m_life_state;
+	int 	m_spawned_infected;
+	int 	m_killed_infected;
+	int 	backup;
 	float 	m_volume_sound;
 	float 	m_volume_speechEX;
 	float 	m_volume_music;
@@ -82,6 +85,9 @@ class MissionGameplay extends MissionBase
 		m_chat = new Chat;
 		m_actionMenu = new ActionMenu;
 		m_life_state = -1;
+		m_spawned_infected = 0;
+		m_killed_infected = DayZInfected.getDeath();
+		backup = 0;
 		m_hud = new IngameHud;
 		m_chat_channel_fade_timer = new WidgetFadeTimer;
 		m_chat_channel_hide_timer = new Timer(CALL_CATEGORY_GUI);
@@ -142,9 +148,9 @@ class MissionGameplay extends MissionBase
 		item.GetInventory().CreateAttachment( "AK_Suppressor" );
 		item.GetInventory().CreateAttachment( "AK_WoodBttstck" );
 		item.GetInventory().CreateAttachment( "Mag_AKM_30Rnd" );
-		m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_30Rnd" );
-		m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_30Rnd" );
-		m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_30Rnd" );
+		m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_Drum75Rnd" ); //more ammo 
+		m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_Drum75Rnd" );
+		m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_Drum75Rnd" );
 		
 		m_oPlayer.LocalTakeEntityToHands( item );
 		
@@ -935,7 +941,8 @@ class MissionGameplay extends MissionBase
 				}
 				else
 				{
-					GetGame().CreateObject( GetRandomChildFromBaseClass( "cfgVehicles", "DayZInfected" ), GetCursorPos(), false, true );
+					GetGame().CreateObject( "ZmbM_FarmerFat_Beige", GetCursorPos(), false, true ); //This way you can spawn Infected without worrying about the game crashing
+					m_spawned_infected++;
 				}
 				
 				break;
@@ -1493,6 +1500,14 @@ class MissionGameplay extends MissionBase
 		
 		if (m_oPlayer)
 		{
+			
+			m_killed_infected = DayZInfected.getDeath();
+					if(m_killed_infected != backup){
+						//m_oPlayer.MessageStatus( m_killed_infected.ToString() ); DEBUG
+						backup = m_killed_infected;
+						m_spawned_infected = m_spawned_infected - m_killed_infected;
+						DayZInfected.resetDeath();
+					}
 			// DebugMonitorValues values = m_oPlayer.GetDebugMonitorValues();
 			
 			// if (values)
@@ -1504,9 +1519,11 @@ class MissionGameplay extends MissionBase
 			// }
 			// else
 			// {
+			// {
 				m_debugMonitor.SetHealth( m_oPlayer.GetHealth( "","" ) );
 				m_debugMonitor.SetBlood(  m_oPlayer.GetHealth( "","Blood" ) );
-				m_debugMonitor.SetLastDamage( "from https://lloyd.cat" );
+				m_debugMonitor.SetLastDamage("from https://lloyd.cat");
+				m_debugMonitor.SetInfectedCount(m_spawned_infected.ToString());
 				m_debugMonitor.SetPosition( m_oPlayer.GetPosition() );
 			// }
 		}
