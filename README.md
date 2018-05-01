@@ -67,5 +67,5 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * Adding a new admin menu for easier item spawning
 
 # Contributors:
-* [DuhOneZ](https://twitter.com/DuhOneZ)
-* [Watchman](https://twitter.com/watchman113) - Minor Changes
+* [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
+* [Watchman](https://twitter.com/watchman113) - Documentation
