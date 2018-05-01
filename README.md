@@ -12,7 +12,7 @@ DayZ is not opened for modding or scripting, so this is pretty much a hacky solu
 If you want to improve something, go ahead and create a pullrequest ;)
 
 # Installation:
-Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v1.1/DayZ.Community.OfflineMode.zip) zip archive.  
+Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v1.2/DayZ.Community.OfflineMode.zip) zip archive.  
 Make sure you are on the "stress test" beta branch on steam. See [this link](https://dayz.com/blog/0-63-stress-tests)  for details on how to switch on it!  
 
 Place the Mission folder (containing one .pbo file) inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
