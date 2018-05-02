@@ -399,6 +399,20 @@ class GridContainer: ContainerBase
 		}
 	}
 	
+	void Column9( Widget w )
+	{
+		if( m_Parent.m_Parent.IsInherited( ItemWithCargo ) )
+		( ItemWithCargo.Cast( m_Parent.m_Parent ) ).DropReceived( w, m_NumberRow, 9 );
+		else if( m_Parent.m_Parent.IsInherited( ItemWithCargoAndAttachments ) )
+		{
+			( ItemWithCargoAndAttachments.Cast( m_Parent.m_Parent ) ).DropReceived( w, m_NumberRow, 9 );
+		}
+		else if ( m_Parent.m_Parent.IsInherited( HandsContainer ) )
+		{
+			( HandsContainer.Cast( m_Parent.m_Parent ) ).DropReceived( w, m_NumberRow, 9 );
+		}
+	}
+	
 	void SetNumber( int number )
 	{
 		m_NumberRow = number;
