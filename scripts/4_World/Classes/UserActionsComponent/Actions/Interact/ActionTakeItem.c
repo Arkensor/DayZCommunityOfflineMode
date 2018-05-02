@@ -100,16 +100,29 @@ class ActionTakeItem: ActionInteractBase
 	{
 		ItemBase ntarget = ItemBase.Cast(target.GetObject());
 		
-		GameInventory.LocationAddEntity(il);
+		if (!GetGame().IsMultiplayer())
+		{
+			ActionManagerClient am = ActionManagerClient.Cast(player.GetActionManager());
+			am.UnlockInventory(this);
+		}
+		/*InventoryLocation targetInventoryLocation = new InventoryLocation;
+		ntarget.GetInventory().GetCurrentInventoryLocation(targetInventoryLocation);
 		
-		//player. player.PredictiveTakeEntityToInventory(FindInventoryLocationType.ANY, ntarget);
+		ntarget.GetInventory().TakeToDst(InventoryMode.PREDICTIVE,targetInventoryLocation, il);*/
+		
+		player.PredictiveTakeEntityToInventory(FindInventoryLocationType.ANY, ntarget);
 	}
 	
 	override void OnExecuteClient( PlayerBase player, ActionTarget target, ItemBase item, Param acdata )
 	{
 		ItemBase ntarget = ItemBase.Cast(target.GetObject());
+
+		ActionManagerClient am = ActionManagerClient.Cast(player.GetActionManager());
+		am.UnlockInventory(this);
+		/*InventoryLocation targetInventoryLocation = new InventoryLocation;
+		ntarget.GetInventory().GetCurrentInventoryLocation(targetInventoryLocation);
 		
-		GameInventory.LocationAddEntity(il);
-		//player.PredictiveTakeEntityToInventory(FindInventoryLocationType.ANY, ntarget);
+		ntarget.LocalTakeToDst(targetInventoryLocation, il);*/
+		player.PredictiveTakeEntityToInventory(FindInventoryLocationType.ANY, ntarget);
 	}
 };

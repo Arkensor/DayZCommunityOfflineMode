@@ -759,7 +759,7 @@ class PlayerBase extends ManBase
 		}
 	}
 	
-	bool IsHoldingBreath()
+	override bool IsHoldingBreath()
 	{
 		return m_IsHoldingBreath;
 	}	
@@ -2887,13 +2887,15 @@ class PlayerBase extends ManBase
 			
 			return true;
 		}
-		else
+		return false;
+		// note: player is now killed in db right after the actual kill happens 
+		/*else
 		{
 			GetHive().CharacterKill(this);
 			Debug.Log("Player "+this.ToString()+ " saved as dead");
 			
 			return false;
-		}		
+		}*/		
 	}
 
 	// agent transfer

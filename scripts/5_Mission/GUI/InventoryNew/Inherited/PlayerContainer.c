@@ -230,7 +230,7 @@ class PlayerContainer: CollapsibleContainer
 	
 	override void Combine()
 	{
-		if( m_FocusedContainer.IsInherited( ItemWithCargo ) || m_FocusedContainer.IsInherited( ItemWithCargoAndAttachments ) )
+		if( m_FocusedContainer && ( m_FocusedContainer.IsInherited( ItemWithCargo ) || m_FocusedContainer.IsInherited( ItemWithCargoAndAttachments ) ) )
 		{
 			ItemWithCargo iwc = ItemWithCargo.Cast( m_FocusedContainer );
 			ItemWithCargoAndAttachments iwca = ItemWithCargoAndAttachments.Cast( m_FocusedContainer );

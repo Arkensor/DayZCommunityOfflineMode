@@ -346,10 +346,11 @@ class MissionServer extends MissionBase
 	
 	void OnClientRespawnEvent(PlayerIdentity identity, PlayerBase player)
 	{
-		if (GetHive() && player)
+		// note: player is now killed in db right after the actual kill happens 
+		/*if (GetHive() && player)
 		{
 			GetHive().CharacterKill(player);
-		}
+		}*/
 	}
 	
 	void OnClientDisconnectedEvent(PlayerIdentity identity, PlayerBase player, int queueTime, bool authFailed)

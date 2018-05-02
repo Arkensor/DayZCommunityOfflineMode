@@ -735,6 +735,8 @@ class DayZPlayer extends Human
 	bool									IsEyeZoom();
 	//! return true if shots are fired from camere, otherwise false
 	bool									IsShootingFromCamera();
+	//! return true if player is trying to hold breah, otherwise false
+	bool									IsHoldingBreath();
 
 	//! processes melee hit
 	proto native	MeleeCombatData			GetMeleeCombatData();

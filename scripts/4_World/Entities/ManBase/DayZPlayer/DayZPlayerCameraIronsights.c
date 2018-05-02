@@ -75,8 +75,17 @@ class DayZPlayerCameraIronsights extends DayZPlayerCameraBase
 
 		pOutResult.m_iDirectBone 			= m_iBoneIndex;
 		pOutResult.m_iDirectBoneMode 		= 1; // 4;		// keep position 
+		
+		if (m_pPlayer.IsHoldingBreath())
+		{
+			m_fFovAbsolute = Math.SmoothCD(m_fFovAbsolute, DZPLAYER_CAMERA_FOV_EYEZOOM, m_fFovAbsVel, 0.1, 1000, pDt);
+		}
+		else
+		{
+			m_fFovAbsolute = Math.SmoothCD(m_fFovAbsolute, DZPLAYER_CAMERA_FOV_IRONSIGHTS, m_fFovAbsVel, 0.1, 1000, pDt);
+		}
 
-		pOutResult.m_fFovAbsolute 			= DZPLAYER_CAMERA_FOV_IRONSIGHTS;
+		pOutResult.m_fFovAbsolute = m_fFovAbsolute;
 	
 		pOutResult.m_bUpdateWhenBlendOut	= false;
 		pOutResult.m_fDistance 				= 0;		

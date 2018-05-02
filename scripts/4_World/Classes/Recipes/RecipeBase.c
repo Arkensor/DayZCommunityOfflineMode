@@ -377,8 +377,8 @@ class RecipeBase
 						bool isDestroyed = obj.AddQuantity(quantity_delta, true);
 						if( isDestroyed ) 
 						{
-							if (obj) m_IngredientsToBeDeleted.Insert(obj);
-							break;
+							//if (obj) m_IngredientsToBeDeleted.Insert(obj);
+							continue;
 						}
 					}
 					else
@@ -388,7 +388,7 @@ class RecipeBase
 						if( newQuantity <= 0 )
 						{
 							if(mag) m_IngredientsToBeDeleted.Insert(mag);
-							break;
+							continue;
 						}
 						else
 						{
