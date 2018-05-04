@@ -33,7 +33,7 @@ You might delete your whole Missions folder and validate your game files via ste
 * R - Reload the weapon and refill the ammo (Infinite ammo)
 * P - Display your current position in the chat and print it to your logfiles (See logfiles section for their location)
 * B - Toggle debug monitor
-* ~~K - Restart the mission (useful when you spawned too much of everything @ 5 fps)~~ -> Currently disabled due to a game bug!
+* ~~K - Restart the mission (useful when you spawned too much of everything @ 5 fps)~~ -> Use the ESC menu restart button!
 * N - Spawn the Sedan (not driveable in the current build of DayZ, sorry)
 * DELETE + CTRL - Open the teleport menu
 * DELETE + SHIFT - Open the weather menu
@@ -60,6 +60,7 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 
 # Future:
 * Adding dedicated logfile
+* Adding persitent settings and stats saving
 
 # Contributors:
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
