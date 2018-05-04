@@ -31,7 +31,7 @@ class SliderOptionsAccessUI extends OptionsAccessUI
 				{
 					TextWidget text_value_widget = TextWidget.Cast( slider.FindWidget("FOVSliderValue") );
 					float converted_value = Math.Round( 2 * Math.RAD2DEG * ( OPTIONS_FIELD_OF_VIEW_MIN + ( ( val / 100 ) * ( OPTIONS_FIELD_OF_VIEW_MAX - OPTIONS_FIELD_OF_VIEW_MIN ) ) ) );
-					text_value_widget.SetText( converted_value.ToString()+" DEG" ); //° symbol is not displayed, find workaround
+					text_value_widget.SetText( converted_value.ToString()/*+" DEG"*/ ); //° symbol is not displayed, find workaround
 					g_Game.SetUserFOV(value);
 					break;
 				}

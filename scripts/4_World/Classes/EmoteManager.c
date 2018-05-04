@@ -107,7 +107,7 @@ class EmoteManager
 		}
 		else
 		{
-			if( m_bEmoteIsPlaying)
+			if (m_bEmoteIsPlaying)
 			{
 				m_bEmoteIsPlaying = false;
 				OnEmoteEnd();
@@ -163,7 +163,8 @@ class EmoteManager
 			}
 			else
 			{*/
-				if( m_Player.GetActionManager() ) m_Player.GetActionManager().EnableActions();					
+				if( m_Player.GetActionManager() ) m_Player.GetActionManager().EnableActions();
+				m_Player.GetInventory().UnlockInventory(LOCK_FROM_SCRIPT);
 			//}
 		}
 
@@ -305,10 +306,12 @@ class EmoteManager
 					return false;
 				break;
 			}
-
 		}
-		if( m_bEmoteIsPlaying )
-			if( m_Player.GetActionManager() )m_Player.GetActionManager().DisableActions();	
+		if ( m_bEmoteIsPlaying )
+		{
+			if ( m_Player.GetActionManager() )	 m_Player.GetActionManager().DisableActions();
+			m_Player.GetInventory().LockInventory(LOCK_FROM_SCRIPT);
+		}
 		
 		return true;
 	}

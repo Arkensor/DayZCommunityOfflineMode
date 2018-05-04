@@ -1526,6 +1526,9 @@ class PlayerBase extends ManBase
 		if( IsRaised() || GetCommand_Melee() || IsSwimming() || IsClimbingLadder() )
 			return;
 		
+		if (!ScriptInputUserData.CanStoreInputUserData())
+			return;
+		
 		
 		//TODO MW change locking method
 		//if( GetDayZPlayerInventory().HasLockedHands() )
