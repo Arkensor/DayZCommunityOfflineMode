@@ -12,20 +12,18 @@ DayZ is not opened for modding or scripting, so this is pretty much a hacky solu
 If you want to improve something, go ahead and create a pullrequest ;)
 
 # Installation:
-Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v1.5/DayZ.Community.OfflineMode.zip) zip archive.  
-Make sure you are on the "stress test" beta branch on steam. See [this link](https://dayz.com/blog/0-63-stress-tests)  for details on how to switch on it!  
+Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/1.6/DayZ.Community.OfflineMode.zip) zip archive.  
+Make sure you are on the "stress test" beta branch on steam. See [this link](https://dayz.com/blog/0-63-stress-tests) for details on how to switch on it!  
 
-Place the Mission folder (containing one .pbo file) inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
-Make a backup from your scripts.pbo inside the DayZ dta folder. Maybe rename it to "scripts.pbo.disabled".  
-Now put the scripts.pbo that came with the downloaded zip in the dta folder.  
-It now replaces the old .pbo.
+Place the Missions folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
 
 Even though this is not directly bannable by Battleye, just to make sure: Rename your Battleye folder to Battleye.disabled, and rename the DayZ_BE.exe to DayZ_BE.exe.disabled.
 
-Now you can double click the DayZ_x64.exe, to launch the game. You will be loaded directly into the offline mode.
+Now you now start the script ```DayZ/Missions/DayZCommunityOfflineMode.ChernarusPlus/Reset Hive and Play.bat``` to start the game. You will be loaded directly into the offline mode.  
+Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ChernarusPlus```
 
-To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders and .pbos back to their original name.   
-You might delete your whole dta folder and validate your game files via steam to get the original DayZ files back.
+To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders back to their original name.   
+You might delete your whole Missions folder and validate your game files via steam to get the original DayZ files back.
 
 # Controls:
 * T - Teleport at the position you are looking at
@@ -35,9 +33,11 @@ You might delete your whole dta folder and validate your game files via steam to
 * R - Reload the weapon and refill the ammo (Infinite ammo)
 * P - Display your current position in the chat and print it to your logfiles (See logfiles section for their location)
 * B - Toggle debug monitor
-* K - Restart the mission (useful when you spawned too much of everything @ 5 fps)
+* ~~K - Restart the mission (useful when you spawned too much of everything @ 5 fps)~~ -> Currently disabled due to a game bug!
 * N - Spawn the Sedan (not driveable in the current build of DayZ, sorry)
-* DELETE - Open the DayZ developer admin tool
+* DELETE + CTRL - Open the teleport menu
+* DELETE + SHIFT - Open the weather menu
+* DELETE - Open the item / object spawner
 * INSERT - Toggle free camera. This teleports your player to the position you looked at when turning it off
 * END - Toggle godmode
 * POS1 - Particle effect demonstration (aka poof)
@@ -49,8 +49,6 @@ Free Camera Controls
 * ALT - Slow Speed
 
 Control Tips
-* DEL + SCENE MANAGER - Time and Weather Settings
-* DEL + POSITION MANAGER - Teleport to preset positions on the map
 * ALT + MOUSE - Turning Camera without turning player (For Freecam Pictures with Player)
 
 # Logfiles:
@@ -61,11 +59,9 @@ Locations are stored inside the script.log for now.
 You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/DayZ -> Hit enter```. 
 
 # Future:
-* Adding loot to buildings
-* Adding randomly spawning infected
 * Adding dedicated logfile
-* Adding a new admin menu for easier item spawning
 
 # Contributors:
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
 * [Watchman](https://twitter.com/watchman113) - Documentation
+* [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
