@@ -59,7 +59,7 @@ Locations are stored inside the script.log for now.
 You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/DayZ -> Hit enter```. 
 
 # Future:
-* Adding dedicated logfile
+* Adding a dedicated logfile
 * Adding persitent settings and stats saving
 
 # Contributors:
