@@ -1,1 +1,0 @@
-class Barrel_Green : Barrel_ColorBase{}

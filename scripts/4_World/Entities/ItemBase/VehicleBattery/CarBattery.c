@@ -1,4 +1,0 @@
-class CarBattery : VehicleBattery
-{
-	
-}

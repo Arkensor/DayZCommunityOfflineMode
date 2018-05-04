@@ -1,3 +1,0 @@
-class Rag extends ItemBase
-{
-}

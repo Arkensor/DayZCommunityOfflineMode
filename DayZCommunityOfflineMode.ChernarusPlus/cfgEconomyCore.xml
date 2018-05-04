@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<economycore>
+	<classes>
+<!--
+These are rootclasses to be used by economy.
+Do not forget to add attribute act="character", if root class represents character (player, infected, animal)
+Do not forget to add attribute act="car", if root class represents moveable vehicles
+-->
+		<rootclass name="DefaultWeapon" /> <!-- weapons -->
+		<rootclass name="DefaultMagazine" /> <!-- magazines -->
+		<rootclass name="HouseNoDestruct" /> <!-- houses, wrecks -->
+		<rootclass name="Inventory_Base" /> <!-- inventory items -->
+		<rootclass name="SurvivorBase" act="character" /> <!-- player characters -->
+		<rootclass name="DZ_LightAI" act="character" /> <!-- infected, animals -->
+		<rootclass name="Car_DZ" act="car" /> <!-- cars (sedan, hatchback, transitBus, V3S, ...) -->
+	</classes>
+</economycore>

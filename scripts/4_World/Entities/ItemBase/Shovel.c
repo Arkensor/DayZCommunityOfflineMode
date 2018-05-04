@@ -1,4 +1,0 @@
-class Shovel extends ItemBase
-{
-	
-}

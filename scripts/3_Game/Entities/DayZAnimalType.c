@@ -1,4 +1,0 @@
-class DayZAnimalType extends DayZCreatureAIType
-{
-	
-}

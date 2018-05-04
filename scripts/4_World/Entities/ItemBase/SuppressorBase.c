@@ -1,3 +1,0 @@
-class SuppresorBase extends ItemBase
-{
-}

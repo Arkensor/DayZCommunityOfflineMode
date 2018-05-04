@@ -1,4 +1,0 @@
-class LightAIBase extends LightAI
-{
-
-};

@@ -1,3 +1,0 @@
-class CannabisSeedsPack extends SeedPackBase
-{	
-}

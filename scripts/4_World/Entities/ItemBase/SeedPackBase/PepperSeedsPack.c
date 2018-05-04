@@ -1,3 +1,0 @@
-class PepperSeedsPack extends SeedPackBase
-{	
-}

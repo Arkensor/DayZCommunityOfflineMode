@@ -1,4 +1,0 @@
-class SurvivorBase extends PlayerBaseClient
-{
-	
-}

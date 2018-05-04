@@ -1,0 +1,171 @@
+FrameWidgetClass ObjectManager
+{
+	visible 0
+	color 0 0 0 0
+	position 0 0
+	size 500 395
+	halign center_ref
+	valign center_ref
+	hexactpos 0
+	vexactpos 0
+	hexactsize 1
+	vexactsize 1
+	style EditorPanel
+
+	{
+        PanelWidgetClass Background
+        {
+			visible 1
+			color 0 0 0 0.45
+			position 0 0
+			size 500 395
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+        }
+
+		PanelWidgetClass title_wrapper
+		{
+			visible 1
+			color 0 0 0 0.7843
+			position 0 0
+			size 1 25
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+
+			{
+				TextWidgetClass title_text
+				{
+					position 0 0
+					size 1 0.6
+					halign center_ref
+					valign center_ref
+					hexactpos 0
+					vexactpos 0
+					hexactsize 0
+					vexactsize 0
+					style Normal
+					text "Items and Objects"
+					font "gui/fonts/Metron-Bold58"
+					"text offset" 30 0
+				}
+			}
+		}
+
+		TextWidgetClass search_text
+		{
+			position 6 34
+			size 50 18
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Filter:"
+		}
+
+		EditBoxWidgetClass search_input
+		{
+			position 58 32
+			size 437 20
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+		}
+
+		PanelWidgetClass hr
+		{
+			visible 1
+			color 0 0 0 0.7843
+			position 5 58
+			size 490 2
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			style rover_sim_colorable
+		}
+
+		TextListboxWidgetClass classlist
+		{
+			visible 1
+			position 5 65
+			size 490 300
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			style Editor
+			lines 20
+			font "gui/fonts/Metron14"
+		}
+
+		TextWidgetClass search_text
+		{
+			position 5 370
+			size 100 18
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Spawn type:"
+		}
+
+		ButtonWidgetClass btn_spawn_cursorpos
+		{
+			position 315 5
+			size 80 20
+			halign right_ref
+			valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Cursor"
+		}
+
+		ButtonWidgetClass btn_spawn_ground
+		{
+			position 230 5
+			size 80 20
+			halign right_ref
+			valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Ground"
+		}
+
+        ButtonWidgetClass btn_spawn_inventory
+        {
+            position 145 5
+            size 80 20
+            halign right_ref
+            valign bottom_ref
+            hexactpos 1
+            vexactpos 1
+            hexactsize 1
+            vexactsize 1
+            text "Inventory"
+        }
+
+        ButtonWidgetClass btn_cancel
+        {
+            position 5 5
+            size 80 20
+            halign right_ref
+            valign bottom_ref
+            hexactpos 1
+            vexactpos 1
+            hexactsize 1
+            vexactsize 1
+            text "Cancel"
+        }
+	}
+}

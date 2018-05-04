@@ -1,3 +1,0 @@
-class BandageDressing extends ItemBase
-{
-}

@@ -1,3 +1,0 @@
-class Stone extends ItemBase
-{
-}

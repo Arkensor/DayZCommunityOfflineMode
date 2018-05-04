@@ -1,3 +1,0 @@
-class WoodenStick extends ItemBase
-{
-}

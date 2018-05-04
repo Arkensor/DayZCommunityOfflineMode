@@ -1,4 +1,0 @@
-class ObjectTyped extends Object
-{
-	
-};
