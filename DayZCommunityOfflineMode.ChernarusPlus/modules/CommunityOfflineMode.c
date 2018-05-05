@@ -17,7 +17,7 @@ class CommunityOfflineMode : MissionGameplay
 	protected bool m_bDebugMonitor = false;
 	protected bool m_bGodMode = false;
 	protected bool m_bWelcome = false;
-	protected bool m_bAutoWalk = false;
+	protected int m_nAutoWalkMode = 0;
 
 	//For keyhandler
 	protected bool m_IsCtrlHolding = false;
@@ -80,10 +80,18 @@ class CommunityOfflineMode : MissionGameplay
 		
 		UpdateDebugMonitor();
 
-        if( m_bAutoWalk )
+        if( m_nAutoWalkMode )
         {
             //m_oPlayer.GetStaminaHandler().GetStaminaNormalized()
-            m_oPlayer.GetInputController().OverrideMovementSpeed( true, 2 );
+            if( ( m_oPlayer.GetInputController().LimitsIsSprintDisabled() ) || ( m_nAutoWalkMode == 1 ) )
+            {
+                m_oPlayer.GetInputController().OverrideMovementSpeed( true, 2 );
+            }
+            else
+            {
+                m_oPlayer.GetInputController().OverrideMovementSpeed( true, 3 );
+            }
+
             m_oPlayer.GetInputController().OverrideMovementAngle( true, 1 );
         }
 	}
@@ -307,35 +315,43 @@ class CommunityOfflineMode : MissionGameplay
 
 			case KeyCode.KC_B:
 			{
-			    if( CTRL() )
-			    {
-                    if( m_bDebugMonitor )
-                    {
-                        m_debugMonitorPatched.Hide();
-                        m_bDebugMonitor = false;
-                    }
-                    else
-                    {
-                        m_debugMonitorPatched.Show();
-                        m_bDebugMonitor = true;
-                    }
-			    }
-			    else
-			    {
-			        if( m_bAutoWalk )
-			        {
-			            m_bAutoWalk = false;
-			            m_oPlayer.GetInputController().OverrideMovementSpeed( false, 0 );
-			            m_oPlayer.GetInputController().OverrideMovementAngle( false, 0 );
-			        }
-			        else
-			        {
-			            m_bAutoWalk = true;
-			        }
-			    }
+                if( m_bDebugMonitor )
+                {
+                    m_debugMonitorPatched.Hide();
+                    m_bDebugMonitor = false;
+                }
+                else
+                {
+                    m_debugMonitorPatched.Show();
+                    m_bDebugMonitor = true;
+                }
 
 				break;
 			}
+
+
+            case KeyCode.KC_X:
+            {
+                if( m_nAutoWalkMode )
+                {
+                    m_nAutoWalkMode = 0;
+                    m_oPlayer.GetInputController().OverrideMovementSpeed( false, 0 );
+                    m_oPlayer.GetInputController().OverrideMovementAngle( false, 0 );
+                }
+                else
+                {
+                    if( SHIFT() )
+                    {
+                        m_nAutoWalkMode = 2;
+                    }
+                    else
+                    {
+                        m_nAutoWalkMode = 1;
+                    }
+                }
+
+                break;
+            }
 
 
 			case KeyCode.KC_K:
