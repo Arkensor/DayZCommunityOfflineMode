@@ -8,22 +8,24 @@
 class CommunityOfflineMode : MissionGameplay
 {
 	//Patches
-	private ref DebugMonitorPatched m_debugMonitorPatched;
+	protected ref DebugMonitorPatched m_debugMonitorPatched;
 	
 	//For freecam and utils
-    private PlayerBase m_oPlayer;
-	private Camera m_oCamera;
-	private bool m_bDebugMonitor = false;
-	private bool m_bGodMode = false;
+    protected PlayerBase m_oPlayer;
+	protected Camera m_oCamera;
+
+	protected bool m_bDebugMonitor = false;
+	protected bool m_bGodMode = false;
 	protected bool m_bWelcome = false;
+	protected bool m_bAutoWalk = false;
 
 	//For keyhandler
-	private bool m_IsCtrlHolding = false;
-	private bool m_IsWinHolding = false;
-	private bool m_IsLeftAltHolding = false;
-	private bool m_IsRightAltHolding = false;
-	private bool m_IsLeftShiftHolding = false;
-	private bool m_IsRightShiftHolding = false;
+	protected bool m_IsCtrlHolding = false;
+	protected bool m_IsWinHolding = false;
+	protected bool m_IsLeftAltHolding = false;
+	protected bool m_IsRightAltHolding = false;
+	protected bool m_IsLeftShiftHolding = false;
+	protected bool m_IsRightShiftHolding = false;
 	
 	void CommunityOfflineMode()
 	{
@@ -75,7 +77,7 @@ class CommunityOfflineMode : MissionGameplay
 		}
 		
 		UpdateDebugMonitor();
-		
+
 		super.OnUpdate( timeslice );
 	}
 	
@@ -296,39 +298,44 @@ class CommunityOfflineMode : MissionGameplay
 			}
 
 
-			case KeyCode.KC_D:
-			{
-				if( CTRL() )
-				{
-					GetGame().OpenURL( "https://github.com/Arkensor/DayZCommunityOfflineMode" );
-				}
-				
-				break;
-			}
-
-
 			case KeyCode.KC_B:
 			{
-				Print( m_debugMonitorPatched );
-				
-				if( m_bDebugMonitor )
-				{
-					m_debugMonitorPatched.Hide();
-					m_bDebugMonitor = false;
-				}
-				else
-				{
-					m_debugMonitorPatched.Show();
-					m_bDebugMonitor = true;
-				}
-				
+			    if( CTRL() )
+			    {
+                    if( m_bDebugMonitor )
+                    {
+                        m_debugMonitorPatched.Hide();
+                        m_bDebugMonitor = false;
+                    }
+                    else
+                    {
+                        m_debugMonitorPatched.Show();
+                        m_bDebugMonitor = true;
+                    }
+			    }
+			    else
+			    {
+			        if( m_bAutoWalk )
+			        {
+			            m_bAutoWalk = false;
+			            m_oPlayer.GetInputController().OverrideMovementSpeed( false, 0 );
+			            m_oPlayer.GetInputController().OverrideMovementAngle( false, 0 );
+			        }
+			        else
+			        {
+			            m_bAutoWalk = true;
+			            m_oPlayer.GetInputController().OverrideMovementSpeed( true, 10 ); //Todo make adjustable and use stamina when wanted
+			            m_oPlayer.GetInputController().OverrideMovementAngle( true, 1 );
+			        }
+			    }
+
 				break;
 			}
 
 
 			case KeyCode.KC_K:
 			{
-				//GetGame().PlayMission( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus" ); //Todo this is broken when using the hive mode!
+				GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Call( GetGame().RestartMission );
 				break;
 			}
 
@@ -359,25 +366,31 @@ class CommunityOfflineMode : MissionGameplay
 
 
 			case KeyCode.KC_INSERT:
-			{	
+			{
 				if ( m_oCamera )
 				{
-					GetGame().SelectPlayer( NULL, m_oPlayer );
-					
+                    m_oPlayer.GetInputController().OverrideMovementSpeed( false, 0 );
+                    m_oPlayer.GetInputController().OverrideMovementAngle( false, 0 );
+                    m_oPlayer.GetInputController().OverrideAimChangeX( false, 0 );
+                    m_oPlayer.GetInputController().OverrideAimChangeY( false, 0 );
+
 					m_oPlayer.SetPosition( GetCursorPos() );
-					
+
 					m_oCamera.SetActive( false );
-					
+
 					GetGame().ObjectDelete( m_oCamera );
-					
+
 					m_oCamera = NULL;
 				}
 				else
 				{
-					GetGame().SelectPlayer( NULL, NULL );
-					
+                    m_oPlayer.GetInputController().OverrideMovementSpeed( true, 0 );
+                    m_oPlayer.GetInputController().OverrideMovementAngle( true, 0 );
+                    m_oPlayer.GetInputController().OverrideAimChangeX( true, 0 );
+                    m_oPlayer.GetInputController().OverrideAimChangeY( true, 0 );
+
 					m_oCamera = g_Game.CreateObject( "FreeDebugCamera", m_oPlayer.GetPosition(), true );
-					
+
 					m_oCamera.SetActive( true );
 				}
 				
