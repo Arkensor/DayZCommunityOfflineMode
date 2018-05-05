@@ -49,16 +49,6 @@ Free Camera Controls
 * SHIFT/CTRL - Fast Forward (Also altered with Mouse Wheel)
 * ALT - Slow Speed
 
-Object Editor Controls
-Click objects to select them.
-Click drag objects to move them.
-Click on nothing to deselect object
-
-* SCROLL WHEEL - Move object up/down
-* CTRL + SCROLL WHEEL - Yaw
-* SHIFT + SCROLL WHEEL - Pitch
-* ALT + SCROLL WHEEL - Roll
-
 Control Tips
 * ALT + MOUSE - Turning Camera without turning player (For Freecam Pictures with Player)
 
@@ -72,10 +62,10 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 # Future:
 * Adding a dedicated logfile
 * Adding persitent settings and stats saving
-* Adding a cinematic manager for content creators
+* Adding a cinematic manager for conetent creators
 
 # Contributors:
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
 * [Watchman](https://twitter.com/watchman113) - Documentation
 * [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
-* [DannyDog](https://github.com/DannyDog) - Code snippets and Object Editor
+* [DannyDog](https://github.com/DannyDog) - Code snippets

@@ -2,7 +2,6 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\PositionManager.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\WeatherManager.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectManager.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
 
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
@@ -10,7 +9,6 @@ class CommunityOfflineMode : MissionGameplay
 {
 	//Patches
 	protected ref DebugMonitorPatched m_debugMonitorPatched;
-	protected ref ObjectEditor m_ObjectEditor;
 	
 	//For freecam and utils
     protected PlayerBase m_oPlayer;
@@ -60,8 +58,6 @@ class CommunityOfflineMode : MissionGameplay
         SetupWeather();
 
 		SpawnPlayer();
-		
-		m_ObjectEditor = new ObjectEditor(this);
 	}
 
 	override void OnMissionStart()
@@ -76,8 +72,6 @@ class CommunityOfflineMode : MissionGameplay
 	{
 	    super.OnUpdate( timeslice );
 
-		Input input = GetGame().GetInput();
-		
 		if( m_bGodMode )
 		{
 			m_oPlayer.SetHealth( m_oPlayer.GetMaxHealth( "", "" ) );
@@ -100,34 +94,6 @@ class CommunityOfflineMode : MissionGameplay
 
             m_oPlayer.GetInputController().OverrideMovementAngle( true, 1 );
         }
-		
-		if (m_ObjectEditor.IsEditing()) 
-		{
-			if (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK)  // Pressed LMB
-			{
-				m_ObjectEditor.onMouseDrag();
-			}
-		
-			if (input.GetActionUp(UANextAction, false))
-			{
-				m_ObjectEditor.onMouseScrollDown();
-			}
-	
-			if (input.GetActionUp(UAPrevAction, false))
-			{
-				m_ObjectEditor.onMouseScrollUp();
-			}
-		}
-	}
-	
-	override void OnMouseButtonPress(int button)
-	{
-		super.OnMouseButtonPress(button);
-		
-		if (m_ObjectEditor.IsEditing()) 
-		{
-			m_ObjectEditor.onMouseClick();
-		}
 	}
 	
 	override void OnKeyPress( int key )
@@ -185,20 +151,6 @@ class CommunityOfflineMode : MissionGameplay
 				break:
 			}
 
-			case KeyCode.KC_NEXT:
-			{
-				m_ObjectEditor.ToggleEditor(!m_ObjectEditor.IsEditing());
-				if (m_ObjectEditor.IsEditing())
-				{
-					m_oPlayer.MessageStatus("Object Editor Enabled.");
-				}
-				else 
-				{
-					m_oPlayer.MessageStatus("Object Editor Disabled.");
-				}
-				
-				break:
-			}
 
 			//Gestures [.]
 			case KeyCode.KC_PERIOD:
@@ -563,23 +515,6 @@ class CommunityOfflineMode : MissionGameplay
 			{
 				m_IsRightShiftHolding = false;
 				break:
-			}
-		}
-		
-		//Gestures [.]
-		if ( key == KeyCode.KC_PERIOD )
-		{
-			if ( GetUIManager().IsMenuOpen( MENU_GESTURES ) )
-			{
-				GesturesMenu.CloseMenu();
-			}
-		}
-		//Radial Quickbar [,]
-		if ( key == KeyCode.KC_COMMA )
-		{
-			if ( GetGame().GetUIManager().IsMenuOpen( MENU_RADIAL_QUICKBAR ) )
-			{
-				RadialQuickbarMenu.CloseMenu();
 			}
 		}
 	}
