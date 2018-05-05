@@ -108,6 +108,8 @@ class WeatherManager extends UIScriptedMenu
 			editor.SetWeather(m_CurrOvercast, m_CurrRain, m_CurrFog, m_CurrWindForce);
 			editor.SetDate(m_CurrYear, m_CurrMonth, m_CurrDay, m_CurrHour, m_CurrMinute);
 
+            GetGame().GetWeather().SetWindFunctionParams( m_CurrWindForce, m_CurrWindForce, 1 );
+
 			GetGame().GetUIManager().Back();
 
 			return true;
@@ -197,7 +199,8 @@ class WeatherManager extends UIScriptedMenu
 			UpdateSliderWindForce();
 
 			m_CurrWindForce = m_SldWindForce.GetCurrent() * 0.01;
-			GetGame().GetWeather().SetWindSpeed( m_CurrWindForce );
+
+            GetGame().GetWeather().SetWindFunctionParams( m_CurrWindForce, m_CurrWindForce, 1 );
 
 			return true;
 		}
@@ -248,8 +251,8 @@ class WeatherManager extends UIScriptedMenu
 
 	void OnUpdate()
 	{
-		m_TxtWeatherTime.SetText(GetGame().GetWeather().GetTime().ToString());
-		m_TxtAirTemperature.SetText(GetGame().GetWeather().GetAirTemperature().ToString());
+		m_TxtWeatherTime.SetText( GetGame().GetWeather().GetTime().ToString() );
+		m_TxtAirTemperature.SetText( GetGame().GetWeather().GetAirTemperature().ToString() );
 	}
 
 	void ResetSliders()
@@ -289,7 +292,14 @@ class WeatherManager extends UIScriptedMenu
 		UpdateSliderFog();
 
 		float slider_wind_value = ( weather.GetWindSpeed() / weather.GetWindMaximumSpeed() ) * 100;
+
+		if( weather.GetWindSpeed() < 0.01 )
+		{
+		    slider_wind_value = 0.0;
+		}
+
 		m_SldWindForce.SetCurrent( slider_wind_value );
+
 		UpdateSliderWindForce();
 	}
 

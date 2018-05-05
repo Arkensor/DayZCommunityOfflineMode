@@ -9,7 +9,10 @@ class CommunityOfflineMode : MissionGameplay
 {
 	//Patches
 	protected ref DebugMonitorPatched m_debugMonitorPatched;
-	
+
+	//Until we find a better way
+	protected bool m_bLoaded = false;
+
 	//For freecam and utils
     protected PlayerBase m_oPlayer;
 	protected Camera m_oCamera;
@@ -63,14 +66,25 @@ class CommunityOfflineMode : MissionGameplay
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
-		
+
 		CreateDebugMonitor();
 		m_debugMonitorPatched.Hide();
 	}
-	
+
+    void OnMissionLoaded()
+    {
+        GetGame().GetUIManager().ScreenFadeOut( 0 );
+    }
+
 	override void OnUpdate( float timeslice )
 	{
 	    super.OnUpdate( timeslice );
+
+        if( !m_bLoaded && !GetDayZGame().IsLoading() )
+        {
+            m_bLoaded = true;
+            OnMissionLoaded();
+        }
 
 		if( m_bGodMode )
 		{
@@ -179,7 +193,14 @@ class CommunityOfflineMode : MissionGameplay
 
 
 			case KeyCode.KC_T:
-			{	
+			{
+			    if( m_oCamera )
+			    {
+			        m_oPlayer.MessageStatus( "You can not teleport while you are inside the freecam!" );
+
+			        return;
+			    }
+
 				vector hitPos = GetCursorPos();
 
 				float distance = vector.Distance( m_oPlayer.GetPosition(), hitPos );
@@ -395,7 +416,17 @@ class CommunityOfflineMode : MissionGameplay
                     m_oPlayer.GetInputController().OverrideAimChangeX( false, 0 );
                     m_oPlayer.GetInputController().OverrideAimChangeY( false, 0 );
 
-					m_oPlayer.SetPosition( GetCursorPos() );
+                    if( CTRL() || SHIFT() )
+                    {
+                        vector oCamPos = m_oCamera.GetPosition();
+                        oCamPos[1] = GetGame().SurfaceY( oCamPos[0], oCamPos[2] );
+
+                        m_oPlayer.SetPosition( oCamPos );
+                    }
+                    else
+                    {
+                        m_oPlayer.SetPosition( GetCursorPos() );
+                    }
 
 					m_oCamera.SetActive( false );
 
@@ -518,11 +549,6 @@ class CommunityOfflineMode : MissionGameplay
 			}
 		}
 	}
-	
-	override void OnEvent(EventType eventTypeId, Param params)
-	{
-		super.OnEvent(eventTypeId, params);
-	}
 
     override void CreateDebugMonitor()
     {
@@ -626,24 +652,24 @@ class CommunityOfflineMode : MissionGameplay
         //Offical DayZ SA weather code
         Weather weather = g_Game.GetWeather();
 
-        weather.GetOvercast().SetLimits( 0.0 , 1.0 );
-        weather.GetRain().SetLimits( 0.0 , 1.0 );
-        weather.GetFog().SetLimits( 0.0 , 1.0 );
+        weather.GetOvercast().SetLimits( 0.0 , 2.0 );
+        weather.GetRain().SetLimits( 0.0 , 2.0 );
+        weather.GetFog().SetLimits( 0.0 , 2.0 );
 
-        weather.GetOvercast().SetForecastChangeLimits( 0.0, 0.3 );
-        weather.GetRain().SetForecastChangeLimits( 0.0, 0.2 );
-        weather.GetFog().SetForecastChangeLimits( 0.0, 0.2 );
+        weather.GetOvercast().SetForecastChangeLimits( 0.0, 0.0 );
+        weather.GetRain().SetForecastChangeLimits( 0.0, 0.0 );
+        weather.GetFog().SetForecastChangeLimits( 0.0, 0.0 );
 
         weather.GetOvercast().SetForecastTimeLimits( 1800 , 1800 );
         weather.GetRain().SetForecastTimeLimits( 600 , 600 );
         weather.GetFog().SetForecastTimeLimits( 600 , 600 );
 
-        weather.GetOvercast().Set( Math.RandomFloatInclusive( 0.0, 0.3 ), 0, 0 );
-        weather.GetRain().Set( Math.RandomFloatInclusive( 0.0, 0.2 ), 0, 0 );
-        weather.GetFog().Set( Math.RandomFloatInclusive( 0.0, 0.2 ), 0, 0 );
+        weather.GetOvercast().Set( 0.0, 0, 0 );
+        weather.GetRain().Set( 0.0, 0, 0 );
+        weather.GetFog().Set( 0.0, 0, 0 );
 
-        weather.SetWindMaximumSpeed( 10 );
-        weather.SetWindFunctionParams( 0.2, 1.0, 50 );
+        weather.SetWindMaximumSpeed( 50 );
+        weather.SetWindFunctionParams( 0, 0, 1 );
     }
 
 	vector GetCursorPos()
