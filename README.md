@@ -60,6 +60,8 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 # Future:
 * Adding a dedicated logfile
 * Adding persitent settings and stats saving
+* Free cam without player moving
+* CTRL + D -> moving it to a menu
 
 # Contributors:
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
