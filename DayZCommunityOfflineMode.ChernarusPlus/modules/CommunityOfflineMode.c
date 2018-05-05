@@ -35,6 +35,8 @@ class CommunityOfflineMode : MissionGameplay
 	void CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::CommunityOfflineMode()" );
+
+		m_ObjectEditor = new ObjectEditor( this );
 	}
 	
 	void ~CommunityOfflineMode()
@@ -63,8 +65,6 @@ class CommunityOfflineMode : MissionGameplay
         SetupWeather();
 
 		SpawnPlayer();
-		
-		m_ObjectEditor = new ObjectEditor(this);
 	}
 
 	override void OnMissionStart()
@@ -84,8 +84,6 @@ class CommunityOfflineMode : MissionGameplay
 	{
 	    super.OnUpdate( timeslice );
 
-		Input input = GetGame().GetInput();
-		
         if( !m_bLoaded && !GetDayZGame().IsLoading() )
         {
             m_bLoaded = true;
@@ -100,45 +98,16 @@ class CommunityOfflineMode : MissionGameplay
 		
 		UpdateDebugMonitor();
 
-        if( m_nAutoWalkMode )
-        {
-            //m_oPlayer.GetStaminaHandler().GetStaminaNormalized()
-            if( ( m_oPlayer.GetInputController().LimitsIsSprintDisabled() ) || ( m_nAutoWalkMode == 1 ) )
-            {
-                m_oPlayer.GetInputController().OverrideMovementSpeed( true, 2 );
-            }
-            else
-            {
-                m_oPlayer.GetInputController().OverrideMovementSpeed( true, 3 );
-            }
+		UpdateAutoWalk();
 
-            m_oPlayer.GetInputController().OverrideMovementAngle( true, 1 );
-        }
-		
-		if (m_ObjectEditor.IsEditing()) 
-		{
-			if (GetMouseState(MouseState.LEFT) & MB_PRESSED_MASK)  // Pressed LMB
-			{
-				m_ObjectEditor.onMouseDrag();
-			}
-		
-			if (input.GetActionUp(UANextAction, false))
-			{
-				m_ObjectEditor.onMouseScrollDown();
-			}
-	
-			if (input.GetActionUp(UAPrevAction, false))
-			{
-				m_ObjectEditor.onMouseScrollUp();
-			}
-		}
+		UpdateEditor();
 	}
 	
-	override void OnMouseButtonPress(int button)
+	override void OnMouseButtonPress( int button )
 	{
-		super.OnMouseButtonPress(button);
+		super.OnMouseButtonPress( button );
 		
-		if (m_ObjectEditor.IsEditing()) 
+		if ( m_ObjectEditor.IsEditing() )
 		{
 			m_ObjectEditor.onMouseClick();
 		}
@@ -198,21 +167,7 @@ class CommunityOfflineMode : MissionGameplay
 				m_IsRightShiftHolding = true;
 				break:
 			}
-			
-			case KeyCode.KC_NEXT:
-			{
-				m_ObjectEditor.ToggleEditor(!m_ObjectEditor.IsEditing());
-				if (m_ObjectEditor.IsEditing())
-				{
-					m_oPlayer.MessageStatus("Object Editor Enabled.");
-				}
-				else 
-				{
-					m_oPlayer.MessageStatus("Object Editor Disabled.");
-				}
-				
-				break:
-			}
+
 
 			//Gestures [.]
 			case KeyCode.KC_PERIOD:
@@ -500,19 +455,35 @@ class CommunityOfflineMode : MissionGameplay
 
 			case KeyCode.KC_END:
 			{
-				if ( m_bGodMode )
-				{
-					m_oPlayer.MessageStatus( "God mode disabled." );
-					m_oPlayer.SetAllowDamage( true );
-					m_bGodMode = false;
-				}
-				else
-				{
-					m_oPlayer.MessageStatus( "God mode enabled." );
-					m_oPlayer.SetAllowDamage( false );
-					m_bGodMode = true;
-				}
-				
+			    if( CTRL() || SHIFT() )
+			    {
+                    m_ObjectEditor.ToggleEditor( !m_ObjectEditor.IsEditing() );
+
+                    if ( m_ObjectEditor.IsEditing() )
+                    {
+                        m_oPlayer.MessageStatus( "Object Editor mode enabled." );
+                    }
+                    else
+                    {
+                        m_oPlayer.MessageStatus( "Object Editor mode disabled." );
+                    }
+			    }
+			    else
+			    {
+                    if ( m_bGodMode )
+                    {
+                        m_oPlayer.MessageStatus( "God mode disabled." );
+                        m_oPlayer.SetAllowDamage( true );
+                        m_bGodMode = false;
+                    }
+                    else
+                    {
+                        m_oPlayer.MessageStatus( "God mode enabled." );
+                        m_oPlayer.SetAllowDamage( false );
+                        m_bGodMode = true;
+                    }
+			    }
+
 				break;
 			}		
 
@@ -618,8 +589,6 @@ class CommunityOfflineMode : MissionGameplay
     {
         if (!m_debugMonitorPatched)
         {
-            Print( "CommunityOfflineMode::CreateDebugMonitor()" );
-
             m_debugMonitorPatched = new DebugMonitorPatched();
             m_debugMonitorPatched.Init();
         }
@@ -633,8 +602,47 @@ class CommunityOfflineMode : MissionGameplay
         {
             m_debugMonitorPatched.SetHealth( m_oPlayer.GetHealth( "","" ) );
             m_debugMonitorPatched.SetBlood(  m_oPlayer.GetHealth( "","Blood" ) );
-            // m_debugMonitorPatched.SetLastDamage( "" );
+            m_debugMonitorPatched.SetLastDamage( "" );
             m_debugMonitorPatched.SetPosition( m_oPlayer.GetPosition() );
+        }
+    }
+
+    void UpdateAutoWalk()
+    {
+        if( m_nAutoWalkMode )
+        {
+            //m_oPlayer.GetStaminaHandler().GetStaminaNormalized()
+            if( ( m_oPlayer.GetInputController().LimitsIsSprintDisabled() ) || ( m_nAutoWalkMode == 1 ) )
+            {
+                m_oPlayer.GetInputController().OverrideMovementSpeed( true, 2 );
+            }
+            else
+            {
+                m_oPlayer.GetInputController().OverrideMovementSpeed( true, 3 );
+            }
+
+            m_oPlayer.GetInputController().OverrideMovementAngle( true, 1 );
+        }
+    }
+
+    void UpdateEditor()
+    {
+        if ( m_ObjectEditor.IsEditing() )
+        {
+            if ( GetMouseState( MouseState.LEFT ) & MB_PRESSED_MASK )  // Pressed LMB
+            {
+                m_ObjectEditor.onMouseDrag();
+            }
+
+            if ( GetGame().GetInput().GetActionUp( UANextAction, false ) )
+            {
+                m_ObjectEditor.onMouseScrollDown();
+            }
+
+            if ( GetGame().GetInput().GetActionUp( UAPrevAction, false ) )
+            {
+                m_ObjectEditor.onMouseScrollUp();
+            }
         }
     }
 
