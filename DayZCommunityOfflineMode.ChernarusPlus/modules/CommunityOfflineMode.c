@@ -82,6 +82,7 @@ class CommunityOfflineMode : MissionGameplay
 
         if( !m_bLoaded && !GetDayZGame().IsLoading() )
         {
+            m_bLoaded = true;
             OnMissionLoaded();
         }
 
