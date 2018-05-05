@@ -41,26 +41,25 @@ You might delete your whole ```Missions``` folder and validate your game files v
 * DELETE - Open the item / object spawner
 * INSERT - Toggle free camera. This teleports your player to the position you looked at when turning it off
 * END - Toggle godmode
+* END + SHIFT - Toggle object editor mode
 * POS1 - Particle effect demonstration (aka poof)
 
-Free Camera Controls
+Free Camera Controls:
 * SCROLL WHEEL - Speed of Camera
 * Q / Z - Raise Lower Camera
 * SHIFT/CTRL - Fast Forward (Also altered with Mouse Wheel)
 * ALT - Slow Speed
 
-Object Editor Controls
-Click objects to select them.
-Click drag objects to move them.
-Click on nothing to deselect object
+Object Editor Controls:  
+Click objects to select them.  
+Click and drag objects to move them.  
+Click on nothing to deselect the current object.  
+Spawn in new items using the object spawner menu: DELETE
 
 * SCROLL WHEEL - Move object up/down
 * CTRL + SCROLL WHEEL - Yaw
 * SHIFT + SCROLL WHEEL - Pitch
 * ALT + SCROLL WHEEL - Roll
-
-Control Tips
-* ALT + MOUSE - Turning Camera without turning player (For Freecam Pictures with Player)
 
 # Logfiles:
 In case you want to report errors to us or the offical dayz dev team, you might need logfile info.
