@@ -9,7 +9,10 @@ class CommunityOfflineMode : MissionGameplay
 {
 	//Patches
 	protected ref DebugMonitorPatched m_debugMonitorPatched;
-	
+
+	//Until we find a better way
+	protected bool m_bLoaded = false;
+
 	//For freecam and utils
     protected PlayerBase m_oPlayer;
 	protected Camera m_oCamera;
@@ -63,14 +66,24 @@ class CommunityOfflineMode : MissionGameplay
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
-		
+
 		CreateDebugMonitor();
 		m_debugMonitorPatched.Hide();
 	}
-	
+
+    void OnMissionLoaded()
+    {
+        GetGame().GetUIManager().ScreenFadeOut( 0 );
+    }
+
 	override void OnUpdate( float timeslice )
 	{
 	    super.OnUpdate( timeslice );
+
+        if( !m_bLoaded && !GetDayZGame().IsLoading() )
+        {
+            OnMissionLoaded();
+        }
 
 		if( m_bGodMode )
 		{
@@ -517,11 +530,6 @@ class CommunityOfflineMode : MissionGameplay
 				break:
 			}
 		}
-	}
-	
-	override void OnEvent(EventType eventTypeId, Param params)
-	{
-		super.OnEvent(eventTypeId, params);
 	}
 
     override void CreateDebugMonitor()
