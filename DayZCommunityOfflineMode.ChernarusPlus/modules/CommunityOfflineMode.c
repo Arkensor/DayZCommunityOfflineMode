@@ -70,6 +70,8 @@ class CommunityOfflineMode : MissionGameplay
 	
 	override void OnUpdate( float timeslice )
 	{
+	    super.OnUpdate( timeslice );
+
 		if( m_bGodMode )
 		{
 			m_oPlayer.SetHealth( m_oPlayer.GetMaxHealth( "", "" ) );
@@ -78,7 +80,12 @@ class CommunityOfflineMode : MissionGameplay
 		
 		UpdateDebugMonitor();
 
-		super.OnUpdate( timeslice );
+        if( m_bAutoWalk )
+        {
+            //m_oPlayer.GetStaminaHandler().GetStaminaNormalized()
+            m_oPlayer.GetInputController().OverrideMovementSpeed( true, 2 );
+            m_oPlayer.GetInputController().OverrideMovementAngle( true, 1 );
+        }
 	}
 	
 	override void OnKeyPress( int key )
@@ -324,8 +331,6 @@ class CommunityOfflineMode : MissionGameplay
 			        else
 			        {
 			            m_bAutoWalk = true;
-			            m_oPlayer.GetInputController().OverrideMovementSpeed( true, 10 ); //Todo make adjustable and use stamina when wanted
-			            m_oPlayer.GetInputController().OverrideMovementAngle( true, 1 );
 			        }
 			    }
 
