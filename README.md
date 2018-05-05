@@ -12,7 +12,7 @@ DayZ is not opened for modding or scripting, so this is pretty much a hacky solu
 If you want to improve something, go ahead and create a pullrequest ;)
 
 # Installation:
-Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/1.6/DayZ.Community.OfflineMode.zip) zip archive.  
+Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v1.7/DayZ.Community.OfflineMode.zip) zip archive.  
 Make sure you are on the "stress test" beta branch on steam. See [this link](https://dayz.com/blog/0-63-stress-tests) for details on how to switch on it!  
 
 Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
@@ -25,6 +25,8 @@ To unstinstall this mod, simple delete all downloaded files, and rename your .di
 You might delete your whole ```Missions``` folder and validate your game files via steam to get the original DayZ files back.
 
 # Controls:
+* X - Toggle Autowalk
+* X + SHIFT - Enable Autorun ( Just X to disable it again )
 * T - Teleport at the position you are looking at
 * O - Spawn a random infected (Zombies)
 * O + CTRL - Spawn a doge (Actually a wolf, but you can pet him if you have godmode enabled!)
@@ -32,7 +34,7 @@ You might delete your whole ```Missions``` folder and validate your game files v
 * R - Reload the weapon and refill the ammo (Infinite ammo)
 * P - Display your current position in the chat and print it to your logfiles (See logfiles section for their location)
 * B - Toggle debug monitor
-* ~~K - Restart the mission (useful when you spawned too much of everything @ 5 fps)~~ -> Use the ESC menu restart button!
+* K - Restart the mission (useful when you spawned too much of everything @ 5 fps)
 * N - Spawn the Sedan (not driveable in the current build of DayZ, sorry)
 * DELETE + CTRL - Open the teleport menu
 * DELETE + SHIFT - Open the weather menu
@@ -60,10 +62,10 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 # Future:
 * Adding a dedicated logfile
 * Adding persitent settings and stats saving
-* Free cam without player moving
-* CTRL + D -> moving it to a menu
+* Adding a cinematic manager for conetent creators
 
 # Contributors:
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
 * [Watchman](https://twitter.com/watchman113) - Documentation
 * [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
+* [DannyDog](https://github.com/DannyDog) - Code snippets
