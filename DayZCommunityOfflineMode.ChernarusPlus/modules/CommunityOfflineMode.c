@@ -193,7 +193,14 @@ class CommunityOfflineMode : MissionGameplay
 
 
 			case KeyCode.KC_T:
-			{	
+			{
+			    if( m_oCamera )
+			    {
+			        m_oPlayer.MessageStatus( "You can not teleport while you are inside the freecam!" );
+
+			        return;
+			    }
+
 				vector hitPos = GetCursorPos();
 
 				float distance = vector.Distance( m_oPlayer.GetPosition(), hitPos );
@@ -409,7 +416,17 @@ class CommunityOfflineMode : MissionGameplay
                     m_oPlayer.GetInputController().OverrideAimChangeX( false, 0 );
                     m_oPlayer.GetInputController().OverrideAimChangeY( false, 0 );
 
-					m_oPlayer.SetPosition( GetCursorPos() );
+                    if( CTRL() || SHIFT() )
+                    {
+                        vector oCamPos = m_oCamera.GetPosition();
+                        oCamPos[1] = GetGame().SurfaceY( oCamPos[0], oCamPos[2] );
+
+                        m_oPlayer.SetPosition( oCamPos );
+                    }
+                    else
+                    {
+                        m_oPlayer.SetPosition( GetCursorPos() );
+                    }
 
 					m_oCamera.SetActive( false );
 
