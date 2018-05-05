@@ -332,7 +332,7 @@ class CommunityOfflineMode : MissionGameplay
 
             case KeyCode.KC_X:
             {
-                if( m_nAutoWalkMode )
+                if( m_nAutoWalkMode && !SHIFT() )
                 {
                     m_nAutoWalkMode = 0;
                     m_oPlayer.GetInputController().OverrideMovementSpeed( false, 0 );
