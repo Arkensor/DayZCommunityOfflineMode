@@ -626,24 +626,24 @@ class CommunityOfflineMode : MissionGameplay
         //Offical DayZ SA weather code
         Weather weather = g_Game.GetWeather();
 
-        weather.GetOvercast().SetLimits( 0.0 , 1.0 );
-        weather.GetRain().SetLimits( 0.0 , 1.0 );
-        weather.GetFog().SetLimits( 0.0 , 1.0 );
+        weather.GetOvercast().SetLimits( 0.0 , 2.0 );
+        weather.GetRain().SetLimits( 0.0 , 2.0 );
+        weather.GetFog().SetLimits( 0.0 , 2.0 );
 
-        weather.GetOvercast().SetForecastChangeLimits( 0.0, 0.3 );
-        weather.GetRain().SetForecastChangeLimits( 0.0, 0.2 );
-        weather.GetFog().SetForecastChangeLimits( 0.0, 0.2 );
+        weather.GetOvercast().SetForecastChangeLimits( 0.0, 0.0 );
+        weather.GetRain().SetForecastChangeLimits( 0.0, 0.0 );
+        weather.GetFog().SetForecastChangeLimits( 0.0, 0.0 );
 
         weather.GetOvercast().SetForecastTimeLimits( 1800 , 1800 );
         weather.GetRain().SetForecastTimeLimits( 600 , 600 );
         weather.GetFog().SetForecastTimeLimits( 600 , 600 );
 
-        weather.GetOvercast().Set( Math.RandomFloatInclusive( 0.0, 0.3 ), 0, 0 );
-        weather.GetRain().Set( Math.RandomFloatInclusive( 0.0, 0.2 ), 0, 0 );
-        weather.GetFog().Set( Math.RandomFloatInclusive( 0.0, 0.2 ), 0, 0 );
+        weather.GetOvercast().Set( 0.0, 0, 0 );
+        weather.GetRain().Set( 0.0, 0, 0 );
+        weather.GetFog().Set( 0.0, 0, 0 );
 
-        weather.SetWindMaximumSpeed( 10 );
-        weather.SetWindFunctionParams( 0.2, 1.0, 50 );
+        weather.SetWindMaximumSpeed( 50 );
+        weather.SetWindFunctionParams( 0, 0, 1 );
     }
 
 	vector GetCursorPos()
