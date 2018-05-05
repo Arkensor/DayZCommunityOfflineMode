@@ -68,3 +68,4 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
 * [Watchman](https://twitter.com/watchman113) - Documentation
 * [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
+* [DannyDog](https://github.com/DannyDog) - Code snippets
