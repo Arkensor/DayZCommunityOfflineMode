@@ -92,6 +92,7 @@ class CommunityOfflineMode : MissionGameplay
 
 		if (player && player.GetPlayerState() == EPlayerStates.ALIVE )
 		{
+						
 			PlayerSave().SaveMyPlayer();
 			
 			PlayerSave().SaveMyInventory();
@@ -102,23 +103,7 @@ class CommunityOfflineMode : MissionGameplay
 		}
 		
 		
-		if ( player != NULL )
-		{
-			int player_last_shaved_seconds = player.GetLastShavedSeconds();
-			GetGame().SetProfileString( "lastShavedSeconds", player_last_shaved_seconds.ToString() );
-		}
-		Print("OnMissionFinish");
-		GetUIManager().HideDialog();
-		DestroyAllMenus();
-		
-		m_chat.Destroy();
-		delete m_hud_root_widget;
-		
-		if (m_debugMonitor)
-			m_debugMonitor.Hide();
-		g_Game.GetUIManager().ShowUICursor(false);
-		g_Game.SetMissionState( DayZGame.MISSION_STATE_FINNISH );
-		
+		super.OnMissionFinish();
 	}
 	
 	
