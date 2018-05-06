@@ -3,11 +3,19 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\WeatherManager.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectManager.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\PlayerSave.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\PlayerCreate.c"
 
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
 class CommunityOfflineMode : MissionGameplay
 {
+	
+	protected int SAVE_TIMER = 20; // Autosave in every x seconds 
+	protected bool DISABLE_RESPAWN_ONRESTART = true; // enable(true)/disable(false) - Player Respawn on Restart
+	PlayerCreate playerCreate = new PlayerCreate(SAVE_TIMER);
+	
+
 	//Patches
 	protected ref DebugMonitorPatched m_debugMonitorPatched;
 	protected ref ObjectEditor m_ObjectEditor;
@@ -67,18 +75,58 @@ class CommunityOfflineMode : MissionGameplay
 		SpawnPlayer();
 	}
 
+	
+	
+	
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
-
+	
 		CreateDebugMonitor();
 		m_debugMonitorPatched.Hide();
 	}
 
+	override void OnMissionFinish()
+	{
+		PlayerBase  player = PlayerBase.Cast( GetGame().GetPlayer() );
+
+		if (player && player.GetPlayerState() == EPlayerStates.ALIVE )
+		{
+			PlayerSave().SaveMyPlayer();
+			
+			PlayerSave().SaveMyInventory();
+			
+		} else if (!DISABLE_RESPAWN_ONRESTART) {
+
+			PlayerSave().DeletePlayer();
+		}
+		
+		
+		if ( player != NULL )
+		{
+			int player_last_shaved_seconds = player.GetLastShavedSeconds();
+			GetGame().SetProfileString( "lastShavedSeconds", player_last_shaved_seconds.ToString() );
+		}
+		Print("OnMissionFinish");
+		GetUIManager().HideDialog();
+		DestroyAllMenus();
+		
+		m_chat.Destroy();
+		delete m_hud_root_widget;
+		
+		if (m_debugMonitor)
+			m_debugMonitor.Hide();
+		g_Game.GetUIManager().ShowUICursor(false);
+		g_Game.SetMissionState( DayZGame.MISSION_STATE_FINNISH );
+		
+	}
+	
+	
     void OnMissionLoaded()
     {
         GetGame().GetUIManager().ScreenFadeOut( 0 );
     }
+
 
 	override void OnUpdate( float timeslice )
 	{
@@ -94,6 +142,14 @@ class CommunityOfflineMode : MissionGameplay
 		{
 			m_oPlayer.SetHealth( m_oPlayer.GetMaxHealth( "", "" ) );
 			m_oPlayer.SetHealth( "","Blood", m_oPlayer.GetMaxHealth( "", "Blood" ) );
+			// m_oPlayer.SetStamina(1000,1000);
+			m_oPlayer.GetStatStamina().Set(1000);
+			m_oPlayer.GetStatEnergy().Set(1000);
+			m_oPlayer.GetStatWater().Set(1000);
+			m_oPlayer.GetStatStomachSolid().Set(300);		
+			m_oPlayer.GetStatStomachWater().Set(300);
+			m_oPlayer.GetStatStomachEnergy().Set(300);
+			m_oPlayer.GetStatHeatComfort().Set(0);
 		}
 		
 		UpdateDebugMonitor();
@@ -648,75 +704,41 @@ class CommunityOfflineMode : MissionGameplay
 
     void SpawnPlayer()
     {
-        // Cherno downtown
-//		 vector position = "6623.335938 23.480206 2418.818848";
-//		 vector direction = "0.520912 0.000000 0.853610";
+		TStringArray Bags, Hands, Tops, Vests, Pants, Shoes;
+	
+		Bags = {"TortillaBag","HuntingBag","SmershBag","AssaultBag_Ttsko","AssaultBag_Black","AssaultBag_Green","CoyoteBag_Brown","CoyoteBag_Green","AliceBag_Green","AliceBag_Black","AliceBag_Camo"};
+		Hands = {"WorkingGloves_Brown","WorkingGloves_Yellow"};
+		Tops = {"M65Jacket_Black","M65Jacket_Khaki","M65Jacket_Tan","M65Jacket_Olive","TTsKOJacket_Camo","GorkaEJacket_Summer","GorkaEJacket_Flat","GorkaEJacket_Autumn","GorkaEJacket_PautRev","RidersJacket_Black"};
+		// Tops  = {"Hoodie_Blue","Hoodie_Black","Hoodie_Brown","Hoodie_Green","Hoodie_Grey","Hoodie_Red"};
+		Vests = {"PlateCarrierComplete","HighCapacityVest_Olive","HighCapacityVest_Black"};
+		Pants = {"GorkaPants_PautRev","GorkaPants_Flat","GorkaPants_Autumn","GorkaPants_Summer","CargoPants_Blue","CargoPants_Beige","CargoPants_Black","CargoPants_Green","CargoPants_Grey","TTSKOPants","HunterPants_Autumn","HunterPants_Brown","HunterPants_Spring","HunterPants_Summer","HunterPants_Winter"};
+		// Pants = {"Jeans_Black","Jeans_BlueDark","Jeans_Blue","Jeans_Brown","Jeans_Green","Jeans_Grey","CanvasPants_Beige","CanvasPants_Blue","CanvasPants_Grey"};
+		Shoes = {"MilitaryBoots_Redpunk","MilitaryBoots_Black"};
+		// Shoes = {"AthleticShoes_Black","AthleticShoes_Blue","AthleticShoes_Brown","AthleticShoes_Green","AthleticShoes_Grey"};
 
-        // Cherno outer city
-//		 vector position = "6564.447754 110.249420 3403.791748";
-//		 vector direction = "0.614116 0.000000 -0.789216";
+		// playerCreate.SetPosition({"7548.71 16.0623 3130.0"});
+		playerCreate.SetPosition( playerCreate.SpawnPositions() );
+		
+		// -- SetInventory( ITEM <STRING>, QUANTITY <INT>,  ATTACHMENTS <ARRAY> )
+		playerCreate.SetInventory( Bags.GetRandomElement() );
+		playerCreate.SetInventory( Hands.GetRandomElement() );
+		playerCreate.SetInventory( Tops.GetRandomElement() );
+		playerCreate.SetInventory( Vests.GetRandomElement() );
+		playerCreate.SetInventory( Pants.GetRandomElement() );
+		playerCreate.SetInventory( Shoes.GetRandomElement() );
+		playerCreate.SetInventory( "FirefighterAxe" );
+		playerCreate.SetInventory( "HuntingKnife" );
+		playerCreate.SetInventory( "Rag", 2 );
+		playerCreate.SetInventory( "Ammo_9x19" );
+		playerCreate.SetInventory( "Mag_CZ75_15Rnd" );
+		playerCreate.SetInventory( "Mag_CZ75_15Rnd" );
+		playerCreate.SetInventory( "CZ75", 0, {"Mag_CZ75_15Rnd","TLRLight","PistolSuppressor"} );
+		playerCreate.SetInventory( "Mag_AKM_30Rnd" );
+		playerCreate.SetInventory( "AKM", 0, {"Mag_AKM_30Rnd","AK_WoodBttstck", "AK_WoodHndgrd","AK_Suppressor"} );
+		
+		
+		m_oPlayer =	playerCreate.Spawn();
 
-        // Airfield
-//		vector position = "4603.797363 342.474487 10492.90722";
-//		vector direction = "0.893051 0.000000 -0.449954";
-
-        TVectorArray positions = { "15135.1 0 13901.1", "15017.8 0 13892.4", "14887.1 0 14547.9", "14749.7 0 13248.7",
-                                   "14697.6 0 13418.4", "14537.3 0 14755.7", "14415.3 0 14025.2", "14338.0 0 12859.5",
-                                   "14263.8 0 12748.7", "14172.2 0 12304.9", "14071.4 0 12033.3", "14054.9 0 11341.3",
-                                   "14017.8 0 2959.1", "13905.5 0 12489.7", "13852.4 0 11686.0", "13846.6 0 12050.0",
-                                   "13676.0 0 12262.1", "13617.4 0 12759.8", "13610.1 0 11223.6", "13594.3 0 4064.0",
-                                   "13587.8 0 6026.5", "13571.1 0 3056.8", "13552.6 0 4653.7", "13529.9 0 3968.3",
-                                   "13520.8 0 4223.7", "13504.0 0 5004.5", "13476.7 0 6136.3", "13441.6 0 5262.2",
-                                   "13426.6 0 5747.3", "13416.8 0 11840.4", "13400.8 0 4120.7", "13395.8 0 5902.8",
-                                   "13385.0 0 3946.6", "13374.4 0 6454.3", "13367.1 0 10837.1", "13366.3 0 4906.0",
-                                   "13337.1 0 5120.8", "13326.7 0 5489.1", "13312.7 0 6771.1", "13288.7 0 11415.1",
-                                   "13261.6 0 11785.2", "13171.6 0 6534.8", "13159.8 0 5401.7", "13155.2 0 5475.2",
-                                   "13084.9 0 7938.6", "13056.8 0 4848.5", "13048.1 0 8357.6", "13048.1 0 3867.7",
-                                   "12991.7 0 7287.1", "12983.0 0 5539.1", "12978.9 0 9727.8", "12950.2 0 5226.7",
-                                   "12942.1 0 8393.1", "12891.5 0 3673.9", "12628.7 0 10495.2", "12574.3 0 3592.8",
-                                   "12566.3 0 6682.6", "12465.2 0 8009.0", "12354.5 0 3480.0", "13262.8 0 7225.8" };
-
-        m_oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), positions.GetRandomElement(), 0, "NONE") );
-
-        GetGame().SelectPlayer( NULL, m_oPlayer );
-
-        EntityAI item = m_oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "PlateCarrierHolster" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
-
-        // item = m_oPlayer.GetInventory().CreateInInventory( "UMP45" );
-        // item.GetInventory().CreateAttachment( "Mag_UMP_25Rnd" );
-        // item.GetInventory().CreateAttachment( "ReflexOptic" );
-        // item.GetInventory().CreateAttachment( "PistolSuppressor" );
-        // m_oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
-        // m_oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
-        // m_oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "AKM" );
-
-        item.GetInventory().CreateAttachment( "AK74_Hndgrd" );
-        item.GetInventory().CreateAttachment( "AK_Suppressor" );
-        item.GetInventory().CreateAttachment( "AK_WoodBttstck" );
-        item.GetInventory().CreateAttachment( "Mag_AKM_Drum75Rnd" );
-        m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_Drum75Rnd" );
-        m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_Drum75Rnd" );
-        m_oPlayer.GetInventory().CreateInInventory( "Mag_AKM_Drum75Rnd" );
-
-        m_oPlayer.LocalTakeEntityToHands( item );
-
-        m_oPlayer.SetQuickBarEntityShortcut( item, 0, true );
     }
 
     void SetupWeather()
