@@ -83,28 +83,28 @@ class CommunityOfflineMode : MissionGameplay
 		m_debugMonitorPatched.Hide();
 	}
 
-	override void OnMissionFinish()
-	{
-		PlayerBase  player = PlayerBase.Cast( GetGame().GetPlayer() );
-		
-		if (player != NULL)
-		{
-		
-			if (player && player.GetPlayerState() == EPlayerStates.ALIVE )
-			{
-							
-				sm.ProcessPlayerSaves();
-				
-			} else if (!DISABLE_RESPAWN_ONRESTART) {
+override void OnMissionFinish()
+{
+PlayerBase  player = PlayerBase.Cast( GetGame().GetPlayer() );
 
-				sm.DeletePlayer();
-			}
-		}
+if (player != NULL)
+{
 
-	
-		super.OnMissionFinish();
-	}
-	
+if (player && player.GetPlayerState() == EPlayerStates.ALIVE )
+{
+
+sm.ProcessPlayerSaves();
+
+} else if (!DISABLE_RESPAWN_ONRESTART) {
+
+sm.DeletePlayer();
+}
+}
+
+
+super.OnMissionFinish();
+}
+
 	
     void OnMissionLoaded()
     {
