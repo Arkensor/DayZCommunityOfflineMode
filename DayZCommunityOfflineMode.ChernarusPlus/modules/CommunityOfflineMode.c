@@ -93,9 +93,7 @@ class CommunityOfflineMode : MissionGameplay
 		if (player && player.GetPlayerState() == EPlayerStates.ALIVE )
 		{
 						
-			PlayerSave().SaveMyPlayer();
-			
-			PlayerSave().SaveMyInventory();
+			PlayerSave().ProcessSaves();
 			
 		} else if (!DISABLE_RESPAWN_ONRESTART) {
 
