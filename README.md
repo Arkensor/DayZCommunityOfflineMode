@@ -44,7 +44,7 @@ You might delete your whole ```Missions``` folder and validate your game files v
 * END + SHIFT - Toggle object editor mode
 * POS1 - Particle effect demonstration (aka poof)
 
-Free Camera Controls: (Updated by dannydog)
+Free Camera Controls: (Upcoming update)
 * SCROLL WHEEL - Speed of Camera
 * Q / Z - Raise Lower Camera
 * SHIFT/CTRL - Fast Forward (Also altered with Mouse Wheel)
