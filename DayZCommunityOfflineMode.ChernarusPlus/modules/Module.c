@@ -133,7 +133,7 @@ class Module
 	
 	PlayerBase GetPlayer() 
 	{
-		return m_Mission.GetPlayer();
+		return m_Mission.m_oPlayer;
 	}
 	
 	bool IsEnabled()

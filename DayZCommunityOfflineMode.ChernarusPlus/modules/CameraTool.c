@@ -71,11 +71,11 @@ class CameraTool extends Module
 				vector oCamPos = m_oCamera.GetPosition();
 				oCamPos[1] = GetGame().SurfaceY( oCamPos[0], oCamPos[2] );
 
-				m_Mission.GetPlayer().SetPosition( oCamPos );
+				GetPlayer().SetPosition( oCamPos );
 			}
 			else
 			{
-				m_Mission.GetPlayer().SetPosition( m_Mission.GetCursorPos() );
+				GetPlayer().SetPosition( m_Mission.GetCursorPos() );
 			}
 
 			m_oCamera.SetActive( false );
@@ -94,7 +94,7 @@ class CameraTool extends Module
 		}
 		else
 		{
-			m_oCamera = g_Game.CreateObject( "FreeDebugCamera", m_Mission.GetPlayer().GetPosition(), true );
+			m_oCamera = g_Game.CreateObject( "FreeDebugCamera", GetPlayer().GetPosition(), true );
 
 			m_oCamera.SetActive( true );
 			
@@ -127,7 +127,7 @@ class CameraTool extends Module
 				if ( object.IsInherited( EntityAI ) && !object.IsBuilding() )
 				{
 					m_Target = object;
-					m_Mission.GetPlayer().MessageStatus("Selected Target: " + object.GetType());
+					GetPlayer().MessageStatus("Selected Target: " + object.GetType());
 					return;
 				} 
 			}
@@ -288,7 +288,7 @@ class CameraTool extends Module
 					if ( m_Target ) 
 					{
 						m_CamOffset = vector.Direction( GetTargetCenter() , m_oCamera.GetPosition() );
-						m_CamOffset.Normalize()
+						m_CamOffset.Normalize();
 						break;
 					}
 				}
@@ -332,7 +332,7 @@ class CameraTool extends Module
 		
 		if ( m_Target.IsInherited( SurvivorBase )) 
 		{
-			targetPosition = m_Mission.GetPlayer().GetPosition();
+			targetPosition = GetPlayer().GetPosition();
 			targetPosition[1] = targetPosition[1] + 1.5;
 		}
 		else 
@@ -353,9 +353,9 @@ class CameraTool extends Module
 	
 	void SetFreezePlayer( bool freeze ) 
 	{
-		m_Mission.GetPlayer().GetInputController().OverrideMovementSpeed( freeze, 0 )
-		m_Mission.GetPlayer().GetInputController().OverrideAimChangeX( freeze, 0 );
-        m_Mission.GetPlayer().GetInputController().OverrideAimChangeY( freeze, 0 );
+		GetPlayer().GetInputController().OverrideMovementSpeed( freeze, 0 );
+		GetPlayer().GetInputController().OverrideAimChangeX( freeze, 0 );
+        GetPlayer().GetInputController().OverrideAimChangeY( freeze, 0 );
 	}
 	
 	void SetFreezeCam( bool freeze ) 
