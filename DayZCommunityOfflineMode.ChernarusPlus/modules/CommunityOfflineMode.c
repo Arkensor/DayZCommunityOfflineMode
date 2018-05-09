@@ -4,6 +4,10 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectManager.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\SaveManager.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
+
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
 
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
@@ -13,7 +17,7 @@ class CommunityOfflineMode : MissionGameplay
 	protected bool DISABLE_RESPAWN_ONRESTART = true; // enable(true) / disable(false) - Player Respawn on Restart
 	protected bool DISABLE_HIVE = false;	 // enable(true) / disable(false) - Hive
 	
-	
+	private ref set<ref Module> m_Modules;
 	
 	protected ref SaveManager sm; 
 	
@@ -41,12 +45,26 @@ class CommunityOfflineMode : MissionGameplay
 	protected bool m_IsLeftShiftHolding = false;
 	protected bool m_IsRightShiftHolding = false;
 	
+	//For mousehandler - keeps track of last press/release time
+	ref array<ref MouseButtonInfo> m_MouseButtons; 
+	protected const int CLICK_TIME			= 200; //ms
+	protected const int HOLD_CLICK_TIME_MIN	= 200; //ms
+	protected const int DOUBLE_CLICK_TIME	= 300; //ms
+	
 	void CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::CommunityOfflineMode()" );
-
-		m_ObjectEditor = new ObjectEditor( this );
-
+		
+		m_Modules 	   = new set<ref Module>;
+		m_MouseButtons = new array<ref MouseButtonInfo>;
+		
+		m_MouseButtons.Insert ( new MouseButtonInfo( MouseState.LEFT ) );
+		m_MouseButtons.Insert ( new MouseButtonInfo( MouseState.RIGHT ) );
+		m_MouseButtons.Insert ( new MouseButtonInfo( MouseState.MIDDLE ) );
+		
+		// register modules
+		RegisterModules();
+		
 		sm = new SaveManager(); 
 	}
 	
@@ -61,6 +79,20 @@ class CommunityOfflineMode : MissionGameplay
 		}
 	}
 
+	void RegisterModules()
+	{
+		m_Modules.Insert(new ObjectEditor(this));
+		m_Modules.Insert(new CameraTool(this));
+	}
+	
+	void InitializeModules()
+	{
+		
+		for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			m_Modules.Get(i).Init();
+		}
+	}
 	
 	override void OnInit()
 	{
@@ -71,44 +103,84 @@ class CommunityOfflineMode : MissionGameplay
 		SpawnPlayer();
 		
 		InitHive();
+		
+		InitializeModules();
+	}
+	
+	Module GetModule(typename module_Type)
+	{
+		for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			Module module = m_Modules.Get(i);
+			if (module.GetModuleType() == module_Type) 
+			{
+				return module;
+			}
+		}
+		return NULL;
 	}
 
-
+	protected MouseButtonInfo GetMouseButtonInfo( int button )
+	{	
+		for ( int i = 0; i < m_MouseButtons.Count(); ++i )
+		{
+			MouseButtonInfo info = m_MouseButtons.Get(i);
+			
+			if ( info.GetButtonID() == button )
+			{
+				return info;
+			}
+		}
+		return NULL;
+	}
+	
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
 	
+		for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			m_Modules.Get(i).onMissionStart();
+		}
+		
 		CreateDebugMonitor();
 		
 		m_debugMonitorPatched.Hide();
 	}
 
-override void OnMissionFinish()
-{
-PlayerBase  player = PlayerBase.Cast( GetGame().GetPlayer() );
+	override void OnMissionFinish()
+	{
+		PlayerBase  player = PlayerBase.Cast( GetGame().GetPlayer() );
 
-if (player != NULL)
-{
-
-if (player && player.GetPlayerState() == EPlayerStates.ALIVE )
-{
-
-sm.ProcessPlayerSaves();
-
-} else if (!DISABLE_RESPAWN_ONRESTART) {
-
-sm.DeletePlayer();
-}
-}
-
-
-super.OnMissionFinish();
-}
+		if (player != NULL)
+		{
+			if (player && player.GetPlayerState() == EPlayerStates.ALIVE )
+			{
+				sm.ProcessPlayerSaves();
+			} 
+			else if (!DISABLE_RESPAWN_ONRESTART) 
+			{
+				sm.DeletePlayer();
+			}
+		}
+		
+		for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			m_Modules.Get(i).onMissionFinish();
+		}
+		
+		super.OnMissionFinish();
+	}
 
 	
     void OnMissionLoaded()
     {
         GetGame().GetUIManager().ScreenFadeOut( 0 );
+		
+		for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			m_Modules.Get(i).onMissionLoaded();
+		}
     }
 
 
@@ -141,15 +213,164 @@ super.OnMissionFinish();
 		UpdateAutoWalk();
 
 		UpdateEditor();
+		
+		for ( int i = 0; i < m_Modules.Count(); ++i) 
+		{
+			Module module = m_Modules.Get(i);
+			
+			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb )
+			{
+				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
+				
+				if ( k_m_Binding.IsRecurring() )
+				{
+					if (k_m_Binding.Check()) 
+					{
+						int mouseButton = -1;
+	
+						bool hasDrag = false;
+						for ( int mb = 0; mb < k_m_Binding.GetMouseBinds().Count(); ++mb) 
+						{
+							int mouseBind = k_m_Binding.GetMouseBinds().GetKey(mb);
+							int mouseEvent = k_m_Binding.GetMouseBinds().Get(mouseBind);
+							
+							if ( mouseEvent == MB_EVENT_DRAG ) 
+							{
+								hasDrag = true;
+								mouseButton = mouseBind;
+							}
+							else if ( mouseEvent == MB_EVENT_HOLD ) 
+							{
+								mouseButton = mouseBind;
+							}
+						}
+						
+						if ( mouseButton > -1 )
+						{
+							MouseButtonInfo info = m_MouseButtons.Get( mouseButton );
+							if ( info ) 
+							{
+								if ( info.IsButtonDown() ) 
+								{
+									int time_curr = GetGame().GetTime();
+									int time_hold = info.GetTimeLastPress() + HOLD_CLICK_TIME_MIN;
+									
+									if ( time_hold < time_curr )
+									{
+										if ( hasDrag ) 
+										{
+											GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+										}
+										else if ( k_m_Binding.ContainsButtonEvent( mouseButton, MB_EVENT_HOLD) )
+										{
+											GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+										}
+									}
+								}
+							}
+						}
+						
+						if ( k_m_Binding.ContainsButton( MouseState.WHEEL ) )
+						{
+							if ( GetMouseState (MouseState.WHEEL) != 0 )
+							{
+								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, GetMouseState( MouseState.WHEEL ) );
+							}
+						}
+					
+						if ( k_m_Binding.HasKeyEvent(KB_EVENT_HOLD) )
+						{
+							GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+						}
+					}
+				}
+			}
+			module.onUpdate( timeslice );
+		}
+	}
+	
+	override void OnMouseButtonRelease(int button)
+	{
+		super.OnMouseButtonRelease(button);
+	
+		MouseButtonInfo button_info = GetMouseButtonInfo( button );
+		if (button_info == NULL) return;
+	
+		int time_curr			= GetGame().GetTime();
+		int time_last_press		= button_info.GetTimeLastPress();
+		int time_last_release	= button_info.GetTimeLastRelease();	
+		int time_delta_press	= time_curr - time_last_press;
+		int time_delta_release	= time_curr - time_last_release;
+	
+		for ( int i = 0; i < m_Modules.Count(); ++i) 
+		{
+			Module module = m_Modules.Get(i);
+			
+			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb )
+			{
+				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
+				
+				if ( k_m_Binding.ContainsButton( button ) ) 
+				{
+					if ( k_m_Binding.Check() )
+					{
+						if ( time_delta_release < DOUBLE_CLICK_TIME )
+						{
+							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_DOUBLECLICK ) 
+							{
+								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+							}
+						}
+						else if ( time_delta_press < CLICK_TIME )
+						{
+							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_CLICK ) 
+							{
+								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+							}
+						} 
+						else 
+						{
+							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_RELEASE ) )
+							{
+								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+							} 
+						}
+					}
+				}
+			}
+			module.onMouseButtonRelease( button );
+		}
+		button_info.Release();
 	}
 	
 	override void OnMouseButtonPress( int button )
 	{
 		super.OnMouseButtonPress( button );
 		
-		if ( m_ObjectEditor.IsEditing() )
+		MouseButtonInfo button_info = GetMouseButtonInfo( button );
+		if (button_info == NULL) return;
+		button_info.Press(); // Update press time
+		
+		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
-			m_ObjectEditor.onMouseClick();
+			Module module = m_Modules.Get(i)
+
+			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb ) 
+			{
+				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
+				
+				if ( k_m_Binding.ContainsButton( button ) ) 
+				{
+					if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_PRESS ) ) 
+					{
+						if ( k_m_Binding.Check() ) 
+						{
+							GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+						}
+					}
+				}
+			}
+			module.onMouseButtonPress( button ); // extra utility
 		}
 	}
 	
@@ -157,11 +378,33 @@ super.OnMissionFinish();
 	{
 		super.OnKeyPress(key);
 
+		for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			Module module = m_Modules.Get(i)
+
+			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb ) 
+			{
+				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
+				
+				if ( k_m_Binding.ContainsKeyEvent( key, KB_EVENT_PRESS ) ) 
+				{
+					if ( k_m_Binding.Check() ) 
+					{
+						GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+					}
+				}
+			}
+			
+			module.onKeyPress( key ); // extra utility
+		}
+		
 		if( GetGame().GetUIManager().GetMenu() )
 		{
 			return;
 		}
 
+		// dannydog: port over old keybinds and functions to new module system
+		
 		if( !m_bWelcome )
 		{
 		    m_bWelcome = true;
@@ -237,8 +480,8 @@ super.OnMissionFinish();
 
 			case KeyCode.KC_T:
 			{
-			    if( m_oCamera )
-			    {
+				if ( CameraTool.Cast(GetModule(CameraTool)).IsUsingCamera() ) 
+				{
 			        m_oPlayer.MessageStatus( "You can not teleport while you are inside the freecam!" );
 
 			        return;
@@ -395,80 +638,20 @@ super.OnMissionFinish();
 				break;
 			}
 
-
-			case KeyCode.KC_INSERT:
+			case KeyCode.KC_END:
 			{
-				if ( m_oCamera )
+				if ( m_bGodMode )
 				{
-                    m_oPlayer.GetInputController().OverrideMovementSpeed( false, 0 );
-                    m_oPlayer.GetInputController().OverrideMovementAngle( false, 0 );
-                    m_oPlayer.GetInputController().OverrideAimChangeX( false, 0 );
-                    m_oPlayer.GetInputController().OverrideAimChangeY( false, 0 );
-
-                    if( CTRL() || SHIFT() )
-                    {
-                        vector oCamPos = m_oCamera.GetPosition();
-                        oCamPos[1] = GetGame().SurfaceY( oCamPos[0], oCamPos[2] );
-
-                        m_oPlayer.SetPosition( oCamPos );
-                    }
-                    else
-                    {
-                        m_oPlayer.SetPosition( GetCursorPos() );
-                    }
-
-					m_oCamera.SetActive( false );
-
-					GetGame().ObjectDelete( m_oCamera );
-
-					m_oCamera = NULL;
+					m_oPlayer.MessageStatus( "God mode disabled." );
+					m_oPlayer.SetAllowDamage( true );
+					m_bGodMode = false;
 				}
 				else
 				{
-                    m_oPlayer.GetInputController().OverrideMovementSpeed( true, 0 );
-                    m_oPlayer.GetInputController().OverrideMovementAngle( true, 0 );
-                    m_oPlayer.GetInputController().OverrideAimChangeX( true, 0 );
-                    m_oPlayer.GetInputController().OverrideAimChangeY( true, 0 );
-
-					m_oCamera = g_Game.CreateObject( "FreeDebugCamera", m_oPlayer.GetPosition(), true );
-
-					m_oCamera.SetActive( true );
+					m_oPlayer.MessageStatus( "God mode enabled." );
+					m_oPlayer.SetAllowDamage( false );
+					m_bGodMode = true;
 				}
-				
-				break;
-			}
-
-
-			case KeyCode.KC_END:
-			{
-			    if( CTRL() || SHIFT() )
-			    {
-                    m_ObjectEditor.ToggleEditor( !m_ObjectEditor.IsEditing() );
-
-                    if ( m_ObjectEditor.IsEditing() )
-                    {
-                        m_oPlayer.MessageStatus( "Object Editor mode enabled." );
-                    }
-                    else
-                    {
-                        m_oPlayer.MessageStatus( "Object Editor mode disabled." );
-                    }
-			    }
-			    else
-			    {
-                    if ( m_bGodMode )
-                    {
-                        m_oPlayer.MessageStatus( "God mode disabled." );
-                        m_oPlayer.SetAllowDamage( true );
-                        m_bGodMode = false;
-                    }
-                    else
-                    {
-                        m_oPlayer.MessageStatus( "God mode enabled." );
-                        m_oPlayer.SetAllowDamage( false );
-                        m_bGodMode = true;
-                    }
-			    }
 
 				break;
 			}		
@@ -511,6 +694,25 @@ super.OnMissionFinish();
 	override void OnKeyRelease(int key)
 	{
 		super.OnKeyRelease(key);
+				
+		for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			
+			Module module = m_Modules.Get(i)
+
+			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb ) 
+			{
+				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
+				if ( k_m_Binding.ContainsKeyEvent( key, KB_EVENT_RELEASE ) ) 
+				{
+					if ( k_m_Binding.Check() ) 
+					{
+						GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+					}
+				} 
+			}
+			module.onKeyRelease( key ); // extra utility
+		}
 				
 		switch( key )
 		{
@@ -610,28 +812,6 @@ super.OnMissionFinish();
             m_oPlayer.GetInputController().OverrideMovementAngle( true, 1 );
         }
     }
-
-    void UpdateEditor()
-    {
-        if ( m_ObjectEditor.IsEditing() )
-        {
-            if ( GetMouseState( MouseState.LEFT ) & MB_PRESSED_MASK )  // Pressed LMB
-            {
-                m_ObjectEditor.onMouseDrag();
-            }
-
-            if ( GetGame().GetInput().GetActionUp( UANextAction, false ) )
-            {
-                m_ObjectEditor.onMouseScrollDown();
-            }
-
-            if ( GetGame().GetInput().GetActionUp( UAPrevAction, false ) )
-            {
-                m_ObjectEditor.onMouseScrollUp();
-            }
-        }
-    }
-
 
     void SetupWeather()
     {
