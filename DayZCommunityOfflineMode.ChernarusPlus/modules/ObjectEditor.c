@@ -1,33 +1,81 @@
-class ObjectEditor
+class ObjectEditor extends Module
 {
-	protected CommunityOfflineMode m_OfflineMission;
 	protected bool m_ObjectEditorActive = false;
 	protected bool m_IsDragging;
 	protected Object m_SelectedObject;
 
-
 	void ObjectEditor( CommunityOfflineMode mission )
 	{
-		m_OfflineMission = mission;
 	}
-
 
 	void ~ObjectEditor()
 	{
 	}
-
-
-	void ToggleEditor( bool enable )
+	
+	override void Init() 
 	{
-		m_ObjectEditorActive = enable;
+		super.Init();
 	}
 
+	/**
+		
+		Works very similar to pluginkeybinding system with extended features such as multiple keybinds (mouse + keyboard) per function
+		Please refrain from assigning same mouse keys to different functions even with more keybinds.
+		ie: shift+click function vs click function will both call when pressing the former.
+		
+		WORK AROUND COULD BE TO MAKE PRIORITY TO FUNCTIONS THAT REQUIRE MORE KEYS/MOUSE BINDS
+		IE: SHIFT+END TOGGLEOBJECTEDITOR VS CTRL+SHIFT+END SOMEOTHERFUNCTION
+		THE FUNCTION WITH MORE BINDS SHOULD BE REGISTERED FIRST.
+		
+		TODO: MAKE SYSTEM LIKE THAT ^
+		- dannydog
+	
+	**/
+	override void RegisterKeyMouseBindings() 
+	{
+		KeyMouseBinding toggleEditor  = new KeyMouseBinding( GetModuleType(), "ToggleEditor" , "[Shift]+[End]" , "Toggle object editor."     );
+		KeyMouseBinding objectSelect  = new KeyMouseBinding( GetModuleType(), "ClickObject"  , "(LMB)+(Click)" , "Selects object on cursor." );
+		KeyMouseBinding objectDrag    = new KeyMouseBinding( GetModuleType(), "DragObject"   , "(LMB)+(Drag)"  , "Drag objects on cursor."   );
+		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate." );
+		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object."  );
+		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground."  );
+
+		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KB_EVENT_HOLD    ); 
+		toggleEditor.AddKeyBind( KeyCode.KC_END   , KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
+		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KB_EVENT_RELEASE ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
+		
+		objectSelect.AddMouseBind( MouseState.LEFT		, MB_EVENT_CLICK ); // Left Click
+		objectDrag.  AddMouseBind( MouseState.LEFT 		, MB_EVENT_DRAG  );
+		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 ) // Doesn't matter what event for wheel
+		objectGround.AddMouseBind( MouseState.MIDDLE	, MB_EVENT_CLICK );
+		
+		RegisterKeyMouseBinding( toggleEditor );
+		RegisterKeyMouseBinding( objectSelect );
+		RegisterKeyMouseBinding( objectDrag   );
+		RegisterKeyMouseBinding( objectScroll );
+		RegisterKeyMouseBinding( objectDelete );
+		RegisterKeyMouseBinding( objectGround );
+		
+	}
+	
+	void ToggleEditor()
+	{
+		m_ObjectEditorActive = !m_ObjectEditorActive;
+		
+		if ( m_ObjectEditorActive ) 
+		{
+			m_Mission.GetPlayer().MessageStatus("Object Editor Enabled");
+		} 
+		else 
+		{
+			m_Mission.GetPlayer().MessageStatus("Object Editor Disabled");
+		}
+	}
 
 	bool IsEditing() 
 	{
 		return ( m_ObjectEditorActive && ( GetGame().GetUIManager().GetMenu() == NULL ) );
 	}
-
 
 	void SelectObject( Object object )
 	{
@@ -39,14 +87,12 @@ class ObjectEditor
 		m_SelectedObject = object;
 	}
 
-
 	void DeselectObject() 
 	{
 		m_SelectedObject = NULL;
 	}
-
-
-	void onMouseDrag() 
+	
+	void DragObject() 
 	{
 		if ( !m_ObjectEditorActive )
 		{
@@ -57,7 +103,7 @@ class ObjectEditor
 		{
 			vector dir = GetGame().GetPointerDirection();
 
-			vector from = GetCameraPosition();
+			vector from = GetGame().GetCurrentCameraPosition();
 
 			vector to = from + ( dir * 10000 );
 
@@ -71,137 +117,74 @@ class ObjectEditor
 
 			if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, NULL, NULL, NULL, false, true ) )
 			{
-			    vector oOrgPos = m_SelectedObject.GetPosition();
-			    float fSurfaceHight = GetGame().SurfaceY( oOrgPos [ 0 ], oOrgPos [ 2 ] );
+				vector oOrgPos = m_SelectedObject.GetPosition();
+				float fSurfaceHight = GetGame().SurfaceY( oOrgPos [ 0 ], oOrgPos [ 2 ] );
 
-			    float nHightOffsetToGround = oOrgPos [ 1 ] - fSurfaceHight;
+				float nHightOffsetToGround = oOrgPos [ 1 ] - fSurfaceHight;
 
 				contact_pos [ 1 ] = contact_pos [ 1 ] + nHightOffsetToGround;
 
 				m_SelectedObject.SetPosition( contact_pos );
 			}
-
 		}
 	}
 
-
-	void onMouseScrollUp()
+	void ScrollObject( int state ) 
 	{
 		if ( !m_ObjectEditorActive )
 		{
 			return;
 		}
-
+		
 		if ( m_SelectedObject )
-		{			
-			if ( m_OfflineMission.SHIFT() )
-			{
-				vector pitch = m_SelectedObject.GetOrientation();
-
-				if ( pitch [ 2 ] < 0 )
-				{
-					pitch [ 1 ] = pitch [ 1 ] + 1;
-				}
-				else
-				{
-					pitch [ 1 ] = pitch [ 1 ] - 1;
-				}
+		{
+			vector pos = m_SelectedObject.GetPosition();
+			vector yaw = m_SelectedObject.GetOrientation();
+			vector pitch = m_SelectedObject.GetOrientation();
+			vector roll = m_SelectedObject.GetOrientation();
 			
-				m_SelectedObject.SetOrientation(pitch);
-
-			} 
-			else if ( m_OfflineMission.CTRL() )
+			bool up = state < 0;
+			int value = 1;
+			if ( up ) value = -1;
+			
+			if ( m_Mission.SHIFT() )
 			{
-				vector yaw = m_SelectedObject.GetOrientation();
-
-				yaw [ 0 ] = yaw [ 0 ] + 1;
+				pitch [ 1 ] = pitch [ 1 ] + value;
+				m_SelectedObject.SetOrientation(pitch);
+			}
+			else if ( m_Mission.CTRL() )
+			{
+				yaw [ 0 ] = yaw [ 0 ] + value;
 
 				m_SelectedObject.SetOrientation( yaw );
 			}
-			else if ( m_OfflineMission.ALT() )
+			else if ( m_Mission.ALT() )
 			{
-				vector roll = m_SelectedObject.GetOrientation();
-
-				roll[ 2 ] = roll[ 2 ] + 1;
+				roll[ 2 ] = roll[ 2 ] + value;
 
 				m_SelectedObject.SetOrientation( roll );
 			}
 			else 
 			{
-				vector pos = m_SelectedObject.GetPosition();
-
-				pos [ 1 ] = pos [ 1 ] + 0.05;
+				pos [ 1 ] = pos [ 1 ] + value*0.05;
 
 				m_SelectedObject.SetPosition( pos );
 			}
 		}
 	}
 
-
-	void onMouseScrollDown() 
+	void ClickObject() 
 	{
 		if ( !m_ObjectEditorActive )
 		{
 			return;
 		}
-
-		if ( m_SelectedObject )
-		{
-			if ( m_OfflineMission.SHIFT() )
-			{
-				vector pitch = m_SelectedObject.GetOrientation();
-
-				if ( pitch [ 2 ] < 0 )
-				{
-					pitch [ 1 ] = pitch [ 1 ] - 1;
-				}
-				else
-				{
-					pitch [ 1 ] = pitch [ 1 ] + 1;
-				}
-
-				m_SelectedObject.SetOrientation(pitch);
-			} 
-			else if ( m_OfflineMission.CTRL() )
-			{
-				vector orientation = m_SelectedObject.GetOrientation();
-
-				orientation[ 0 ] = orientation[ 0 ] - 1;
-
-				m_SelectedObject.SetOrientation( orientation );
-			}
-			else if ( m_OfflineMission.ALT() )
-			{
-				vector roll = m_SelectedObject.GetOrientation();
-
-				roll [ 2 ] = roll [ 2 ] - 1;
-
-				m_SelectedObject.SetOrientation( roll );
-			}
-			else 
-			{
-				vector pos = m_SelectedObject.GetPosition();
-
-				pos [ 1 ] = pos [ 1 ] - 0.05;
-
-				m_SelectedObject.SetPosition( pos );
-			}
-		}
-	}
-
-
-	void onMouseClick() 
-	{
-		if ( !m_ObjectEditorActive )
-		{
-			return;
-		}
-
+	
 		vector dir = GetGame().GetPointerDirection();
-		vector from = GetCameraPosition();
+		vector from = GetGame().GetCurrentCameraPosition();
 		vector to = from + ( dir * 10000 );
 
-		set< Object > objects = GetObjectsAtCursor(from, to);
+		set< Object > objects = GetObjectsAtCursor(from, to, GetGame().GetPlayer() );
 
 		bool selected = false;
 		
@@ -209,41 +192,53 @@ class ObjectEditor
 		{
 			Object obj = objects.Get( nObject );
 			SelectObject( obj );
-			selected = true;	
+			selected = true;
+			
+			m_Mission.GetPlayer().MessageStatus("Selected object.");
 		}
-		
-		if ( !selected )
+	
+		if ( !selected && m_SelectedObject )
 		{
+			m_Mission.GetPlayer().MessageStatus("Current object deselected.");
 			DeselectObject();
 		}
 	}
-
-
-	void onMouseDoubleClick() 
+	
+	void DeleteObject() 
 	{
-        //Todo
-	}
-
-
-	private set< Object > GetObjectsAtCursor( vector from, vector to )
-	{
-		vector contact_pos;
-		vector contact_dir;
-		int contact_component;
-
-		set< Object > objects = new set< Object >;
-		
-		if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, objects, NULL, GetGame().GetPlayer(), false, false, ObjIntersectView, 0.5 ) )
+		if ( !m_ObjectEditorActive )
 		{
-			return objects;
+			return;
 		}
 
-		return NULL;
+		if ( m_SelectedObject )
+		{
+			m_SelectedObject.SetPosition(vector.Zero); // If object does not physically delete, teleport it to 0 0 0
+			GetGame().ObjectDelete( m_SelectedObject ); 
+			m_SelectedObject = NULL;	
+		}
 	}
-
-
-	private vector GetCameraPosition() 
+	
+	void GroundObject() 
 	{
-		return GetGame().GetCurrentCameraPosition();
+		if ( !m_ObjectEditorActive )
+		{
+			return;
+		}
+
+		if ( m_SelectedObject )
+		{
+			vector pos = m_SelectedObject.GetPosition();
+			pos[1] = GetGame().SurfaceY(pos[0], pos[2]);
+			
+			vector clippingInfo;
+			vector objectBBOX;
+			
+			m_SelectedObject.GetCollisionBox(objectBBOX);
+			
+			pos[1] = pos[1] - objectBBOX[1] + clippingInfo[1];
+			
+			m_SelectedObject.SetPosition(pos);
+		}
 	}
 }

@@ -44,16 +44,23 @@ You might delete your whole ```Missions``` folder and validate your game files v
 * END + SHIFT - Toggle object editor mode
 * POS1 - Particle effect demonstration (aka poof)
 
-Free Camera Controls:
+Free Camera Controls: (Updated by dannydog)
 * SCROLL WHEEL - Speed of Camera
 * Q / Z - Raise Lower Camera
 * SHIFT/CTRL - Fast Forward (Also altered with Mouse Wheel)
 * ALT - Slow Speed
+* RMB + Drag - Camera FOV increase/decrease
+* Middle Click - Target object or position ( To be used for orbital and follow modes)
+* [ Key - Follow target
+* ] Key - Orbital mode
+* Capslock - Freeze player
+* Backslash - Freeze camera controls
 
 Object Editor Controls:  
 Click objects to select them.  
-Click and drag objects to move them.  
-Click on nothing to deselect the current object.  
+Click and drag objects to move them.
+Click on nothing to deselect the current object.
+Middle Click to snap to ground (not very accurate xd)
 Spawn in new items using the object spawner menu: DELETE
 
 * SCROLL WHEEL - Move object up/down
@@ -74,10 +81,10 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * Adding a cinematic manager for content creators
 * GUI for the object manager
 * More functions for the object manager
-* More adjustments to the freecam to feature fov options etc
+* ~~More adjustments to the freecam to feature fov options etc~~ ✓
 
 # Contributors:
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
 * [Watchman](https://twitter.com/watchman113) - Documentation
 * [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
-* [DannyDog](https://github.com/DannyDog) - Code snippets and Object Editor
+* [DannyDog](https://github.com/DannyDog) - Code snippets, Object Editor and Updated camera tools
