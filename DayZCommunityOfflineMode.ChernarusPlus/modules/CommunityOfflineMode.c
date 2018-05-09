@@ -66,7 +66,7 @@ class CommunityOfflineMode : MissionGameplay
 		// register modules
 		this.RegisterModules();
 		
-		sm = new SaveManager(); 
+		sm = new SaveManager(this); 
 	}
 	
 	

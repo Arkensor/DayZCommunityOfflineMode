@@ -1,34 +1,37 @@
 class SaveManager 
 {
+	PlayerBase player;
+	protected CommunityOfflineMode m_Mission;
 	
-	private string BASE_DIR = "$saves:CommunityOfflineMode//"; // Default[windows]: /Documents/DayZ/CommunityOfflineMode
-	private string BASE_PLAYERDIR = BASE_DIR + "//PlayerSaves";
-	private string CHAR_FILE = "//character.json";
-	private string INV_FILE = "//inventory.json";
-	private string HND_FILE = "//hands.json";
-	private string QB_FILE = "//quickbar.json";
-	private string TEST_FILE1 = "//test1.json";
-	private string TEST_FILE2 = "//test2.json";
+	protected string BASE_DIR = "$saves:CommunityOfflineMode//"; // Default[windows]: /Documents/DayZ/CommunityOfflineMode
+	protected string BASE_PLAYERDIR = BASE_DIR + "//PlayerSaves";
+	protected string CHAR_FILE = "//character.json";
+	protected string INV_FILE = "//inventory.json";
+	protected string HND_FILE = "//hands.json";
+	protected string QB_FILE = "//quickbar.json";
+	protected string TEST_FILE1 = "//test1.json";
+	protected string TEST_FILE2 = "//test2.json";
 
-	private PlayerBase player;
-	private ref JsonSerializer js = new JsonSerializer;	
-	private string SaveFile;
-	private string Data = "";
-	private vector position = "0 0 0";
-	private int timer;
-	private ref TStringArray itemsArray = new TStringArray;
-	private ref TIntArray itemsQtyArray = new TIntArray;
-	private ref map<string, ref TStringArray> itemsAttachArray = new map<string, ref TStringArray>;
+	 
+	protected ref JsonSerializer js = new JsonSerializer;	
+	protected string SaveFile;
+	protected string Data = "";
+	protected vector position = "0 0 0";
+	protected int timer;
+	protected ref TStringArray itemsArray = new TStringArray;
+	protected ref TIntArray itemsQtyArray = new TIntArray;
+	protected ref map<string, ref TStringArray> itemsAttachArray = new map<string, ref TStringArray>;
+	
+
 	
 	
-	
-	void SaveManager(int t = 30)
+	void SaveManager(CommunityOfflineMode m_Mission , int t = 30)
 	{
 		timer = t;
 		
-		player = PlayerBase.Cast( GetGame().GetPlayer() );
+		player = m_Mission.m_oPlayer;
 		
-		CreateDir(BASE_PLAYERDIR);
+		this.CreateDir(BASE_PLAYERDIR);
 		
 	}
 	
@@ -52,25 +55,25 @@ class SaveManager
 	
 	
 	
-	
 	void ProcessPlayerSaves()
 	{
 		if ( !player ) return;
 		
+		// Print(player.GetPlayerState());
 	
-		if ( player.GetPlayerState() == EPlayerStates.ALIVE && !player.IsRestrained() )
+		if ( player.GetPlayerState() == 0  )
 		{
-			SavePlayerCharacter();
+			this.SavePlayerCharacter();
 			
-			SavePlayerQuickBar();
+			this.SavePlayerInventory();
 			
-			// OldSavePlayerInventory(); 
+			this.SavePlayerHands();
 			
-			NewSavePlayerInventory();
-			 
+			this.SavePlayerQuickBar();
+						
 		} else {
 			
-			DeletePlayer();
+			this.DeletePlayer();
 		}
 	}
 	
@@ -81,15 +84,17 @@ class SaveManager
 				
 		if ( CreatePlayerCharacterFromSave() ) 
 		{
-			//CreatePlayerInventory(); 
+			// this.CreatePlayerInventory(); 
 			
-			 CreatePlayerInventoryFromSave();
+			 this.CreatePlayerInventoryFromSave();
+			 
+			
 			
 		} else {
 			
 			player = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), position, 0, "NONE") );
 			
-			CreatePlayerInventory(); 
+			this.CreatePlayerInventory(); 
 		}
 		
 		
@@ -108,13 +113,19 @@ class SaveManager
 
 	
 	
-	void CreatePlayerInventoryFromSave(string data = "")
+	void CreatePlayerInventoryFromSave(string data = "", EntityAI entity = NULL)
 	{
 		
 		if ( data == "" )
 		{
-			data = LoadPlayerInventory();
+			data = this.LoadPlayerInventory();
 		}
+		
+		if ( entity == NULL ) 
+		{
+			 entity = player;
+		}
+		
 		
 		//Print("JSON: " + data);
 	
@@ -145,7 +156,7 @@ class SaveManager
 			
 			itemArray = arrayFromJson.GetElement(i);
 			
-			itemEnt = player.GetInventory().CreateInInventory(itemName);
+			itemEnt = entity.GetInventory().CreateInInventory(itemName);
 			
 			if (itemEnt != NULL ) 
 			{
@@ -153,6 +164,7 @@ class SaveManager
 				itemBs = ItemBase.Cast(itemEnt);
 				
 				itemBs.SetHealth("","", itemArray.Get("health").ToFloat() );
+				// this.SetRandomHealth(itemBs); // Temporary
 				
 				itemBs.SetWet( itemArray.Get("wet").ToFloat() );
 			 
@@ -175,24 +187,27 @@ class SaveManager
 				
 				if ( cargo != "{}" && cargo != "" )
 				{
-					this.CreatePlayerInventoryFromSave(cargo);
+					this.CreatePlayerInventoryFromSave(cargo, itemBs);
 				}
 				
 				attachments = itemArray.Get("attachments");
 				
 				if ( attachments != "{}" && attachments != "" )
 				{
-					this.CreatePlayerInventoryFromSave(attachments);
+					this.CreatePlayerInventoryFromSave(attachments, itemBs);
 				}
-			
+				
+				 this.CreatePlayerQuickBarFromSave( itemEnt );
 			}
 		}
+		
+		
 		
 	}
 	
 	
 	
-	void NewSavePlayerInventory()
+	void SavePlayerInventory()
 	{
 		
 		string Data = "";
@@ -209,22 +224,27 @@ class SaveManager
 		{	
 			ItemBase itemOnPlayer;
 			
-			Class.CastTo(itemOnPlayer, playerArray.Get(p));
+			Class.CastTo( itemOnPlayer, playerArray.Get(p) );
 			
 			if ( itemOnPlayer == NULL || itemOnPlayer == playerHands ) continue;
 			
-			PlayerInventory.Insert( itemOnPlayer.GetType(), new map<string, string> );
+			string typeName = itemOnPlayer.GetType();
+			PlayerInventory.Insert( typeName, new map<string, string> );
 			
-			PlayerInventory.Get( itemOnPlayer.GetType() ).Insert( "health", itemOnPlayer.GetHealth("","").ToString() );
+			string health = itemOnPlayer.GetHealth("","").ToString();
+			PlayerInventory.Get( typeName ).Insert( "health", health );
 			
-			PlayerInventory.Get( itemOnPlayer.GetType() ).Insert( "qty", this.GetItemQuantity(itemOnPlayer).ToString() ); 
+			string qty = this.GetItemQuantity(itemOnPlayer).ToString();
+ 			PlayerInventory.Get( typeName ).Insert( "qty", qty ); 
 			
-			PlayerInventory.Get( itemOnPlayer.GetType() ).Insert( "wet", itemOnPlayer.GetWet().ToString() ); 
+			string wet = itemOnPlayer.GetWet().ToString();
+			PlayerInventory.Get( typeName ).Insert( "wet", wet ); 
 			
-			PlayerInventory.Get( itemOnPlayer.GetType() ).Insert( "attachments", this.GetAttachedItemsAsJson( itemOnPlayer ) ); 
+			string attJson = this.GetAttachedItemsAsJson( itemOnPlayer );
+			PlayerInventory.Get( typeName ).Insert( "attachments", attJson ); 
 			
-			PlayerInventory.Get( itemOnPlayer.GetType() ).Insert( "cargo", this.GetCargoItemsAsJson( itemOnPlayer ) ); 
-		
+			string cargoJson = this.GetCargoItemsAsJson( itemOnPlayer );
+			PlayerInventory.Get( typeName ).Insert( "cargo", cargoJson );
 		}
 		
 		js.WriteToString(PlayerInventory, false, Data);
@@ -236,6 +256,7 @@ class SaveManager
 		SaveFile = BASE_PLAYERDIR + INV_FILE;
 		
 		WriteFile(Data);
+		
 	}
 	
 	
@@ -244,8 +265,8 @@ class SaveManager
 	{
 		
 		string json = "";
-	
-		map<string,map<string,string>> tempArray =  new map<string,map<string,string>>;
+		
+		ref map<string, ref map<string,string>> tempArray = new map<string, ref map<string,string>>;
 		
 		for (int att = 0; att < player.GetInventory().AttachmentCount(); att++)
 		{
@@ -257,43 +278,32 @@ class SaveManager
 				
 				for (int i = 0; i < cargo.GetItemCount(); i++)
 				{
+					
 					ItemBase itemInCargo = NULL;
 					
 					if ( Class.CastTo( itemInCargo, cargo.GetItem(i) ) && itemInCargo.IsItemBase() )
 					{	
 						if ( itemInCargo )
 						{
-							string itemName = itemInCargo.GetType();
+							string itemName;
 							
-							Print(itemName);
+							itemName = itemInCargo.GetType();
+							tempArray.Insert( itemName, new ref map<string,string> );
 							
-							tempArray.Insert(itemName, new map<string,string> );
+							string health = itemInCargo.GetHealth("","").ToString();
+							tempArray.Get( itemName ).Insert( "health", health );
 							
+							string qty = this.GetItemQuantity( itemInCargo ).ToString();
+							tempArray.Get( itemName ).Insert( "qty", qty );
 							
-							// ref map<string,string> tempArray2 = tempArray.Get( itemInCargo.GetType() );
+							string wet = itemInCargo.GetWet().ToString();
+							tempArray.Get( itemInCargo.GetType() ).Insert( "wet", wet ); 
 							
-							// int h = ;
+							string attJson = this.GetAttachedItemsAsJson( itemInCargo );
+							tempArray.Get( itemName ).Insert( "attachments", attJson ); 
 							
-							 Print("->" + itemInCargo + "->" + itemInCargo.GetHealth("",""));
-							 Print("->" + itemInCargo + "->" + itemInCargo.GetWet());
-							 Print("->" + itemInCargo + "->" + this.GetItemQuantity( itemInCargo ));
-							
-							 Print("CARGO->" + itemInCargo + "->" + this.GetCargoItemsAsJson( itemInCargo ));
-							 
-							 Print("ATTACH->" + itemInCargo + "->" + this.GetAttachedItemsAsJson( itemInCargo ));
-							 							 
-							 tempArray.Get( itemName ).Insert( "cargo", this.GetCargoItemsAsJson( itemInCargo ) );
-							  
-							// tempArray2.Insert( "health",  h.ToString());
-							
-							// tempArray.Get( itemInCargo.GetType() ).Insert( "qty", this.GetItemQuantity( itemInCargo ).ToString() );
-							
-							// tempArray.Get( itemInCargo.GetType() ).Insert( "wet", itemInCargo.GetWet().ToString() ); 
-							
-							// tempArray.Get( itemInCargo.GetType() ).Insert( "attachments", this.GetAttachedItemsAsJson( itemInCargo ) );
-							
-							// tempArray.Get( itemInCargo.GetType() ).Insert( "cargo", this.GetCargoItemsAsJson( itemInCargo ) );
-							
+							string cargoJson = this.GetCargoItemsAsJson( itemInCargo );
+							tempArray.Get( itemName ).Insert( "cargo", cargoJson );
 						}
 					}
 				}
@@ -312,7 +322,7 @@ class SaveManager
 	
 	string GetAttachedItemsAsJson(EntityAI entity)
 	{
-		ref map<string, ref map<string, ref map<string,string>>> tempArray =  new map<string, ref map<string, ref map<string, string>>>;
+		ref map<string, ref map<string,string>> tempArray = new map<string, ref map<string,string>>;
 		
 		string json = "";
 		
@@ -330,9 +340,26 @@ class SaveManager
 					
 					if( item )
 					{
-						
-						tempArray.Insert( item.GetType(), new map<string, ref map<string, string>>);
-						
+							string itemName;
+							
+							itemName = item.GetType();
+							tempArray.Insert( itemName, new ref map<string,string> );
+							
+							string health = item.GetHealth("","").ToString();
+							tempArray.Get( itemName ).Insert( "health", health );
+							
+							string qty = this.GetItemQuantity( item ).ToString();
+							tempArray.Get( itemName ).Insert( "qty", qty );
+							
+							string wet = item.GetWet().ToString();
+							tempArray.Get( item.GetType() ).Insert( "wet", wet ); 
+							
+							string attJson = this.GetAttachedItemsAsJson( item );
+							tempArray.Get( itemName ).Insert( "attachments", attJson ); 
+				
+							string cargoJson = this.GetCargoItemsAsJson( item );
+							tempArray.Get( itemName ).Insert( "cargo", cargoJson );
+													
 					}
 				}
 			}
@@ -353,31 +380,44 @@ class SaveManager
 		
 		map<string,string>tempArray = new map<string,string>;
 		
-		tempArray.Insert( "model", player.GetType() );
+		string model = player.GetType();
+		tempArray.Insert( "model", model );
 		
-		tempArray.Insert( "health", player.GetHealth("", "").ToString() ); 
+		string health = player.GetHealth("","").ToString();
+		tempArray.Insert( "health", health ); 
 		
-		tempArray.Insert( "blood", player.GetHealth("GlobalHealth", "Blood").ToString() );
+		string blood = player.GetHealth("GlobalHealth", "Blood").ToString();
+		tempArray.Insert( "blood", blood );
 		
-		tempArray.Insert( "temperature", player.GetStatTemperature().Get().ToString() );
+		string bloodtype = player.GetStatBloodType().Get().ToString();
+		tempArray.Insert( "bloodtype", bloodtype );
 		
-		tempArray.Insert( "energy", player.GetStatEnergy().Get().ToString() );
+		string temperature = player.GetStatTemperature().Get().ToString();
+		tempArray.Insert( "temperature", temperature );
 		
-		tempArray.Insert( "water", player.GetStatWater().Get().ToString() );
+		string energy = player.GetStatEnergy().Get().ToString();
+		tempArray.Insert( "energy", energy );
 		
-		tempArray.Insert( "heatcomfort", player.GetStatHeatComfort().Get().ToString() );
+		string water = player.GetStatWater().Get().ToString();
+		tempArray.Insert( "water", water );
 		
-		tempArray.Insert( "stomachenergy", player.GetStatStomachEnergy().Get().ToString() );
+		string heatcomfort = player.GetStatHeatComfort().Get().ToString();
+		tempArray.Insert( "heatcomfort", heatcomfort );
 		
-		tempArray.Insert( "stomachwater", player.GetStatStomachWater().Get().ToString() );
+		string stomachenergy = player.GetStatStomachEnergy().Get().ToString();
+		tempArray.Insert( "stomachenergy", stomachenergy );
 		
-		tempArray.Insert( "stomachsolid", player.GetStatStomachSolid().Get().ToString() );
+		string stomachwater = player.GetStatStomachWater().Get().ToString();
+		tempArray.Insert( "stomachwater", stomachwater );
 		
-		tempArray.Insert( "wet", player.GetStatWet().Get().ToString() );
+		string stomachsolid = player.GetStatStomachSolid().Get().ToString();
+		tempArray.Insert( "stomachsolid", stomachsolid );
 		
-		tempArray.Insert( "shock", player.GetStatShock().Get().ToString() );
+		string wet = player.GetStatWet().Get().ToString();
+		tempArray.Insert( "wet", wet );
 		
-		tempArray.Insert( "bloodtype", player.GetStatBloodType().Get().ToString() );
+		string shock = player.GetStatShock().Get().ToString();
+		tempArray.Insert( "shock", shock );
 		
 		string pos = player.GetPosition().ToString();
 		
@@ -435,7 +475,7 @@ class SaveManager
 	
 	
 	
-	void SavePlayerHand()
+	void SavePlayerHands()
 	{
 		
 		SaveFile = BASE_PLAYERDIR + HND_FILE;
@@ -447,28 +487,35 @@ class SaveManager
 		if ( hands != NULL )
 		{
 			TStringArray attachmentArray = new TStringArray;
+			
 			map<string,string>itemArray = new map<string,string>;
 			
-			itemArray.Insert( "type", hands.GetType() );
+			string typName = hands.GetType();
+			itemArray.Insert( "type", typName );
 			
-			itemArray.Insert( "health", hands.GetHealth("","").ToString() );
+			string health = hands.GetHealth("","").ToString();
+			itemArray.Insert( "health", health );
 			
-			itemArray.Insert( "qty", GetItemQuantity(hands).ToString() );
+			string qty = GetItemQuantity(hands).ToString();
+			itemArray.Insert( "qty", qty );
 			
-			itemArray.Insert( "wet", hands.GetWet().ToString() ); 
+			string wet = hands.GetWet().ToString();
+			itemArray.Insert( "wet", wet ); 
 			
 			string b = "";	
 			
 			for (int j = 0; j < hands.GetInventory().AttachmentCount(); j++)
 			{		
 				ItemBase attachment;
+				
 				attachment = hands.GetInventory().GetAttachmentFromIndex(j);
+				
 				attachmentArray.Insert(attachment.GetType());
 			}
 			
 			js.WriteToString(attachmentArray, false, b);
 			
-			itemArray.Insert( "attachment", b );
+			itemArray.Insert( "attachments", b );
 			
 			js.WriteToString(itemArray, false, Data);
 			
@@ -486,75 +533,13 @@ class SaveManager
 	}
 	
 	
-	
-	void OldSavePlayerInventory()
-	{
-		
-		SaveFile = BASE_PLAYERDIR + INV_FILE;
-		
-		FileHandle file = OpenFile( SaveFile, FileMode.WRITE );
-		
-		array<ref map<string,string>> InventoryArray = new array<ref map<string,string>>;
-		
-		ItemBase inHands = player.GetHumanInventory().GetEntityInHands();
-		
-		array<EntityAI> inventory = new array<EntityAI>;
-		
-		player.GetInventory().EnumerateInventory(InventoryTraversalType.PREORDER, inventory);
-		
-		for (int i = 0; i < inventory.Count(); i++)
-		{
-			
-			ItemBase item;
-			string a = "";
-			string b = "";
-			Class.CastTo(item, inventory.Get(i));
-			
-			if ( item && !item.IsInherited(SurvivorBase) && item != inHands)
-			{
-				
-				if ( item.GetHierarchyParent().IsWeapon() ) continue;
-					
-				map<string,string>itemArray = new map<string,string>;
-				TStringArray attachmentArray = new TStringArray;
-				
-				itemArray.Insert( "type", item.GetType() ); 
-				itemArray.Insert( "health", item.GetHealth("","").ToString() );
-				itemArray.Insert( "qty", GetItemQuantity(item).ToString() );
-				itemArray.Insert( "wet", item.GetWet().ToString() ); 
-				
-				for (int j = 0; j < item.GetInventory().AttachmentCount(); j++)
-				{		ItemBase attachment;
-						attachment = item.GetInventory().GetAttachmentFromIndex(j);
-						attachmentArray.Insert(attachment.GetType());
-				}
-				
-				js.WriteToString(attachmentArray, false, b);
-				
-				itemArray.Insert( "attachment", b ); 
-				InventoryArray.Insert( itemArray );
-				js.WriteToString(InventoryArray, false, Data);
-				
-				FPrintln(file,Data);
-				
-				InventoryArray.Clear();
-			}
-		}
-		
-		CloseFile(file);
-		
-		SavePlayerHand();
-	}
-	
-
-
 
 	bool CreatePlayerCharacterFromSave()
 	{
 		
 		map<string,string>arrayFromJson = new map<string,string>;
 		
-		string data = LoadPlayerCharacter();
+		string data = this.LoadPlayerCharacter();
 		
 		if ( data != "" )
 		{
@@ -567,36 +552,52 @@ class SaveManager
 				Print(jsonError);
 			}
 		
+		
 			player = PlayerBase.Cast( GetGame().CreatePlayer( NULL, arrayFromJson.Get("model"), "0 0 0", 0, "NONE") );
 			
-			player.SetPosition( arrayFromJson.Get("pos").ToVector() );
+			vector pos = arrayFromJson.Get("pos").ToVector();
+			player.SetPosition( pos );
 			
-			player.SetDirection( arrayFromJson.Get("dir").ToVector() );
+			vector dir = arrayFromJson.Get("dir").ToVector();
+			player.SetDirection( dir );
 			
-			player.SetHealth("","", arrayFromJson.Get("health").ToFloat() );
+			float health = arrayFromJson.Get("health").ToFloat();
+			player.SetHealth("","", health );
 			
-			player.SetHealth("GlobalHealth", "Blood", arrayFromJson.Get("blood").ToFloat());
+			float blood = arrayFromJson.Get("blood").ToFloat();
+			player.SetHealth("GlobalHealth", "Blood", blood );
 			
-			player.GetStatTemperature().Set(arrayFromJson.Get("temperature").ToFloat());
+			float bloodtype = arrayFromJson.Get("bloodtype").ToFloat();
+			player.GetStatBloodType().Set( bloodtype );
 			
-			player.GetStatEnergy().Set(arrayFromJson.Get("energy").ToFloat());
+			float temperature = arrayFromJson.Get("temperature").ToFloat();
+			player.GetStatTemperature().Set( temperature );
 			
-			player.GetStatWater().Set(arrayFromJson.Get("water").ToFloat());
+			float energy = arrayFromJson.Get("energy").ToFloat();
+			player.GetStatEnergy().Set( energy );
 			
-			player.GetStatStomachWater().Set(arrayFromJson.Get("stomachwater").ToFloat());
+			float water = arrayFromJson.Get("water").ToFloat();
+			player.GetStatWater().Set( water );
 			
-			player.GetStatStomachEnergy().Set(arrayFromJson.Get("stomachenergy").ToFloat());
+			float stomachwater = arrayFromJson.Get("stomachwater").ToFloat();
+			player.GetStatStomachWater().Set( stomachwater );
 			
-			player.GetStatHeatComfort().Set(arrayFromJson.Get("heatcomfort").ToFloat());
+			float stomachenergy = arrayFromJson.Get("stomachenergy").ToFloat();
+			player.GetStatStomachEnergy().Set( stomachenergy );
 			
-			player.GetStatStomachSolid().Set(arrayFromJson.Get("stomachsolid").ToFloat());
+			float heatcomfort = arrayFromJson.Get("heatcomfort").ToFloat();
+			player.GetStatHeatComfort().Set( heatcomfort );
 			
-			player.GetStatWet().Set(arrayFromJson.Get("wet").ToFloat());
+			float stomachsolid = arrayFromJson.Get("stomachsolid").ToFloat();
+			player.GetStatStomachSolid().Set( stomachsolid );
 			
-			player.GetStatShock().Set(arrayFromJson.Get("shock").ToFloat());
+			float wet = arrayFromJson.Get("wet").ToFloat();
+			player.GetStatWet().Set( wet );
 			
-			player.GetStatBloodType().Set(arrayFromJson.Get("bloodtype").ToFloat());
+			float shock = arrayFromJson.Get("shock").ToFloat();
+			player.GetStatShock().Set( shock );
 			
+	
 			CreatePlayerHandsFromSave(); 
 			
 			return true;
@@ -610,11 +611,14 @@ class SaveManager
 	void CreatePlayerHandsFromSave() 
 	{
 		map<string,string>arrayFromJson = new map<string,string>;
+		
 		string jsonError;
+		
 		EntityAI itemEnt, itemIn;
+		
 		ItemBase itemBs;
 		
-		string data = LoadPlayerHands();
+		string data = this.LoadPlayerHands();
 		
 		if ( data != "" )
 		{
@@ -628,13 +632,15 @@ class SaveManager
 			
 			TStringArray arrayAttach = new TStringArray;	 
 			
-			js.ReadFromString( arrayAttach, arrayFromJson.Get("attachment"), jsonError );
+			string attachments = arrayFromJson.Get("attachments");
+			js.ReadFromString( arrayAttach, attachments, jsonError );
 			
-			itemEnt = player.GetHumanInventory().CreateInHands( arrayFromJson.Get("type") );
+			string type = arrayFromJson.Get("type");
+			itemEnt = player.GetHumanInventory().CreateInHands( type );
 			
-			CreatePlayerQuickBarFromSave(itemEnt);
+			this.CreatePlayerQuickBarFromSave( itemEnt );
 			
-			itemBs = ItemBase.Cast(itemEnt);
+			itemBs = ItemBase.Cast( itemEnt );
 			
 			if (arrayAttach.Count() > 0 ) 
 			{
@@ -646,20 +652,22 @@ class SaveManager
 				}
 			}
 			
+			float health = arrayFromJson.Get("health").ToFloat();
+			itemBs.SetHealth("","", health );
 			
-			itemBs.SetHealth("","", arrayFromJson.Get("health").ToInt() );
+			float wet = arrayFromJson.Get("wet").ToFloat();
+			itemBs.SetWet( wet );
 			
-			itemBs.SetWet( arrayFromJson.Get("wet").ToFloat() );
-			
+			float qty = arrayFromJson.Get("qty").ToFloat();
 			if ( itemEnt.IsInherited(Magazine) )
 			{
 				Magazine magazine = Magazine.Cast( itemEnt );
 				
-				magazine.LocalSetAmmoCount( arrayFromJson.Get("qty").ToFloat() );
+				magazine.LocalSetAmmoCount( qty );
 				
 			} else {
 				
-				itemBs.SetQuantity( arrayFromJson.Get("qty").ToFloat() );
+				itemBs.SetQuantity( qty );
 			}
 		
 		}
@@ -672,8 +680,10 @@ class SaveManager
 	void CreatePlayerQuickBarFromSave(EntityAI itemEnt)
 	{
 			TStringArray arrayFromJson = new TStringArray;
+			
 			string jsonError;
-			string data = LoadPlayerQuickBar();
+			
+			string data = this.LoadPlayerQuickBar();
 			
 			if ( data != "" )
 			{
@@ -688,103 +698,13 @@ class SaveManager
 				if ( arrayFromJson.Count() > 0 )
 				{
 					int index = arrayFromJson.Find( itemEnt.GetType() );
+					
 					player.SetQuickBarEntityShortcut( itemEnt, index );
 				}
 			}
 	 }
-/*
 
-	void CreatePlayerInventoryFromSave()
-	{
-		
-		TStringArray data = LoadPlayerInventory();
-		
-		string jsonError;
-		
-		array<ref map<string,string>> arrayFromJson = new array<ref map<string,string>>;
-		
-		array<ref map<string,string>> InventoryArray = new array<ref map<string,string>>;
-		
-		for (int i = 0; i < data.Count(); i++)
-		{	
-			string json = data.Get(i);
-			// Print("JSON: " + json);
-			bool ok = js.ReadFromString( arrayFromJson, json, jsonError );
-			
-			if(!ok)
-			{
-				Print(jsonError);
-			}
-			
-			InventoryArray.Insert( arrayFromJson[0] );
-			// Print(arrayFromJson[0]);
-		}
-		
-	
-
-		float qty, health, wet;
-		string item, attJson;
-		EntityAI itemEnt, itemIn;
-		ItemBase itemBs;
-		
-		for (int j = 0; j < InventoryArray.Count(); j++)
-		{	
-			
-			item = InventoryArray.Get(j).Get("type");
-			
-			qty = InventoryArray.Get(j).Get("qty").ToFloat();
-			
-			health = InventoryArray.Get(j).Get("health").ToFloat();
-			
-			wet = InventoryArray.Get(j).Get("wet").ToFloat();
-			
-			attJson = InventoryArray.Get(j).Get("attachment");
-			
-			TStringArray attArray;
-			
-			js.ReadFromString( attArray, attJson, jsonError );
-			
-			// Print(attArray);
-			
-			itemEnt = player.GetInventory().CreateInInventory(item);
-			
-			CreatePlayerQuickBarFromSave(itemEnt);
-			
-			itemBs = ItemBase.Cast(itemEnt);
-			
-			if ( attArray.Count() > 0 ) 
-			{
-				ref array<EntityAI> hasAttachment = new array<EntityAI>;
-				for (int k = 0; k < attArray.Count(); k++)
-				{	
-					itemIn = itemEnt.GetInventory().CreateAttachment( attArray.Get(k) );
-						
-					SetRandomHealth( itemIn );
-				}
-			}	
-
-		
-			itemBs = ItemBase.Cast(itemEnt);
-			
-			itemBs.SetHealth("","",health);
-			
-			itemBs.SetWet(wet);
-				
-			if ( itemEnt.IsInherited(Magazine) )
-			{
-				Magazine magazine = Magazine.Cast( itemEnt );
-				
-				magazine.LocalSetAmmoCount(qty);
-				// magazine.ServerSetAmmoCount(qty);		
-			} else {
-				
-				itemBs.SetQuantity(qty);
-			}
-			
-		}
-		
-	 }
-	*/ 
+	 
 	 
 	void CreatePlayerInventory()
 	{
@@ -898,28 +818,28 @@ class SaveManager
 	
 	string LoadPlayerQuickBar()
 	{	
-		return ReadFile(BASE_PLAYERDIR + QB_FILE);
+		return this.ReadFile(BASE_PLAYERDIR + QB_FILE);
 	}
 	
 	
 	
 	string LoadPlayerHands()
 	{	
-		return ReadFile(BASE_PLAYERDIR + HND_FILE);
+		return this.ReadFile(BASE_PLAYERDIR + HND_FILE);
 	}
 	
 
 	
 	string LoadPlayerInventory()
 	{	
-		return ReadFile(BASE_PLAYERDIR + INV_FILE);
+		return this.ReadFile(BASE_PLAYERDIR + INV_FILE);
 	}
 	
 	
 	
 	string LoadPlayerCharacter()
 	{	
-		return ReadFile(BASE_PLAYERDIR + CHAR_FILE);
+		return this.ReadFile(BASE_PLAYERDIR + CHAR_FILE);
 	}
 
 	
@@ -1003,11 +923,13 @@ class SaveManager
 	void DeletePlayer()
 	{
 
-		DelFile(BASE_DIR + HND_FILE);
+		this.DelFile(BASE_PLAYERDIR + CHAR_FILE);
 		
-		DelFile(BASE_DIR + CHAR_FILE);
+		this.DelFile(BASE_PLAYERDIR + INV_FILE);
 		
-		DelFile(BASE_DIR + INV_FILE);
+		this.DelFile(BASE_PLAYERDIR + HND_FILE);
+		
+		this.DelFile(BASE_PLAYERDIR + QB_FILE);
 	}
 	
 	
