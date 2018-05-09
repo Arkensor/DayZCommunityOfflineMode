@@ -14,11 +14,13 @@
 class CommunityOfflineMode : MissionGameplay
 {
 	
-	protected bool DISABLE_RESPAWN_ONRESTART = true; // enable(true) / disable(false) - Player Respawn on Restart
-	protected bool DISABLE_HIVE = false;	 // enable(true) / disable(false) - Hive
+
+	protected bool DISABLE_RESPAWN_ONRESTART = true; // disable(true) / enable(fale) - Player Respawn on Restart
+	protected bool DISABLE_HIVE = false;	 		// disable(true) / enable(false) - Hive
 	
 	private ref set<ref Module> m_Modules;
 	
+	PlayerBase m_oPlayer;
 	protected ref SaveManager sm; 
 	
 	//Patches
@@ -29,7 +31,6 @@ class CommunityOfflineMode : MissionGameplay
 	protected bool m_bLoaded = false;
 
 	//For freecam and utils
-    protected PlayerBase m_oPlayer;
 	protected Camera m_oCamera;
 	
 	protected bool m_bDebugMonitor = false;
@@ -63,7 +64,7 @@ class CommunityOfflineMode : MissionGameplay
 		m_MouseButtons.Insert ( new MouseButtonInfo( MouseState.MIDDLE ) );
 		
 		// register modules
-		RegisterModules();
+		this.RegisterModules();
 		
 		sm = new SaveManager(); 
 	}
@@ -98,13 +99,13 @@ class CommunityOfflineMode : MissionGameplay
 	{
 		super.OnInit();
 
-        SetupWeather();
+        this.SetupWeather();
 
-		SpawnPlayer();
+		this.SpawnPlayer();
 		
-		InitHive();
+		this.InitHive();
 		
-		InitializeModules();
+		this.InitializeModules();
 	}
 	
 	Module GetModule(typename module_Type)
@@ -212,7 +213,7 @@ class CommunityOfflineMode : MissionGameplay
 
 		UpdateAutoWalk();
 
-		UpdateEditor();
+		// UpdateEditor(); --- Missing / Removed ??
 		
 		for ( int i = 0; i < m_Modules.Count(); ++i) 
 		{
@@ -316,14 +317,14 @@ class CommunityOfflineMode : MissionGameplay
 					{
 						if ( time_delta_release < DOUBLE_CLICK_TIME )
 						{
-							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_DOUBLECLICK ) 
+							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_DOUBLECLICK ) )
 							{
 								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
 							}
 						}
 						else if ( time_delta_press < CLICK_TIME )
 						{
-							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_CLICK ) 
+							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_CLICK ) )
 							{
 								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
 							}
@@ -353,7 +354,7 @@ class CommunityOfflineMode : MissionGameplay
 		
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
-			Module module = m_Modules.Get(i)
+			Module module = m_Modules.Get(i);
 
 			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb ) 
 			{
@@ -380,7 +381,7 @@ class CommunityOfflineMode : MissionGameplay
 
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
-			Module module = m_Modules.Get(i)
+			Module module = m_Modules.Get(i);
 
 			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb ) 
 			{
@@ -631,7 +632,7 @@ class CommunityOfflineMode : MissionGameplay
 				
 				EntityAI oCar = EntityAI.Cast( GetGame().CreateObject( "CivilianSedan", GetCursorPos(), false, true ) );
 				
-				for (int i = 0; i < attArr.Count(); i++) { oCar.GetInventory().CreateAttachment( attArr.Get(i) ); }
+				for (int j = 0; j < attArr.Count(); j++) { oCar.GetInventory().CreateAttachment( attArr.Get(j) ); }
 				
 				oCar.SetAllowDamage( false );
 				
@@ -698,7 +699,7 @@ class CommunityOfflineMode : MissionGameplay
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
 			
-			Module module = m_Modules.Get(i)
+			Module module = m_Modules.Get(i);
 
 			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb ) 
 			{

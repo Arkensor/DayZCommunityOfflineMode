@@ -45,8 +45,8 @@ class ObjectEditor extends Module
 		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KB_EVENT_RELEASE ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
 		
 		objectSelect.AddMouseBind( MouseState.LEFT		, MB_EVENT_CLICK ); // Left Click
-		objectDrag.  AddMouseBind( MouseState.LEFT 		, MB_EVENT_DRAG  );
-		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 ) // Doesn't matter what event for wheel
+		objectDrag.AddMouseBind( MouseState.LEFT 		, MB_EVENT_DRAG  );
+		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 ); // Doesn't matter what event for wheel
 		objectGround.AddMouseBind( MouseState.MIDDLE	, MB_EVENT_CLICK );
 		
 		RegisterKeyMouseBinding( toggleEditor );
@@ -63,12 +63,12 @@ class ObjectEditor extends Module
 		m_ObjectEditorActive = !m_ObjectEditorActive;
 		
 		if ( m_ObjectEditorActive ) 
-		{
-			m_Mission.GetPlayer().MessageStatus("Object Editor Enabled");
+		{	
+			GetPlayer().MessageStatus("Object Editor Enabled");
 		} 
 		else 
 		{
-			m_Mission.GetPlayer().MessageStatus("Object Editor Disabled");
+			GetPlayer().MessageStatus("Object Editor Disabled");
 		}
 	}
 
@@ -79,7 +79,7 @@ class ObjectEditor extends Module
 
 	void SelectObject( Object object )
 	{
-		if ( ( ( m_SelectedObject != NULL ) && ( m_SelectedObject == object ) ) || object.IsInherited( PlayerBase ) )
+		if ( ( ( m_SelectedObject != NULL ) && ( m_SelectedObject == object ) ) || object.IsInherited( PlayerBase ) );
 		{
 			return;
 		}
@@ -194,12 +194,12 @@ class ObjectEditor extends Module
 			SelectObject( obj );
 			selected = true;
 			
-			m_Mission.GetPlayer().MessageStatus("Selected object.");
+			GetPlayer().MessageStatus("Selected object.");
 		}
 	
 		if ( !selected && m_SelectedObject )
 		{
-			m_Mission.GetPlayer().MessageStatus("Current object deselected.");
+			GetPlayer().MessageStatus("Current object deselected.");
 			DeselectObject();
 		}
 	}

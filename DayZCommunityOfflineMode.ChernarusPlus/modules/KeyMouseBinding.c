@@ -194,7 +194,7 @@ class KeyMouseBinding
 	
 	string GetShortcut() 
 	{
-		return k_m_Shortcut
+		return k_m_Shortcut;
 	}
 	
 	string GetDescription() 
