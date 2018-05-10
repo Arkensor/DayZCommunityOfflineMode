@@ -21,6 +21,7 @@ class CommunityOfflineMode : MissionGameplay
 	private ref set<ref Module> m_Modules;
 	
 	PlayerBase m_oPlayer;
+	private ref set<ref PlayerBase> FixPlayerNullOnMissionFinish;  // fix for GetGame().GetPlayer() returns NULL -> OnMissionFinish()
 	protected ref SaveManager sm; 
 	
 	//Patches
@@ -151,7 +152,7 @@ class CommunityOfflineMode : MissionGameplay
 
 	override void OnMissionFinish()
 	{
-		PlayerBase  player = PlayerBase.Cast( GetGame().GetPlayer() );
+		PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
 
 		if (player != NULL)
 		{
@@ -891,6 +892,7 @@ class CommunityOfflineMode : MissionGameplay
 	}
 	
 	
+	
 	void SpawnPlayer()
     {
 		TStringArray Bags, Hands, Tops, Vests, Pants, Shoes;
@@ -927,7 +929,9 @@ class CommunityOfflineMode : MissionGameplay
 		
 		
 		m_oPlayer =	sm.SpawnPlayer();
-
+		
+		FixPlayerNullOnMissionFinish = new set<ref PlayerBase>;
+		FixPlayerNullOnMissionFinish.Insert( m_oPlayer );
     }
 	
 	void InitHive()
