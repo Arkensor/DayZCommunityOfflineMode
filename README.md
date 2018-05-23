@@ -11,6 +11,18 @@ Yes the code might be messy, yes there are things that do not look like they sho
 DayZ is not opened for modding or scripting, so this is pretty much a hacky solution to everything.  
 If you want to improve something, go ahead and create a pullrequest ;)
 
+# Installation:
+Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v1.8/DayZ.Community.OfflineMode.zip) zip archive.  
+Make sure you are on the "stress test" beta branch on steam. See [this link](https://dayz.com/blog/0-63-stress-tests) for details on how to switch on it!  
+
+Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
+Even though this is not directly bannable by Battleye, just to make sure: Rename your Battleye folder to Battleye.disabled, and rename the DayZ_BE.exe to DayZ_BE.exe.disabled.
+
+Now you now start the script ```DayZ/Missions/DayZCommunityOfflineMode.ChernarusPlus/Reset Hive and Play.bat``` to start the game. You will be loaded directly into the offline mode.  
+Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ChernarusPlus```
+
+To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders back to their original name.   
+You might delete your whole ```Missions``` folder and validate your game files via steam to get the original DayZ files back.
 
 # Controls:
 * X - Toggle Autowalk
