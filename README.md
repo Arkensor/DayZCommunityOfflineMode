@@ -18,7 +18,7 @@ Make sure you are on the "stress test" beta branch on steam. See [this link](htt
 Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
 Even though this is not directly bannable by Battleye, just to make sure: Rename your Battleye folder to Battleye.disabled, and rename the DayZ_BE.exe to DayZ_BE.exe.disabled.
 
-Now you now start the script ```DayZ/Missions/DayZCommunityOfflineMode.ChernarusPlus/Reset Hive and Play.bat``` to start the game. You will be loaded directly into the offline mode.  
+Now you now start the script ```DayZ/Missions/DayZCommunityOfflineMode.ChernarusPlus/DayZCommunityOfflineMode.bat``` to start the game. You will be loaded directly into the offline mode.  
 Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ChernarusPlus```
 
 To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders back to their original name.   
