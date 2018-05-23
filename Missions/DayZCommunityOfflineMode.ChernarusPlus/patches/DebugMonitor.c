@@ -8,7 +8,7 @@ class DebugMonitorPatched : DebugMonitor
 		
 	void DebugMonitorPatched()
 	{		
-		m_WidgetRootPatched = GetGame().GetWorkspace().CreateWidgets("gui/layouts/day_z_debug_monitor.layout");
+		m_WidgetRootPatched = GetGame().GetWorkspace().CreateWidgets("gui/layouts/debug/day_z_debug_monitor.layout");
 		m_WidgetRootPatched.Show(false);
 		
 		m_pWindowLabelTextPatched = TextWidget.Cast( m_WidgetRootPatched.FindAnyWidget("WindowLabel") );
