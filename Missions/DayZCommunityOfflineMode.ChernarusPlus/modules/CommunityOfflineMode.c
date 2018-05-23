@@ -5,17 +5,15 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\SaveManager.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
-
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
-
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
 class CommunityOfflineMode : MissionGameplay
 {
 	
 
-	protected bool DISABLE_RESPAWN_ONRESTART = true; // disable(true) / enable(fale) - Player Respawn on Restart
+	protected bool DISABLE_RESPAWN_ONRESTART = true; // disable(true) / enable(fale) - Player Respawn on Restart (if dead)
 	protected bool DISABLE_HIVE = false;	 		// disable(true) / enable(false) - Hive
 	
 	private ref set<ref Module> m_Modules;
@@ -53,6 +51,8 @@ class CommunityOfflineMode : MissionGameplay
 	protected const int HOLD_CLICK_TIME_MIN	= 200; //ms
 	protected const int DOUBLE_CLICK_TIME	= 300; //ms
 	
+	
+	
 	void CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::CommunityOfflineMode()" );
@@ -67,8 +67,9 @@ class CommunityOfflineMode : MissionGameplay
 		// register modules
 		this.RegisterModules();
 		
-		sm = new SaveManager(this); 
+		sm = new SaveManager(this);
 	}
+	
 	
 	
 	void ~CommunityOfflineMode()
@@ -81,11 +82,14 @@ class CommunityOfflineMode : MissionGameplay
 		}
 	}
 
+	
+	
 	void RegisterModules()
 	{
-		m_Modules.Insert(new ObjectEditor(this));
-		m_Modules.Insert(new CameraTool(this));
+		m_Modules.Insert( new ObjectEditor(this) );
+		m_Modules.Insert( new CameraTool(this) );
 	}
+	
 	
 	void InitializeModules()
 	{
@@ -94,7 +98,9 @@ class CommunityOfflineMode : MissionGameplay
 		{
 			m_Modules.Get(i).Init();
 		}
+		
 	}
+	
 	
 	override void OnInit()
 	{
@@ -107,8 +113,10 @@ class CommunityOfflineMode : MissionGameplay
 		this.InitHive();
 		
 		this.InitializeModules();
+		
 	}
 	
+
 	Module GetModule(typename module_Type)
 	{
 		for ( int i = 0; i < m_Modules.Count(); ++i)
@@ -122,6 +130,8 @@ class CommunityOfflineMode : MissionGameplay
 		return NULL;
 	}
 
+	
+	
 	protected MouseButtonInfo GetMouseButtonInfo( int button )
 	{	
 		for ( int i = 0; i < m_MouseButtons.Count(); ++i )
@@ -135,6 +145,8 @@ class CommunityOfflineMode : MissionGameplay
 		}
 		return NULL;
 	}
+	
+	
 	
 	override void OnMissionStart()
 	{
@@ -150,6 +162,8 @@ class CommunityOfflineMode : MissionGameplay
 		m_debugMonitorPatched.Hide();
 	}
 
+	
+	
 	override void OnMissionFinish()
 	{
 		PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
@@ -175,6 +189,7 @@ class CommunityOfflineMode : MissionGameplay
 	}
 
 	
+	
     void OnMissionLoaded()
     {
         GetGame().GetUIManager().ScreenFadeOut( 0 );
@@ -186,6 +201,7 @@ class CommunityOfflineMode : MissionGameplay
     }
 
 
+	
 	override void OnUpdate( float timeslice )
 	{
 	    super.OnUpdate( timeslice );
@@ -208,6 +224,26 @@ class CommunityOfflineMode : MissionGameplay
 			m_oPlayer.GetStatStomachWater().Set(300);
 			m_oPlayer.GetStatStomachEnergy().Set(300);
 			m_oPlayer.GetStatHeatComfort().Set(0);
+			
+			EntityAI oWeapon = m_oPlayer.GetHumanInventory().GetEntityInHands();
+
+			if( oWeapon )
+			{
+				Magazine oMag = ( Magazine ) oWeapon.GetAttachmentByConfigTypeName( "DefaultMagazine" );
+
+				if( oMag && oMag.IsMagazine() )
+				{
+					oMag.LocalSetAmmoMax();
+				}
+				
+				Object oSupressor = ( Object ) oWeapon.GetAttachmentByConfigTypeName( "SuppressorBase" );
+
+				if( oSupressor )
+				{
+					oSupressor.SetHealth( oSupressor.GetMaxHealth( "", "" ) );
+				}
+			}
+			
 		}
 		
 		UpdateDebugMonitor();
@@ -291,6 +327,8 @@ class CommunityOfflineMode : MissionGameplay
 		}
 	}
 	
+	
+	
 	override void OnMouseButtonRelease(int button)
 	{
 		super.OnMouseButtonRelease(button);
@@ -345,6 +383,9 @@ class CommunityOfflineMode : MissionGameplay
 		button_info.Release();
 	}
 	
+	
+	
+	
 	override void OnMouseButtonPress( int button )
 	{
 		super.OnMouseButtonPress( button );
@@ -375,6 +416,9 @@ class CommunityOfflineMode : MissionGameplay
 			module.onMouseButtonPress( button ); // extra utility
 		}
 	}
+	
+	
+	
 	
 	override void OnKeyPress( int key )
 	{
@@ -693,6 +737,8 @@ class CommunityOfflineMode : MissionGameplay
 		}	
 	}
 	
+	
+	
 	override void OnKeyRelease(int key)
 	{
 		super.OnKeyRelease(key);
@@ -775,6 +821,9 @@ class CommunityOfflineMode : MissionGameplay
 		}
 	}
 
+	
+	
+	
     override void CreateDebugMonitor()
     {
         if (!m_debugMonitorPatched)
@@ -784,6 +833,9 @@ class CommunityOfflineMode : MissionGameplay
         }
     }
 
+	
+	
+	
     override void UpdateDebugMonitor()
     {
         if (!m_debugMonitorPatched) return;
@@ -797,6 +849,9 @@ class CommunityOfflineMode : MissionGameplay
         }
     }
 
+	
+	
+	
     void UpdateAutoWalk()
     {
         if( m_nAutoWalkMode )
@@ -815,6 +870,9 @@ class CommunityOfflineMode : MissionGameplay
         }
     }
 
+	
+	
+	
     void SetupWeather()
     {
         //Offical DayZ SA weather code
@@ -871,25 +929,10 @@ class CommunityOfflineMode : MissionGameplay
 		return class_names.GetRandomElement();
 	}
 
-	bool CTRL()
-	{
-		return m_IsCtrlHolding;
-	}
-
-	bool WIN()
-	{
-		return m_IsWinHolding;
-	}
-
-	bool SHIFT()
-	{
-		return ( m_IsLeftShiftHolding || m_IsRightShiftHolding );
-	}
-
-	bool ALT()
-	{
-		return ( m_IsLeftAltHolding || m_IsRightAltHolding );
-	}
+	bool CTRL() return m_IsCtrlHolding;
+	bool WIN() return m_IsWinHolding;
+	bool SHIFT() return ( m_IsLeftShiftHolding || m_IsRightShiftHolding );
+	bool ALT() return ( m_IsLeftAltHolding || m_IsRightAltHolding );
 	
 	
 	
@@ -928,29 +971,32 @@ class CommunityOfflineMode : MissionGameplay
 		sm.SetPlayerInventory( "AKM", 0, {"Mag_AKM_30Rnd","AK_WoodBttstck", "AK_WoodHndgrd","AK_Suppressor"} );
 		
 		
-		m_oPlayer =	sm.SpawnPlayer();
+		m_oPlayer = sm.SpawnPlayer();
 		
 		FixPlayerNullOnMissionFinish = new set<ref PlayerBase>;
+		
 		FixPlayerNullOnMissionFinish.Insert( m_oPlayer );
     }
 	
+	
+	
 	void InitHive()
 	{
-		if (!DISABLE_HIVE)
-		{
-			Hive oHive = GetHive();
+		if (DISABLE_HIVE) return;
+	
+		Hive oHive = GetHive();
 		
-			if( !oHive )
-			{
-				oHive = CreateHive();
-			}
-
-			if( oHive )
-			{
-				oHive.InitOffline();
-			}
+		if( !oHive )
+		{
+			oHive = CreateHive();
+		}
+		if( oHive )
+		{
+			oHive.InitOffline();
 		}
 	}
+	
+	
 	
 	TStringArray WorkingZombieClasses()
 	{

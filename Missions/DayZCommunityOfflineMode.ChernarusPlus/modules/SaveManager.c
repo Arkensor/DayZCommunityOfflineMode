@@ -1,6 +1,7 @@
-class SaveManager 
+class SaveManager
 {
-	PlayerBase player;
+	PlayerBase player = NULL;
+	
 	protected CommunityOfflineMode m_Mission;
 	
 	protected const string BASE_DIR = "$saves:CommunityOfflineMode//"; // Default[windows]: /Documents/DayZ/CommunityOfflineMode
@@ -22,18 +23,19 @@ class SaveManager
 	protected ref map<string, ref TStringArray> itemsAttachArray = new map<string, ref TStringArray>;
 	
 
-	
-	
-	void SaveManager(CommunityOfflineMode m_Mission , int t = 30)
+	void SaveManager(CommunityOfflineMode m_Mission = NULL , int t = 30)
 	{
 		timer = t;
 		
-		player = m_Mission.m_oPlayer;
+		if ( m_Mission != NULL ) 
+		{
+			player = m_Mission.m_oPlayer;
+		}
+		
 		
 		this.CreateDir(BASE_PLAYERDIR);
 		
 	}
-	
 	
 	
 	void ~SaveManager()
@@ -52,11 +54,15 @@ class SaveManager
 		
 	}
 	
-	
-	
+
+
 	void ProcessPlayerSaves()
 	{
+		
+		
 		if ( !player ) return;
+		
+		Print("SaveManager::ProcessPlayerSaves - " + player );
 		
 		// Print(player.GetPlayerState());
 	
@@ -305,6 +311,26 @@ class SaveManager
 		string model = player.GetType();
 		tempArray.Insert( "model", model );
 		
+		string pos = player.GetPosition().ToString();
+		pos.Replace("<", "");
+		pos.Replace(">", "");
+		pos.Replace(",", "");
+		tempArray.Insert( "pos", pos );
+		
+		string dir = player.GetDirection().ToString();
+		dir.Replace("<", "");
+		dir.Replace(">", "");
+		dir.Replace(",", "");
+		tempArray.Insert( "dir", dir );
+		
+		
+		string ori = player.GetOrientation().ToString();
+		dir.Replace("<", "");
+		dir.Replace(">", "");
+		dir.Replace(",", "");
+		tempArray.Insert( "ori", dir );
+		
+		
 		string health = player.GetHealth("","").ToString();
 		tempArray.Insert( "health", health ); 
 		
@@ -341,21 +367,12 @@ class SaveManager
 		string shock = player.GetStatShock().Get().ToString();
 		tempArray.Insert( "shock", shock );
 		
-		string pos = player.GetPosition().ToString();
+		string tremor = player.GetStatTremor().Get().ToString();
+		tempArray.Insert( "tremor", tremor );
+
+		string stamina = player.GetStatStamina().Get().ToString();
+		tempArray.Insert( "stamina", stamina );
 		
-		pos.Replace("<", "");
-		pos.Replace(">", "");
-		pos.Replace(",", "");
-		
-		tempArray.Insert( "pos", pos );
-		
-		string dir = player.GetDirection().ToString();
-		
-		dir.Replace("<", "");
-		dir.Replace(">", "");
-		dir.Replace(",", "");
-		
-		tempArray.Insert( "dir", dir );
 		
 		js.WriteToString(tempArray, false, Data);
 		
@@ -546,7 +563,7 @@ class SaveManager
 					
 					string cargo = itemArray.Get("cargo");
 				
-					if ( cargo != "{}" && cargo != "" )
+					if ( cargo != "{}"  && cargo != "[]" && cargo != "" )
 					{
 						temp = new TStringArray;
 						
@@ -558,7 +575,7 @@ class SaveManager
 				
 					string attachments = itemArray.Get("attachments");
 				
-					if ( attachments != "{}" && attachments != "" )
+					if ( attachments != "{}" && attachments != "[]" && attachments != "" )
 					{	
 						temp = new TStringArray;
 						
@@ -606,13 +623,16 @@ class SaveManager
 			vector dir = arrayFromJson.Get("dir").ToVector();
 			player.SetDirection( dir );
 			
+			vector ori = arrayFromJson.Get("ori").ToVector();
+			player.SetOrientation( ori );
+			
 			float health = arrayFromJson.Get("health").ToFloat();
 			player.SetHealth("","", health );
 			
 			float blood = arrayFromJson.Get("blood").ToFloat();
 			player.SetHealth("GlobalHealth", "Blood", blood );
 			
-			float bloodtype = arrayFromJson.Get("bloodtype").ToFloat();
+			int bloodtype = arrayFromJson.Get("bloodtype").ToInt();
 			player.GetStatBloodType().Set( bloodtype );
 			
 			float temperature = arrayFromJson.Get("temperature").ToFloat();
@@ -641,6 +661,12 @@ class SaveManager
 			
 			float shock = arrayFromJson.Get("shock").ToFloat();
 			player.GetStatShock().Set( shock );
+			
+			float tremor = arrayFromJson.Get("tremor").ToFloat();
+			player.GetStatTremor().Set( tremor );
+			
+			float stamina = arrayFromJson.Get("stamina").ToFloat();
+			player.GetStatStamina().Set( stamina );
 			
 	
 			CreatePlayerHandsFromSave(); 
