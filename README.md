@@ -56,6 +56,20 @@ Spawn in new items using the object spawner menu: DELETE
 * SHIFT + SCROLL WHEEL - Pitch
 * ALT + SCROLL WHEEL - Roll
 
+# Logfiles:
+In case you want to report errors to us or the offical dayz dev team, you might need logfile info.
+We also save the positions you printed ingame in it so that you might revisit them later on by saving them in some textfile.
+Locations are stored inside the script.log for now.
+
+You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/DayZ -> Hit enter```. 
+
+# Future:
+* Adding a dedicated logfile
+* Adding persitent settings and stats saving
+* Adding a cinematic manager for content creators
+* GUI for the object manager
+* More functions for the object manager
+* ~~More adjustments to the freecam to feature fov options etc~~ ✓
 
 # Contributors:
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
