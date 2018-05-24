@@ -1,4 +1,7 @@
 # DayZCommunityOfflineMode
+
+**More updates coming soon!**
+
 DayZ Community Offline Mode is a small sideproject to offer all of you,  
 who did not have the chance to play on a stress test server for long alreay, the chance to enjoy the 0.63 stress test update.  
 There is not much to do ingame, but you can explore the map, fight some infected, test your hardware limits by spawning alot of them
