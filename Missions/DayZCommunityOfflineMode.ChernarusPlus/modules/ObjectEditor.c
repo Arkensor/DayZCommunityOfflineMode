@@ -79,7 +79,7 @@ class ObjectEditor extends Module
 
 	void SelectObject( Object object )
 	{
-		if ( ( ( m_SelectedObject != NULL ) && ( m_SelectedObject == object ) ) || object.IsInherited( PlayerBase ) );
+		if ( ( ( m_SelectedObject != NULL ) && ( m_SelectedObject == object ) ) || object.IsInherited( PlayerBase ) )
 		{
 			return;
 		}
