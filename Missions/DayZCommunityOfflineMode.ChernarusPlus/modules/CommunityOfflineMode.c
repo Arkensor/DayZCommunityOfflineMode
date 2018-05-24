@@ -7,6 +7,7 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CustomPluginLifespan.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
 class CommunityOfflineMode : MissionGameplay
@@ -20,7 +21,8 @@ class CommunityOfflineMode : MissionGameplay
 	
 	PlayerBase m_oPlayer;
 	private ref set<ref PlayerBase> FixPlayerNullOnMissionFinish;  // fix for GetGame().GetPlayer() returns NULL -> OnMissionFinish()
-	protected ref SaveManager sm; 
+	protected ref SaveManager sm;
+	ref CustomPluginLifespan cpl;
 	
 	//Patches
 	protected ref DebugMonitorPatched m_debugMonitorPatched;
@@ -68,6 +70,11 @@ class CommunityOfflineMode : MissionGameplay
 		this.RegisterModules();
 		
 		sm = new SaveManager(this);
+        
+		// for beard
+		g_Game.SetMissionState(DayZGame.MISSION_STATE_GAME);
+		SetDispatcher(new DispatcherCaller);
+		cpl = new CustomPluginLifespan();
 	}
 	
 	
@@ -251,6 +258,12 @@ class CommunityOfflineMode : MissionGameplay
 		UpdateAutoWalk();
 
 		// UpdateEditor(); --- Missing / Removed ??
+        
+		if(m_oPlayer) {
+		    m_oPlayer.StatUpdateByTime("playtime");
+		    cpl.UpdateLifespan( m_oPlayer, true );
+		    cpl.UpdateBloodyHandsVisibility(m_oPlayer, m_oPlayer.HasBloodyHands());
+		}
 		
 		for ( int i = 0; i < m_Modules.Count(); ++i) 
 		{

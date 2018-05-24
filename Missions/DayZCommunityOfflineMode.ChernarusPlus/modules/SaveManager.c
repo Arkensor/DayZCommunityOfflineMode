@@ -1,17 +1,16 @@
 class SaveManager
 {
 	PlayerBase player = NULL;
+	CustomPluginLifespan cpl = NULL;
 	
 	protected CommunityOfflineMode m_Mission;
 	
-	protected const string BASE_DIR = "$saves:CommunityOfflineMode//"; // Default[windows]: /Documents/DayZ/CommunityOfflineMode
-	protected const string BASE_PLAYERDIR = SaveManager.BASE_DIR + "//PlayerSaves";
-	protected const string CHAR_FILE = "//character.json";
-	protected const string INV_FILE = "//inventory.json";
-	protected const string HND_FILE = "//hands.json";
-	protected const string QB_FILE = "//quickbar.json";
-	protected const string TEST_FILE1 = "//test1.json";
-	protected const string TEST_FILE2 = "//test2.json";
+	protected const string BASE_DIR = "$saves:CommunityOfflineMode"; // Default[windows]: /Documents/DayZ/CommunityOfflineMode
+	protected const string BASE_PLAYERDIR = SaveManager.BASE_DIR + "\\PlayerSaves";
+	protected const string CHAR_FILE = "\\character.json";
+	protected const string INV_FILE = "\\inventory.json";
+	protected const string HND_FILE = "\\hands.json";
+	protected const string QB_FILE = "\\quickbar.json";
 
 	protected ref JsonSerializer js = new JsonSerializer;	
 	protected string SaveFile;
@@ -30,9 +29,10 @@ class SaveManager
 		if ( m_Mission != NULL ) 
 		{
 			player = m_Mission.m_oPlayer;
+			cpl = m_Mission.cpl;
 		}
 		
-		
+		this.CreateDir(BASE_DIR);
 		this.CreateDir(BASE_PLAYERDIR);
 		
 	}
@@ -95,6 +95,7 @@ class SaveManager
 		} else {
 			
 			player = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), position, 0, "NONE") );
+			player.StatRegister("playtime");
 			
 			this.CreatePlayerInventory(); 
 		}
@@ -372,6 +373,15 @@ class SaveManager
 
 		string stamina = player.GetStatStamina().Get().ToString();
 		tempArray.Insert( "stamina", stamina );
+		
+		string playtime = player.StatGet("playtime").ToString();
+		tempArray.Insert("playtime", playtime);
+		
+		string lastshaved = player.GetLastShavedSeconds().ToString();
+		tempArray.Insert("lastshaved", lastshaved);
+		
+		string bloodyhands = player.HasBloodyHands().ToString();
+		tempArray.Insert("bloodyhands", bloodyhands);
 		
 		
 		js.WriteToString(tempArray, false, Data);
@@ -667,7 +677,27 @@ class SaveManager
 			
 			float stamina = arrayFromJson.Get("stamina").ToFloat();
 			player.GetStatStamina().Set( stamina );
+		  
+			float playtime = arrayFromJson.Get("playtime").ToFloat();
+			player.StatRegister("playtime");
+			player.StatUpdate("playtime", playtime);
 			
+			float lastshaved = arrayFromJson.Get("lastshaved").ToFloat();
+			player.SetLastShavedSeconds(lastshaved);
+			
+			string bloodyhands = arrayFromJson.Get("bloodyhands");
+			if(bloodyhands == "true") {
+				player.SetBloodyHands(true);
+			} else {
+				player.SetBloodyHands(false);
+			}
+			
+			if(cpl != NULL)
+			{
+				cpl.UpdateLifespan(player, true);
+			}
+			
+			player.SetSynchDirty();
 	
 			CreatePlayerHandsFromSave(); 
 			
@@ -918,11 +948,10 @@ class SaveManager
 	{
 		if ( !FileExist( directory ) ) 
 		{
-			FileHandle dir = OpenFile( directory, FileMode.READ );
-			
-			MakeDirectory( directory );
-			
-			CloseFile( dir );
+			if ( !MakeDirectory( directory ) )
+			{
+				Print("Error: Unable to create directory : " + directory);
+			}
 		}
 	}
 	
