@@ -7,7 +7,7 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CustomPluginLifespan.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\PluginLifespan.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
 class CommunityOfflineMode : MissionGameplay
@@ -22,7 +22,7 @@ class CommunityOfflineMode : MissionGameplay
 	PlayerBase m_oPlayer;
 	private ref set<ref PlayerBase> FixPlayerNullOnMissionFinish;  // fix for GetGame().GetPlayer() returns NULL -> OnMissionFinish()
 	protected ref SaveManager sm;
-	ref CustomPluginLifespan cpl;
+	ref PluginLifespanPatched cpl;
 	
 	//Patches
 	protected ref DebugMonitorPatched m_debugMonitorPatched;
@@ -74,7 +74,7 @@ class CommunityOfflineMode : MissionGameplay
 		// for beard
 		g_Game.SetMissionState(DayZGame.MISSION_STATE_GAME);
 		SetDispatcher(new DispatcherCaller);
-		cpl = new CustomPluginLifespan();
+		cpl = new PluginLifespanPatched();
 	}
 	
 	

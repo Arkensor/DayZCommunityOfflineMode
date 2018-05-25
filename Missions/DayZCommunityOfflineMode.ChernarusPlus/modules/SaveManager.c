@@ -1,7 +1,7 @@
 class SaveManager
 {
 	PlayerBase player = NULL;
-	CustomPluginLifespan cpl = NULL;
+	PluginLifespanPatched cpl = NULL;
 	
 	protected CommunityOfflineMode m_Mission;
 	
