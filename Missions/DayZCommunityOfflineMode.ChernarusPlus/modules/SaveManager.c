@@ -1,7 +1,7 @@
 class SaveManager
 {
 	PlayerBase player = NULL;
-	CustomPluginLifespan cpl = NULL;
+	PluginLifespanPatched cpl = NULL;
 	
 	protected CommunityOfflineMode m_Mission;
 	
@@ -125,8 +125,8 @@ class SaveManager
 	
 		Cargo cargo = entity.GetInventory().GetCargo();
 		
-			if ( cargo  )
-			{
+		if ( cargo )
+		{
 				
 				for (int i = 0; i < cargo.GetItemCount(); i++)
 				{
@@ -153,10 +153,19 @@ class SaveManager
 							tempArray.Get( itemInCargo.GetType() ).Insert( "wet", wet ); 
 							
 							string attJson = this.GetAttachedItemsAsJson( itemInCargo );
-							tempArray.Get( itemName ).Insert( "attachments", attJson ); 
+							
+							if ( attJson != "" )
+							{
+								tempArray.Get( itemName ).Insert( "attachments", attJson ); 
+							}
 							
 							string cargoJson = this.GetCargoItemsAsJson( itemInCargo );
-							tempArray.Get( itemName ).Insert( "cargo", cargoJson );
+							
+							if ( cargoJson != "" )
+							{
+								tempArray.Get( itemName ).Insert( "cargo", cargoJson );
+							}
+							
 							
 							int pos_x, pos_y;
 					
@@ -171,10 +180,13 @@ class SaveManager
 						}
 					}
 				}
-				
-			}
-
-		js.WriteToString(tempArray, false, json);
+			
+		}
+		
+		if ( tempArray.Count() > 0 ) 
+		{
+		  js.WriteToString(tempArray, false, json);
+		}
 		
 		delete tempArray;
 		
@@ -218,20 +230,30 @@ class SaveManager
 						tempArray.Get( item.GetType() ).Insert( "wet", wet ); 
 
 						string attJson = this.GetAttachedItemsAsJson( item );
-						tempArray.Get( itemName ).Insert( "attachments", attJson ); 
-
+						
+						if ( attJson != "" )
+						{
+							tempArray.Get( itemName ).Insert( "attachments", attJson ); 
+						}
+						
 						string cargoJson = this.GetCargoItemsAsJson( item );
-						tempArray.Get( itemName ).Insert( "cargo", cargoJson );
-					
+						
+						if ( cargoJson != "" )
+						{
+							tempArray.Get( itemName ).Insert( "cargo", cargoJson );
+						}
 					}
 				}
 			}
 		}
 		
 		
-		
-		js.WriteToString(tempArray, false, json);
-		
+		if ( tempArray.Count() > 0 ) 
+		{
+		  js.WriteToString(tempArray, false, json);
+		}
+	
+	
 		delete tempArray;
 		
 		return json;
@@ -275,10 +297,20 @@ class SaveManager
 			PlayerInventory.Get( typeName ).Insert( "wet", wet ); 
 			
 			string attJson = this.GetAttachedItemsAsJson( itemOnPlayer );
-			PlayerInventory.Get( typeName ).Insert( "attachments", attJson ); 
+			
+			if ( attJson != "" )
+			{
+				PlayerInventory.Get( typeName ).Insert( "attachments", attJson ); 
+			}
+			
 			
 			string cargoJson = this.GetCargoItemsAsJson( itemOnPlayer );
-			PlayerInventory.Get( typeName ).Insert( "cargo", cargoJson );
+			
+			if ( cargoJson != "" )
+			{
+				PlayerInventory.Get( typeName ).Insert( "cargo", cargoJson );
+			}
+			
 			
 			js.WriteToString(PlayerInventory, false, json);	
 			
@@ -291,12 +323,10 @@ class SaveManager
 		delete playerArray;
 		
 		delete PlayerInventory;
-		
-		delete PlayerInventory;
-		
+
 		SaveFile = BASE_PLAYERDIR + INV_FILE;
 		
-		WriteFileLn(DataArray);
+		this.WriteFileLn(DataArray);
 		
 		delete DataArray;
 	}
@@ -390,7 +420,7 @@ class SaveManager
 		
 		SaveFile = BASE_PLAYERDIR + CHAR_FILE;
 		
-		WriteFile(Data);
+		this.WriteFile(Data);
 	}
 	
 	
@@ -419,7 +449,7 @@ class SaveManager
 		
 		SaveFile = BASE_PLAYERDIR + QB_FILE;
 		
-		WriteFile(Data);
+		this.WriteFile(Data);
 	}
 	
 	
@@ -431,51 +461,48 @@ class SaveManager
 		
 		string Data = "";
 		
+		ref map<string,ref map<string,string>> tempArray =  new map<string, ref map<string,string>>;
+		
 		ItemBase hands = player.GetHumanInventory().GetEntityInHands();
 	
 		if ( hands != NULL )
 		{
-			TStringArray attachmentArray = new TStringArray;
+			string typeName = hands.GetType();
+			tempArray.Insert( typeName, new map<string, string> );
 			
-			map<string,string>itemArray = new map<string,string>;
-			
-			string typName = hands.GetType();
-			itemArray.Insert( "type", typName );
-			
-			string health = hands.GetHealth("","").ToString();
-			itemArray.Insert( "health", health );
+			string health = hands.GetHealth("","").ToString();			
+			tempArray.Get( typeName ).Insert( "health", health );
 			
 			string qty = GetItemQuantity(hands).ToString();
-			itemArray.Insert( "qty", qty );
+			tempArray.Get( typeName ).Insert( "qty", qty );
 			
 			string wet = hands.GetWet().ToString();
-			itemArray.Insert( "wet", wet ); 
+			tempArray.Get( typeName ).Insert( "wet", wet );
 			
-			string b = "";	
 			
-			for (int j = 0; j < hands.GetInventory().AttachmentCount(); j++)
-			{		
-				ItemBase attachment;
-				
-				attachment = hands.GetInventory().GetAttachmentFromIndex(j);
-				
-				attachmentArray.Insert(attachment.GetType());
+			string attJson = this.GetAttachedItemsAsJson( hands );
+			if ( attJson != "" )
+			{
+				tempArray.Get( typeName ).Insert( "attachments", attJson );
 			}
 			
-			js.WriteToString(attachmentArray, false, b);
 			
-			itemArray.Insert( "attachments", b );
+			string cargoJson = this.GetCargoItemsAsJson( hands );
+			if ( cargoJson != "" )
+			{
+				tempArray.Get( typeName ).Insert( "cargo", cargoJson );
+			}
 			
-			js.WriteToString(itemArray, false, Data);
 			
-			WriteFile(Data);
+			js.WriteToString(tempArray, false, Data);
 			
-			delete attachmentArray;
+			this.WriteFile(Data);
+
+			delete tempArray;
 			
-			delete itemArray;
 		} else {
 			
-			DelFile(SaveFile);
+			this.DelFile(SaveFile);
 			
 		}
 	
@@ -555,19 +582,14 @@ class SaveManager
 			 
 					float qty = itemArray.Get("qty").ToFloat();
 				
-					if( qty != 0) 
+					if ( itemEnt.IsInherited(Magazine) )
 					{
-						if ( itemEnt.IsInherited(Magazine) )
-						{
-							Magazine magazine = Magazine.Cast( itemEnt );
-							
-							magazine.LocalSetAmmoCount(qty);
-							
-						} else {
-							itemBs.SetQuantity(qty);
-						}
+						Magazine magazine = Magazine.Cast( itemEnt );
+						magazine.LocalSetAmmoCount(qty);
+					} else {
+						itemBs.SetQuantity(qty);
 					}
-			 
+				
 			 
 					TStringArray temp;
 					
@@ -584,7 +606,7 @@ class SaveManager
 					}
 				
 					string attachments = itemArray.Get("attachments");
-				
+
 					if ( attachments != "{}" && attachments != "[]" && attachments != "" )
 					{	
 						temp = new TStringArray;
@@ -685,13 +707,10 @@ class SaveManager
 			float lastshaved = arrayFromJson.Get("lastshaved").ToFloat();
 			player.SetLastShavedSeconds(lastshaved);
 			
-			string bloodyhands = arrayFromJson.Get("bloodyhands");
-			if(bloodyhands == "true") {
-				player.SetBloodyHands(true);
-			} else {
-				player.SetBloodyHands(false);
-			}
+			bool bloodyhands = this.StringToBool ( arrayFromJson.Get("bloodyhands") );
+			player.SetBloodyHands(bloodyhands);
 			
+
 			if(cpl != NULL)
 			{
 				cpl.UpdateLifespan(player, true);
@@ -699,7 +718,7 @@ class SaveManager
 			
 			player.SetSynchDirty();
 	
-			CreatePlayerHandsFromSave(); 
+			this.CreatePlayerHandsFromSave(); 
 			
 			return true;
 		}
@@ -707,23 +726,29 @@ class SaveManager
 		return false;
 	}
 	
+
 	
 	
-	void CreatePlayerHandsFromSave() 
+	void CreatePlayerHandsFromSave(string data = "", ref EntityAI entity = NULL, string createAs = "") 
 	{
-		map<string,string>arrayFromJson = new map<string,string>;
 		
-		string jsonError;
+		if ( data == "" )
+		{	
+			data = this.LoadPlayerHands();		
+		} 
 		
-		EntityAI itemEnt, itemIn;
+		if ( entity == NULL ) 
+		{
+			entity = player;
+		}
 		
-		ItemBase itemBs;
 		
-		string data = this.LoadPlayerHands();
+		map<string,map<string,string>> arrayFromJson = new map<string,map<string,string>>;
 		
 		if ( data != "" )
 		{
-	
+			string jsonError;
+			
 			bool ok = js.ReadFromString( arrayFromJson, data, jsonError );
 			
 			if(!ok)
@@ -731,47 +756,78 @@ class SaveManager
 				Print(jsonError);
 			}
 			
-			TStringArray arrayAttach = new TStringArray;	 
 			
-			string attachments = arrayFromJson.Get("attachments");
-			js.ReadFromString( arrayAttach, attachments, jsonError );
-			
-			string type = arrayFromJson.Get("type");
-			itemEnt = player.GetHumanInventory().CreateInHands( type );
-			
-			this.CreatePlayerQuickBarFromSave( itemEnt );
-			
-			itemBs = ItemBase.Cast( itemEnt );
-			
-			if (arrayAttach.Count() > 0 ) 
+			for (int i = 0; i < arrayFromJson.Count(); i++)
 			{
-				for (int i = 0; i < arrayAttach.Count(); i++)
-				{	
-					itemIn = itemEnt.GetInventory().CreateAttachment( arrayAttach.Get(i) );
+				EntityAI itemEnt;
 				
-					SetRandomHealth( itemIn );
+				map<string,string> itemArray = new map<string,string>;
+				
+				string itemName = arrayFromJson.GetKey(i);
+			
+				itemArray = arrayFromJson.GetElement(i);
+				
+				switch (createAs)
+				{
+					case "cargo":
+						int x = itemArray.Get("x").ToInt();
+						int y = itemArray.Get("y").ToInt();
+						itemEnt = entity.GetInventory().CreateEntityInCargoEx( itemName, 0, y, x );
+					break;
+					
+					case "att":
+						itemEnt = entity.GetInventory().CreateAttachment( itemName );
+					break;
+					
+					default: 
+						itemEnt = player.GetHumanInventory().CreateInHands( itemName );
+					break;
 				}
-			}
-			
-			float health = arrayFromJson.Get("health").ToFloat();
-			itemBs.SetHealth("","", health );
-			
-			float wet = arrayFromJson.Get("wet").ToFloat();
-			itemBs.SetWet( wet );
-			
-			float qty = arrayFromJson.Get("qty").ToFloat();
-			if ( itemEnt.IsInherited(Magazine) )
-			{
-				Magazine magazine = Magazine.Cast( itemEnt );
 				
-				magazine.LocalSetAmmoCount( qty );
+
+				if (itemEnt != NULL ) 
+				{
+					
+					ItemBase itemBs = ItemBase.Cast( itemEnt );
+					
+					float health = itemArray.Get("health").ToFloat();
+					itemBs.SetHealth("","", health );
+					
+					float wet = itemArray.Get("wet").ToFloat();
+					itemBs.SetWet( wet );
+					
+					float qty = itemArray.Get("qty").ToFloat();
+					
+					if ( itemEnt.IsInherited(Magazine) )
+					{
+						Magazine magazine = Magazine.Cast( itemEnt );
+						magazine.LocalSetAmmoCount( qty );
+					} else {
+						itemBs.SetQuantity( qty );
+					}
+					
+					string cargo = itemArray.Get("cargo");
 				
-			} else {
+					if ( cargo != "{}"  && cargo != "[]" && cargo != "" )
+					{
+						this.CreatePlayerHandsFromSave(cargo, itemBs, "cargo");
+					}
 				
-				itemBs.SetQuantity( qty );
+					string attachments = itemArray.Get("attachments");
+				
+					if ( attachments != "{}" && attachments != "[]" && attachments != "" )
+					{	
+						this.CreatePlayerHandsFromSave(attachments, itemBs, "att");
+					}
+				
+					this.CreatePlayerQuickBarFromSave( itemEnt );
+				}
 			}
 		
 		}
+		
+		
+		delete arrayFromJson;
 		
 	}
 	
@@ -779,31 +835,31 @@ class SaveManager
 	
 	void CreatePlayerQuickBarFromSave(EntityAI itemEnt)
 	{
-			TStringArray arrayFromJson = new TStringArray;
+		TStringArray arrayFromJson = new TStringArray;
 			
-			string jsonError;
+		string jsonError;
 			
-			string data = this.LoadPlayerQuickBar();
+		string data = this.LoadPlayerQuickBar();
 			
-			if ( data != "" )
+		if ( data != "" )
+		{
+			bool ok = js.ReadFromString( arrayFromJson, data, jsonError );
+		
+			if(!ok)
 			{
-				bool ok = js.ReadFromString( arrayFromJson, data, jsonError );
-			
-				if(!ok)
-				{
-					Print(jsonError);
-				}
-				
-				
-				if ( arrayFromJson.Count() > 0 )
-				{
-					int index = arrayFromJson.Find( itemEnt.GetType() );
-					
-					player.SetQuickBarEntityShortcut( itemEnt, index );
-				}
+				Print(jsonError);
 			}
+			
+			
+			if ( arrayFromJson.Count() > 0 )
+			{
+				int index = arrayFromJson.Find( itemEnt.GetType() );
+				
+				player.SetQuickBarEntityShortcut( itemEnt, index );
+			}
+		}
 	 }
-
+	 
 	 
 	 
 	void CreatePlayerInventory()
@@ -844,12 +900,12 @@ class SaveManager
 					{	
 						itemIn = itemEnt.GetInventory().CreateAttachment( attArr.Get(j) );
 					
-						SetRandomHealth( itemIn );
+						this.SetRandomHealth( itemIn );
 					}
 				}
 			}
 			
-			SetRandomHealth( itemEnt );
+			this.SetRandomHealth( itemEnt );
 		}
 	}
 	
@@ -1051,5 +1107,24 @@ class SaveManager
 		{
 			DeleteFile(filename);
 		}
+	}
+	
+	
+	
+	bool StringToBool(string str = "")
+	{
+		str.ToLower();
+		
+		if ( str == "false"  ||  str == "0" ) 
+		{
+			return false;
+		}
+		
+		if( str == "true"  ||  str == "1" ) 
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }
