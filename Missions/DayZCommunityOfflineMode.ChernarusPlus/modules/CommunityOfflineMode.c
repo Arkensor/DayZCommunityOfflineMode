@@ -7,22 +7,22 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CustomPluginLifespan.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\PluginLifespan.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
 class CommunityOfflineMode : MissionGameplay
 {
 	
 
-	protected bool DISABLE_RESPAWN_ONRESTART = true; // disable(true) / enable(fale) - Player Respawn on Restart (if dead)
-	protected bool DISABLE_HIVE = false;	 		// disable(true) / enable(false) - Hive
-	
+	protected bool DISABLE_RESPAWN_ONRESTART = true; // disable(true) / enable(false) - Player Respawn on every Mission Restart
+	protected bool DISABLE_HIVE = false;	 		// disable(true) / enable(false) - Local Hive / Economy 
+
 	private ref set<ref Module> m_Modules;
 	
 	PlayerBase m_oPlayer;
 	private ref set<ref PlayerBase> FixPlayerNullOnMissionFinish;  // fix for GetGame().GetPlayer() returns NULL -> OnMissionFinish()
 	protected ref SaveManager sm;
-	ref CustomPluginLifespan cpl;
+	ref PluginLifespanPatched cpl;
 	
 	//Patches
 	protected ref DebugMonitorPatched m_debugMonitorPatched;
@@ -74,7 +74,7 @@ class CommunityOfflineMode : MissionGameplay
 		// for beard
 		g_Game.SetMissionState(DayZGame.MISSION_STATE_GAME);
 		SetDispatcher(new DispatcherCaller);
-		cpl = new CustomPluginLifespan();
+		cpl = new PluginLifespanPatched();
 	}
 	
 	
@@ -177,20 +177,26 @@ class CommunityOfflineMode : MissionGameplay
 
 		if (player != NULL)
 		{
-			if (player && player.GetPlayerState() == EPlayerStates.ALIVE )
+			
+			int pState = player.GetPlayerState();
+			
+			if ( pState == 0 )
 			{
 				sm.ProcessPlayerSaves();
 			} 
-			else if (!DISABLE_RESPAWN_ONRESTART) 
+			
+			if (!DISABLE_RESPAWN_ONRESTART || pState != 0 ) 
 			{
 				sm.DeletePlayer();
 			}
 		}
 		
+		
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
 			m_Modules.Get(i).onMissionFinish();
 		}
+		
 		
 		super.OnMissionFinish();
 	}

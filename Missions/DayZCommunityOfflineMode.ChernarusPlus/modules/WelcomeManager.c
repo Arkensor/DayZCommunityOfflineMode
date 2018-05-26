@@ -18,7 +18,20 @@ class WelcomeManager extends UIScriptedMenu
         m_InfoBox = TextWidget.Cast( layoutRoot.FindAnyWidget( "infotext" ) );
         m_BtnOk = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_ok" ) );
 
-        m_InfoBox.SetText( "Enjoy the DayZ Community Offline Mode.\n \n \nThe current game build is still ALPHA!\nCrashes and bugs can occur.\nNot all 0.63 features are impletemented yet!\nProvide feedback on the game via feedback.bistudio.com\n \n \nCreated by Arkensor.\nContributions from DuhOneZ, Watchman, n8m4re, gallexme and DannyDog" );
+		
+		string infotext;
+		
+		infotext = "Enjoy the DayZ Community Offline Mode.";
+		infotext += "\n \n \nThe current game build is still ALPHA!";
+		infotext += "\nCrashes and bugs can occur.";
+		infotext += "\nNot all 0.63 features are impletemented yet!";
+		infotext += "\nProvide feedback on the game via feedback.bistudio.com";
+		infotext += "\n \n \nCreated by Arkensor.";
+		infotext += "\n \n \nContributions from:";
+		infotext += "\n DuhOneZ, Watchman, n8m4re, wriley, gallexme and DannyDog";
+		
+		
+        m_InfoBox.SetText( infotext );
 
         return layoutRoot;
     }
