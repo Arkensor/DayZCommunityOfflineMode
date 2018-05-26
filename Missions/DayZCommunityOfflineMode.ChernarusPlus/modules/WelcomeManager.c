@@ -28,7 +28,7 @@ class WelcomeManager extends UIScriptedMenu
 		infotext += "\nProvide feedback on the game via feedback.bistudio.com";
 		infotext += "\n \n \nCreated by Arkensor.";
 		infotext += "\n \n \nContributions from:";
-		infotext += "\n DuhOneZ, Watchman, n8m4re, wriley, gallexme and DannyDo";
+		infotext += "\n DuhOneZ, Watchman, n8m4re, wriley, gallexme and DannyDog";
 		
 		
         m_InfoBox.SetText( infotext );
