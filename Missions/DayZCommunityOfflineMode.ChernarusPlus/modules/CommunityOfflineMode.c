@@ -39,6 +39,9 @@ class CommunityOfflineMode : MissionGameplay
 	protected bool m_bWelcome = false;
 	protected int m_nAutoWalkMode = 0;
 
+	// For Aiming like 0.62
+	protected bool m_bOldAiming = false;
+
 	//For keyhandler
 	protected bool m_IsCtrlHolding = false;
 	protected bool m_IsWinHolding = false;
@@ -269,6 +272,10 @@ class CommunityOfflineMode : MissionGameplay
 		    m_oPlayer.StatUpdateByTime("playtime");
 		    cpl.UpdateLifespan( m_oPlayer, true );
 		    cpl.UpdateBloodyHandsVisibility(m_oPlayer, m_oPlayer.HasBloodyHands());
+
+			if (m_bOldAiming) {
+				m_oPlayer.OverrideShootFromCamera(true);
+			}
 		}
 		
 		for ( int i = 0; i < m_Modules.Count(); ++i) 
@@ -720,6 +727,24 @@ class CommunityOfflineMode : MissionGameplay
 
 				break;
 			}		
+
+			case KeyCode.KC_L:
+			{
+				if ( m_bOldAiming )
+				{
+					m_oPlayer.OverrideShootFromCamera(false);
+					m_oPlayer.MessageStatus( "Old Aiming System disabled." );
+					m_bOldAiming = false;
+				}
+				else
+				{
+					m_oPlayer.OverrideShootFromCamera(true);
+					m_oPlayer.MessageStatus( "Old Aiming System enabled." );
+					m_bOldAiming = true;
+				}
+
+				break;
+			}	
 
 
 			case KeyCode.KC_DELETE:

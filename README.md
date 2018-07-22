@@ -39,6 +39,7 @@ You might delete your whole ```Missions``` folder and validate your game files v
 * B - Toggle debug monitor
 * K - Restart the mission (useful when you spawned too much of everything @ 5 fps)
 * N - Spawn the Sedan (not driveable in the current build of DayZ, sorry)
+* L - Toggle between the old and new Aiming System.
 * DELETE + CTRL - Open the teleport menu
 * DELETE + SHIFT - Open the weather menu
 * DELETE - Open the item / object spawner
