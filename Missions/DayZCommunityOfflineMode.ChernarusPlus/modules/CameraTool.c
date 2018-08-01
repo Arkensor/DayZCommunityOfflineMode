@@ -98,6 +98,8 @@ class CameraTool extends Module
 
 			m_oCamera.SetActive( true );
 			
+			SetFreezePlayer(true);
+			
 			m_DistanceToObject = 0.0;
 		}
 	}
