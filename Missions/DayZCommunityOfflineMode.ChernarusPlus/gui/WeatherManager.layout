@@ -52,7 +52,10 @@ FrameWidgetClass WeatherManager
 					style Normal
 					text "Weather Manager"
 					font "gui/fonts/Metron-Bold58"
-					"text offset" 30 0
+                    "exact text" 1
+                    "exact text size" 20
+                    "text halign" center
+                    "text valign" center
 				}
 			}
 		}

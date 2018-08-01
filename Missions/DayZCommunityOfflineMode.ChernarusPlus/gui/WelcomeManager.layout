@@ -52,7 +52,10 @@ FrameWidgetClass WelcomeManager
 					style Normal
 					text "DayZ Community Offline Mode"
 					font "gui/fonts/Metron-Bold58"
-					"text offset" 30 0
+                    "exact text" 1
+                    "exact text size" 20
+                    "text halign" center
+                    "text valign" center
 				}
 			}
 		}

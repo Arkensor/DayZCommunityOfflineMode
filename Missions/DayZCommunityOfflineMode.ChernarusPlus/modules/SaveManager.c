@@ -5,12 +5,12 @@ class SaveManager
 	
 	protected CommunityOfflineMode m_Mission;
 	
-	protected const string BASE_DIR = "$saves:CommunityOfflineMode"; // Default[windows]: /Documents/DayZ/CommunityOfflineMode
-	protected const string BASE_PLAYERDIR = SaveManager.BASE_DIR + "\\PlayerSaves";
-	protected const string CHAR_FILE = "\\character.json";
-	protected const string INV_FILE = "\\inventory.json";
-	protected const string HND_FILE = "\\hands.json";
-	protected const string QB_FILE = "\\quickbar.json";
+	protected const string BASE_DIR = "$saves:CommunityOfflineMode\\";
+	protected const string BASE_PLAYERDIR = SaveManager.BASE_DIR + "PlayerSaves";
+	protected const string CHAR_FILE = "character.json";
+	protected const string INV_FILE = "inventory.json";
+	protected const string HND_FILE = "hands.json";
+	protected const string QB_FILE = "quickbar.json";
 
 	protected ref JsonSerializer js = new JsonSerializer;	
 	protected string SaveFile;
@@ -20,7 +20,6 @@ class SaveManager
 	protected ref TStringArray itemsArray = new TStringArray;
 	protected ref TIntArray itemsQtyArray = new TIntArray;
 	protected ref map<string, ref TStringArray> itemsAttachArray = new map<string, ref TStringArray>;
-	
 
 	void SaveManager(CommunityOfflineMode m_Mission = NULL , int t = 30)
 	{
@@ -34,10 +33,8 @@ class SaveManager
 		
 		this.CreateDir(BASE_DIR);
 		this.CreateDir(BASE_PLAYERDIR);
-		
 	}
-	
-	
+
 	void ~SaveManager()
 	{
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.ProcessPlayerSaves);
@@ -53,13 +50,9 @@ class SaveManager
 		delete itemsAttachArray;
 		
 	}
-	
-
 
 	void ProcessPlayerSaves()
 	{
-		
-		
 		if ( !player ) return;
 		
 		Print("SaveManager::ProcessPlayerSaves - " + player );
@@ -123,64 +116,59 @@ class SaveManager
 		
 		ref map<string, ref map<string,string>> tempArray = new map<string, ref map<string,string>>;
 	
-		Cargo cargo = entity.GetInventory().GetCargo();
-		
+		auto cargo = entity.GetInventory().GetCargo();
+
 		if ( cargo )
 		{
-				
-				for (int i = 0; i < cargo.GetItemCount(); i++)
-				{
-					
-					ItemBase itemInCargo = NULL;
-					
-					
-					if ( Class.CastTo( itemInCargo, cargo.GetItem(i) ) && itemInCargo.IsItemBase() )
-					{	
-						if ( itemInCargo )
-						{
-							string itemName;
-							
-							itemName = itemInCargo.GetType();
-							tempArray.Insert( itemName, new ref map<string,string> );
-							
-							string health = itemInCargo.GetHealth("","").ToString();
-							tempArray.Get( itemName ).Insert( "health", health );
-							
-							string qty = this.GetItemQuantity( itemInCargo ).ToString();
-							tempArray.Get( itemName ).Insert( "qty", qty );
-							
-							string wet = itemInCargo.GetWet().ToString();
-							tempArray.Get( itemInCargo.GetType() ).Insert( "wet", wet ); 
-							
-							string attJson = this.GetAttachedItemsAsJson( itemInCargo );
-							
-							if ( attJson != "" )
-							{
-								tempArray.Get( itemName ).Insert( "attachments", attJson ); 
-							}
-							
-							string cargoJson = this.GetCargoItemsAsJson( itemInCargo );
-							
-							if ( cargoJson != "" )
-							{
-								tempArray.Get( itemName ).Insert( "cargo", cargoJson );
-							}
-							
-							
-							int pos_x, pos_y;
-					
-							entity.GetInventory().GetCargo().GetItemPos(i, pos_x, pos_y );
-							
-							string x = pos_x.ToString();
-							tempArray.Get( itemName ).Insert( "x", x );
-							
-							string y = pos_y.ToString();
-							tempArray.Get( itemName ).Insert( "y", y );	
-							
-						}
-					}
-				}
-			
+            for (int i = 0; i < cargo.GetItemCount(); i++)
+            {
+                ItemBase itemInCargo = NULL;
+
+                if ( Class.CastTo( itemInCargo, cargo.GetItem(i) ) && itemInCargo.IsItemBase() )
+                {
+                    if ( itemInCargo )
+                    {
+                        string itemName;
+
+                        itemName = itemInCargo.GetType();
+                        tempArray.Insert( itemName, new ref map<string,string> );
+
+                        string health = itemInCargo.GetHealth("","").ToString();
+                        tempArray.Get( itemName ).Insert( "health", health );
+
+                        string qty = this.GetItemQuantity( itemInCargo ).ToString();
+                        tempArray.Get( itemName ).Insert( "qty", qty );
+
+                        string wet = itemInCargo.GetWet().ToString();
+                        tempArray.Get( itemInCargo.GetType() ).Insert( "wet", wet );
+
+                        string attJson = this.GetAttachedItemsAsJson( itemInCargo );
+
+                        if ( attJson != "" )
+                        {
+                            tempArray.Get( itemName ).Insert( "attachments", attJson );
+                        }
+
+                        string cargoJson = this.GetCargoItemsAsJson( itemInCargo );
+
+                        if ( cargoJson != "" )
+                        {
+                            tempArray.Get( itemName ).Insert( "cargo", cargoJson );
+                        }
+
+                        int pos_x, pos_y;
+
+                        entity.GetInventory().GetCargo().GetItemRowCol(i, pos_x, pos_y );
+
+                        string x = pos_x.ToString();
+                        tempArray.Get( itemName ).Insert( "x", x );
+
+                        string y = pos_y.ToString();
+                        tempArray.Get( itemName ).Insert( "y", y );
+
+                    }
+                }
+            }
 		}
 		
 		if ( tempArray.Count() > 0 ) 
@@ -252,18 +240,14 @@ class SaveManager
 		{
 		  js.WriteToString(tempArray, false, json);
 		}
-	
-	
+
 		delete tempArray;
 		
 		return json;
 	}
-	
-	
-	
+
 	void SavePlayerInventory()
 	{
-		
 		string json = "";
 		
 		ref array<string> DataArray = new array<string>;
@@ -318,8 +302,7 @@ class SaveManager
 			
 			PlayerInventory.Clear();
 		}
-		
-		
+
 		delete playerArray;
 		
 		delete PlayerInventory;
@@ -330,9 +313,7 @@ class SaveManager
 		
 		delete DataArray;
 	}
-	
 
-	
 	void SavePlayerCharacter()
 	{
 		Data = "";
@@ -353,15 +334,13 @@ class SaveManager
 		dir.Replace(">", "");
 		dir.Replace(",", "");
 		tempArray.Insert( "dir", dir );
-		
-		
+
 		string ori = player.GetOrientation().ToString();
 		dir.Replace("<", "");
 		dir.Replace(">", "");
 		dir.Replace(",", "");
 		tempArray.Insert( "ori", dir );
-		
-		
+
 		string health = player.GetHealth("","").ToString();
 		tempArray.Insert( "health", health ); 
 		
@@ -394,10 +373,7 @@ class SaveManager
 		
 		string wet = player.GetStatWet().Get().ToString();
 		tempArray.Insert( "wet", wet );
-		
-		string shock = player.GetStatShock().Get().ToString();
-		tempArray.Insert( "shock", shock );
-		
+
 		string tremor = player.GetStatTremor().Get().ToString();
 		tempArray.Insert( "tremor", tremor );
 
@@ -422,9 +398,7 @@ class SaveManager
 		
 		this.WriteFile(Data);
 	}
-	
-	
-	
+
 	void SavePlayerQuickBar()
 	{
 		Data = "";
@@ -451,9 +425,7 @@ class SaveManager
 		
 		this.WriteFile(Data);
 	}
-	
-	
-	
+
 	void SavePlayerHands()
 	{
 		
@@ -505,11 +477,8 @@ class SaveManager
 			this.DelFile(SaveFile);
 			
 		}
-	
 	}
-	
-	
-	
+
 	void CreatePlayerInventoryFromSave(ref TStringArray data = NULL, ref EntityAI entity = NULL, string createAs = "" )
 	{
 		
@@ -522,8 +491,7 @@ class SaveManager
 		{
 			entity = player;
 		}
-		
-		
+
 		for (int i = 0; i < data.Count(); i++)
 		{
 			map<string,map<string,string>> arrayFromJson = new map<string,map<string,string>>;
@@ -690,10 +658,7 @@ class SaveManager
 			
 			float wet = arrayFromJson.Get("wet").ToFloat();
 			player.GetStatWet().Set( wet );
-			
-			float shock = arrayFromJson.Get("shock").ToFloat();
-			player.GetStatShock().Set( shock );
-			
+
 			float tremor = arrayFromJson.Get("tremor").ToFloat();
 			player.GetStatTremor().Set( tremor );
 			
@@ -825,14 +790,10 @@ class SaveManager
 			}
 		
 		}
-		
-		
+
 		delete arrayFromJson;
-		
 	}
-	
-	
-	
+
 	void CreatePlayerQuickBarFromSave(EntityAI itemEnt)
 	{
 		TStringArray arrayFromJson = new TStringArray;
@@ -858,13 +819,10 @@ class SaveManager
 				player.SetQuickBarEntityShortcut( itemEnt, index );
 			}
 		}
-	 }
-	 
-	 
-	 
+	}
+
 	void CreatePlayerInventory()
 	{
-		
 		float qty;
 		
 		string item, itemAttach;
@@ -900,17 +858,15 @@ class SaveManager
 					{	
 						itemIn = itemEnt.GetInventory().CreateAttachment( attArr.Get(j) );
 					
-						this.SetRandomHealth( itemIn );
+						itemIn.SetHealth( "","",100 );
 					}
 				}
 			}
-			
-			this.SetRandomHealth( itemEnt );
+
+			itemEnt.SetHealth( "","",100 );
 		}
 	}
-	
-	
-	
+
 	void SetPlayerInventory(string item = "", float qty = 0, TStringArray attach = NULL)
 	{
 		
@@ -927,27 +883,21 @@ class SaveManager
 		}
 		
 	} 
-	
-	
-	
+
 	void SetPosition(TVectorArray positions)
 	{	
 		int index = Math.RandomInt( 0, positions.Count() );
 		
 		position = positions.Get( index );
 	}
-	
-	
-	
+
 	void SetRandomHealth(EntityAI itm)
 	{
 		int rndHlt = Math.RandomInt(40,100);
 		
 		itm.SetHealth("","",rndHlt);
 	}
-	
-	
-	
+
 	float GetItemQuantity( InventoryItem item )
 	{
 		float quantity = 0;
@@ -969,37 +919,27 @@ class SaveManager
 		}
 		return quantity;
 	}
-	
-	
-	
+
 	string LoadPlayerQuickBar()
 	{	
 		return this.ReadFile(BASE_PLAYERDIR + QB_FILE);
 	}
-	
-	
-	
+
 	string LoadPlayerHands()
 	{	
 		return this.ReadFile(BASE_PLAYERDIR + HND_FILE);
 	}
-	
 
-	
 	TStringArray LoadPlayerInventory()
 	{	
 		return this.ReadFileLn(BASE_PLAYERDIR + INV_FILE);
 	}
-	
-	
-	
+
 	string LoadPlayerCharacter()
 	{	
 		return this.ReadFile(BASE_PLAYERDIR + CHAR_FILE);
 	}
 
-	
-	
 	void CreateDir(string directory = "")
 	{
 		if ( !FileExist( directory ) ) 
@@ -1010,9 +950,7 @@ class SaveManager
 			}
 		}
 	}
-	
 
-	
 	void WriteFileLn(array<string> data) 
 	{	
 		FileHandle file = OpenFile(SaveFile, FileMode.WRITE);  
@@ -1024,9 +962,7 @@ class SaveManager
 		
 		CloseFile(file);
 	}
-	
-	
-	
+
 	void WriteFile(string data) 
 	{	
 		FileHandle file = OpenFile( SaveFile, FileMode.WRITE );
@@ -1036,8 +972,6 @@ class SaveManager
 		CloseFile(file);
 	}
 
-	
-	
 	string ReadFile(string filename = "" ) 
 	{
 		string FileContent = "";
@@ -1055,9 +989,7 @@ class SaveManager
 		
 		return FileContent;
 	}
-	
-	
-	
+
 	TStringArray ReadFileLn(string filename = "") 
 	{
 		TStringArray FileContentArray = new TStringArray;
@@ -1084,9 +1016,7 @@ class SaveManager
 		
 		return FileContentArray;
 	}
-	
-	
-	
+
 	void DeletePlayer()
 	{
 
@@ -1098,9 +1028,7 @@ class SaveManager
 		
 		this.DelFile(BASE_PLAYERDIR + QB_FILE);
 	}
-	
-	
-	
+
 	void DelFile(string filename)
 	{
 		if ( FileExist(filename) )
@@ -1108,9 +1036,7 @@ class SaveManager
 			DeleteFile(filename);
 		}
 	}
-	
-	
-	
+
 	bool StringToBool(string str = "")
 	{
 		str.ToLower();

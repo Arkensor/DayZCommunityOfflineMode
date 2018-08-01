@@ -12,8 +12,6 @@
 
 class CommunityOfflineMode : MissionGameplay
 {
-	
-
 	protected bool DISABLE_RESPAWN_ONRESTART = true; // disable(true) / enable(false) - Player Respawn on every Mission Restart
 	protected bool DISABLE_HIVE = false;	 		// disable(true) / enable(false) - Local Hive / Economy 
 
@@ -55,9 +53,7 @@ class CommunityOfflineMode : MissionGameplay
 	protected const int CLICK_TIME			= 200; //ms
 	protected const int HOLD_CLICK_TIME_MIN	= 200; //ms
 	protected const int DOUBLE_CLICK_TIME	= 300; //ms
-	
-	
-	
+
 	void CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::CommunityOfflineMode()" );
@@ -79,9 +75,8 @@ class CommunityOfflineMode : MissionGameplay
 		SetDispatcher(new DispatcherCaller);
 		cpl = new PluginLifespanPatched();
 	}
-	
-	
-	
+
+
 	void ~CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::~CommunityOfflineMode()" );
@@ -92,8 +87,7 @@ class CommunityOfflineMode : MissionGameplay
 		}
 	}
 
-	
-	
+
 	void RegisterModules()
 	{
 		m_Modules.Insert( new ObjectEditor(this) );
@@ -977,9 +971,8 @@ class CommunityOfflineMode : MissionGameplay
 	bool WIN() return m_IsWinHolding;
 	bool SHIFT() return ( m_IsLeftShiftHolding || m_IsRightShiftHolding );
 	bool ALT() return ( m_IsLeftAltHolding || m_IsRightAltHolding );
-	
-	
-	
+
+
 	void SpawnPlayer()
     {
 		TStringArray Bags, Hands, Tops, Vests, Pants, Shoes;
@@ -987,14 +980,10 @@ class CommunityOfflineMode : MissionGameplay
 		Bags = {"TortillaBag","HuntingBag","SmershBag","AssaultBag_Ttsko","AssaultBag_Black","AssaultBag_Green","CoyoteBag_Brown","CoyoteBag_Green","AliceBag_Green","AliceBag_Black","AliceBag_Camo"};
 		Hands = {"WorkingGloves_Brown","WorkingGloves_Yellow"};
 		Tops = {"M65Jacket_Black","M65Jacket_Khaki","M65Jacket_Tan","M65Jacket_Olive","TTsKOJacket_Camo","GorkaEJacket_Summer","GorkaEJacket_Flat","GorkaEJacket_Autumn","GorkaEJacket_PautRev","RidersJacket_Black"};
-		// Tops  = {"Hoodie_Blue","Hoodie_Black","Hoodie_Brown","Hoodie_Green","Hoodie_Grey","Hoodie_Red"};
 		Vests = {"PlateCarrierComplete","HighCapacityVest_Olive","HighCapacityVest_Black"};
 		Pants = {"GorkaPants_PautRev","GorkaPants_Flat","GorkaPants_Autumn","GorkaPants_Summer","CargoPants_Blue","CargoPants_Beige","CargoPants_Black","CargoPants_Green","CargoPants_Grey","TTSKOPants","HunterPants_Autumn","HunterPants_Brown","HunterPants_Spring","HunterPants_Summer","HunterPants_Winter"};
-		// Pants = {"Jeans_Black","Jeans_BlueDark","Jeans_Blue","Jeans_Brown","Jeans_Green","Jeans_Grey","CanvasPants_Beige","CanvasPants_Blue","CanvasPants_Grey"};
 		Shoes = {"MilitaryBoots_Redpunk","MilitaryBoots_Black"};
-		// Shoes = {"AthleticShoes_Black","AthleticShoes_Blue","AthleticShoes_Brown","AthleticShoes_Green","AthleticShoes_Grey"};
 
-		// sm.SetPosition({"7548.71 16.0623 3130.0"});
 		sm.SetPosition( PositionManager().PlayerSpawnPositions() );
 		
 		// -- SetPlayerInventory( ITEM <STRING>, QUANTITY <INT>,  ATTACHMENTS <ARRAY> )
@@ -1006,24 +995,21 @@ class CommunityOfflineMode : MissionGameplay
 		sm.SetPlayerInventory( Shoes.GetRandomElement() );
 		sm.SetPlayerInventory( "FirefighterAxe" );
 		sm.SetPlayerInventory( "HuntingKnife" );
+		sm.SetPlayerInventory( "Flashlight" );
+		sm.SetPlayerInventory( "Battery9V" );
 		sm.SetPlayerInventory( "Rag", 2 );
-		sm.SetPlayerInventory( "Ammo_9x19" );
-		sm.SetPlayerInventory( "Mag_CZ75_15Rnd" );
-		sm.SetPlayerInventory( "Mag_CZ75_15Rnd" );
-		sm.SetPlayerInventory( "CZ75", 0, {"Mag_CZ75_15Rnd","TLRLight","PistolSuppressor"} );
-		sm.SetPlayerInventory( "Mag_AKM_30Rnd" );
-		sm.SetPlayerInventory( "AKM", 0, {"Mag_AKM_30Rnd","AK_WoodBttstck", "AK_WoodHndgrd","AK_Suppressor"} );
-		
-		
+		sm.SetPlayerInventory( "Mag_STANAGCoupled_30Rnd" );
+		sm.SetPlayerInventory( "Mag_STANAGCoupled_30Rnd" );
+		sm.SetPlayerInventory( "M4A1_Black", 0, {"M4_Suppressor", "M4_RISHndgrd_Black", "M4_MPBttstck_Black", "Mag_STANAGCoupled_30Rnd", "ACOGOptic"} );
+
 		m_oPlayer = sm.SpawnPlayer();
 		
 		FixPlayerNullOnMissionFinish = new set<ref PlayerBase>;
 		
 		FixPlayerNullOnMissionFinish.Insert( m_oPlayer );
     }
-	
-	
-	
+
+
 	void InitHive()
 	{
 		if (DISABLE_HIVE) return;
@@ -1039,9 +1025,8 @@ class CommunityOfflineMode : MissionGameplay
 			oHive.InitOffline();
 		}
 	}
-	
-	
-	
+
+
 	TStringArray WorkingZombieClasses()
 	{
 		return {
@@ -1091,5 +1076,4 @@ class CommunityOfflineMode : MissionGameplay
 		"ZmbF_Clerk_Normal_Base","ZmbF_Clerk_Normal_Blue","ZmbF_Clerk_Normal_White","ZmbF_Clerk_Normal_Green","ZmbF_Clerk_Normal_Red",
 		};
 	}
-	
 }
