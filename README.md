@@ -1,6 +1,12 @@
 # DayZCommunityOfflineMode
 
-**More updates coming soon!**
+**Thank you for over 25.000 downloads!**  
+We are currently preparing an content update with this planned features:
+* Improved visual GUI with new a new and extended object editor and a simple main menu
+* Persitency with mutliple characters
+* Advanced camera manager for content creators
+
+-- 
 
 DayZ Community Offline Mode is a small sideproject to offer all of you,  
 who did not have the chance to play on a stress test server for long alreay, the chance to enjoy the 0.63 stress test update.  
@@ -15,7 +21,7 @@ DayZ is not opened for modding or scripting, so this is pretty much a hacky solu
 If you want to improve something, go ahead and create a pullrequest ;)
 
 # Installation:
-Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v1.8/DayZ.Community.OfflineMode.zip) zip archive.  
+Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v1.9/DayZ.Community.OfflineMode.zip) zip archive.  
 Make sure you are on the "stress test" beta branch on steam. See [this link](https://dayz.com/blog/0-63-stress-tests) for details on how to switch on it!  
 
 Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
@@ -47,18 +53,6 @@ You might delete your whole ```Missions``` folder and validate your game files v
 * END - Toggle godmode
 * END + SHIFT - Toggle object editor mode
 * POS1 - Particle effect demonstration (aka poof)
-
-Free Camera Controls: (Upcoming update)
-* SCROLL WHEEL - Speed of Camera
-* Q / Z - Raise Lower Camera
-* SHIFT/CTRL - Fast Forward (Also altered with Mouse Wheel)
-* ALT - Slow Speed
-* RMB + Drag - Camera FOV increase/decrease
-* Middle Click - Target object or position ( To be used for orbital and follow modes)
-* [ Key - Follow target
-* ] Key - Orbital mode
-* Capslock - Freeze player
-* Backslash - Freeze camera controls
 
 Object Editor Controls:  
 Click objects to select them.  
@@ -94,3 +88,4 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * [DannyDog](https://github.com/DannyDog) - Code snippets, Object Editor and Updated camera tools
 * [n8m4re](https://github.com/n8m4re) - Code: SaveManager
 * [wriley](https://github.com/wriley) - Code snippets beards
+* [Jacob_Mango](https://twitter.com/Jacob_MangoR) - Added key to toggle "Aimgate"
