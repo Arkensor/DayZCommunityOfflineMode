@@ -18,8 +18,8 @@ class CommunityOfflineMode : MissionGameplay
 	private ref set<ref Module> m_Modules;
 	
 	PlayerBase m_oPlayer;
-	private ref set<ref PlayerBase> FixPlayerNullOnMissionFinish;  // fix for GetGame().GetPlayer() returns NULL -> OnMissionFinish()
-	protected ref SaveManager sm;
+//	private ref set<ref PlayerBase> FixPlayerNullOnMissionFinish;  // fix for GetGame().GetPlayer() returns NULL -> OnMissionFinish()
+//	protected ref SaveManager sm;
 	ref PluginLifespanPatched cpl;
 	
 	//Patches
@@ -66,9 +66,9 @@ class CommunityOfflineMode : MissionGameplay
 		m_MouseButtons.Insert ( new MouseButtonInfo( MouseState.MIDDLE ) );
 		
 		// register modules
-		this.RegisterModules();
+		RegisterModules();
 		
-		sm = new SaveManager(this);
+//		sm = new SaveManager(this);
         
 		// for beard
 		g_Game.SetMissionState(DayZGame.MISSION_STATE_GAME);
@@ -110,13 +110,13 @@ class CommunityOfflineMode : MissionGameplay
 	{
 		super.OnInit();
 
-        this.SetupWeather();
+        SetupWeather();
 
-		this.SpawnPlayer();
+		SpawnPlayer();
 		
-		this.InitHive();
+		InitHive();
 		
-		this.InitializeModules();
+		InitializeModules();
 		
 	}
 	
@@ -170,23 +170,23 @@ class CommunityOfflineMode : MissionGameplay
 	
 	override void OnMissionFinish()
 	{
-		PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
-
-		if (player != NULL)
-		{
-			
-			int pState = player.GetPlayerState();
-			
-			if ( pState == 0 )
-			{
-				sm.ProcessPlayerSaves();
-			} 
-			
-			if (!DISABLE_RESPAWN_ONRESTART || pState != 0 ) 
-			{
-				sm.DeletePlayer();
-			}
-		}
+//		PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
+//
+//		if (player != NULL)
+//		{
+//
+//			int pState = player.GetPlayerState();
+//
+//			if ( pState == 0 )
+//			{
+//				sm.ProcessPlayerSaves();
+//			}
+//
+//			if (!DISABLE_RESPAWN_ONRESTART || pState != 0 )
+//			{
+//				sm.DeletePlayer();
+//			}
+//		}
 		
 		
 		for ( int i = 0; i < m_Modules.Count(); ++i)
@@ -975,38 +975,90 @@ class CommunityOfflineMode : MissionGameplay
 
 	void SpawnPlayer()
     {
-		TStringArray Bags, Hands, Tops, Vests, Pants, Shoes;
-	
-		Bags = {"TortillaBag","HuntingBag","SmershBag","AssaultBag_Ttsko","AssaultBag_Black","AssaultBag_Green","CoyoteBag_Brown","CoyoteBag_Green","AliceBag_Green","AliceBag_Black","AliceBag_Camo"};
-		Hands = {"WorkingGloves_Brown","WorkingGloves_Yellow"};
-		Tops = {"M65Jacket_Black","M65Jacket_Khaki","M65Jacket_Tan","M65Jacket_Olive","TTsKOJacket_Camo","GorkaEJacket_Summer","GorkaEJacket_Flat","GorkaEJacket_Autumn","GorkaEJacket_PautRev","RidersJacket_Black"};
-		Vests = {"PlateCarrierComplete","HighCapacityVest_Olive","HighCapacityVest_Black"};
-		Pants = {"GorkaPants_PautRev","GorkaPants_Flat","GorkaPants_Autumn","GorkaPants_Summer","CargoPants_Blue","CargoPants_Beige","CargoPants_Black","CargoPants_Green","CargoPants_Grey","TTSKOPants","HunterPants_Autumn","HunterPants_Brown","HunterPants_Spring","HunterPants_Summer","HunterPants_Winter"};
-		Shoes = {"MilitaryBoots_Redpunk","MilitaryBoots_Black"};
+//		TStringArray Bags, Hands, Tops, Vests, Pants, Shoes;
+//
+//		Bags = {"TortillaBag","HuntingBag","SmershBag","AssaultBag_Ttsko","AssaultBag_Black","AssaultBag_Green","CoyoteBag_Brown","CoyoteBag_Green","AliceBag_Green","AliceBag_Black","AliceBag_Camo"};
+//		Hands = {"WorkingGloves_Brown","WorkingGloves_Yellow"};
+//		Tops = {"M65Jacket_Black","M65Jacket_Khaki","M65Jacket_Tan","M65Jacket_Olive","TTsKOJacket_Camo","GorkaEJacket_Summer","GorkaEJacket_Flat","GorkaEJacket_Autumn","GorkaEJacket_PautRev","RidersJacket_Black"};
+//		Vests = {"PlateCarrierComplete","HighCapacityVest_Olive","HighCapacityVest_Black"};
+//		Pants = {"GorkaPants_PautRev","GorkaPants_Flat","GorkaPants_Autumn","GorkaPants_Summer","CargoPants_Blue","CargoPants_Beige","CargoPants_Black","CargoPants_Green","CargoPants_Grey","TTSKOPants","HunterPants_Autumn","HunterPants_Brown","HunterPants_Spring","HunterPants_Summer","HunterPants_Winter"};
+//		Shoes = {"MilitaryBoots_Redpunk","MilitaryBoots_Black"};
+//
+//		sm.SetPosition( PositionManager().PlayerSpawnPositions() );
+//
+//		// -- SetPlayerInventory( ITEM <STRING>, QUANTITY <INT>,  ATTACHMENTS <ARRAY> )
+//		sm.SetPlayerInventory( Bags.GetRandomElement() );
+//		sm.SetPlayerInventory( Hands.GetRandomElement() );
+//		sm.SetPlayerInventory( Tops.GetRandomElement() );
+//		sm.SetPlayerInventory( Vests.GetRandomElement() );
+//		sm.SetPlayerInventory( Pants.GetRandomElement() );
+//		sm.SetPlayerInventory( Shoes.GetRandomElement() );
+//		sm.SetPlayerInventory( "FirefighterAxe" );
+//		sm.SetPlayerInventory( "HuntingKnife" );
+//		sm.SetPlayerInventory( "Flashlight" );
+//		sm.SetPlayerInventory( "Battery9V" );
+//		sm.SetPlayerInventory( "Rag", 2 );
+//		sm.SetPlayerInventory( "Mag_STANAGCoupled_30Rnd" );
+//		sm.SetPlayerInventory( "Mag_STANAGCoupled_30Rnd" );
+//		sm.SetPlayerInventory( "M4A1_Black", 0, {"M4_Suppressor", "M4_RISHndgrd_Black", "M4_MPBttstck_Black", "Mag_STANAGCoupled_30Rnd", "ACOGOptic"} );
+//
+//		m_oPlayer = sm.SpawnPlayer();
+//
+//		FixPlayerNullOnMissionFinish = new set<ref PlayerBase>;
+//
+//		FixPlayerNullOnMissionFinish.Insert( m_oPlayer );
 
-		sm.SetPosition( PositionManager().PlayerSpawnPositions() );
-		
-		// -- SetPlayerInventory( ITEM <STRING>, QUANTITY <INT>,  ATTACHMENTS <ARRAY> )
-		sm.SetPlayerInventory( Bags.GetRandomElement() );
-		sm.SetPlayerInventory( Hands.GetRandomElement() );
-		sm.SetPlayerInventory( Tops.GetRandomElement() );
-		sm.SetPlayerInventory( Vests.GetRandomElement() );
-		sm.SetPlayerInventory( Pants.GetRandomElement() );
-		sm.SetPlayerInventory( Shoes.GetRandomElement() );
-		sm.SetPlayerInventory( "FirefighterAxe" );
-		sm.SetPlayerInventory( "HuntingKnife" );
-		sm.SetPlayerInventory( "Flashlight" );
-		sm.SetPlayerInventory( "Battery9V" );
-		sm.SetPlayerInventory( "Rag", 2 );
-		sm.SetPlayerInventory( "Mag_STANAGCoupled_30Rnd" );
-		sm.SetPlayerInventory( "Mag_STANAGCoupled_30Rnd" );
-		sm.SetPlayerInventory( "M4A1_Black", 0, {"M4_Suppressor", "M4_RISHndgrd_Black", "M4_MPBttstck_Black", "Mag_STANAGCoupled_30Rnd", "ACOGOptic"} );
+        TVectorArray positions = { "15135.1 0 13901.1", "15017.8 0 13892.4", "14887.1 0 14547.9", "14749.7 0 13248.7",
+                                   "14697.6 0 13418.4", "14537.3 0 14755.7", "14415.3 0 14025.2", "14338.0 0 12859.5",
+                                   "14263.8 0 12748.7", "14172.2 0 12304.9", "14071.4 0 12033.3", "14054.9 0 11341.3",
+                                   "14017.8 0 2959.1", "13905.5 0 12489.7", "13852.4 0 11686.0", "13846.6 0 12050.0",
+                                   "13676.0 0 12262.1", "13617.4 0 12759.8", "13610.1 0 11223.6", "13594.3 0 4064.0",
+                                   "13587.8 0 6026.5", "13571.1 0 3056.8", "13552.6 0 4653.7", "13529.9 0 3968.3",
+                                   "13520.8 0 4223.7", "13504.0 0 5004.5", "13476.7 0 6136.3", "13441.6 0 5262.2",
+                                   "13426.6 0 5747.3", "13416.8 0 11840.4", "13400.8 0 4120.7", "13395.8 0 5902.8",
+                                   "13385.0 0 3946.6", "13374.4 0 6454.3", "13367.1 0 10837.1", "13366.3 0 4906.0",
+                                   "13337.1 0 5120.8", "13326.7 0 5489.1", "13312.7 0 6771.1", "13288.7 0 11415.1",
+                                   "13261.6 0 11785.2", "13171.6 0 6534.8", "13159.8 0 5401.7", "13155.2 0 5475.2",
+                                   "13084.9 0 7938.6", "13056.8 0 4848.5", "13048.1 0 8357.6", "13048.1 0 3867.7",
+                                   "12991.7 0 7287.1", "12983.0 0 5539.1", "12978.9 0 9727.8", "12950.2 0 5226.7",
+                                   "12942.1 0 8393.1", "12891.5 0 3673.9", "12628.7 0 10495.2", "12574.3 0 3592.8",
+                                   "12566.3 0 6682.6", "12465.2 0 8009.0", "12354.5 0 3480.0", "13262.8 0 7225.8" };
 
-		m_oPlayer = sm.SpawnPlayer();
-		
-		FixPlayerNullOnMissionFinish = new set<ref PlayerBase>;
-		
-		FixPlayerNullOnMissionFinish.Insert( m_oPlayer );
+        m_oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), positions.GetRandomElement(), 0, "NONE") );
+
+        GetGame().SelectPlayer( NULL, m_oPlayer );
+
+        EntityAI item = m_oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
+
+        item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
+
+        item = m_oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
+
+        item = m_oPlayer.GetInventory().CreateInInventory( "PlateCarrierHolster" );
+
+        item = m_oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
+
+        item = m_oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
+
+        item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
+
+        item = m_oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
+
+        item = m_oPlayer.GetInventory().CreateInInventory( "M4A1_Black" );
+        item.GetInventory().CreateAttachment( "M4_Suppressor" );
+        item.GetInventory().CreateAttachment( "M4_RISHndgrd_Black" );
+        item.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
+        item.GetInventory().CreateAttachment( "ACOGOptic" );
+
+        auto oMag = m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
+        m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
+        m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
+
+        m_oPlayer.LocalTakeEntityToHands( item );
+
+        m_oPlayer.SetQuickBarEntityShortcut( item, 0, true );
+
+        m_oPlayer.GetWeaponManager().AttachMagazine( oMag );
     }
 
 
