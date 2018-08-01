@@ -1,7 +1,9 @@
 # DayZCommunityOfflineMode
 
 **Thank you for over 25.000 downloads!**  
-We are currently preparing an content update with this planned features:
+This project got a lot of support from various community members and continues to grow.
+As a thank you we are currently preparing a big feature (to be released some time soon), that will give you a whole different perspective about the game and what is possible for community modders and scripters in the future.
+Besides that we are currently preparing an content update with this planned features:
 * Improved visual GUI with new a new and extended object editor and a simple main menu
 * Persitency with mutliple characters
 * Advanced camera manager for content creators
