@@ -90,4 +90,4 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * [DannyDog](https://github.com/DannyDog) - Code snippets, Object Editor and Updated camera tools
 * [n8m4re](https://github.com/n8m4re) - Code: SaveManager
 * [wriley](https://github.com/wriley) - Code snippets beards
-* [Jacob_Mango](https://twitter.com/Jacob_MangoR) - Added key to toggle "Aimgate"
+* [Jacob_Mango](https://github.com/Jacob-Mango) - Added key to toggle "Aimgate"
