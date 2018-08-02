@@ -1,7 +1,7 @@
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\WelcomeManager.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\PositionManager.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\WeatherManager.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectManager.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WelcomeMenu.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\PositionMenu.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WeatherMenu.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\ObjectMenu.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\SaveManager.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
@@ -9,6 +9,8 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\PluginLifespan.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
+
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\COMKeyBinds.c"
 
 class CommunityOfflineMode : MissionGameplay
 {
@@ -92,6 +94,8 @@ class CommunityOfflineMode : MissionGameplay
 	{
 		m_Modules.Insert( new ObjectEditor(this) );
 		m_Modules.Insert( new CameraTool(this) );
+		m_Modules.Insert( new MiscFunctions(this) );
+		m_Modules.Insert( new COMKeyBinds(this) );
 	}
 	
 	
@@ -474,9 +478,9 @@ class CommunityOfflineMode : MissionGameplay
 		if( !m_bWelcome )
 		{
 		    m_bWelcome = true;
-            WelcomeManager oWelcomeManager = new WelcomeManager;
-            oWelcomeManager.Init();
-            GetGame().GetUIManager().ShowScriptedMenu( oWelcomeManager, NULL );
+            WelcomeMenu oWelcomeMenu = new WelcomeMenu;
+            oWelcomeMenu.Init();
+            GetGame().GetUIManager().ShowScriptedMenu( oWelcomeMenu, NULL );
 		}
 
 		switch( key )
@@ -748,15 +752,15 @@ class CommunityOfflineMode : MissionGameplay
 
 				if( CTRL() )
 				{
-				    oMenu = new PositionManager;
+				    oMenu = new PositionMenu;
 				}
 				else if( SHIFT() )
 				{
-                    oMenu = new WeatherManager;
+                    oMenu = new WeatherMenu;
 				}
 				else
 				{
-				    oMenu = new ObjectManager;
+				    oMenu = new ObjectMenu;
 				}
 
 				oMenu.Init();

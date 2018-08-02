@@ -1,19 +1,19 @@
-class WelcomeManager extends UIScriptedMenu
+class WelcomeMenu extends UIScriptedMenu
 {
     MultilineTextWidget m_InfoBox;
     ButtonWidget m_BtnOk;
 
-	void WelcomeManager()
+	void WelcomeMenu()
 	{
 	}	
 	
-	void ~WelcomeManager()
+	void ~WelcomeMenu()
 	{
 	}
 
     override Widget Init()
     {
-        layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WelcomeManager.layout" );
+        layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\WelcomeMenu.layout" );
 
         m_InfoBox = TextWidget.Cast( layoutRoot.FindAnyWidget( "infotext" ) );
         m_BtnOk = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_ok" ) );

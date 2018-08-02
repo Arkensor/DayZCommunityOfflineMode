@@ -1,4 +1,4 @@
-class WeatherManager extends UIScriptedMenu
+class WeatherMenu extends UIScriptedMenu
 {
 	private static const int m_DaysInMonth [ 12 ] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
@@ -39,17 +39,17 @@ class WeatherManager extends UIScriptedMenu
 	private float m_CurrFog;
 	private float m_CurrWindForce;
 
-	void WeatherManager()
+	void WeatherMenu()
 	{
 	}
 
-	void ~WeatherManager()
+	void ~WeatherMenu()
 	{
 	}
 
 	override Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WeatherManager.layout" );
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\WeatherMenu.layout" );
 
         m_BtnSave			= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_save" ) );
         m_BtnCancel			= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_cancel" ) );
