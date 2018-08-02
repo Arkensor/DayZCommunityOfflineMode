@@ -1,4 +1,4 @@
-class PositionManager extends UIScriptedMenu
+class PositionMenu extends UIScriptedMenu
 {
 	protected TextListboxWidget m_LstPositionList;
 	protected EditBoxWidget m_TxtSelectedX;
@@ -12,7 +12,7 @@ class PositionManager extends UIScriptedMenu
 
     protected bool m_bOverCurrentPos;
 
-	void PositionManager()
+	void PositionMenu()
 	{
 	    m_bOverCurrentPos = false;
 
@@ -40,13 +40,13 @@ class PositionManager extends UIScriptedMenu
         m_oPositions.Insert( "Zelenogorsk West", "2489.45 0.0 5080.41" );
 	}
 
-	void ~PositionManager()
+	void ~PositionMenu()
 	{
 	}
 
 	override Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\PositionManager.layout" );
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\PositionMenu.layout" );
 
 		m_LstPositionList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget("tls_ppp_pm_positions_list") );
 		m_TxtSelectedX = EditBoxWidget.Cast( layoutRoot.FindAnyWidget("pnl_ppp_pm_selected_x_value") );

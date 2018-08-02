@@ -1,4 +1,4 @@
-class ObjectManager extends UIScriptedMenu
+class ObjectMenu extends UIScriptedMenu
 {
 	protected TextListboxWidget m_classList;
 	protected EditBoxWidget m_SearchBox;
@@ -7,17 +7,17 @@ class ObjectManager extends UIScriptedMenu
 	protected ButtonWidget m_btnSpawnInventory;
 	protected ButtonWidget m_btnCancel;
 
-	void ObjectManager()
+	void ObjectMenu()
 	{
 	}
 
-	void ~ObjectManager()
+	void ~ObjectMenu()
 	{
 	}
 
 	override Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\ObjectManager.layout" );
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\ObjectMenu.layout" );
 
          m_classList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget( "classlist" ) );
          m_SearchBox = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "search_input" ) );

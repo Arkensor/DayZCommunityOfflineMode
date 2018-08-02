@@ -1,4 +1,4 @@
-FrameWidgetClass PositionManager
+FrameWidgetClass PositionMenu
 {
 	visible 0
 	color 0 0 0 0
