@@ -2,6 +2,8 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\PositionMenu.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WeatherMenu.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\ObjectMenu.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\BarrelCrosshair.c"
+
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
@@ -40,7 +42,7 @@ class CommunityOfflineMode : MissionGameplay
 	protected int m_nAutoWalkMode = 0;
 
 	// For Aiming like 0.62
-	protected bool m_bOldAiming = false;
+	bool m_bOldAiming = false;
 
 	//For keyhandler
 	protected bool m_IsCtrlHolding = false;
@@ -120,6 +122,7 @@ class CommunityOfflineMode : MissionGameplay
 		
 		InitializeModules();
 		
+		GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\BarrelCrosshair.layout" );
 	}
 	
 
@@ -250,7 +253,7 @@ class CommunityOfflineMode : MissionGameplay
 		    cpl.UpdateBloodyHandsVisibility(m_oPlayer, m_oPlayer.HasBloodyHands());
 
 			if (m_bOldAiming) {
-				m_oPlayer.OverrideShootFromCamera(true);
+				m_oPlayer.OverrideShootFromCamera(false);
 			}
 		}
 		
@@ -708,13 +711,12 @@ class CommunityOfflineMode : MissionGameplay
 			{
 				if ( m_bOldAiming )
 				{
-					m_oPlayer.OverrideShootFromCamera(false);
 					m_oPlayer.MessageStatus( "Old Aiming System disabled." );
 					m_bOldAiming = false;
+					m_oPlayer.OverrideShootFromCamera(true);
 				}
 				else
 				{
-					m_oPlayer.OverrideShootFromCamera(true);
 					m_oPlayer.MessageStatus( "Old Aiming System enabled." );
 					m_bOldAiming = true;
 				}
