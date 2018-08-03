@@ -94,6 +94,7 @@ class CommunityOfflineMode : MissionGameplay
 		m_Modules.Insert( new CameraTool(this) );
 		m_Modules.Insert( new MiscFunctions(this) );
 		m_Modules.Insert( new COMKeyBinds(this) );
+		m_Modules.Insert( new SaveModule(this) );
 	}
 	
 	
@@ -1008,6 +1009,8 @@ class CommunityOfflineMode : MissionGameplay
         m_oPlayer.SetQuickBarEntityShortcut( item, 0, true );
 
         m_oPlayer.GetWeaponManager().AttachMagazine( oMag );
+
+
     }
 
 
@@ -1021,7 +1024,6 @@ class CommunityOfflineMode : MissionGameplay
 		{
 			oHive = CreateHive();
 		}
-		
 		if( oHive )
 		{
 			oHive.InitOffline();

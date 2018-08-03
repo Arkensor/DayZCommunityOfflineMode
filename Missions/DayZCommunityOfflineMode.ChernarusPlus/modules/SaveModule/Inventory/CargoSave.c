@@ -1,11 +1,11 @@
 class CargoSave extends ItemSave
 {
     bool HasItems;
-    List<ItemSave> Items;
+    ref array<ItemSave> Items;
 
     void CargoSave()
     {
-        Items = new List<ItemSave>;
+        Items = new array<ItemSave>;
     }
 
     void ~CargoSave()
@@ -13,15 +13,17 @@ class CargoSave extends ItemSave
         Items.Clear();
     }
 
-    override EntityAI Create(EntityAI oParent)
+    override EntityAI Create(ref EntityAI oParent)
     {
-        EntityAI oEntity = super.Create(oParent);
+        ref EntityAI oEntity = super.Create(oParent);
 
         if (HasItems) {
-            for (int i = 0; i < Items.Length(); i++) 
+            for (int i = 0; i < Items.Count(); i++) 
             {
                 Items[i].Create(oEntity);
             }
         }
+
+        return oEntity;
     }
 }

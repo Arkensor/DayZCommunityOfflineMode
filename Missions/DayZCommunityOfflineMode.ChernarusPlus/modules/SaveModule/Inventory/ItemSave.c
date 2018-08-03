@@ -7,28 +7,27 @@ class ItemSave
     int Y;
 
     int Quantity;
-    float Wet;
-    float Health;
+    float ItemWet;
+    float ItemHealth;
 
     bool HasAttachments;
-    List<ItemSave> Attachments;
+    ref array<ItemSave> ItemAttachments;
 
     bool HasCargo;
-    CargoSave Cargo;
+    ref CargoSave Cargo;
 
     void ItemSave()
     {
-        Attachments = new List<ItemSave>;
+        ItemAttachments = new array<ItemSave>;
         Cargo = new CargoSave;
     }
 
     void ~ItemSave()
     {
-        Attachments.Clear();
+        ItemAttachments.Clear();
     }
 
-    EntityAI Create(EntityAI oParent) {
-        
+    EntityAI Create(ref EntityAI oParent) {
         EntityAI oEntity;
 
         if (LocationType == "Cargo") {
@@ -40,8 +39,8 @@ class ItemSave
         }
 
         ItemBase oItem = ItemBase.Cast(oEntity);
-        oItem.SetWet(Wet);
-        oItem.SetHealth("", "", Health);
+        oItem.SetWet(ItemWet);
+        oItem.SetHealth("", "", ItemHealth);
 
         if (oItem.IsInherited(Magazine))
         {
@@ -52,14 +51,16 @@ class ItemSave
         }
 
         if (HasAttachments) {
-            for (int i = 0; i < Attachments.Length(); i++) 
+            for (int i = 0; i < ItemAttachments.Count(); i++) 
             {
-                Attachments[i].Create(oItem);
+                ItemAttachments[i].Create(oItem);
             }
         }
 
         if (HasCargo) {
             Cargo.Create(oItem);
         }
+
+        return oEntity;
     }
 }

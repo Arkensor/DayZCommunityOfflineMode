@@ -20,8 +20,24 @@ class SaveModule extends Module
 		super.Init();
 	}
 
+	void SavePlayer() 
+	{
+		if (!m_Mission.m_oPlayer) return;
+
+		CharacterSave.SavePlayer("a", "b", m_Mission.m_oPlayer);
+	}
+
     // This is where we will show the Character Select GUI. 
 	override void onMissionLoaded()
+	{
+		m_Mission.m_oPlayer = CharacterSave.LoadPlayer("a", "b", m_Mission.m_oPlayer);
+		GetGame().SelectPlayer( NULL, m_Mission.m_oPlayer );
+
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 10000, true);
+			
+	}
+	
+	override void onUpdate( int timeslice ) 
 	{
 	}
 
