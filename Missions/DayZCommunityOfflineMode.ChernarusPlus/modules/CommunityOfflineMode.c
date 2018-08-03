@@ -3,7 +3,6 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WeatherMenu.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\ObjectMenu.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\SaveManager.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
@@ -20,8 +19,7 @@ class CommunityOfflineMode : MissionGameplay
 	private ref set<ref Module> m_Modules;
 	
 	PlayerBase m_oPlayer;
-//	private ref set<ref PlayerBase> FixPlayerNullOnMissionFinish;  // fix for GetGame().GetPlayer() returns NULL -> OnMissionFinish()
-//	protected ref SaveManager sm;
+
 	ref PluginLifespanPatched cpl;
 	
 	//Patches
@@ -70,8 +68,6 @@ class CommunityOfflineMode : MissionGameplay
 		// register modules
 		RegisterModules();
 		
-//		sm = new SaveManager(this);
-        
 		// for beard
 		g_Game.SetMissionState(DayZGame.MISSION_STATE_GAME);
 		SetDispatcher(new DispatcherCaller);
@@ -173,31 +169,11 @@ class CommunityOfflineMode : MissionGameplay
 	
 	
 	override void OnMissionFinish()
-	{
-//		PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
-//
-//		if (player != NULL)
-//		{
-//
-//			int pState = player.GetPlayerState();
-//
-//			if ( pState == 0 )
-//			{
-//				sm.ProcessPlayerSaves();
-//			}
-//
-//			if (!DISABLE_RESPAWN_ONRESTART || pState != 0 )
-//			{
-//				sm.DeletePlayer();
-//			}
-//		}
-		
-		
+	{	
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
 			m_Modules.Get(i).onMissionFinish();
 		}
-		
 		
 		super.OnMissionFinish();
 	}
@@ -979,39 +955,6 @@ class CommunityOfflineMode : MissionGameplay
 
 	void SpawnPlayer()
     {
-//		TStringArray Bags, Hands, Tops, Vests, Pants, Shoes;
-//
-//		Bags = {"TortillaBag","HuntingBag","SmershBag","AssaultBag_Ttsko","AssaultBag_Black","AssaultBag_Green","CoyoteBag_Brown","CoyoteBag_Green","AliceBag_Green","AliceBag_Black","AliceBag_Camo"};
-//		Hands = {"WorkingGloves_Brown","WorkingGloves_Yellow"};
-//		Tops = {"M65Jacket_Black","M65Jacket_Khaki","M65Jacket_Tan","M65Jacket_Olive","TTsKOJacket_Camo","GorkaEJacket_Summer","GorkaEJacket_Flat","GorkaEJacket_Autumn","GorkaEJacket_PautRev","RidersJacket_Black"};
-//		Vests = {"PlateCarrierComplete","HighCapacityVest_Olive","HighCapacityVest_Black"};
-//		Pants = {"GorkaPants_PautRev","GorkaPants_Flat","GorkaPants_Autumn","GorkaPants_Summer","CargoPants_Blue","CargoPants_Beige","CargoPants_Black","CargoPants_Green","CargoPants_Grey","TTSKOPants","HunterPants_Autumn","HunterPants_Brown","HunterPants_Spring","HunterPants_Summer","HunterPants_Winter"};
-//		Shoes = {"MilitaryBoots_Redpunk","MilitaryBoots_Black"};
-//
-//		sm.SetPosition( PositionManager().PlayerSpawnPositions() );
-//
-//		// -- SetPlayerInventory( ITEM <STRING>, QUANTITY <INT>,  ATTACHMENTS <ARRAY> )
-//		sm.SetPlayerInventory( Bags.GetRandomElement() );
-//		sm.SetPlayerInventory( Hands.GetRandomElement() );
-//		sm.SetPlayerInventory( Tops.GetRandomElement() );
-//		sm.SetPlayerInventory( Vests.GetRandomElement() );
-//		sm.SetPlayerInventory( Pants.GetRandomElement() );
-//		sm.SetPlayerInventory( Shoes.GetRandomElement() );
-//		sm.SetPlayerInventory( "FirefighterAxe" );
-//		sm.SetPlayerInventory( "HuntingKnife" );
-//		sm.SetPlayerInventory( "Flashlight" );
-//		sm.SetPlayerInventory( "Battery9V" );
-//		sm.SetPlayerInventory( "Rag", 2 );
-//		sm.SetPlayerInventory( "Mag_STANAGCoupled_30Rnd" );
-//		sm.SetPlayerInventory( "Mag_STANAGCoupled_30Rnd" );
-//		sm.SetPlayerInventory( "M4A1_Black", 0, {"M4_Suppressor", "M4_RISHndgrd_Black", "M4_MPBttstck_Black", "Mag_STANAGCoupled_30Rnd", "ACOGOptic"} );
-//
-//		m_oPlayer = sm.SpawnPlayer();
-//
-//		FixPlayerNullOnMissionFinish = new set<ref PlayerBase>;
-//
-//		FixPlayerNullOnMissionFinish.Insert( m_oPlayer );
-
         TVectorArray positions = { "15135.1 0 13901.1", "15017.8 0 13892.4", "14887.1 0 14547.9", "14749.7 0 13248.7",
                                    "14697.6 0 13418.4", "14537.3 0 14755.7", "14415.3 0 14025.2", "14338.0 0 12859.5",
                                    "14263.8 0 12748.7", "14172.2 0 12304.9", "14071.4 0 12033.3", "14054.9 0 11341.3",
@@ -1076,6 +1019,7 @@ class CommunityOfflineMode : MissionGameplay
 		{
 			oHive = CreateHive();
 		}
+		
 		if( oHive )
 		{
 			oHive.InitOffline();
