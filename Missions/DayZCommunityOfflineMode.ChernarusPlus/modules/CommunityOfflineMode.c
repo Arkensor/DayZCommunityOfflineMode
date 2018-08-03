@@ -9,6 +9,8 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\PluginLifespan.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\SaveModule\\SaveModule.c"
+
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\COMKeyBinds.c"
 
 class CommunityOfflineMode : MissionGameplay
