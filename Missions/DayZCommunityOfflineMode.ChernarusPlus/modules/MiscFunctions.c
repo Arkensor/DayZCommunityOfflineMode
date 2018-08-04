@@ -1,3 +1,4 @@
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\CameraSettings.c"
 class MiscFunctions extends Module 
 {
 	bool IsHudVisible = true;
@@ -39,7 +40,10 @@ class MiscFunctions extends Module
 	
 	void ToggleUI() 
 	{
-		IsHudVisible = !IsHudVisible;
-		m_Mission.GetHud().Show(IsHudVisible);
+		//IsHudVisible = !IsHudVisible;
+		//m_Mission.GetHud().Show(IsHudVisible);
+		
+		// Camera ui test
+		GetGame().GetUIManager().ShowScriptedMenu( new CameraSettings(), NULL );
 	}
 }

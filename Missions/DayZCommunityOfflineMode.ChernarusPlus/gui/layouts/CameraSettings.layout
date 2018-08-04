@@ -1,0 +1,264 @@
+FrameWidgetClass CameraMenu
+{
+	visible 0
+	position 0.1 0.1
+	size 400 300
+	halign right_ref
+	valign bottom_ref
+	hexactpos 0
+	vexactpos 0
+	hexactsize 1
+	vexactsize 1
+	style EditorPanel
+	{
+		PanelWidgetClass Background
+		{
+			visible 1
+			color 0 0 0.1 0.7
+			position 0 0
+			size 1 1
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 0
+			style DayZDefaultPanelTop
+			{
+				PanelWidgetClass TitleBar
+				{
+					color 0 0 0 0.7843
+					position 0 0
+					size 1 25
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 1
+					style DayZDefaultPanelTop
+					{
+						TextWidgetClass TitleBarText
+						{
+							visible 1
+							position 0.01 0
+							size 0.8 0.8
+							valign center_ref
+							text "Camera Settings"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 20
+						}
+						
+						ButtonWidgetClass close_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 25 25
+							halign right_ref
+							valign center_ref
+							hexactsize 1
+							vexactsize 1
+							{
+								ImageWidgetClass close_button_image
+								{
+									ignorepointer 1
+									position 0 0
+									size 25 25
+									halign right_ref
+									valign center_ref
+									hexactsize 1
+									vexactsize 1
+									image0 "set:dayz_gui image:icon_x"
+									mode additive
+									"src alpha" 1
+								}
+							}
+						}
+					}
+				}
+				
+				PanelWidgetClass camera_sliders 
+				{
+					position 0 25
+					size 1 275
+					hexactpos 0
+					vexactpos 1
+					hexactsize 0
+					vexactsize 1
+					{
+						TextWidgetClass camera_slider_blur_text
+						{
+							position 0.025 0.1
+							size 1 20
+							hexactsize 0
+							vexactsize 1
+							valign top_ref
+							halign left_ref
+							text "Blur strength:"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 14
+							{
+								SliderWidgetClass camera_slider_blur 
+								{
+									position 0.25 0
+									size 0.7 1
+									hexactpos 0
+									vexactpos 1
+									hexactsize 0
+									hexactsize 0
+									style Editor
+									{
+										TextWidgetClass camera_slider_blur_value
+										{
+											size 1 1
+											halign center_ref
+											valign center_ref
+											hexactpos 1
+											vexactpos 1
+											hexactpos 0
+											vexactpos 0
+											text "0.0"
+											font "gui/fonts/Metron"
+										   "exact text" 1
+										   "text halign" center
+										   "text valign" center
+										}
+									}
+								}
+							}
+						}
+						
+						TextWidgetClass camera_slider_dist_text
+						{
+							position 0.025 0.2
+							size 1 20
+							valign top_ref
+							halign left_ref
+							vexactsize 1
+							text "Focus Distance:"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 14
+							{
+								SliderWidgetClass camera_slider_dist 
+								{
+									position 0.25 0
+									size 0.7 1
+									hexactpos 0
+									vexactpos 1
+									hexactsize 0
+									hexactsize 0
+									style Editor
+									{
+										TextWidgetClass camera_slider_dist_value
+										{
+											size 1 1
+											halign center_ref
+											valign center_ref
+											hexactpos 1
+											vexactpos 1
+											hexactpos 0
+											vexactpos 0
+											text "0.0"
+											font "gui/fonts/Metron"
+										   "exact text" 1
+										   "text halign" center
+										   "text valign" center
+										}
+									}
+								}
+							}
+						}
+						
+						TextWidgetClass camera_slider_flen_text
+						{
+							position 0.025 0.3
+							size 1 20
+							valign top_ref
+							halign left_ref
+							vexactsize 1
+							text "Focal Length:"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 14
+							{
+								SliderWidgetClass camera_slider_flen 
+								{
+									position 0.25 0
+									size 0.7 1
+									hexactpos 0
+									vexactpos 1
+									hexactsize 0
+									hexactsize 0
+									style Editor
+									{
+										TextWidgetClass camera_slider_flen_value
+										{
+											size 1 1
+											halign center_ref
+											valign center_ref
+											hexactpos 1
+											vexactpos 1
+											hexactpos 0
+											vexactpos 0
+											text "0.0"
+											font "gui/fonts/Metron"
+										   "exact text" 1
+										   "text halign" center
+										   "text valign" center
+										}
+									}
+								}
+							}
+						}
+						
+						TextWidgetClass camera_slider_fnear_text
+						{
+							position 0.025 0.4
+							size 1 20
+							valign top_ref
+							halign left_ref
+							vexactsize 1
+							text "Focal Near:"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 14
+							{
+								SliderWidgetClass camera_slider_fnear 
+								{
+									position 0.25 0
+									size 0.7 1
+									hexactpos 0
+									vexactpos 1
+									hexactsize 0
+									hexactsize 0
+									style Editor
+									{
+										TextWidgetClass camera_slider_fnear_value
+										{
+											size 1 1
+											halign center_ref
+											valign center_ref
+											hexactpos 1
+											vexactpos 1
+											hexactpos 0
+											vexactpos 0
+											text "0.0"
+											font "gui/fonts/Metron"
+										   "exact text" 1
+										   "text halign" center
+										   "text valign" center
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
