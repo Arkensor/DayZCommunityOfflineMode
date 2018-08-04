@@ -47,7 +47,7 @@ class SaveModule extends Module
 		SavePlayer();
 	}
 
-	PlayerBase CreateDefaultCharacter()
+	static PlayerBase CreateDefaultCharacter()
 	{
 		PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
 
@@ -80,7 +80,7 @@ class SaveModule extends Module
 		return oPlayer;
 	}
 
-	TVectorArray GetSpawnPoints() {
+	private static TVectorArray GetSpawnPoints() {
 		return { "15135.1 0 13901.1", "15017.8 0 13892.4", "14887.1 0 14547.9", "14749.7 0 13248.7",
                  "14697.6 0 13418.4", "14537.3 0 14755.7", "14415.3 0 14025.2", "14338.0 0 12859.5",
                  "14263.8 0 12748.7", "14172.2 0 12304.9", "14071.4 0 12033.3", "14054.9 0 11341.3",

@@ -14,6 +14,8 @@ class ItemSave
     float ItemWet;
     float ItemHealth;
 
+    int IQuickBarIndex;
+
     int NumAttachments;
     ref array<ref ItemSave> ItemAttachments;
 
@@ -22,6 +24,8 @@ class ItemSave
 
     void ItemSave()
     {
+        IQuickBarIndex = -1;
+
         NumAttachments = 0;
         ItemAttachments = new array<ref ItemSave>;
         NumItems = 0;
@@ -34,7 +38,7 @@ class ItemSave
         Items.Clear();
     }
 
-    EntityAI Load(EntityAI oParent) {
+    EntityAI Load(EntityAI oParent, PlayerBase oPlayer) {
         EntityAI oEntity;
 
         if (LocationType == COM_CARGO_TYPE) // Cargo
@@ -63,13 +67,18 @@ class ItemSave
             {
                 oItem.SetQuantity(Quantity);
             }
+
+            if (IQuickBarIndex != -1) 
+            {
+                oPlayer.SetQuickBarEntityShortcut(oItem, IQuickBarIndex);
+            }
         }
 
         if (NumAttachments > 0)
         {
             for (int iAttachment = 0; iAttachment < NumAttachments; iAttachment++) 
             {
-                ItemAttachments[iAttachment].Load(oEntity);
+                ItemAttachments[iAttachment].Load(oEntity, oPlayer);
             }
         }
 
@@ -77,14 +86,14 @@ class ItemSave
         {
             for (int iItem = 0; iItem < NumItems; iItem++) 
             {
-                Items[iItem].Load(oEntity);
+                Items[iItem].Load(oEntity, oPlayer);
             }
         }
 
         return oEntity;
     }
 
-    bool Save(EntityAI oEntity) {
+    bool Save(EntityAI oEntity, PlayerBase oPlayer) {
         auto oCargo = oEntity.GetInventory().GetCargo();
         ref ItemSave oItemSave = NULL;
 
@@ -97,6 +106,8 @@ class ItemSave
             Quantity = GetItemQuantity(oItem);
             ItemWet = oItem.GetWet();
             ItemHealth = oItem.GetHealth("", "");
+            
+            IQuickBarIndex = oPlayer.FindQuickBarEntityIndex(oItem);
         }
 
 		if (oCargo)
@@ -108,7 +119,7 @@ class ItemSave
                 if (oCEntity)
                 {
                     oItemSave = new ItemSave;
-                    if (oItemSave.Save(oCEntity)) {
+                    if (oItemSave.Save(oCEntity, oPlayer)) {
                         NumItems++;
 
                         oItemSave.LocationType = COM_CARGO_TYPE; // Cargo
@@ -131,7 +142,7 @@ class ItemSave
             if (oAttachment)
             {
                 oItemSave = new ItemSave;
-                if (oItemSave.Save(oAttachment)) {
+                if (oItemSave.Save(oAttachment, oPlayer)) {
                     NumAttachments++;
 
                     oItemSave.LocationType = COM_ATTACHMENT_TYPE; // Attachment

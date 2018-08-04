@@ -3,8 +3,14 @@ class HandSave : ItemSave
 
     EntityAI LoadAsChild(ItemSave oItemSave, EntityAI oParent, PlayerBase oPlayer) {
         ItemBase oItem = NULL;
-        
-        EntityAI oEntity = oItemSave.Load(oParent);
+        EntityAI oEntity = NULL;
+
+        if (oItemSave.Name.Contains("Mag")) {
+            oItemSave.LocationType = COM_DEFAULT_TYPE;
+            oEntity = oItemSave.Load(oPlayer, oPlayer);
+        } else {
+            oEntity = oItemSave.Load(oParent, oPlayer);
+        }
 
         if (Class.CastTo(oItem, oEntity) && oEntity.IsItemBase())
         {
@@ -18,7 +24,7 @@ class HandSave : ItemSave
         return oEntity;
     }
 
-    EntityAI LoadHand(EntityAI oParent, PlayerBase oPlayer) {
+    override EntityAI Load(EntityAI oParent, PlayerBase oPlayer) {
         EntityAI oEntity;
 
         ItemBase oItem = NULL;
@@ -27,6 +33,8 @@ class HandSave : ItemSave
         
         if (Class.CastTo(oItem, oEntity) && oEntity.IsItemBase())
         {
+            oPlayer.LocalTakeEntityToHands( oItem );
+
             oItem.SetWet(ItemWet);
             oItem.SetHealth("", "", ItemHealth);
 
@@ -34,14 +42,16 @@ class HandSave : ItemSave
             {
                 Magazine oMagazine = Magazine.Cast( oItem );
                 oMagazine.LocalSetAmmoCount(Quantity);
-
-                // oPlayer.GetWeaponManager().AttachMagazine( oMagazine );
             } else
             {
                 oItem.SetQuantity(Quantity);
             }
 
-            oPlayer.LocalTakeEntityToHands( oItem );
+            
+            if (IQuickBarIndex != -1) 
+            {
+                oPlayer.SetQuickBarEntityShortcut(oItem, IQuickBarIndex);
+            }
         }
 
         if (NumAttachments > 0)
@@ -56,7 +66,7 @@ class HandSave : ItemSave
         {
             for (int iItem = 0; iItem < NumItems; iItem++) 
             {
-                Items[iItem].Load(oEntity);
+                Items[iItem].Load(oEntity, oPlayer);
             }
         }
 
