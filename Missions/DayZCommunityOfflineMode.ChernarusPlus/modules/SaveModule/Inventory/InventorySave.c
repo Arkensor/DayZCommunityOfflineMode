@@ -11,4 +11,4 @@ class InventorySave : ItemSave
 
         return NULL;
     }
-}s
+}

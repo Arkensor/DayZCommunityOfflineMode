@@ -58,9 +58,6 @@ class CommunityOfflineMode : MissionGameplay
 	protected const int HOLD_CLICK_TIME_MIN	= 200; //ms
 	protected const int DOUBLE_CLICK_TIME	= 300; //ms
 
-	// Temp SaveModule
-	protected ref SaveModule m_oSaveModule;
-
 	void CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::CommunityOfflineMode()" );
@@ -99,9 +96,7 @@ class CommunityOfflineMode : MissionGameplay
 		m_Modules.Insert( new CameraTool(this) );
 		m_Modules.Insert( new MiscFunctions(this) );
 		m_Modules.Insert( new COMKeyBinds(this) );
-
-		m_oSaveModule = new SaveModule(this);
-		m_Modules.Insert( m_oSaveModule );
+		m_Modules.Insert( new SaveModule(this) );
 	}
 	
 	
@@ -976,20 +971,19 @@ class CommunityOfflineMode : MissionGameplay
 
 	void SpawnPlayer()
     {
-		ref SaveModule oSaveModule = m_oSaveModule; // SaveModule.Cast(GetModuleByName("SaveModule"));
+		ref SaveModule oSaveModule = SaveModule.Cast(GetModuleByName("SaveModule"));
 
 		if (oSaveModule) {
 			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule found!");
 
 			m_oPlayer = oSaveModule.LoadPlayer();
-
-			GetGame().SelectPlayer( NULL, m_oPlayer );
 		} else {
 			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule not found!");
 			
+			m_oPlayer = oSaveModule.CreateDefaultCharacter();
 		}
 
-
+		GetGame().SelectPlayer( NULL, m_oPlayer );
     }
 
 

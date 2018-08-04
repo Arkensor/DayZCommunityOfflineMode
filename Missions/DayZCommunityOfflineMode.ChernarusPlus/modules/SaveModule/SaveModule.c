@@ -51,8 +51,6 @@ class SaveModule extends Module
 	{
 		PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
 
-		GetGame().SelectPlayer( NULL, oPlayer );
-
 		EntityAI item = oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
 
 		item = oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
