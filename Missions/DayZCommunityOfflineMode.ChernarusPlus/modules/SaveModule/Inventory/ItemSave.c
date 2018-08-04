@@ -1,3 +1,7 @@
+int COM_DEFAULT_TYPE = 0;
+int COM_CARGO_TYPE = 1;
+int COM_ATTACHMENT_TYPE = 2;
+
 class ItemSave
 {
     string Name;
@@ -10,33 +14,33 @@ class ItemSave
     float ItemWet;
     float ItemHealth;
 
-    bool HasAttachments;
+    int NumAttachments;
     ref array<ref ItemSave> ItemAttachments;
 
-    bool HasCargo;
-    ref array<ref ItemSave> ItemCargo;
+    int NumItems;
+    ref array<ref ItemSave> Items;
 
     void ItemSave()
     {
-        HasAttachments = false;
+        NumAttachments = 0;
         ItemAttachments = new array<ref ItemSave>;
-        HasCargo = false;
-        ItemCargo = new array<ref ItemSave>;
+        NumItems = 0;
+        Items = new array<ref ItemSave>;
     }
 
     void ~ItemSave()
     {
         ItemAttachments.Clear();
-        ItemCargo.Clear();
+        Items.Clear();
     }
 
-    EntityAI Create(ref EntityAI oParent) {
+    void Load(EntityAI oParent) {
         EntityAI oEntity;
 
-        if (LocationType == 1) // Cargo
+        if (LocationType == COM_CARGO_TYPE) // Cargo
         {
             oEntity = oParent.GetInventory().CreateEntityInCargoEx(Name, 0, X, Y);
-        } else if (LocationType == 2) // Attachment
+        } else if (LocationType == COM_ATTACHMENT_TYPE) // Attachment
         {
             oEntity = oParent.GetInventory().CreateAttachment(Name);
         } else // None
@@ -44,39 +48,43 @@ class ItemSave
             oEntity = oParent.GetInventory().CreateInInventory(Name);
         }
 
-        ItemBase oItem = ItemBase.Cast(oEntity);
-        oItem.SetWet(ItemWet);
-        oItem.SetHealth("", "", ItemHealth);
+        ItemBase oItem = NULL;
+        
+        if (Class.CastTo(oItem, oEntity) && oEntity.IsItemBase())
+        {
+            oItem.SetWet(ItemWet);
+            oItem.SetHealth("", "", ItemHealth);
 
-        if (oItem.IsInherited(Magazine))
-        {
-            Magazine oMagazine = Magazine.Cast( oItem );
-            oMagazine.LocalSetAmmoCount(Quantity);
-        } else
-        {
-            oItem.SetQuantity(Quantity);
+            if (oItem.IsInherited(Magazine))
+            {
+                Magazine oMagazine = Magazine.Cast( oItem );
+                oMagazine.LocalSetAmmoCount(Quantity);
+            } else
+            {
+                oItem.SetQuantity(Quantity);
+            }
+        } else {
+            // return false;
         }
 
-        if (HasAttachments)
+        if (NumAttachments > 0)
         {
-            for (int iAttachment = 0; iAttachment < ItemAttachments.Count(); iAttachment++) 
+            for (int iAttachment = 0; iAttachment < NumAttachments; iAttachment++) 
             {
-                ItemAttachments[iAttachment].Create(oItem);
+                ItemAttachments[iAttachment].Load(oEntity);
             }
         }
 
-        if (HasCargo)
+        if (NumItems > 0)
         {
-            for (int iCargo = 0; iCargo < ItemCargo.Count(); iCargo++) 
+            for (int iItem = 0; iItem < NumItems; iItem++) 
             {
-                ItemCargo[iCargo].Create(oEntity);
+                Items[iItem].Load(oEntity);
             }
         }
-
-        return oEntity;
     }
 
-    bool Save(ref EntityAI oEntity) {
+    bool Save(EntityAI oEntity) {
         auto oCargo = oEntity.GetInventory().GetCargo();
         ref ItemSave oItemSave = NULL;
 
@@ -102,16 +110,16 @@ class ItemSave
                 {
                     oItemSave = new ItemSave;
                     if (oItemSave.Save(oCEntity)) {
-                        HasCargo = true;
+                        NumItems++;
 
-                        oItemSave.LocationType = 1; // Cargo
+                        oItemSave.LocationType = COM_CARGO_TYPE; // Cargo
 
                         int iX, iY;
                         oCargo.GetItemRowCol(iCargo, iX, iY );
                         oItemSave.X = iX;
                         oItemSave.Y = iY;
 
-                        ItemCargo.Insert(oItemSave);
+                        Items.Insert(oItemSave);
                     }
                 }
             }
@@ -125,9 +133,9 @@ class ItemSave
             {
                 oItemSave = new ItemSave;
                 if (oItemSave.Save(oAttachment)) {
-                    HasAttachments = true;
+                    NumAttachments++;
 
-                    oItemSave.LocationType = 2; // Attachment
+                    oItemSave.LocationType = COM_ATTACHMENT_TYPE; // Attachment
 
                     ItemAttachments.Insert(oItemSave);
                 }
@@ -139,7 +147,7 @@ class ItemSave
 
     private float GetItemQuantity( InventoryItem oItem )
 	{
-		float fQuantity = 0;
+		float fQuantity = 1;
 		
 		if ( oItem.IsInherited( InventoryItem ) )
 		{

@@ -36,10 +36,14 @@ class CharacterSave
     bool HasInventory;
     ref InventorySave OPlayerInventory;
 
+    bool HasItemInHands;
+    ref HandSave OHandSave;
+
     void CharacterSave()
     {
         HasInventory = false;
         OPlayerInventory = new InventorySave;
+        OHandSave = new HandSave;
     }
 
     static PlayerBase LoadPlayer(string sCharacter, string sSave) {
@@ -76,7 +80,7 @@ class CharacterSave
 		oPlayer.SetBloodyHands(oSave.FBloodyHands);
 
         if (oSave.HasInventory) {
-            oSave.OPlayerInventory.Create(oPlayer);
+            oSave.OPlayerInventory.Load(oPlayer);
         }
 
         return oPlayer;
@@ -117,6 +121,14 @@ class CharacterSave
 
         if (oSave.HasInventory) {
             oSave.OPlayerInventory.Save(oPlayer);
+        }
+
+        ItemBase oHands = oPlayer.GetHumanInventory().GetEntityInHands();
+
+        oSave.HasItemInHands = oHands != NULL;
+
+        if (oSave.HasItemInHands) {
+            oSave.OHandSave.Save(oHands);
         }
 
         JsonFileLoader<CharacterSave>.JsonSaveFile(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json", oSave);
