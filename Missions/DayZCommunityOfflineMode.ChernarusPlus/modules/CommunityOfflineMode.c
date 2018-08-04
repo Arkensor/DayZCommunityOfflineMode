@@ -994,7 +994,7 @@ class CommunityOfflineMode : MissionGameplay
 
 		ref SaveModule oSaveModule = m_oSaveModule; // SaveModule.Cast(GetModuleByName("SaveModule"));
 
-		if (oSaveModule && false) {
+		if (oSaveModule) {
 			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule found!");
 
 			m_oPlayer = oSaveModule.LoadPlayer();

@@ -49,8 +49,9 @@ class CharacterSave
 
 		PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, oSave.SModel, "0 0 0", 0, "NONE") );
 
+        // Temporary for debugging purposes. Death checking not yet implemented.
         if (oSave.FHealth < 20) oSave.FHealth = 20;
-        if (oSave.FBlood < 20) oSave.FBlood = 20;
+        if (oSave.FBlood < 2000) oSave.FBlood = 2000;
 
 		oPlayer.SetPosition( oSave.VecPosition );
 		oPlayer.SetDirection( oSave.VecDirection );
