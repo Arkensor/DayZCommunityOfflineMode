@@ -22,12 +22,12 @@ class SaveModule extends Module
 
 	void SavePlayer() 
 	{
-		CharacterSave.SavePlayer("a", "b", m_Mission.m_oPlayer);
+		CharacterSave.SavePlayer("default", "latest", m_Mission.m_oPlayer);
 	}
 
 	PlayerBase LoadPlayer()
 	{
-		return CharacterSave.LoadPlayer("a", "b");
+		return CharacterSave.LoadPlayer("default", "latest");
 
 		// return CreateDefaultCharacter();
 	}

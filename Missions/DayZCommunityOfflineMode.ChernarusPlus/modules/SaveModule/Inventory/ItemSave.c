@@ -1,6 +1,7 @@
 int COM_DEFAULT_TYPE = 0;
 int COM_CARGO_TYPE = 1;
 int COM_ATTACHMENT_TYPE = 2;
+int COM_GROUND = 2;
 
 class ItemSave
 {
@@ -78,7 +79,7 @@ class ItemSave
         {
             for (int iAttachment = 0; iAttachment < NumAttachments; iAttachment++) 
             {
-                ItemAttachments[iAttachment].Load(oEntity, oPlayer);
+                FixAndLoadAttachment(ItemAttachments[iAttachment], oEntity, oPlayer);
             }
         }
 
@@ -176,4 +177,27 @@ class ItemSave
 		}
 		return fQuantity;
 	}
+
+    private EntityAI FixAndLoadAttachment(ItemSave oItemSave, EntityAI oParent, PlayerBase oPlayer) {
+        ItemBase oItem = NULL;
+        EntityAI oEntity = NULL;
+
+        if (oItemSave.Name.Contains("Mag")) {
+            oItemSave.LocationType = COM_DEFAULT_TYPE;
+            oEntity = oItemSave.Load(oPlayer, oPlayer);
+        } else {
+            oEntity = oItemSave.Load(oParent, oPlayer);
+        }
+
+        if (Class.CastTo(oItem, oEntity) && oEntity.IsItemBase())
+        {
+            if (oItem.IsInherited(Magazine))
+            {
+                Magazine oMagazine = Magazine.Cast( oItem );
+                oPlayer.GetWeaponManager().AttachMagazine( oMagazine );
+            }
+        }
+        
+        return oEntity;
+    }
 }
