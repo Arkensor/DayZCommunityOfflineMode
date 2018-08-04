@@ -34,24 +34,30 @@ class CharacterSave
     float FPlayTime;
 
     bool HasInventory;
-    InventorySave OInventory;
+    ref InventorySave OPlayerInventory;
 
-    static PlayerBase LoadPlayer(string sCharacter, string sSave, PlayerBase oPlayer = NULL) {
+    void CharacterSave()
+    {
+        HasInventory = false;
+        OPlayerInventory = new InventorySave;
+    }
+
+    static PlayerBase LoadPlayer(string sCharacter, string sSave) {
         ref CharacterSave oSave = new CharacterSave;
 
         JsonFileLoader<CharacterSave>.JsonLoadFile(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json", oSave);
 
-        if (oPlayer == NULL)
-        {
-		    oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, oSave.SModel, "0 0 0", 0, "NONE") );
-        }
+		PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, oSave.SModel, "0 0 0", 0, "NONE") );
+
+        if (oSave.FHealth < 20) oSave.FHealth = 20;
+        if (oSave.FBlood < 20) oSave.FBlood = 20;
 
 		oPlayer.SetPosition( oSave.VecPosition );
 		oPlayer.SetDirection( oSave.VecDirection );
 		oPlayer.SetOrientation( oSave.VecOrientation );
-        /*
+        
 		oPlayer.SetHealth("","", oSave.FHealth );
-		oPlayer.SetHealth("GlobalHealth", "FBlood", oSave.FBlood );
+		oPlayer.SetHealth("GlobalHealth", "Blood", oSave.FBlood );
 		oPlayer.GetStatBloodType().Set( oSave.IBloodStatType );
 		oPlayer.GetStatTemperature().Set( oSave.FTemperature );
 		oPlayer.GetStatEnergy().Set( oSave.FEnergy );
@@ -67,17 +73,16 @@ class CharacterSave
 		oPlayer.StatUpdate("playtime", oSave.FPlayTime);
 		oPlayer.SetLastShavedSeconds(oSave.FLastShaved);
 		oPlayer.SetBloodyHands(oSave.FBloodyHands);
-*/
-        //if (HasInventory) {
-        //    OInventory.Create(oPlayer);
-        //}
+
+        if (oSave.HasInventory) {
+            oSave.OPlayerInventory.Create(oPlayer);
+        }
 
         return oPlayer;
     }
 
     static void SavePlayer(string sCharacter, string sSave, PlayerBase oPlayer = NULL)
     {
-        
         if (oPlayer == NULL)
         {
             return;
@@ -90,7 +95,7 @@ class CharacterSave
         oSave.VecDirection = oPlayer.GetDirection();
         oSave.VecOrientation = oPlayer.GetOrientation();
         oSave.FHealth = oPlayer.GetHealth("","");
-        oSave.FBlood = oPlayer.GetHealth("GlobalHealth", "FBlood");
+        oSave.FBlood = oPlayer.GetHealth("GlobalHealth", "Blood");
         oSave.IBloodStatType = oPlayer.GetStatBloodType().Get();
         oSave.FTemperature = oPlayer.GetStatTemperature().Get();
         oSave.FEnergy = oPlayer.GetStatEnergy().Get();
@@ -105,6 +110,13 @@ class CharacterSave
         oSave.FLastShaved = oPlayer.GetLastShavedSeconds();
         oSave.FBloodyHands = oPlayer.HasBloodyHands();
         oSave.FPlayTime = oPlayer.StatGet("playtime");
+        
+        // TEMP
+        oSave.HasInventory = true;
+
+        if (oSave.HasInventory) {
+            oSave.OPlayerInventory.Save(oPlayer);
+        }
 
         JsonFileLoader<CharacterSave>.JsonSaveFile(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json", oSave);
     }

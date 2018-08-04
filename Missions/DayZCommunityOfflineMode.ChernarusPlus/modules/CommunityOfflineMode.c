@@ -58,6 +58,9 @@ class CommunityOfflineMode : MissionGameplay
 	protected const int HOLD_CLICK_TIME_MIN	= 200; //ms
 	protected const int DOUBLE_CLICK_TIME	= 300; //ms
 
+	// Temp SaveModule
+	protected ref SaveModule m_oSaveModule;
+
 	void CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::CommunityOfflineMode()" );
@@ -96,7 +99,9 @@ class CommunityOfflineMode : MissionGameplay
 		m_Modules.Insert( new CameraTool(this) );
 		m_Modules.Insert( new MiscFunctions(this) );
 		m_Modules.Insert( new COMKeyBinds(this) );
-		m_Modules.Insert( new SaveModule(this) );
+
+		m_oSaveModule = new SaveModule(this);
+		m_Modules.Insert( m_oSaveModule );
 	}
 	
 	
@@ -127,11 +132,11 @@ class CommunityOfflineMode : MissionGameplay
 	}
 	
 
-	Module GetModule(typename module_Type)
+	ref Module GetModule(typename module_Type)
 	{
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
-			Module module = m_Modules.Get(i);
+			ref Module module = m_Modules.Get(i);
 			if (module.GetModuleType() == module_Type) 
 			{
 				return module;
@@ -140,7 +145,18 @@ class CommunityOfflineMode : MissionGameplay
 		return NULL;
 	}
 
-	
+	ref Module GetModuleByName(string module_name)
+	{
+		for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			ref Module module = m_Modules.Get(i);
+			if (module.GetModuleName() == module_name) 
+			{
+				return module;
+			}
+		}
+		return NULL;
+	}
 	
 	protected MouseButtonInfo GetMouseButtonInfo( int button )
 	{	
@@ -976,41 +992,52 @@ class CommunityOfflineMode : MissionGameplay
                                    "12942.1 0 8393.1", "12891.5 0 3673.9", "12628.7 0 10495.2", "12574.3 0 3592.8",
                                    "12566.3 0 6682.6", "12465.2 0 8009.0", "12354.5 0 3480.0", "13262.8 0 7225.8" };
 
-        m_oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), positions.GetRandomElement(), 0, "NONE") );
+		ref SaveModule oSaveModule = m_oSaveModule; // SaveModule.Cast(GetModuleByName("SaveModule"));
 
-        GetGame().SelectPlayer( NULL, m_oPlayer );
+		if (oSaveModule && false) {
+			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule found!");
 
-        EntityAI item = m_oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
+			m_oPlayer = oSaveModule.LoadPlayer();
 
-        item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
+			GetGame().SelectPlayer( NULL, m_oPlayer );
+		} else {
+			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule not found!");
+			m_oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), positions.GetRandomElement(), 0, "NONE") );
 
-        item = m_oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
+			GetGame().SelectPlayer( NULL, m_oPlayer );
 
-        item = m_oPlayer.GetInventory().CreateInInventory( "PlateCarrierHolster" );
+			EntityAI item = m_oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
 
-        item = m_oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
+			item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
 
-        item = m_oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
+			item = m_oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
 
-        item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
+			item = m_oPlayer.GetInventory().CreateInInventory( "PlateCarrierHolster" );
 
-        item = m_oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
+			item = m_oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
 
-        item = m_oPlayer.GetInventory().CreateInInventory( "M4A1_Black" );
-        item.GetInventory().CreateAttachment( "M4_Suppressor" );
-        item.GetInventory().CreateAttachment( "M4_RISHndgrd_Black" );
-        item.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
-        item.GetInventory().CreateAttachment( "ACOGOptic" );
+			item = m_oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
 
-        auto oMag = m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-        m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-        m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
+			item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
 
-        m_oPlayer.LocalTakeEntityToHands( item );
+			item = m_oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
 
-        m_oPlayer.SetQuickBarEntityShortcut( item, 0, true );
+			item = m_oPlayer.GetInventory().CreateInInventory( "M4A1_Black" );
+			item.GetInventory().CreateAttachment( "M4_Suppressor" );
+			item.GetInventory().CreateAttachment( "M4_RISHndgrd_Black" );
+			item.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
+			item.GetInventory().CreateAttachment( "ACOGOptic" );
 
-        m_oPlayer.GetWeaponManager().AttachMagazine( oMag );
+			auto oMag = m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
+			m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
+			m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
+
+			m_oPlayer.LocalTakeEntityToHands( item );
+
+			m_oPlayer.SetQuickBarEntityShortcut( item, 0, true );
+
+			m_oPlayer.GetWeaponManager().AttachMagazine( oMag );
+		}
 
 
     }
