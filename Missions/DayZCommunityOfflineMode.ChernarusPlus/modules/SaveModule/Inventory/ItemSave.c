@@ -34,7 +34,7 @@ class ItemSave
         Items.Clear();
     }
 
-    void Load(EntityAI oParent) {
+    EntityAI Load(EntityAI oParent) {
         EntityAI oEntity;
 
         if (LocationType == COM_CARGO_TYPE) // Cargo
@@ -63,8 +63,6 @@ class ItemSave
             {
                 oItem.SetQuantity(Quantity);
             }
-        } else {
-            // return false;
         }
 
         if (NumAttachments > 0)
@@ -82,6 +80,8 @@ class ItemSave
                 Items[iItem].Load(oEntity);
             }
         }
+
+        return oEntity;
     }
 
     bool Save(EntityAI oEntity) {
@@ -89,6 +89,7 @@ class ItemSave
         ref ItemSave oItemSave = NULL;
 
         ItemBase oItem = NULL;
+
         if (Class.CastTo(oItem, oEntity) && oEntity.IsItemBase())
         {
             Name = oItem.GetType();
@@ -96,8 +97,6 @@ class ItemSave
             Quantity = GetItemQuantity(oItem);
             ItemWet = oItem.GetWet();
             ItemHealth = oItem.GetHealth("", "");
-        } else {
-            // return false;
         }
 
 		if (oCargo)

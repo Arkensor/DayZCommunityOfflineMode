@@ -27,9 +27,9 @@ class SaveModule extends Module
 
 	PlayerBase LoadPlayer()
 	{
-		// return CharacterSave.LoadPlayer("a", "b");
+		return CharacterSave.LoadPlayer("a", "b");
 
-		return CreateDefaultCharacter();
+		// return CreateDefaultCharacter();
 	}
 
     // This is where we will show the Character Select GUI. 

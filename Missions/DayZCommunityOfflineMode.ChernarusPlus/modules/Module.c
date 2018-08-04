@@ -121,12 +121,12 @@ class Module
 		m_Enabled = !m_Enabled;
 	}
 	
-	string GetModuleName()
+	static string GetModuleName()
 	{
 		return ClassName();
 	}
 
-	typename GetModuleType()
+	static typename GetModuleType()
 	{
 		return GetModuleName().ToType();
 	}

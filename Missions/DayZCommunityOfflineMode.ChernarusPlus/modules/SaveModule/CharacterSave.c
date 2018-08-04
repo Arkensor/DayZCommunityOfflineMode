@@ -83,6 +83,10 @@ class CharacterSave
             oSave.OPlayerInventory.Load(oPlayer);
         }
 
+        if (oSave.HasItemInHands) {
+            oSave.OHandSave.LoadHand(oPlayer, oPlayer);
+        }
+
         return oPlayer;
     }
 
