@@ -123,6 +123,8 @@ class CommunityOfflineMode : MissionGameplay
 		InitializeModules();
 		
 		GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\BarrelCrosshair.layout" );
+		
+		DayZPlayerCameras.RegisterTransitionTime(DayZPlayerCameras.DAYZCAMERA_1ST, DayZPlayerCameras.DAYZCAMERA_OPTICS, 0.15, true); // Temp fix for snapping camera transitions
 	}
 	
 
@@ -211,6 +213,7 @@ class CommunityOfflineMode : MissionGameplay
 		{
 			m_oPlayer.SetHealth( m_oPlayer.GetMaxHealth( "", "" ) );
 			m_oPlayer.SetHealth( "","Blood", m_oPlayer.GetMaxHealth( "", "Blood" ) );
+			m_oPlayer.SetHealth( "","Shock", m_oPlayer.GetMaxHealth( "", "Shock" ) );
 			// m_oPlayer.SetStamina(1000,1000);
 			m_oPlayer.GetStatStamina().Set(1000);
 			m_oPlayer.GetStatEnergy().Set(1000);
@@ -302,11 +305,11 @@ class CommunityOfflineMode : MissionGameplay
 									{
 										if ( hasDrag ) 
 										{
-											GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+											GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
 										}
 										else if ( k_m_Binding.ContainsButtonEvent( mouseButton, MB_EVENT_HOLD) )
 										{
-											GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+											GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
 										}
 									}
 								}
@@ -317,13 +320,13 @@ class CommunityOfflineMode : MissionGameplay
 						{
 							if ( GetMouseState (MouseState.WHEEL) != 0 )
 							{
-								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, GetMouseState( MouseState.WHEEL ) );
+								GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, GetMouseState( MouseState.WHEEL ) );
 							}
 						}
 					
 						if ( k_m_Binding.HasKeyEvent(KB_EVENT_HOLD) )
 						{
-							GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+							GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
 						}
 					}
 				}
@@ -363,21 +366,21 @@ class CommunityOfflineMode : MissionGameplay
 						{
 							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_DOUBLECLICK ) )
 							{
-								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+								GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
 							}
 						}
 						else if ( time_delta_press < CLICK_TIME )
 						{
 							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_CLICK ) )
 							{
-								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+								GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
 							}
 						} 
 						else 
 						{
 							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_RELEASE ) )
 							{
-								GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+								GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
 							} 
 						}
 					}
@@ -413,7 +416,7 @@ class CommunityOfflineMode : MissionGameplay
 					{
 						if ( k_m_Binding.Check() ) 
 						{
-							GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+							GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
 						}
 					}
 				}
@@ -441,7 +444,7 @@ class CommunityOfflineMode : MissionGameplay
 				{
 					if ( k_m_Binding.Check() ) 
 					{
-						GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+						GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
 					}
 				}
 			}
@@ -777,7 +780,7 @@ class CommunityOfflineMode : MissionGameplay
 				{
 					if ( k_m_Binding.Check() ) 
 					{
-						GetGame().GameScript.CallFunction(module, k_m_Binding.GetCallBackFunction(), NULL, 0 );
+						GetGame().GameScript.CallFunction( GetModule(k_m_Binding.GetObject()) , k_m_Binding.GetCallBackFunction(), NULL, 0 );
 					}
 				} 
 			}

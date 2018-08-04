@@ -7,6 +7,15 @@ class CameraTool extends Module
 	protected bool m_FreezePlayer = false;
 	protected bool m_OrbitalCam = false;
 	protected bool m_FreezeCam = false;
+	
+	static bool  CAMERA_DOF = true;
+	static bool  CAMERA_AFOCUS = true;
+	static float CAMERA_BLUR = 0.0; // modified via ui
+	static float CAMERA_FLENGTH = 50.0; // modified via ui
+	static float CAMERA_FNEAR = 50.0; // modified via ui
+	static float CAMERA_FDIST = 0.0;
+	static float CAMERA_DOFFSET = 0.0;
+	
 	protected vector m_CamOffset;
 	
 	protected Object m_Target;
@@ -36,7 +45,7 @@ class CameraTool extends Module
 		KeyMouseBinding freezeCamera  = new KeyMouseBinding( GetModuleType(), "FreezeCamera" , "[BackSlash]" , "Freezes camera." );
 		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "[Capslock]"  , "Freezes player." );
 		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "[LBracket]"  , "Follows target." );
-		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOribtal", "[RBracket]"  , "Toggle orbital mode" );
+		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "[RBracket]"  , "Toggle orbital mode" );
 		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "[Return]"	 , "Targets objects or positions" );
 		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "(RMB)+(Drag)", "Zooms camera"	 );
 		
@@ -91,6 +100,8 @@ class CameraTool extends Module
 			
 			m_Target = NULL;
 			m_TargetPos = vector.Zero;
+			
+			PPEffects.ResetDOFOverride();
 		}
 		else
 		{
@@ -140,13 +151,19 @@ class CameraTool extends Module
 	void UpdateCamera() 
 	{
 		if ( m_oCamera ) 
-		{	
+		{
+			float dist = 0.0;
+			vector from = GetGame().GetCurrentCameraPosition();
+	
 			if ( m_Target ) 
 			{
 				if ( m_OrbitalCam ) 
 				{
+					vector targetPos;
+					
 					if ( m_Target.IsInherited( SurvivorBase ) ) 
 					{
+						targetPos = GetTargetCenter();
 						m_oCamera.LookAt( GetTargetCenter() );
 					}
 					else 
@@ -161,8 +178,11 @@ class CameraTool extends Module
 						
 						pos[1] = (pos[1] - objectBBOX[1] + clippingInfo[1] - objectBBOX[1]) + 1.5;
 						
-						m_oCamera.LookAt( pos );
+						targetPos = pos;
 					}
+					m_oCamera.LookAt( targetPos );
+					dist = vector.Distance( from, targetPos );
+					
 				}
 				if ( m_FollowTarget ) 
 				{
@@ -187,11 +207,28 @@ class CameraTool extends Module
 					}
 					
 					m_oCamera.SetPosition( newPos );
-				}				
+					dist = m_DistanceToObject;
+				}		
 			}
 			else if ( m_TargetPos != vector.Zero ) 
 			{
 				m_oCamera.LookAt( m_TargetPos ); // auto orbital
+				dist = vector.Distance( from, m_TargetPos );
+			}
+			
+			if ( CAMERA_DOF ) // DOF enabled
+			{
+				if ( CAMERA_AFOCUS ) //auto focus
+				{
+					vector to = from + (GetGame().GetCurrentCameraDirection() * 9999);
+					vector contact_pos;
+					
+					DayZPhysics.RaycastRV( from, to, contact_pos, NULL, NULL, NULL , NULL, NULL, false, false, ObjIntersectIFire);
+					dist = vector.Distance( from, contact_pos );
+				}
+				if ( dist > 0 ) CAMERA_FDIST = dist;
+				
+				PPEffects.OverrideDOF(true, CAMERA_FDIST, CAMERA_FLENGTH, CAMERA_FNEAR, CAMERA_BLUR, CAMERA_DOFFSET);
 			}
 		}
 	}
@@ -258,7 +295,7 @@ class CameraTool extends Module
 		}	
 	}
 	
-	void ToggleOribtal() 
+	void ToggleOrbital() 
 	{
 		if ( m_oCamera )
 		{
