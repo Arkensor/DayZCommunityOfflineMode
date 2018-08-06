@@ -16,13 +16,10 @@ class SaveModule extends Module
 
 	void SaveModule( CommunityOfflineMode mission )
 	{
-		KeyMouseBinding spawnDefault = new KeyMouseBinding( GetModuleType() , "SpawnDefault"  , "[K]"    , "Spawns the default player."   );
 		KeyMouseBinding showCharacterMenu = new KeyMouseBinding( GetModuleType() , "ShowCharacterMenu"  , "[M]"    , "Shows the character menu."   );
 		
-		spawnDefault.AddKeyBind( KeyCode.KC_K, KB_EVENT_RELEASE );
 		showCharacterMenu.AddKeyBind( KeyCode.KC_M, KB_EVENT_RELEASE );
 
-		RegisterKeyMouseBinding( spawnDefault );
 		RegisterKeyMouseBinding( showCharacterMenu );
 
 		MakeDirectory("$saves:CommunityOfflineMode");
@@ -63,20 +60,6 @@ class SaveModule extends Module
 
 		m_CharacterMenu = new CharacterSpawnMenu(this);
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
-	}
-
-	void SpawnDefault() 
-	{
-		if (m_Mission.m_oPlayer)
-		{
-			m_Mission.m_oPlayer.Delete();
-		}
-
-		if (m_Mission.CTRL()) {
-			m_Mission.m_oPlayer = CreateCustomDefaultCharacter();
-		}
-
-		GetGame().SelectPlayer( NULL, m_Mission.m_oPlayer );
 	}
 
 	void CreateNew(string sCharacter, string sSave = "latest")
@@ -123,6 +106,4 @@ class SaveModule extends Module
 
 		return m_Mission.m_oPlayer;
 	}
-
-	
 }
