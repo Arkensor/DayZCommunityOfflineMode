@@ -42,15 +42,23 @@ class ItemSave
     EntityAI Load(EntityAI oParent, PlayerBase oPlayer) {
         EntityAI oEntity;
 
-        if (LocationType == COM_CARGO_TYPE) // Cargo
+        switch(LocationType)
         {
-            oEntity = oParent.GetInventory().CreateEntityInCargoEx(Name, 0, X, Y);
-        } else if (LocationType == COM_ATTACHMENT_TYPE) // Attachment
-        {
-            oEntity = oParent.GetInventory().CreateAttachment(Name);
-        } else // None
-        {
-            oEntity = oParent.GetInventory().CreateInInventory(Name);
+            case COM_CARGO_TYPE:
+                oEntity = oParent.GetInventory().CreateEntityInCargoEx(Name, 0, X, Y);
+                break;
+            case COM_ATTACHMENT_TYPE:
+                oEntity = oParent.GetInventory().CreateAttachment(Name);
+                break;
+            case COM_GROUND:
+		        InventoryLocation dest = new InventoryLocation;
+		        dest.SetGround(NULL, oPlayer.GetPosition());
+                oEntity = SpawnEntity(Name, dest);
+                break;
+            case COM_DEFAULT_TYPE:
+            default:
+                oEntity = oParent.GetInventory().CreateInInventory(Name);
+                break;
         }
 
         ItemBase oItem = NULL;
@@ -178,7 +186,7 @@ class ItemSave
 		return fQuantity;
 	}
 
-    private EntityAI FixAndLoadAttachment(ItemSave oItemSave, EntityAI oParent, PlayerBase oPlayer) {
+    protected EntityAI FixAndLoadAttachment(ItemSave oItemSave, EntityAI oParent, PlayerBase oPlayer) {
         ItemBase oItem = NULL;
         EntityAI oEntity = NULL;
 
@@ -193,8 +201,8 @@ class ItemSave
         {
             if (oItem.IsInherited(Magazine))
             {
-                Magazine oMagazine = Magazine.Cast( oItem );
-                oPlayer.GetWeaponManager().AttachMagazine( oMagazine );
+                Magazine oMagazine = Magazine.Cast( oItem ); 
+                oPlayer.GetWeaponManager().AttachMagazine( oMagazine ); 
             }
         }
         

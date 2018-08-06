@@ -57,7 +57,6 @@ class CharacterSave
         if (oSave.FHealth < 20) oSave.FHealth = 20;
         if (oSave.FBlood < 2000) oSave.FBlood = 2000;
 
-		oPlayer.SetPosition( oSave.VecPosition );
 		oPlayer.SetDirection( oSave.VecDirection );
 		oPlayer.SetOrientation( oSave.VecOrientation );
         
@@ -86,6 +85,8 @@ class CharacterSave
         if (oSave.HasItemInHands) {
             oSave.OHandSave.Load(oPlayer, oPlayer);
         }
+
+		oPlayer.SetPosition( oSave.VecPosition );
 
         return oPlayer;
     }

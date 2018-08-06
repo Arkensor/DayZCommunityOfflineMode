@@ -5,7 +5,7 @@ class InventorySave : ItemSave
         {
             for (int iAttachment = 0; iAttachment < NumAttachments; iAttachment++) 
             {
-                ItemAttachments[iAttachment].Load(oParent, oPlayer);
+                FixAndLoadAttachment(ItemAttachments[iAttachment], oParent, oPlayer);
             }
         }
 

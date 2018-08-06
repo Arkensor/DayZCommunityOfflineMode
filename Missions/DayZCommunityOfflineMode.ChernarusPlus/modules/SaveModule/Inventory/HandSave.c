@@ -2,10 +2,7 @@ class HandSave : ItemSave
 {
     override EntityAI Load(EntityAI oParent, PlayerBase oPlayer) {
         EntityAI oEntity = super.Load(oParent, oPlayer);
-
         ItemBase oItem = NULL;
-
-        oEntity = oParent.GetInventory().CreateInInventory(Name);
         
         if (Class.CastTo(oItem, oEntity) && oEntity.IsItemBase())
         {
