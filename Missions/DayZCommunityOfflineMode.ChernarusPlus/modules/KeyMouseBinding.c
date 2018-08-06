@@ -11,8 +11,9 @@ class KeyMouseBinding
 	private string k_m_CallbackFunction;
 	private string k_m_Shortcut;
 	private string k_m_Description;
+	private bool canUseInMenu;
 	
-	void KeyMouseBinding( typename object, string callback, string shortcut, string description ) 
+	void KeyMouseBinding( typename object, string callback, string shortcut, string description, bool menu = false ) 
 	{
 		this.object = object;
 		k_Bind = new map<int, int>;
@@ -21,6 +22,13 @@ class KeyMouseBinding
 		k_m_CallbackFunction = callback;
 		k_m_Shortcut = shortcut;
 		k_m_Description = description;
+		
+		canUseInMenu = menu;
+	}
+	
+	bool canUseInMenu() 
+	{
+		return canUseInMenu;
 	}
 	
 	bool Check()

@@ -356,64 +356,28 @@ class CommunityOfflineMode : MissionGameplay
 	override void OnMouseButtonRelease(int button)
 	{
 		super.OnMouseButtonRelease(button);
-	
-		MouseButtonInfo button_info = GetMouseButtonInfo( button );
-		if (button_info == NULL) return;
-	
-		int time_curr			= GetGame().GetTime();
-		int time_last_press		= button_info.GetTimeLastPress();
-		int time_last_release	= button_info.GetTimeLastRelease();	
-		int time_delta_press	= time_curr - time_last_press;
-		int time_delta_release	= time_curr - time_last_release;
-	
-		for ( int i = 0; i < m_Modules.Count(); ++i) 
-		{
-			Module module = m_Modules.Get(i);
-			
-			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb )
-			{
-				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
-				
-				if ( k_m_Binding.ContainsButton( button ) ) 
-				{
-					if ( k_m_Binding.Check() )
-					{
-						if ( time_delta_release < DOUBLE_CLICK_TIME )
-						{
-							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_DOUBLECLICK ) )
-							{
-								GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
-							}
-						}
-						else if ( time_delta_press < CLICK_TIME )
-						{
-							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_CLICK ) )
-							{
-								GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
-							}
-						} 
-						else 
-						{
-							if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_RELEASE ) )
-							{
-								GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
-							} 
-						}
-					}
-				}
-			}
-			module.onMouseButtonRelease( button );
-		}
-		button_info.Release();
+		
+		moduleMouseCheck( button, MB_EVENT_RELEASE );
 	}
 
 	override void OnMouseButtonPress( int button )
 	{
 		super.OnMouseButtonPress( button );
 		
+		moduleMouseCheck( button, MB_EVENT_PRESS );
+	}
+
+	void moduleMouseCheck( int button, int mouseEvent ) 
+	{
 		MouseButtonInfo button_info = GetMouseButtonInfo( button );
 		if (button_info == NULL) return;
-		button_info.Press(); // Update press time
+		if ( mouseEvent == MB_EVENT_PRESS ) button_info.Press();
+		
+		int time_curr			= GetGame().GetTime();
+		int time_last_press		= button_info.GetTimeLastPress();
+		int time_last_release	= button_info.GetTimeLastRelease();	
+		int time_delta_press	= time_curr - time_last_press;
+		int time_delta_release	= time_curr - time_last_release;
 		
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
@@ -423,30 +387,66 @@ class CommunityOfflineMode : MissionGameplay
 			{
 				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
 				
+				if ( GetGame().GetUIManager().GetMenu() ) 
+				{
+					if ( !k_m_Binding.canUseInMenu() ) 
+					{
+						continue;
+					}
+				}
+				
 				if ( k_m_Binding.ContainsButton( button ) ) 
 				{
-					if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_PRESS ) ) 
+					if ( k_m_Binding.Check() ) 
 					{
-						if ( k_m_Binding.Check() ) 
+						if ( mouseEvent == MB_EVENT_RELEASE ) 
 						{
-							GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
+							if ( time_delta_release < DOUBLE_CLICK_TIME )
+							{
+								if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_DOUBLECLICK ) )
+								{
+									GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
+								}
+							}
+							else if ( time_delta_press < CLICK_TIME )
+							{
+								if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_CLICK ) )
+								{
+									GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
+								}
+							} 
+							else 
+							{
+								if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_RELEASE ) )
+								{
+									GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
+								} 
+							}
+						} 
+						else if ( k_m_Binding.ContainsButtonEvent( button, MB_EVENT_PRESS ) ) 
+						{
+								GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
 						}
 					}
 				}
 			}
-			module.onMouseButtonPress( button ); // extra utility
+			
+			switch ( mouseEvent ) 
+			{
+				case MB_EVENT_PRESS:
+					module.onMouseButtonPress( button );
+					break;
+				case MB_EVENT_RELEASE:
+					module.onMouseButtonRelease( button );
+					break;
+			}
 		}
+		
+		if ( mouseEvent == MB_EVENT_RELEASE ) button_info.Release();
 	}
-
-	override void OnKeyPress( int key )
+	
+	void moduleKeyCheck( int key, int keyEvent ) 
 	{
-		super.OnKeyPress(key);
-
-		if( GetGame().GetUIManager().GetMenu() )
-		{
-			return;
-		}
-
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
 			Module module = m_Modules.Get(i);
@@ -455,7 +455,15 @@ class CommunityOfflineMode : MissionGameplay
 			{
 				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
 				
-				if ( k_m_Binding.ContainsKeyEvent( key, KB_EVENT_PRESS ) ) 
+				if ( GetGame().GetUIManager().GetMenu() ) 
+				{
+					if ( !k_m_Binding.canUseInMenu() ) 
+					{
+						continue;
+					}
+				}
+				
+				if ( k_m_Binding.ContainsKeyEvent( key, keyEvent ) ) 
 				{
 					if ( k_m_Binding.Check() ) 
 					{
@@ -464,8 +472,23 @@ class CommunityOfflineMode : MissionGameplay
 				}
 			}
 			
-			module.onKeyPress( key ); // extra utility
+			switch ( keyEvent ) 
+			{
+				case KB_EVENT_PRESS:
+					module.onKeyPress( key ); //extra utility
+					break;
+				case KB_EVENT_RELEASE:
+					module.onKeyRelease( key );
+					break;
+			}
 		}
+	}
+	
+	override void OnKeyPress( int key )
+	{
+		super.OnKeyPress(key);
+
+		moduleKeyCheck( key, KB_EVENT_PRESS );
 
         if( !m_bWelcome )
         {
@@ -542,43 +565,6 @@ class CommunityOfflineMode : MissionGameplay
 				break;
 			}
 
-
-			case KeyCode.KC_T:
-			{
-				if ( CameraTool.Cast(GetModule(CameraTool)).IsUsingCamera() ) 
-				{
-			        m_oPlayer.MessageStatus( "You can not teleport while you are inside the freecam!" );
-
-			        return;
-			    }
-
-				vector hitPos = GetCursorPos();
-
-				float distance = vector.Distance( m_oPlayer.GetPosition(), hitPos );
-				
-				if ( distance < 5000 )
-				{
-					EntityAI oVehicle = m_oPlayer.GetDrivingVehicle();
-
-					if( oVehicle )
-					{
-						m_oPlayer.MessageStatus("Get out of the vehicle first!");
-					}
-					else
-					{
-						m_oPlayer.SetPosition( hitPos );
-						m_oPlayer.MessageStatus("Teleported!");
-					}
-				}
-				else
-				{
-					m_oPlayer.MessageStatus( "Distance for teleportation is too far!" );
-				}	
-
-				break;
-			}
-
-
 			case KeyCode.KC_O:
 			{
 				if( CTRL() )
@@ -596,32 +582,6 @@ class CommunityOfflineMode : MissionGameplay
 				
 				break;
 			}
-
-
-			case KeyCode.KC_R:
-			{
-				EntityAI oWeapon = m_oPlayer.GetHumanInventory().GetEntityInHands();
-				
-				if( oWeapon )
-				{
-					Magazine oMag = ( Magazine ) oWeapon.GetAttachmentByConfigTypeName( "DefaultMagazine" );
-					
-					if( oMag && oMag.IsMagazine() )
-					{
-						oMag.LocalSetAmmoMax();
-					}					
-					
-					Object oSupressor = ( Object ) oWeapon.GetAttachmentByConfigTypeName( "SuppressorBase" );
-					
-					if( oSupressor )
-					{
-						oSupressor.SetHealth( oSupressor.GetMaxHealth( "", "" ) );
-					}
-				}
-
-				break;
-			}
-
 
 			case KeyCode.KC_P:
 			{
@@ -778,28 +738,7 @@ class CommunityOfflineMode : MissionGameplay
 	{
 		super.OnKeyRelease(key);
 
-        if( GetGame().GetUIManager().GetMenu() )
-        {
-            return;
-        }
-
-		for ( int i = 0; i < m_Modules.Count(); ++i)
-		{
-			Module module = m_Modules.Get(i);
-
-			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb ) 
-			{
-				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
-				if ( k_m_Binding.ContainsKeyEvent( key, KB_EVENT_RELEASE ) ) 
-				{
-					if ( k_m_Binding.Check() ) 
-					{
-						GetGame().GameScript.CallFunction( GetModule(k_m_Binding.GetObject()) , k_m_Binding.GetCallBackFunction(), NULL, 0 );
-					}
-				} 
-			}
-			module.onKeyRelease( key ); // extra utility
-		}
+		moduleKeyCheck( key, KB_EVENT_RELEASE );
 				
 		switch( key )
 		{

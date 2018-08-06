@@ -157,33 +157,34 @@ class CameraTool extends Module
 	
 			if ( m_Target ) 
 			{
+				vector targetPos;
+				
+				if ( m_Target.IsInherited( SurvivorBase ) ) 
+				{
+					targetPos = GetTargetCenter();
+				}
+				else 
+				{
+					vector pos = m_Target.GetPosition();
+					pos[1] = GetGame().SurfaceY(pos[0], pos[2]);
+					
+					vector clippingInfo;
+					vector objectBBOX;
+					
+					m_Target.GetCollisionBox(objectBBOX);
+					
+					pos[1] = (pos[1] - objectBBOX[1] + clippingInfo[1] - objectBBOX[1]) + 1.5;
+					
+					targetPos = pos;
+				}
+				
 				if ( m_OrbitalCam ) 
 				{
-					vector targetPos;
-					
-					if ( m_Target.IsInherited( SurvivorBase ) ) 
-					{
-						targetPos = GetTargetCenter();
-						m_oCamera.LookAt( GetTargetCenter() );
-					}
-					else 
-					{
-						vector pos = m_Target.GetPosition();
-						pos[1] = GetGame().SurfaceY(pos[0], pos[2]);
-						
-						vector clippingInfo;
-						vector objectBBOX;
-						
-						m_Target.GetCollisionBox(objectBBOX);
-						
-						pos[1] = (pos[1] - objectBBOX[1] + clippingInfo[1] - objectBBOX[1]) + 1.5;
-						
-						targetPos = pos;
-					}
 					m_oCamera.LookAt( targetPos );
-					dist = vector.Distance( from, targetPos );
-					
 				}
+				
+				dist = vector.Distance( from, targetPos )
+				
 				if ( m_FollowTarget ) 
 				{
 					if ( m_DistanceToObject == 0.0 )
@@ -208,7 +209,7 @@ class CameraTool extends Module
 					
 					m_oCamera.SetPosition( newPos );
 					dist = m_DistanceToObject;
-				}		
+				}
 			}
 			else if ( m_TargetPos != vector.Zero ) 
 			{
@@ -218,7 +219,7 @@ class CameraTool extends Module
 			
 			if ( CAMERA_DOF ) // DOF enabled
 			{
-				if ( CAMERA_AFOCUS ) //auto focus
+				if ( CAMERA_AFOCUS && !m_Target ) //auto focus
 				{
 					vector to = from + (GetGame().GetCurrentCameraDirection() * 9999);
 					vector contact_pos;

@@ -157,4 +157,24 @@ class Module
 		return NULL;
 	}
 	
+	vector GetCursorPos()
+	{
+		vector rayStart = GetGame().GetCurrentCameraPosition();
+		vector rayEnd = rayStart + GetGame().GetCurrentCameraDirection() * 10000;
+		vector hitPos;
+		vector hitNormal;
+		int hitComponentIndex;
+		DayZPhysics.RaycastRV(rayStart, rayEnd, hitPos, hitNormal, hitComponentIndex, NULL, NULL, GetPlayer());
+
+		return hitPos;
+	}
+	
+	Weapon GetWeaponInHands()
+	{
+		Weapon weapon_in_hands;
+		if( GetPlayer() && GetPlayer().GetItemInHands() ) Class.CastTo(weapon_in_hands,  GetPlayer().GetItemInHands());
+		
+		return weapon_in_hands;
+	}
+	
 }
