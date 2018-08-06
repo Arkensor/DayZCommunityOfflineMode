@@ -442,6 +442,11 @@ class CommunityOfflineMode : MissionGameplay
 	{
 		super.OnKeyPress(key);
 
+		if( GetGame().GetUIManager().GetMenu() )
+		{
+			return;
+		}
+
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
 			Module module = m_Modules.Get(i);
@@ -460,11 +465,6 @@ class CommunityOfflineMode : MissionGameplay
 			}
 			
 			module.onKeyPress( key ); // extra utility
-		}
-		
-		if( GetGame().GetUIManager().GetMenu() )
-		{
-			return;
 		}
 
         if( !m_bWelcome )
@@ -777,7 +777,12 @@ class CommunityOfflineMode : MissionGameplay
 	override void OnKeyRelease(int key)
 	{
 		super.OnKeyRelease(key);
-				
+
+        if( GetGame().GetUIManager().GetMenu() )
+        {
+            return;
+        }
+
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
 			Module module = m_Modules.Get(i);
@@ -959,12 +964,15 @@ class CommunityOfflineMode : MissionGameplay
     {
 		ref SaveModule oSaveModule = SaveModule.Cast(GetModuleByName("SaveModule"));
 
-		if (oSaveModule) {
-			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule found!");
+		if ( oSaveModule )
+		{
+			Print("CommunityOfflineMode::SpawnPlayer() -> SaveModule found!");
 
 			m_oPlayer = oSaveModule.LoadPlayer();
-		} else {
-			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule not found!");
+		}
+		else
+		{
+			Print("CommunityOfflineMode::SpawnPlayer() -> SaveModule not found!");
 			
 			m_oPlayer = CreateCustomDefaultCharacter();
 		}

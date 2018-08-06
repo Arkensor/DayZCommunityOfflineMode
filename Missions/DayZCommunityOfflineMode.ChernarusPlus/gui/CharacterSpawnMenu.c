@@ -86,6 +86,16 @@ class CharacterSpawnMenu extends UIScriptedMenu
 		super.OnHide();
 	}
 
+	override bool UseMouse()
+	{
+		return true;
+	}
+
+	override bool UseKeyboard()
+	{
+		return true;
+	}
+
 	override bool OnMouseEnter(Widget w, int x, int y)
 	{
 		return false;
