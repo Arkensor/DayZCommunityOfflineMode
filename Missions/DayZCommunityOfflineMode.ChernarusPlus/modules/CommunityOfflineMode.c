@@ -61,8 +61,6 @@ class CommunityOfflineMode : MissionGameplay
 	protected const int HOLD_CLICK_TIME_MIN	= 200; //ms
 	protected const int DOUBLE_CLICK_TIME	= 300; //ms
 
-	protected ref WelcomeMenu m_oWelcomeMenu;
-
 	void CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::CommunityOfflineMode()" );
@@ -83,17 +81,15 @@ class CommunityOfflineMode : MissionGameplay
 		cpl = new PluginLifespanPatched();
 	}
 
-
 	void ~CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::~CommunityOfflineMode()" );
 		
-		if(GetHive())
+		if( GetHive() )
 		{
 			DestroyHive();
 		}
 	}
-
 
 	void RegisterModules()
 	{
@@ -103,8 +99,7 @@ class CommunityOfflineMode : MissionGameplay
 		m_Modules.Insert( new COMKeyBinds(this) );
 		m_Modules.Insert( new SaveModule(this) );
 	}
-	
-	
+
 	void InitializeModules()
 	{
 		
@@ -114,8 +109,7 @@ class CommunityOfflineMode : MissionGameplay
 		}
 		
 	}
-	
-	
+
 	override void OnInit()
 	{
 		super.OnInit();
@@ -130,33 +124,35 @@ class CommunityOfflineMode : MissionGameplay
 		
 		GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\BarrelCrosshair.layout" );
 		
-		DayZPlayerCameras.RegisterTransitionTime(DayZPlayerCameras.DAYZCAMERA_1ST, DayZPlayerCameras.DAYZCAMERA_OPTICS, 0.15, true); // Temp fix for snapping camera transitions
+		DayZPlayerCameras.RegisterTransitionTime( DayZPlayerCameras.DAYZCAMERA_1ST, DayZPlayerCameras.DAYZCAMERA_OPTICS, 0.15, true ); // Temp fix for snapping camera transitions
 	}
-	
 
-	ref Module GetModule(typename module_Type)
+	ref Module GetModule( typename module_Type )
 	{
-		for ( int i = 0; i < m_Modules.Count(); ++i)
+		for ( int i = 0; i < m_Modules.Count(); ++i )
 		{
 			ref Module module = m_Modules.Get(i);
-			if (module.GetModuleType() == module_Type) 
+			if ( module.GetModuleType() == module_Type)
 			{
 				return module;
 			}
 		}
+
 		return NULL;
 	}
 
-	ref Module GetModuleByName(string module_name)
+	ref Module GetModuleByName( string module_name )
 	{
-		for ( int i = 0; i < m_Modules.Count(); ++i)
+		for ( int i = 0; i < m_Modules.Count(); ++i )
 		{
-			ref Module module = m_Modules.Get(i);
+			ref Module module = m_Modules.Get( i );
+
 			if (module.GetModuleName() == module_name) 
 			{
 				return module;
 			}
 		}
+
 		return NULL;
 	}
 	
@@ -173,9 +169,7 @@ class CommunityOfflineMode : MissionGameplay
 		}
 		return NULL;
 	}
-	
-	
-	
+
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
@@ -185,23 +179,16 @@ class CommunityOfflineMode : MissionGameplay
 			m_Modules.Get(i).onMissionStart();
 		}
 		
-		GetGame().GetUIManager().CloseMenu(MENU_INGAME);
+		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
 		CreateDebugMonitor();
 		
 		m_debugMonitorPatched.Hide();
 	}
 
-	
-	
 	override void OnMissionFinish()
 	{	
-		GetGame().GetUIManager().CloseMenu(MENU_INGAME);
-
-		if (m_bWelcome)
-		{
-			GetGame().GetUIManager().HideScriptedMenu( m_oWelcomeMenu );
-		}
+		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
@@ -215,8 +202,6 @@ class CommunityOfflineMode : MissionGameplay
 		super.OnMissionFinish();
 	}
 
-	
-	
     void OnMissionLoaded()
     {
         GetGame().GetUIManager().ScreenFadeOut( 0 );
@@ -227,30 +212,19 @@ class CommunityOfflineMode : MissionGameplay
 		}
     }
 
-
-	
 	override void OnUpdate( float timeslice )
 	{
 	    super.OnUpdate( timeslice );
 
-        if( !m_bLoaded && !GetDayZGame().IsLoading() && !GetGame().GetUIManager().IsMenuOpen(MENU_INGAME) )
+        if( !m_bLoaded && !GetDayZGame().IsLoading() /*&& !GetGame().GetUIManager().IsMenuOpen(MENU_INGAME)*/ )
         {
-			GetGame().GetUIManager().CloseMenu(MENU_INGAME);
-
-			CloseAllMenus();
-			DestroyAllMenus();
+//			GetGame().GetUIManager().CloseMenu(MENU_INGAME);
+//
+//			CloseAllMenus();
+//			DestroyAllMenus();
 
             m_bLoaded = true;
             OnMissionLoaded();
-
-			if( !m_bWelcome )
-			{
-				m_bWelcome = true;
-
-				m_oWelcomeMenu = new WelcomeMenu;
-				m_oWelcomeMenu.Init();
-				GetGame().GetUIManager().ShowScriptedMenu( m_oWelcomeMenu, NULL );
-			}
         }
 
 		if( m_bGodMode )
@@ -378,9 +352,7 @@ class CommunityOfflineMode : MissionGameplay
 			module.onUpdate( timeslice );
 		}
 	}
-	
-	
-	
+
 	override void OnMouseButtonRelease(int button)
 	{
 		super.OnMouseButtonRelease(button);
@@ -434,10 +406,7 @@ class CommunityOfflineMode : MissionGameplay
 		}
 		button_info.Release();
 	}
-	
-	
-	
-	
+
 	override void OnMouseButtonPress( int button )
 	{
 		super.OnMouseButtonPress( button );
@@ -468,10 +437,7 @@ class CommunityOfflineMode : MissionGameplay
 			module.onMouseButtonPress( button ); // extra utility
 		}
 	}
-	
-	
-	
-	
+
 	override void OnKeyPress( int key )
 	{
 		super.OnKeyPress(key);
@@ -500,6 +466,15 @@ class CommunityOfflineMode : MissionGameplay
 		{
 			return;
 		}
+
+        if( !m_bWelcome )
+        {
+            m_bWelcome = true;
+
+            WelcomeMenu oWelcomeMenu = new WelcomeMenu;
+            oWelcomeMenu.Init();
+            GetGame().GetUIManager().ShowScriptedMenu( oWelcomeMenu, NULL );
+        }
 
 		// dannydog: port over old keybinds and functions to new module system
 
@@ -798,16 +773,13 @@ class CommunityOfflineMode : MissionGameplay
 			}
 		}	
 	}
-	
-	
-	
+
 	override void OnKeyRelease(int key)
 	{
 		super.OnKeyRelease(key);
 				
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
-			
 			Module module = m_Modules.Get(i);
 
 			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb ) 
@@ -831,22 +803,19 @@ class CommunityOfflineMode : MissionGameplay
 				m_IsCtrlHolding = false;
 				break;
 			}
-			
-			
+
 			case KeyCode.KC_LWIN:
 			{
 				m_IsWinHolding = false;
 				break;
 			}
-			
-			
+
 			case KeyCode.KC_LMENU:
 			{
 				m_IsLeftAltHolding = false;
 				break;
 			}
-						
-			
+
 			case KeyCode.KC_RMENU:
 			{
 				m_IsRightAltHolding = false;
@@ -865,6 +834,7 @@ class CommunityOfflineMode : MissionGameplay
 				break:
 			}
 		}
+
 		//Gestures [.]
 		if ( key == KeyCode.KC_PERIOD )
 		{
@@ -873,6 +843,7 @@ class CommunityOfflineMode : MissionGameplay
 				GesturesMenu.CloseMenu();
 			}
 		}
+
 		//Radial Quickbar [,]
 		if ( key == KeyCode.KC_COMMA )
 		{
@@ -883,9 +854,6 @@ class CommunityOfflineMode : MissionGameplay
 		}
 	}
 
-	
-	
-	
     override void CreateDebugMonitor()
     {
         if (!m_debugMonitorPatched)
@@ -895,9 +863,6 @@ class CommunityOfflineMode : MissionGameplay
         }
     }
 
-	
-	
-	
     override void UpdateDebugMonitor()
     {
         if (!m_debugMonitorPatched) return;
@@ -911,9 +876,6 @@ class CommunityOfflineMode : MissionGameplay
         }
     }
 
-	
-	
-	
     void UpdateAutoWalk()
     {
         if( m_nAutoWalkMode )
@@ -932,9 +894,6 @@ class CommunityOfflineMode : MissionGameplay
         }
     }
 
-	
-	
-	
     void SetupWeather()
     {
         //Offical DayZ SA weather code
@@ -996,7 +955,6 @@ class CommunityOfflineMode : MissionGameplay
 	bool SHIFT() return ( m_IsLeftShiftHolding || m_IsRightShiftHolding );
 	bool ALT() return ( m_IsLeftAltHolding || m_IsRightAltHolding );
 
-
 	void SpawnPlayer()
     {
 		ref SaveModule oSaveModule = SaveModule.Cast(GetModuleByName("SaveModule"));
@@ -1014,10 +972,10 @@ class CommunityOfflineMode : MissionGameplay
 		GetGame().SelectPlayer( NULL, m_oPlayer );
     }
 
-	DayZGame GetDayZCGame() {
+	DayZGame GetDayZCGame()
+	{
 		return GetGame();
 	}
-
 
 	void InitHive()
 	{
@@ -1034,7 +992,6 @@ class CommunityOfflineMode : MissionGameplay
 			oHive.InitOffline();
 		}
 	}
-
 
 	TStringArray WorkingZombieClasses()
 	{
