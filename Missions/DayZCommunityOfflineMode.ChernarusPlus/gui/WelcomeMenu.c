@@ -50,7 +50,7 @@ class WelcomeMenu extends UIScriptedMenu
 
 		if ( w == m_BtnOk )
 		{
-			GetGame().GetUIManager().Back();
+			Close();
 
 			return true;
 		}
@@ -62,7 +62,7 @@ class WelcomeMenu extends UIScriptedMenu
 	{
         if( key == KeyCode.KC_ESCAPE )
         {
-            GetGame().GetUIManager().Back();
+			Close();
         }
 
 		return false;

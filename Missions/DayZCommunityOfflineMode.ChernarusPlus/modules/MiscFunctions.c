@@ -1,4 +1,3 @@
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\CameraSettings.c"
 class MiscFunctions extends Module 
 {
 	bool IsHudVisible = true;

@@ -3,17 +3,20 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WeatherMenu.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\ObjectMenu.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\BarrelCrosshair.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\CharacterSpawnMenu.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\CameraSettings.c"
 
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\PluginLifespan.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\COMKeyBinds.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\MiscFunctions.c"
 
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\SaveModule\\SaveModule.c"
 
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\COMKeyBinds.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\PluginLifespan.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
 class CommunityOfflineMode : MissionGameplay
 {
@@ -58,6 +61,8 @@ class CommunityOfflineMode : MissionGameplay
 	protected const int HOLD_CLICK_TIME_MIN	= 200; //ms
 	protected const int DOUBLE_CLICK_TIME	= 300; //ms
 
+	protected ref WelcomeMenu m_oWelcomeMenu;
+
 	void CommunityOfflineMode()
 	{
 		Print( "CommunityOfflineMode::CommunityOfflineMode()" );
@@ -96,6 +101,7 @@ class CommunityOfflineMode : MissionGameplay
 		m_Modules.Insert( new CameraTool(this) );
 		m_Modules.Insert( new MiscFunctions(this) );
 		m_Modules.Insert( new COMKeyBinds(this) );
+		m_Modules.Insert( new SaveModule(this) );
 	}
 	
 	
@@ -128,11 +134,11 @@ class CommunityOfflineMode : MissionGameplay
 	}
 	
 
-	Module GetModule(typename module_Type)
+	ref Module GetModule(typename module_Type)
 	{
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
-			Module module = m_Modules.Get(i);
+			ref Module module = m_Modules.Get(i);
 			if (module.GetModuleType() == module_Type) 
 			{
 				return module;
@@ -141,7 +147,18 @@ class CommunityOfflineMode : MissionGameplay
 		return NULL;
 	}
 
-	
+	ref Module GetModuleByName(string module_name)
+	{
+		for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			ref Module module = m_Modules.Get(i);
+			if (module.GetModuleName() == module_name) 
+			{
+				return module;
+			}
+		}
+		return NULL;
+	}
 	
 	protected MouseButtonInfo GetMouseButtonInfo( int button )
 	{	
@@ -168,6 +185,8 @@ class CommunityOfflineMode : MissionGameplay
 			m_Modules.Get(i).onMissionStart();
 		}
 		
+		GetGame().GetUIManager().CloseMenu(MENU_INGAME);
+
 		CreateDebugMonitor();
 		
 		m_debugMonitorPatched.Hide();
@@ -177,11 +196,22 @@ class CommunityOfflineMode : MissionGameplay
 	
 	override void OnMissionFinish()
 	{	
+		GetGame().GetUIManager().CloseMenu(MENU_INGAME);
+
+		if (m_bWelcome)
+		{
+			GetGame().GetUIManager().HideScriptedMenu( m_oWelcomeMenu );
+		}
+
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
 			m_Modules.Get(i).onMissionFinish();
 		}
 		
+		CloseAllMenus();
+
+		DestroyAllMenus();
+
 		super.OnMissionFinish();
 	}
 
@@ -203,10 +233,24 @@ class CommunityOfflineMode : MissionGameplay
 	{
 	    super.OnUpdate( timeslice );
 
-        if( !m_bLoaded && !GetDayZGame().IsLoading() )
+        if( !m_bLoaded && !GetDayZGame().IsLoading() && !GetGame().GetUIManager().IsMenuOpen(MENU_INGAME) )
         {
+			GetGame().GetUIManager().CloseMenu(MENU_INGAME);
+
+			CloseAllMenus();
+			DestroyAllMenus();
+
             m_bLoaded = true;
             OnMissionLoaded();
+
+			if( !m_bWelcome )
+			{
+				m_bWelcome = true;
+
+				m_oWelcomeMenu = new WelcomeMenu;
+				m_oWelcomeMenu.Init();
+				GetGame().GetUIManager().ShowScriptedMenu( m_oWelcomeMenu, NULL );
+			}
         }
 
 		if( m_bGodMode )
@@ -214,7 +258,7 @@ class CommunityOfflineMode : MissionGameplay
 			m_oPlayer.SetHealth( m_oPlayer.GetMaxHealth( "", "" ) );
 			m_oPlayer.SetHealth( "","Blood", m_oPlayer.GetMaxHealth( "", "Blood" ) );
 			m_oPlayer.SetHealth( "","Shock", m_oPlayer.GetMaxHealth( "", "Shock" ) );
-			// m_oPlayer.SetStamina(1000,1000);
+			m_oPlayer.SetStamina(1000, 1000);
 			m_oPlayer.GetStatStamina().Set(1000);
 			m_oPlayer.GetStatEnergy().Set(1000);
 			m_oPlayer.GetStatWater().Set(1000);
@@ -458,14 +502,6 @@ class CommunityOfflineMode : MissionGameplay
 		}
 
 		// dannydog: port over old keybinds and functions to new module system
-		
-		if( !m_bWelcome )
-		{
-		    m_bWelcome = true;
-            WelcomeMenu oWelcomeMenu = new WelcomeMenu;
-            oWelcomeMenu.Init();
-            GetGame().GetUIManager().ShowScriptedMenu( oWelcomeMenu, NULL );
-		}
 
 		switch( key )
 		{
@@ -669,6 +705,7 @@ class CommunityOfflineMode : MissionGameplay
 
 			case KeyCode.KC_K:
 			{
+				if (!CTRL() && !SHIFT())
 				GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Call( GetGame().RestartMission );
 				break;
 			}
@@ -962,58 +999,24 @@ class CommunityOfflineMode : MissionGameplay
 
 	void SpawnPlayer()
     {
-        TVectorArray positions = { "15135.1 0 13901.1", "15017.8 0 13892.4", "14887.1 0 14547.9", "14749.7 0 13248.7",
-                                   "14697.6 0 13418.4", "14537.3 0 14755.7", "14415.3 0 14025.2", "14338.0 0 12859.5",
-                                   "14263.8 0 12748.7", "14172.2 0 12304.9", "14071.4 0 12033.3", "14054.9 0 11341.3",
-                                   "14017.8 0 2959.1", "13905.5 0 12489.7", "13852.4 0 11686.0", "13846.6 0 12050.0",
-                                   "13676.0 0 12262.1", "13617.4 0 12759.8", "13610.1 0 11223.6", "13594.3 0 4064.0",
-                                   "13587.8 0 6026.5", "13571.1 0 3056.8", "13552.6 0 4653.7", "13529.9 0 3968.3",
-                                   "13520.8 0 4223.7", "13504.0 0 5004.5", "13476.7 0 6136.3", "13441.6 0 5262.2",
-                                   "13426.6 0 5747.3", "13416.8 0 11840.4", "13400.8 0 4120.7", "13395.8 0 5902.8",
-                                   "13385.0 0 3946.6", "13374.4 0 6454.3", "13367.1 0 10837.1", "13366.3 0 4906.0",
-                                   "13337.1 0 5120.8", "13326.7 0 5489.1", "13312.7 0 6771.1", "13288.7 0 11415.1",
-                                   "13261.6 0 11785.2", "13171.6 0 6534.8", "13159.8 0 5401.7", "13155.2 0 5475.2",
-                                   "13084.9 0 7938.6", "13056.8 0 4848.5", "13048.1 0 8357.6", "13048.1 0 3867.7",
-                                   "12991.7 0 7287.1", "12983.0 0 5539.1", "12978.9 0 9727.8", "12950.2 0 5226.7",
-                                   "12942.1 0 8393.1", "12891.5 0 3673.9", "12628.7 0 10495.2", "12574.3 0 3592.8",
-                                   "12566.3 0 6682.6", "12465.2 0 8009.0", "12354.5 0 3480.0", "13262.8 0 7225.8" };
+		ref SaveModule oSaveModule = SaveModule.Cast(GetModuleByName("SaveModule"));
 
-        m_oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), positions.GetRandomElement(), 0, "NONE") );
+		if (oSaveModule) {
+			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule found!");
 
-        GetGame().SelectPlayer( NULL, m_oPlayer );
+			m_oPlayer = oSaveModule.LoadPlayer();
+		} else {
+			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule not found!");
+			
+			m_oPlayer = CreateCustomDefaultCharacter();
+		}
 
-        EntityAI item = m_oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "PlateCarrierHolster" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
-
-        item = m_oPlayer.GetInventory().CreateInInventory( "M4A1_Black" );
-        item.GetInventory().CreateAttachment( "M4_Suppressor" );
-        item.GetInventory().CreateAttachment( "M4_RISHndgrd_Black" );
-        item.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
-        item.GetInventory().CreateAttachment( "ACOGOptic" );
-
-        auto oMag = m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-        m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-        m_oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-
-        m_oPlayer.LocalTakeEntityToHands( item );
-
-        m_oPlayer.SetQuickBarEntityShortcut( item, 0, true );
-
-        m_oPlayer.GetWeaponManager().AttachMagazine( oMag );
+		GetGame().SelectPlayer( NULL, m_oPlayer );
     }
+
+	DayZGame GetDayZCGame() {
+		return GetGame();
+	}
 
 
 	void InitHive()
@@ -1026,7 +1029,6 @@ class CommunityOfflineMode : MissionGameplay
 		{
 			oHive = CreateHive();
 		}
-		
 		if( oHive )
 		{
 			oHive.InitOffline();

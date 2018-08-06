@@ -109,7 +109,7 @@ class PositionMenu extends UIScriptedMenu
 
         if( key == KeyCode.KC_ESCAPE )
         {
-            GetGame().GetUIManager().Back();
+			Close();
         }
 
 		return false;
@@ -148,12 +148,12 @@ class PositionMenu extends UIScriptedMenu
 
 			GetGame().GetPlayer().SetPosition( vPlayerPos );
 
-			GetGame().GetUIManager().Back();
+			Close();
 			return true;
 		}
 		else if ( w == m_CancelButton )
 		{
-			GetGame().GetUIManager().Back();
+			Close();
 			return true;
 		}
 
