@@ -45,7 +45,7 @@ class ObjectEditor extends Module
 		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KB_EVENT_RELEASE ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
 		
 		objectSelect.AddMouseBind( MouseState.LEFT		, MB_EVENT_CLICK ); // Left Click
-		objectDrag.AddMouseBind( MouseState.LEFT 		, MB_EVENT_DRAG  );
+		objectDrag  .AddMouseBind( MouseState.LEFT 		, MB_EVENT_DRAG  );
 		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 ); // Doesn't matter what event for wheel
 		objectGround.AddMouseBind( MouseState.MIDDLE	, MB_EVENT_CLICK );
 		
@@ -128,7 +128,7 @@ class ObjectEditor extends Module
 			}
 		}
 	}
-
+	
 	void ScrollObject( int state ) 
 	{
 		if ( !m_ObjectEditorActive )
@@ -139,37 +139,45 @@ class ObjectEditor extends Module
 		if ( m_SelectedObject )
 		{
 			vector pos = m_SelectedObject.GetPosition();
-			vector yaw = m_SelectedObject.GetOrientation();
-			vector pitch = m_SelectedObject.GetOrientation();
-			vector roll = m_SelectedObject.GetOrientation();
+			vector ori = m_SelectedObject.GetOrientation();
+			
+			vector mat[3];
+			
+			Math3D.YawPitchRollMatrix(ori, mat);
+			
+			vector euler;
 			
 			bool up = state < 0;
 			int value = 1;
 			if ( up ) value = -1;
 			
-			if ( m_Mission.SHIFT() )
+			if ( m_Mission.SHIFT() ) //x
 			{
-				pitch [ 1 ] = pitch [ 1 ] + value;
-				m_SelectedObject.SetOrientation(pitch);
+				euler[0] = value;
 			}
-			else if ( m_Mission.CTRL() )
+			else if ( m_Mission.CTRL() ) //y
 			{
-				yaw [ 0 ] = yaw [ 0 ] + value;
-
-				m_SelectedObject.SetOrientation( yaw );
+				euler[1] = value;
 			}
-			else if ( m_Mission.ALT() )
+			else if ( m_Mission.ALT() ) //z
 			{
-				roll[ 2 ] = roll[ 2 ] + value;
-
-				m_SelectedObject.SetOrientation( roll );
+				euler[2] = value;
 			}
 			else 
 			{
-				pos [ 1 ] = pos [ 1 ] + value*0.05;
-
-				m_SelectedObject.SetPosition( pos );
+				pos[1] = pos[1] + value*0.02;
+				m_SelectedObject.SetPosition(pos);
+				
+				return;
 			}
+			
+			vector trans[3];
+			
+			Math3D.YawPitchRollMatrix(euler, trans);
+			Math3D.MatrixMultiply3(mat, trans, mat);
+			
+			m_SelectedObject.SetOrientation(Math3D.MatrixToAngles(mat));
+			
 		}
 	}
 
