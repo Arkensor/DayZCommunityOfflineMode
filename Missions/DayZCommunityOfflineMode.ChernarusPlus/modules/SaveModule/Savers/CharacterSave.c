@@ -1,5 +1,3 @@
-const string BASE_PLAYER_SAVE_DIR = "$saves:CommunityOfflineMode\\PlayerSaves";
-
 class CharacterSave 
 {
     string SModel;

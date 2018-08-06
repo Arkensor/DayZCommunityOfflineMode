@@ -3,7 +3,6 @@
 	Manages all keybinds for COM
 
 **/
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\MiscFunctions.c"
 class COMKeyBinds extends Module 
 {
 	bool IsHudVisible = true;

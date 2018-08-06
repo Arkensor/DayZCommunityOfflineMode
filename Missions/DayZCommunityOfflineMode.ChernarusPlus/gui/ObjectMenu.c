@@ -96,7 +96,7 @@ class ObjectMenu extends UIScriptedMenu
 
         if( ( w == m_btnCancel ) )
         {
-            GetGame().GetUIManager().Back();
+			Close();
             return true;
         }
 
@@ -114,7 +114,7 @@ class ObjectMenu extends UIScriptedMenu
 	{
         if( key == KeyCode.KC_ESCAPE )
         {
-            GetGame().GetUIManager().Back();
+			Close();
         }
 
 		return false;

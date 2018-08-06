@@ -110,13 +110,13 @@ class WeatherMenu extends UIScriptedMenu
 
             GetGame().GetWeather().SetWindFunctionParams( m_CurrWindForce, m_CurrWindForce, 1 );
 
-			GetGame().GetUIManager().Back();
+			Close();
 
 			return true;
 		}
 		else if ( w == m_BtnCancel )
 		{
-			GetGame().GetUIManager().Back();
+			Close();
 
 			return true;
 		}

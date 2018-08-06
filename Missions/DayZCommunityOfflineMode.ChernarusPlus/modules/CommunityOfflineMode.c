@@ -3,17 +3,20 @@
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WeatherMenu.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\ObjectMenu.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\BarrelCrosshair.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\CharacterSpawnMenu.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\CameraSettings.c"
 
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\PluginLifespan.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\COMKeyBinds.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\MiscFunctions.c"
 
 #include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\SaveModule\\SaveModule.c"
 
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\COMKeyBinds.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\PluginLifespan.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
 
 class CommunityOfflineMode : MissionGameplay
 {
@@ -57,6 +60,8 @@ class CommunityOfflineMode : MissionGameplay
 	protected const int CLICK_TIME			= 200; //ms
 	protected const int HOLD_CLICK_TIME_MIN	= 200; //ms
 	protected const int DOUBLE_CLICK_TIME	= 300; //ms
+
+	protected ref WelcomeMenu m_oWelcomeMenu;
 
 	void CommunityOfflineMode()
 	{
@@ -180,6 +185,8 @@ class CommunityOfflineMode : MissionGameplay
 			m_Modules.Get(i).onMissionStart();
 		}
 		
+		GetGame().GetUIManager().CloseMenu(MENU_INGAME);
+
 		CreateDebugMonitor();
 		
 		m_debugMonitorPatched.Hide();
@@ -189,11 +196,22 @@ class CommunityOfflineMode : MissionGameplay
 	
 	override void OnMissionFinish()
 	{	
+		GetGame().GetUIManager().CloseMenu(MENU_INGAME);
+
+		if (m_bWelcome)
+		{
+			GetGame().GetUIManager().HideScriptedMenu( m_oWelcomeMenu );
+		}
+
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
 			m_Modules.Get(i).onMissionFinish();
 		}
 		
+		CloseAllMenus();
+
+		DestroyAllMenus();
+
 		super.OnMissionFinish();
 	}
 
@@ -215,10 +233,24 @@ class CommunityOfflineMode : MissionGameplay
 	{
 	    super.OnUpdate( timeslice );
 
-        if( !m_bLoaded && !GetDayZGame().IsLoading() )
+        if( !m_bLoaded && !GetDayZGame().IsLoading() && !GetGame().GetUIManager().IsMenuOpen(MENU_INGAME) )
         {
+			GetGame().GetUIManager().CloseMenu(MENU_INGAME);
+
+			CloseAllMenus();
+			DestroyAllMenus();
+
             m_bLoaded = true;
             OnMissionLoaded();
+
+			if( !m_bWelcome )
+			{
+				m_bWelcome = true;
+
+				m_oWelcomeMenu = new WelcomeMenu;
+				m_oWelcomeMenu.Init();
+				GetGame().GetUIManager().ShowScriptedMenu( m_oWelcomeMenu, NULL );
+			}
         }
 
 		if( m_bGodMode )
@@ -226,7 +258,7 @@ class CommunityOfflineMode : MissionGameplay
 			m_oPlayer.SetHealth( m_oPlayer.GetMaxHealth( "", "" ) );
 			m_oPlayer.SetHealth( "","Blood", m_oPlayer.GetMaxHealth( "", "Blood" ) );
 			m_oPlayer.SetHealth( "","Shock", m_oPlayer.GetMaxHealth( "", "Shock" ) );
-			// m_oPlayer.SetStamina(1000,1000);
+			m_oPlayer.SetStamina(1000, 1000);
 			m_oPlayer.GetStatStamina().Set(1000);
 			m_oPlayer.GetStatEnergy().Set(1000);
 			m_oPlayer.GetStatWater().Set(1000);
@@ -470,14 +502,6 @@ class CommunityOfflineMode : MissionGameplay
 		}
 
 		// dannydog: port over old keybinds and functions to new module system
-		
-		if( !m_bWelcome )
-		{
-		    m_bWelcome = true;
-            WelcomeMenu oWelcomeMenu = new WelcomeMenu;
-            oWelcomeMenu.Init();
-            GetGame().GetUIManager().ShowScriptedMenu( oWelcomeMenu, NULL );
-		}
 
 		switch( key )
 		{
@@ -681,6 +705,7 @@ class CommunityOfflineMode : MissionGameplay
 
 			case KeyCode.KC_K:
 			{
+				if (!CTRL() && !SHIFT())
 				GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Call( GetGame().RestartMission );
 				break;
 			}
@@ -983,11 +1008,15 @@ class CommunityOfflineMode : MissionGameplay
 		} else {
 			Print("CommunityOfflineMode::SpawnPlayer()	: SaveModule not found!");
 			
-			m_oPlayer = SaveModule.CreateDefaultCharacter();
+			m_oPlayer = CreateCustomDefaultCharacter();
 		}
 
 		GetGame().SelectPlayer( NULL, m_oPlayer );
     }
+
+	DayZGame GetDayZCGame() {
+		return GetGame();
+	}
 
 
 	void InitHive()

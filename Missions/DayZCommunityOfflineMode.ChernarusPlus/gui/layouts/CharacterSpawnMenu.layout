@@ -1,0 +1,206 @@
+FrameWidgetClass CharacterSpawnMenu
+{
+	visible 0
+	position 0 0
+	size 600 400
+	halign center_ref
+	valign center_ref
+	hexactpos 0
+	vexactpos 0
+	hexactsize 1
+	vexactsize 1
+	style EditorPanel
+	{
+		PanelWidgetClass Background
+		{
+			visible 1
+			color 0 0 0.1 0.7
+			position 0 0
+			size 1 1
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 0
+			style DayZDefaultPanelTop
+			{
+				PanelWidgetClass TitleBar
+				{
+					color 0 0 0 0.7843
+					position 0 0
+					size 1 25
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 1
+					style DayZDefaultPanelTop
+					{
+						TextWidgetClass TitleBarText
+						{
+							visible 1
+							position 0.01 0
+							size 0.8 0.8
+							valign center_ref
+							text "Character Selection"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 20
+						}
+						
+						ButtonWidgetClass close_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 25 25
+							halign right_ref
+							valign center_ref
+							hexactsize 1
+							vexactsize 1
+							{
+								ImageWidgetClass close_button_image
+								{
+									ignorepointer 1
+									position 0 0
+									size 25 25
+									halign right_ref
+									valign center_ref
+									hexactsize 1
+									vexactsize 1
+									image0 "set:dayz_gui image:icon_x"
+									mode additive
+									"src alpha" 1
+								}
+							}
+						}
+					}
+				}
+				
+				PanelWidgetClass character_selects
+				{
+					position 0 30
+					size 1 365
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 1
+					{
+						TextWidgetClass txt_character
+						{
+							position 0 1
+							size 1 160
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							text "Character:"
+							font "gui/fonts/Metron22"
+							"text position" 10 0
+							"exact text" 1
+							{
+								TextListboxWidgetClass tls_character_list
+								{
+									visible 1
+									position 0 20
+									size 0.98 160
+									halign center_ref
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 1
+									style Editor
+									lines 20
+									font "gui/fonts/Metron16"
+								}
+							}
+						}
+						TextWidgetClass txt_save
+						{
+							position 0 165
+							size 1 160
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							text "Save:"
+							font "gui/fonts/Metron22"
+							"text position" 10 0
+							"exact text" 1
+							{
+								TextListboxWidgetClass tls_save_list
+								{
+									visible 1
+									position 0 20
+									size 0.98 160
+									halign center_ref
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 1
+									style Editor
+									lines 20
+									font "gui/fonts/Metron16"
+								}
+							}
+						}
+
+						ButtonWidgetClass btn_cancel
+						{
+							position 10 1
+							size 80 20
+							halign left_ref
+							valign bottom_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							text "Cancel"
+							font "gui/fonts/Metron22"
+						}
+
+						EditBoxWidgetClass txt_new_character_name {
+							ignorepointer 0
+							position 220 1
+							size 160 20
+							halign right_ref
+							valign bottom_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							"exact text" 0
+							font "gui/fonts/Metron22"
+						}
+
+						ButtonWidgetClass btn_createNew
+						{
+							position 100 1
+							size 120 20
+							halign right_ref
+							valign bottom_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							text "Create New"
+							font "gui/fonts/Metron22"
+						}
+
+						ButtonWidgetClass btn_spawn
+						{
+							position 10 1
+							size 80 20
+							halign right_ref
+							valign bottom_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							text "Spawn"
+							font "gui/fonts/Metron22"
+						}
+					}
+				}
+			}
+		}
+	}
+}
