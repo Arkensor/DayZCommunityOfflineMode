@@ -129,6 +129,8 @@ class CharacterSpawnMenu extends UIScriptedMenu
 		}
 		if ( w == m_SpawnButton )
 		{
+			if (m_sCharacterName == "" || m_sSaveName == "") return false;
+
 			Close();
 
 			m_oSaveModule.SavePlayer();
@@ -139,7 +141,7 @@ class CharacterSpawnMenu extends UIScriptedMenu
 		else if ( w == m_CancelButton || w == m_CloseButton )
 		{
 			Close();
-			
+
 			return true;
 		}
 
@@ -155,11 +157,15 @@ class CharacterSpawnMenu extends UIScriptedMenu
 		if (sName != "")
 		{
 			oSaves.Clear();
-			oSaves.Insert(sName.Substring(0, sName.Length() - 5));
+
+			if (sName != ".json")
+			{
+				oSaves.Insert(sName.Substring(0, sName.Length() - 5));
+			}
 
 			while (FindNextFile(oFileHandle, sName, oFileAttr))
 			{
-				if (sName != "")
+				if (sName != "" && sName != ".json")
 				{
 					oSaves.Insert(sName.Substring(0, sName.Length() - 5));
 				}
@@ -176,26 +182,31 @@ class CharacterSpawnMenu extends UIScriptedMenu
 
 	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
 	{
-        m_sCharacterName = "default";
-        m_sSaveName = "latest";
+		if ( w == m_CharacterList )
+		{
+			if ( GetCurrentCharacterName() != m_sCharacterName)
+			{
+				if( m_Saves.Contains( GetCurrentCharacterName() ) )
+				{
+					m_sCharacterName = GetCurrentCharacterName();
+				}
 
-		if ( w == m_CharacterList && GetCurrentCharacterName() != m_sCharacterName)
-        {
-            if( m_Saves.Contains( GetCurrentCharacterName() ) )
-            {
-				m_sCharacterName = GetCurrentCharacterName();
+				PopulateSavedList(m_sCharacterName);
 			}
+		}
 
-			PopulateSavedList(m_sCharacterName);
-        }
-
-        if ( w == m_SaveList && GetCurrentSaveName() != m_sSaveName && m_sCharacterName != "default")
-        {
-            if( m_Saves.Get(m_sCharacterName).Find( GetCurrentSaveName() ) )
-            {
-				m_sSaveName = GetCurrentSaveName();
+		if ( w == m_SaveList )
+		{
+			if (GetCurrentSaveName() != m_sSaveName && m_sCharacterName != "")
+			{
+				if( m_Saves.Get(m_sCharacterName).Find( GetCurrentSaveName() ) )
+				{
+					m_sSaveName = GetCurrentSaveName();
+				}
 			}
-        }
+		}
+
+		Print("TEST2: " + m_sCharacterName + " | " + m_sSaveName);
 
 		return true;
 	}

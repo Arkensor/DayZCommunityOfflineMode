@@ -11,8 +11,10 @@ class SaveModule extends Module
 {
 	private ref CharacterSpawnMenu m_CharacterMenu;
 
-	private string m_sCharacter = "default";
-	private string m_sSave = "latest";
+	private bool m_CanBeSaved = false;
+
+	private string m_sCharacter = "";
+	private string m_sSave = "";
 
 	void SaveModule( CommunityOfflineMode mission )
 	{
@@ -24,8 +26,6 @@ class SaveModule extends Module
 
 		MakeDirectory("$saves:CommunityOfflineMode");
 		MakeDirectory(BASE_PLAYER_SAVE_DIR);
-		
-		CreateNew("default");
 	}
 
 	void ~SaveModule()
@@ -64,6 +64,8 @@ class SaveModule extends Module
 
 	void CreateNew(string sCharacter, string sSave = "latest")
 	{
+		m_CanBeSaved = false;
+
 		MakeDirectory(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter);
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
@@ -80,30 +82,46 @@ class SaveModule extends Module
 		GetGame().SelectPlayer( NULL, m_Mission.m_oPlayer );
 		
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 1000, true);
+
+		m_CanBeSaved = true;
 	}
 
-	void SavePlayer() 
+	void SavePlayer(string sSave = "latest") 
 	{
-		CharacterSave.SavePlayer(m_sCharacter, "latest", m_Mission.m_oPlayer);
+		if (m_CanBeSaved) {
+			m_sSave = sSave;
+			CharacterSave.SavePlayer(m_sCharacter, m_sSave, m_Mission.m_oPlayer);
+		}
 	}
 
-	PlayerBase LoadPlayer(string sCharacter = "default", string sSave = "latest")
+	void LoadPlayer(string sCharacter, string sSave = "latest")
 	{
-		m_sCharacter = sCharacter;
-		m_sSave = sSave;
+		m_CanBeSaved = false;
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
 
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.FinishLoadingPlayer, 100, true, sCharacter, sSave);
+	}
+
+	private void FinishLoadingPlayer(string sCharacter, string sSave)
+	{
 		if (m_Mission.m_oPlayer)
 		{
 			m_Mission.m_oPlayer.Delete();
 		}
 
-		m_Mission.m_oPlayer = CharacterSave.LoadPlayer(sCharacter, sSave);
+		m_sCharacter = sCharacter;
+		m_sSave = sSave;
+
+		Print("SAVESTEST: Character: " + m_sCharacter + " Save: " + m_sSave);
+
+		m_Mission.m_oPlayer = CharacterSave.LoadPlayer(m_sCharacter, m_sSave);
 		GetGame().SelectPlayer( NULL, m_Mission.m_oPlayer );
 		
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 1000, true);
 
-		return m_Mission.m_oPlayer;
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.FinishLoadingPlayer);
+
+		m_CanBeSaved = true;
 	}
 }
