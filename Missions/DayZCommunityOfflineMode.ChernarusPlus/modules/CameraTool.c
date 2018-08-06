@@ -183,7 +183,7 @@ class CameraTool extends Module
 					m_oCamera.LookAt( targetPos );
 				}
 				
-				dist = vector.Distance( from, targetPos )
+				dist = vector.Distance( from, targetPos );
 				
 				if ( m_FollowTarget ) 
 				{

@@ -26,7 +26,7 @@ class CharacterSpawnMenu extends UIScriptedMenu
 		FileAttr oFileAttr = FileAttr.INVALID;
 		FindFileHandle oFileHandle = FindFile(BASE_PLAYER_SAVE_DIR + "\\*", sName, oFileAttr, FindFileFlags.ALL);
 
-		Print("File Attributes: INVALID " + FileAttr.INVALID + " DIRECTORY " + FileAttr.DIRECTORY + " HIDDEN " + FileAttr.HIDDEN + " READONLY " + FileAttr.READONLY)
+		Print("File Attributes: INVALID " + FileAttr.INVALID + " DIRECTORY " + FileAttr.DIRECTORY + " HIDDEN " + FileAttr.HIDDEN + " READONLY " + FileAttr.READONLY);
 
 		Print("Character: " + sName + ", File Attr: " + oFileAttr);
 

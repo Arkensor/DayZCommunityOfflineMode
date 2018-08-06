@@ -40,3 +40,44 @@ TVectorArray GetSpawnPoints() {
             "12942.1 0 8393.1", "12891.5 0 3673.9", "12628.7 0 10495.2", "12574.3 0 3592.8",
             "12566.3 0 6682.6", "12465.2 0 8009.0", "12354.5 0 3480.0", "13262.8 0 7225.8" };
 }
+
+set< Object > GetObjectsAtCursor( vector from, vector to, Object ignore = NULL )
+{
+    vector contact_pos;
+    vector contact_dir;
+    int contact_component;
+
+    set< Object > objects = new set< Object >;
+
+    if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, objects, NULL, ignore, false, false, ObjIntersectView, 0.5 ) )
+    {
+        return objects;
+    }
+
+    return NULL;
+}
+
+vector GetCursorPos()
+{
+    vector rayStart = GetGame().GetCurrentCameraPosition();
+    vector rayEnd = rayStart + GetGame().GetCurrentCameraDirection() * 10000;
+    vector hitPos;
+    vector hitNormal;
+    int hitComponentIndex;
+    DayZPhysics.RaycastRV(rayStart, rayEnd, hitPos, hitNormal, hitComponentIndex, NULL, NULL, GetPlayer());
+
+    return hitPos;
+}
+
+Weapon GetWeaponInHands()
+{
+    Weapon weapon_in_hands;
+    if( GetPlayer() && GetPlayer().GetItemInHands() ) Class.CastTo(weapon_in_hands,  GetPlayer().GetItemInHands());
+
+    return weapon_in_hands;
+}
+
+PlayerBase GetPlayer()
+{
+    return GetGame().GetPlayer();
+}
