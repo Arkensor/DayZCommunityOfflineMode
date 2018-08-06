@@ -4,7 +4,7 @@ class ObjectEditor extends Module
 	protected bool m_IsDragging;
 	protected Object m_SelectedObject;
 
-	void ObjectEditor( CommunityOfflineMode mission )
+	void ObjectEditor()
 	{
 	}
 
@@ -147,18 +147,18 @@ class ObjectEditor extends Module
 			int value = 1;
 			if ( up ) value = -1;
 			
-			if ( m_Mission.SHIFT() )
+			if ( SHIFT() )
 			{
 				pitch [ 1 ] = pitch [ 1 ] + value;
 				m_SelectedObject.SetOrientation(pitch);
 			}
-			else if ( m_Mission.CTRL() )
+			else if ( CTRL() )
 			{
 				yaw [ 0 ] = yaw [ 0 ] + value;
 
 				m_SelectedObject.SetOrientation( yaw );
 			}
-			else if ( m_Mission.ALT() )
+			else if ( ALT() )
 			{
 				roll[ 2 ] = roll[ 2 ] + value;
 

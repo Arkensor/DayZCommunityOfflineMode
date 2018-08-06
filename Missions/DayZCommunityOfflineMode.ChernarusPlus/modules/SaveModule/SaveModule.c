@@ -16,7 +16,7 @@ class SaveModule extends Module
 	private string m_sCharacter = "";
 	private string m_sSave = "";
 
-	void SaveModule( CommunityOfflineMode mission )
+	void SaveModule()
 	{
 		KeyMouseBinding showCharacterMenu = new KeyMouseBinding( GetModuleType() , "ShowCharacterMenu"  , "[M]"    , "Shows the character menu."   );
 		
@@ -68,20 +68,21 @@ class SaveModule extends Module
 
 		MakeDirectory(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter);
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove( this.SavePlayer );
 
 		m_sCharacter = sCharacter;
 		m_sSave = sSave;
 
-		if (m_Mission.m_oPlayer)
+		if ( GetPlayer() )
 		{
-			m_Mission.m_oPlayer.Delete();
+			GetPlayer().Delete();
 		}
 		
-		m_Mission.m_oPlayer = CreateCustomDefaultCharacter();
-		GetGame().SelectPlayer( NULL, m_Mission.m_oPlayer );
+		PlayerBase oPlayer = CreateCustomDefaultCharacter();
+
+		GetGame().SelectPlayer( NULL, oPlayer );
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 1000, true);
+		GetGame().GetCallQueue( CALL_CATEGORY_GAMEPLAY).CallLater( this.SavePlayer, 1000, true );
 
 		m_CanBeSaved = true;
 	}
@@ -90,7 +91,7 @@ class SaveModule extends Module
 	{
 		if (m_CanBeSaved) {
 			m_sSave = sSave;
-			CharacterSave.SavePlayer(m_sCharacter, m_sSave, m_Mission.m_oPlayer);
+			CharacterSave.SavePlayer( m_sCharacter, m_sSave, GetPlayer() );
 		}
 	}
 
@@ -105,9 +106,9 @@ class SaveModule extends Module
 
 	private void FinishLoadingPlayer(string sCharacter, string sSave)
 	{
-		if (m_Mission.m_oPlayer)
+		if ( GetPlayer() )
 		{
-			m_Mission.m_oPlayer.Delete();
+			GetPlayer().Delete();
 		}
 
 		m_sCharacter = sCharacter;
@@ -115,8 +116,8 @@ class SaveModule extends Module
 
 		Print("SAVESTEST: Character: " + m_sCharacter + " Save: " + m_sSave);
 
-		m_Mission.m_oPlayer = CharacterSave.LoadPlayer(m_sCharacter, m_sSave);
-		GetGame().SelectPlayer( NULL, m_Mission.m_oPlayer );
+		PlayerBase oPlayer = CharacterSave.LoadPlayer(m_sCharacter, m_sSave);
+		GetGame().SelectPlayer( NULL, oPlayer );
 		
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 1000, true);
 

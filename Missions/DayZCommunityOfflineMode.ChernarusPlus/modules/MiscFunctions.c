@@ -2,7 +2,7 @@ class MiscFunctions extends Module
 {
 	bool IsHudVisible = true;
 	
-	void MiscFunctions( CommunityOfflineMode m_Mission )
+	void MiscFunctions()
 	{
 	}
 
@@ -48,11 +48,11 @@ class MiscFunctions extends Module
 	
 	void TeleportCursor() 
 	{
-		if ( CameraTool.Cast( m_Mission.GetModule(CameraTool) ).IsUsingCamera() ) 
-		{
-			GetPlayer().MessageStatus( "You can not teleport while you are inside the freecam!" );
-			return;
-		}
+//		if ( CameraTool.Cast( m_Mission.GetModule( CameraTool ) ).IsUsingCamera() ) //Todo renable after module manager is done
+//		{
+//			GetPlayer().MessageStatus( "You can not teleport while you are inside the freecam!" );
+//			return;
+//		}
 
 		vector hitPos = GetCursorPos();
 

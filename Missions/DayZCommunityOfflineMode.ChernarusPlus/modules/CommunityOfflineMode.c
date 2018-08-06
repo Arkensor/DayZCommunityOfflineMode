@@ -93,11 +93,11 @@ class CommunityOfflineMode : MissionGameplay
 
 	void RegisterModules()
 	{
-		m_Modules.Insert( new ObjectEditor(this) );
-		m_Modules.Insert( new CameraTool(this) );
-		m_Modules.Insert( new MiscFunctions(this) );
-		m_Modules.Insert( new COMKeyBinds(this) );
-		m_Modules.Insert( new SaveModule(this) );
+		m_Modules.Insert( new ObjectEditor );
+		m_Modules.Insert( new CameraTool );
+		m_Modules.Insert( new MiscFunctions );
+		m_Modules.Insert( new COMKeyBinds );
+		m_Modules.Insert( new SaveModule );
 	}
 
 	void InitializeModules()

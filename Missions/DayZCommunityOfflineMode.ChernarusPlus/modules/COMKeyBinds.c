@@ -7,7 +7,7 @@ class COMKeyBinds extends Module
 {
 	bool IsHudVisible = true;
 	
-	void COMKeyBinds( CommunityOfflineMode m_Mission )
+	void COMKeyBinds()
 	{
 	}
 

@@ -21,7 +21,7 @@ class CameraTool extends Module
 	protected Object m_Target;
 	protected vector m_TargetPos; // Static position
 	
-	void CameraTool( CommunityOfflineMode mission )
+	void CameraTool()
 	{
 	}
 
@@ -75,7 +75,7 @@ class CameraTool extends Module
 			SetFreezePlayer(false);
 			SetFreezeMouse(false);
 
-			if( m_Mission.CTRL() || m_Mission.SHIFT() ) // Extra
+			if( CTRL() || SHIFT() ) // Extra
 			{
 				vector oCamPos = m_oCamera.GetPosition();
 				oCamPos[1] = GetGame().SurfaceY( oCamPos[0], oCamPos[2] );
@@ -84,7 +84,7 @@ class CameraTool extends Module
 			}
 			else
 			{
-				GetPlayer().SetPosition( m_Mission.GetCursorPos() );
+				GetPlayer().SetPosition( GetCursorPos() );
 			}
 
 			m_oCamera.SetActive( false );
@@ -144,7 +144,7 @@ class CameraTool extends Module
 					return;
 				} 
 			}
-			m_TargetPos = m_Mission.GetCursorPos();
+			m_TargetPos = GetCursorPos();
 		}
 	}
 	

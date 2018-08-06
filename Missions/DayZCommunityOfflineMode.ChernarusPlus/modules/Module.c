@@ -4,22 +4,17 @@
 */
 class Module
 {
-	protected CommunityOfflineMode m_Mission;
 	protected bool m_Enabled;
 	protected ref set< ref KeyMouseBinding > m_KeyBindings;
 	
-	void Module( CommunityOfflineMode mission )
+	void Module()
 	{
-		m_Mission = mission;
-
 		m_Enabled = true;
-		
 		m_KeyBindings = new ref set< ref KeyMouseBinding >;
 	}
 	
 	void ~Module()
 	{
-		m_Mission = NULL;
 	}
 	
 	void Init()
