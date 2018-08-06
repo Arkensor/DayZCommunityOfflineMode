@@ -16,9 +16,6 @@ class SaveModule extends Module
 
 	void SaveModule( CommunityOfflineMode mission )
 	{
-		MakeDirectory("$saves:CommunityOfflineMode");
-		MakeDirectory(BASE_PLAYER_SAVE_DIR);
-
 		KeyMouseBinding spawnDefault = new KeyMouseBinding( GetModuleType() , "SpawnDefault"  , "[K]"    , "Spawns the default player."   );
 		KeyMouseBinding showCharacterMenu = new KeyMouseBinding( GetModuleType() , "ShowCharacterMenu"  , "[M]"    , "Shows the character menu."   );
 		
@@ -27,6 +24,11 @@ class SaveModule extends Module
 
 		RegisterKeyMouseBinding( spawnDefault );
 		RegisterKeyMouseBinding( showCharacterMenu );
+
+		MakeDirectory("$saves:CommunityOfflineMode");
+		MakeDirectory(BASE_PLAYER_SAVE_DIR);
+		
+		CreateNew("default");
 	}
 
 	void ~SaveModule()
