@@ -13,7 +13,6 @@ class CameraSettings extends UIScriptedMenu
 	private SliderWidget m_SldCamFnear;
 	private TextWidget m_TxtCamFnear;
 	
-	
 	protected CommunityOfflineMode m_Mission;
 	
 	void CameraSettings()
@@ -80,47 +79,47 @@ class CameraSettings extends UIScriptedMenu
 	{
 		if ( w == m_SldCamBlur ) 
 		{
-			CameraTool.CAMERA_BLUR = 4.0 * (m_SldCamBlur.GetCurrent() * 0.01); // percent
+			CameraModule.CAMERA_BLUR = 4.0 * (m_SldCamBlur.GetCurrent() * 0.01); // percent
 			
 			if ( m_SldCamBlur.GetCurrent() == 0 ) 
 			{
-				CameraTool.CAMERA_DOF = false;
+				CameraModule.CAMERA_DOF = false;
 				PPEffects.ResetDOFOverride();
 			} 
 			else 
 			{
-				CameraTool.CAMERA_DOF = true;
+				CameraModule.CAMERA_DOF = true;
 			}
 		} 
 		else if ( w == m_SldCamDist ) 
 		{
 			if ( m_SldCamDist.GetCurrent() == 0 ) 
 			{
-				CameraTool.CAMERA_AFOCUS = true;
+				CameraModule.CAMERA_AFOCUS = true;
 			} 
 			else 
 			{
-				CameraTool.CAMERA_AFOCUS = false;
-				CameraTool.CAMERA_FDIST = m_SldCamDist.GetCurrent() * 15;
+				CameraModule.CAMERA_AFOCUS = false;
+				CameraModule.CAMERA_FDIST = m_SldCamDist.GetCurrent() * 15;
 			}
 		}
 		else if ( w == m_SldCamFLen ) 
 		{
-			CameraTool.CAMERA_FLENGTH = (m_SldCamFLen.GetCurrent());
+			CameraModule.CAMERA_FLENGTH = (m_SldCamFLen.GetCurrent());
 		}
 		else if ( w == m_SldCamFnear ) 
 		{
-			CameraTool.CAMERA_FNEAR = (m_SldCamFnear.GetCurrent());
+			CameraModule.CAMERA_FNEAR = (m_SldCamFnear.GetCurrent());
 		}
 		return false;
 	}
 	
 	void UpdateSliders() 
 	{
-		m_TxtCamBlur.SetText(((CameraTool.CAMERA_BLUR / 4.0) * 100.0).ToString() + "%");
-		m_TxtCamDist.SetText(CameraTool.CAMERA_FDIST.ToString()+"m");
-		m_TxtCamFlen.SetText(CameraTool.CAMERA_FLENGTH.ToString());
-		m_TxtCamFnear.SetText(CameraTool.CAMERA_FNEAR.ToString());
+		m_TxtCamBlur.SetText(((CameraModule.CAMERA_BLUR / 4.0) * 100.0).ToString() + "%");
+		m_TxtCamDist.SetText(CameraModule.CAMERA_FDIST.ToString()+"m");
+		m_TxtCamFlen.SetText(CameraModule.CAMERA_FLENGTH.ToString());
+		m_TxtCamFnear.SetText(CameraModule.CAMERA_FNEAR.ToString());
 	}
 	
 	void UpdateSlider(TextWidget w, string text) 

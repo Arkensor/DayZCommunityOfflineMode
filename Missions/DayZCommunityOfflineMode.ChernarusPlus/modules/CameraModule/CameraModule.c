@@ -1,4 +1,6 @@
-class CameraTool extends Module
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\CameraSettings.c"
+
+class CameraModule extends Module
 {
 	protected Camera m_oCamera;
 	protected float m_CamFOV = 1.0; // default FOV
@@ -21,11 +23,12 @@ class CameraTool extends Module
 	protected Object m_Target;
 	protected vector m_TargetPos; // Static position
 	
-	void CameraTool( CommunityOfflineMode mission )
+	void CameraModule( CommunityOfflineMode mission )
 	{
+		m_GUIWindow = new CameraSettings();
 	}
 
-	void ~CameraTool()
+	void ~CameraModule()
 	{
 	}
 	
@@ -67,7 +70,6 @@ class CameraTool extends Module
 		RegisterKeyMouseBinding( toggleOrbit  );
 		RegisterKeyMouseBinding( targetCamera );
 		RegisterKeyMouseBinding( zoomCamera   );
-		
 	}
 	
 	void ToggleCamera() 

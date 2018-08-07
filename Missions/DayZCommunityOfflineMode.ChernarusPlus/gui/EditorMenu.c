@@ -7,9 +7,11 @@ class EditorMenu extends UIScriptedMenu
 	protected ButtonWidget m_ObjectButton;
 	protected ButtonWidget m_WeatherButton;
 	
-	void EditorMenu()
+	protected ref COMModule m_oCOMModule;
+	
+	void EditorMenu(ref COMModule oCOMModule)
 	{
-		Init();
+		m_oCOMModule = oCOMModule;
 	}	
 	
 	void ~EditorMenu()
@@ -26,7 +28,7 @@ class EditorMenu extends UIScriptedMenu
 		m_TeleportButton = ButtonWidget.Cast( layoutRoot.FindAnyWidget("btn_ttm_tm_position") );
 		m_ObjectButton   = ButtonWidget.Cast( layoutRoot.FindAnyWidget("btn_ttm_tm_object") );
 		m_WeatherButton  = ButtonWidget.Cast( layoutRoot.FindAnyWidget("btn_ttm_tm_weather") );
-*/
+		*/
 		
         return layoutRoot;
 
@@ -66,10 +68,10 @@ class EditorMenu extends UIScriptedMenu
 		{
 			Close();
 		}
-*/
+		*/
+
 		return false;
 	}
-
 
 	override bool OnKeyPress( Widget w, int x, int y, int key )
 	{
@@ -78,11 +80,13 @@ class EditorMenu extends UIScriptedMenu
 	
 	override bool OnMouseWheel(Widget w, int x, int y, int wheel)
 	{
+		/*
 		if ( w == m_changelogbox ) 
 		{
 			float offset = m_changelogbox.GetContentOffset() - wheel*10;
 			m_changelogbox.SetContentOffset(offset, false);
 		}
+		*/
 		
 		return false;
 	}

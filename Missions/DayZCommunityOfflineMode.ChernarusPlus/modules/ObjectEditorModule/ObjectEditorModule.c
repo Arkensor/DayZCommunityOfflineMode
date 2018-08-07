@@ -1,14 +1,14 @@
-class ObjectEditor extends Module
+class ObjectEditorModule extends Module
 {
 	protected bool m_ObjectEditorActive = false;
 	protected bool m_IsDragging;
 	protected Object m_SelectedObject;
 
-	void ObjectEditor( CommunityOfflineMode mission )
+	void ObjectEditorModule( CommunityOfflineMode mission )
 	{
 	}
 
-	void ~ObjectEditor()
+	void ~ObjectEditorModule()
 	{
 	}
 	

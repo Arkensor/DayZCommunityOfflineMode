@@ -7,10 +7,25 @@ class Module
 	protected CommunityOfflineMode m_Mission;
 	protected bool m_Enabled;
 	protected ref set< ref KeyMouseBinding > m_KeyBindings;
-	
+
+	protected ref UIScriptedMenu m_GUIWindow;
+
+	protected ref ModuleManager m_oManager;
+
 	void Module( CommunityOfflineMode mission )
 	{
 		m_Mission = mission;
+
+		m_Enabled = true;
+		
+		m_KeyBindings = new ref set< ref KeyMouseBinding >;
+	}
+
+	void Module( CommunityOfflineMode mission, UIScriptedMenu window )
+	{
+		m_Mission = mission;
+		
+		m_GUIWindow = window;
 
 		m_Enabled = true;
 		
@@ -20,6 +35,11 @@ class Module
 	void ~Module()
 	{
 		m_Mission = NULL;
+	}
+
+	void SetModuleManager( ref ModuleManager oManager )
+	{
+		m_oManager = oManager;
 	}
 	
 	void Init()
@@ -31,6 +51,20 @@ class Module
     {
         m_Enabled = !m_Enabled;
     }
+
+	void ShowWindow( UIScriptedMenu oParent = NULL )
+	{
+		if (m_GUIWindow) {
+			if (m_GUIWindow.IsVisible()) {
+				return;
+			}
+		} else 
+		{
+			return;
+		}
+
+		GetGame().GetUIManager().ShowScriptedMenu( m_GUIWindow , oParent );
+	}
 
     string GetModuleName()
     {
