@@ -1,0 +1,6 @@
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\SaveModule.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\Savers\\CharacterSave.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\Savers\\HandSave.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\Savers\\InventorySave.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\Savers\\ItemSave.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\CharacterSpawnMenu.c"

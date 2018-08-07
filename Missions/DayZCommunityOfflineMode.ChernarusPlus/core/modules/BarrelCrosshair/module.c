@@ -1,0 +1,1 @@
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\BarrelCrosshair.c"

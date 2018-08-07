@@ -1,22 +1,5 @@
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WelcomeMenu.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\PositionMenu.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\WeatherMenu.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\ObjectMenu.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\BarrelCrosshair.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\CharacterSpawnMenu.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\CameraSettings.c"
-
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\ObjectEditor.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CameraTool.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\Module.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\KeyMouseBinding.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\COMKeyBinds.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\MiscFunctions.c"
-
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\SaveModule\\SaveModule.c"
-
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\PluginLifespan.c"
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\patches\\DebugMonitor.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\ModuleManager.c"
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\StaticFunctions.c"
 
 class CommunityOfflineMode : MissionGameplay
 {
@@ -27,10 +10,7 @@ class CommunityOfflineMode : MissionGameplay
 	
 	PlayerBase m_oPlayer;
 
-	ref PluginLifespanPatched cpl;
-	
 	//Patches
-	protected ref DebugMonitorPatched m_debugMonitorPatched;
 	protected ref ObjectEditor m_ObjectEditor;
 
 	//Until we find a better way
@@ -38,8 +18,7 @@ class CommunityOfflineMode : MissionGameplay
 
 	//For freecam and utils
 	protected Camera m_oCamera;
-	
-	protected bool m_bDebugMonitor = false;
+
 	protected bool m_bGodMode = false;
 	protected bool m_bWelcome = false;
 	protected int m_nAutoWalkMode = 0;
@@ -78,7 +57,6 @@ class CommunityOfflineMode : MissionGameplay
 		// for beard
 		g_Game.SetMissionState(DayZGame.MISSION_STATE_GAME);
 		SetDispatcher(new DispatcherCaller);
-		cpl = new PluginLifespanPatched();
 	}
 
 	void ~CommunityOfflineMode()
@@ -122,7 +100,7 @@ class CommunityOfflineMode : MissionGameplay
 		
 		InitializeModules();
 		
-		GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\BarrelCrosshair.layout" );
+		GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\layouts\\BarrelCrosshair.layout" );
 		
 		DayZPlayerCameras.RegisterTransitionTime( DayZPlayerCameras.DAYZCAMERA_1ST, DayZPlayerCameras.DAYZCAMERA_OPTICS, 0.15, true ); // Temp fix for snapping camera transitions
 	}
@@ -180,10 +158,6 @@ class CommunityOfflineMode : MissionGameplay
 		}
 		
 		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
-
-		CreateDebugMonitor();
-		
-		m_debugMonitorPatched.Hide();
 	}
 
 	override void OnMissionFinish()
@@ -261,17 +235,11 @@ class CommunityOfflineMode : MissionGameplay
 			}
 			
 		}
-		
-		UpdateDebugMonitor();
 
 		UpdateAutoWalk();
 
-		// UpdateEditor(); --- Missing / Removed ??
-        
 		if(m_oPlayer) {
 		    m_oPlayer.StatUpdateByTime("playtime");
-		    cpl.UpdateLifespan( m_oPlayer, true );
-		    cpl.UpdateBloodyHandsVisibility(m_oPlayer, m_oPlayer.HasBloodyHands());
 
 			if (m_bOldAiming) {
 				m_oPlayer.OverrideShootFromCamera(false);
@@ -591,24 +559,6 @@ class CommunityOfflineMode : MissionGameplay
 				break;
 			}
 
-
-			case KeyCode.KC_B:
-			{
-                if( m_bDebugMonitor )
-                {
-                    m_debugMonitorPatched.Hide();
-                    m_bDebugMonitor = false;
-                }
-                else
-                {
-                    m_debugMonitorPatched.Show();
-                    m_bDebugMonitor = true;
-                }
-
-				break;
-			}
-
-
             case KeyCode.KC_X:
             {
                 if( m_nAutoWalkMode && !SHIFT() )
@@ -792,28 +742,6 @@ class CommunityOfflineMode : MissionGameplay
 			}
 		}
 	}
-
-    override void CreateDebugMonitor()
-    {
-        if (!m_debugMonitorPatched)
-        {
-            m_debugMonitorPatched = new DebugMonitorPatched();
-            m_debugMonitorPatched.Init();
-        }
-    }
-
-    override void UpdateDebugMonitor()
-    {
-        if (!m_debugMonitorPatched) return;
-
-        if (m_oPlayer)
-        {
-            m_debugMonitorPatched.SetHealth( m_oPlayer.GetHealth( "","" ) );
-            m_debugMonitorPatched.SetBlood(  m_oPlayer.GetHealth( "","Blood" ) );
-            m_debugMonitorPatched.SetLastDamage( "" );
-            m_debugMonitorPatched.SetPosition( m_oPlayer.GetPosition() );
-        }
-    }
 
     void UpdateAutoWalk()
     {
