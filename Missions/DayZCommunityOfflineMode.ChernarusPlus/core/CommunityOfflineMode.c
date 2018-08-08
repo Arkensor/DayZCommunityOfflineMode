@@ -379,7 +379,7 @@ class CommunityOfflineMode : MissionGameplay
 	{
 		super.OnKeyRelease( key );
 
-		GetModuleManager().OnKeyPress( key );
+		GetModuleManager().OnKeyRelease( key );
 
 //		switch( key )
 //		{
