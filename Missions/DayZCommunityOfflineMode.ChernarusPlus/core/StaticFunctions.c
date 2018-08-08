@@ -1,3 +1,5 @@
+#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\MiscFunctions.c"
+
 PlayerBase CreateCustomDefaultCharacter()
 {
 	PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
