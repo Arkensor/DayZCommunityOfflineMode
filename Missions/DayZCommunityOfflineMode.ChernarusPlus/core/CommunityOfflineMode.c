@@ -5,17 +5,17 @@ class CommunityOfflineMode : MissionGameplay
 {
 	protected bool HIVE_ENABLED = true; //Local Hive / Economy / Infected spawn
 
-    protected ref ModuleManager m_ModuleManager;
     protected bool m_bLoaded;
 
 	void CommunityOfflineMode()
 	{
-	    m_ModuleManager = new ref ModuleManager;
+	    Print( "CommunityOfflineMode::CommunityOfflineMode()" );
 	    m_bLoaded = false;
 	}
 
 	void ~CommunityOfflineMode()
 	{
+	    Print( "CommunityOfflineMode::~CommunityOfflineMode()" );
 	}
 
 	override void OnInit()
@@ -28,7 +28,7 @@ class CommunityOfflineMode : MissionGameplay
 
 		SpawnPlayer();
 
-        m_ModuleManager.OnInit();
+        GetModuleManager().OnInit();
 
 //		GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\layouts\\BarrelCrosshair.layout" );
 		
@@ -39,14 +39,14 @@ class CommunityOfflineMode : MissionGameplay
 	{
 		super.OnMissionStart();
 	
-        m_ModuleManager.OnMissionStart();
+        GetModuleManager().OnMissionStart();
 		
 		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 	}
 
 	override void OnMissionFinish()
 	{
-        m_ModuleManager.OnMissionFinish();
+        GetModuleManager().OnMissionFinish();
 		
 		CloseAllMenus();
 
@@ -66,14 +66,14 @@ class CommunityOfflineMode : MissionGameplay
     {
 //        GetGame().GetUIManager().ScreenFadeOut( 0 );
 		
-		m_ModuleManager.OnMissionLoaded();
+		GetModuleManager().OnMissionLoaded();
     }
 
 	override void OnUpdate( float timeslice )
 	{
 	    super.OnUpdate( timeslice );
 
-        m_ModuleManager.OnUpdate( timeslice );
+        GetModuleManager().OnUpdate( timeslice );
 
         if( !m_bLoaded && !GetDayZGame().IsLoading() )
         {
@@ -131,21 +131,21 @@ class CommunityOfflineMode : MissionGameplay
 	{
 		super.OnMouseButtonRelease( button );
 
-		m_ModuleManager.OnMouseButtonRelease( button );
+		GetModuleManager().OnMouseButtonRelease( button );
 	}
 
 	override void OnMouseButtonPress( int button )
 	{
 		super.OnMouseButtonPress( button );
 
-		m_ModuleManager.OnMouseButtonPress( button );
+		GetModuleManager().OnMouseButtonPress( button );
 	}
 
 	override void OnKeyPress( int key )
 	{
 		super.OnKeyPress(key);
 
-		m_ModuleManager.OnKeyPress( key );
+		GetModuleManager().OnKeyPress( key );
 //
 //
 //
@@ -379,7 +379,7 @@ class CommunityOfflineMode : MissionGameplay
 	{
 		super.OnKeyRelease( key );
 
-		m_ModuleManager.OnKeyPress( key );
+		GetModuleManager().OnKeyPress( key );
 
 //		switch( key )
 //		{

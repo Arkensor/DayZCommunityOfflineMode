@@ -19,6 +19,8 @@ class ModuleManager
 
     void ModuleManager()
     {
+        Print( "ModuleManager::ModuleManager()" );
+
 		m_Modules 	   = new ref array< ref Module >;
 		m_MouseButtons = new ref array< ref MouseButtonInfo >;
 		m_MouseButtons.Insert( new MouseButtonInfo( MouseState.LEFT ) );
@@ -30,11 +32,13 @@ class ModuleManager
 
     void ~ModuleManager()
     {
-
+        Print( "ModuleManager::~ModuleManager()" );
     }
 
     void RegisterModules()
     {
+        Print( "ModuleManager::RegisterModules()" );
+
         m_Modules.Insert( new ObjectEditor );
         m_Modules.Insert( new CameraTool );
         m_Modules.Insert( new COMKeyBinds );
@@ -43,11 +47,18 @@ class ModuleManager
 
 	void OnInit()
 	{
-		InitializeModules();
+	    Print( "ModuleManager::OnInit()" );
+
+        for ( int i = 0; i < m_Modules.Count(); ++i)
+        {
+            m_Modules.Get(i).Init();
+        }
 	}
 
     void OnMissionStart()
     {
+        Print( "ModuleManager::OnMissionStart()" );
+
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).onMissionStart();
@@ -56,6 +67,8 @@ class ModuleManager
 
     void OnMissionFinish()
     {
+        Print( "ModuleManager::OnMissionFinish()" );
+
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).onMissionFinish();
@@ -64,6 +77,8 @@ class ModuleManager
 
     void OnMissionLoaded()
     {
+        Print( "ModuleManager::OnMissionLoaded()" );
+
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
 			m_Modules.Get(i).onMissionLoaded();
@@ -167,19 +182,12 @@ class ModuleManager
 		}
     }
 
-    void InitializeModules()
-    {
-        for ( int i = 0; i < m_Modules.Count(); ++i)
-        {
-            m_Modules.Get(i).Init();
-        }
-    }
-
     ref Module GetModule( typename module_Type )
     {
         for ( int i = 0; i < m_Modules.Count(); ++i )
         {
             ref Module module = m_Modules.Get(i);
+
             if ( module.GetModuleType() == module_Type)
             {
                 return module;
@@ -204,7 +212,7 @@ class ModuleManager
         return NULL;
     }
 
-    protected MouseButtonInfo GetMouseButtonInfo( int button )
+    MouseButtonInfo GetMouseButtonInfo( int button )
     {
         for ( int i = 0; i < m_MouseButtons.Count(); ++i )
         {
@@ -221,7 +229,9 @@ class ModuleManager
     void moduleMouseCheck( int button, int mouseEvent )
     {
         MouseButtonInfo button_info = GetMouseButtonInfo( button );
-        if (button_info == NULL) return;
+
+        if ( button_info == NULL ) return;
+
         if ( mouseEvent == KeyMouseBinding.MB_EVENT_PRESS ) button_info.Press();
 
         int time_curr			= GetGame().GetTime();
@@ -334,4 +344,16 @@ class ModuleManager
             }
         }
     }
+}
+
+ref ModuleManager g_com_ModuleManager;
+
+ref ModuleManager GetModuleManager()
+{
+    if( !g_com_ModuleManager )
+    {
+        g_com_ModuleManager = new ref ModuleManager();
+    }
+
+    return g_com_ModuleManager;
 }
