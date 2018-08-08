@@ -13,7 +13,7 @@ class SaveModule extends Module
 	{
 		KeyMouseBinding showCharacterMenu = new KeyMouseBinding( GetModuleType() , "ShowCharacterMenu"  , "[M]"    , "Shows the character menu."   );
 		
-		showCharacterMenu.AddKeyBind( KeyCode.KC_M, KB_EVENT_RELEASE );
+		showCharacterMenu.AddKeyBind( KeyCode.KC_M, KeyMouseBinding.KB_EVENT_RELEASE );
 
 		RegisterKeyMouseBinding( showCharacterMenu );
 
@@ -71,7 +71,7 @@ class SaveModule extends Module
 			GetPlayer().Delete();
 		}
 		
-		PlayerBase oPlayer = CreateCustomDefaultCharacter();
+		PlayerBase oPlayer = CommunityOfflineMode.CreateCustomDefaultCharacter();
 
 		GetGame().SelectPlayer( NULL, oPlayer );
 		

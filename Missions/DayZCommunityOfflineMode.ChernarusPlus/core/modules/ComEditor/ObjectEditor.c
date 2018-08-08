@@ -40,14 +40,14 @@ class ObjectEditor extends Module
 		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object."  );
 		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground."  );
 
-		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KB_EVENT_HOLD    ); 
-		toggleEditor.AddKeyBind( KeyCode.KC_END   , KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
-		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KB_EVENT_RELEASE ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
+		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    ); 
+		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
+		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KeyMouseBinding.KB_EVENT_RELEASE ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
 		
-		objectSelect.AddMouseBind( MouseState.LEFT		, MB_EVENT_CLICK ); // Left Click
-		objectDrag.AddMouseBind( MouseState.LEFT 		, MB_EVENT_DRAG  );
-		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 ); // Doesn't matter what event for wheel
-		objectGround.AddMouseBind( MouseState.MIDDLE	, MB_EVENT_CLICK );
+		objectSelect.AddMouseBind( MouseState.LEFT		, KeyMouseBinding.MB_EVENT_CLICK ); // Left Click
+		objectDrag.  AddMouseBind( MouseState.LEFT 		, KeyMouseBinding.MB_EVENT_DRAG  );
+		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 							 ); // Doesn't matter what event for wheel
+		objectGround.AddMouseBind( MouseState.MIDDLE	, KeyMouseBinding.MB_EVENT_CLICK );
 		
 		RegisterKeyMouseBinding( toggleEditor );
 		RegisterKeyMouseBinding( objectSelect );

@@ -54,7 +54,7 @@ class CharacterSpawnMenu extends UIScriptedMenu
 
 	override Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\CharacterSpawnMenu.layout" );
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\CharacterSpawnMenu.layout" );
 
 		m_CharacterList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget("tls_character_list") );
 		m_SaveList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget("tls_save_list") );

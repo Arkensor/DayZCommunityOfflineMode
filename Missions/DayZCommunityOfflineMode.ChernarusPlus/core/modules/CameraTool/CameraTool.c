@@ -49,14 +49,14 @@ class CameraTool extends Module
 		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "[Return]"	 , "Targets objects or positions" );
 		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "(RMB)+(Drag)", "Zooms camera"	 );
 		
-		toggleCamera.AddKeyBind( KeyCode.KC_INSERT    , KB_EVENT_RELEASE );
-		freezeCamera.AddKeyBind( KeyCode.KC_BACKSLASH , KB_EVENT_RELEASE );
-		freezePlayer.AddKeyBind( KeyCode.KC_CAPITAL   , KB_EVENT_RELEASE );
-		followTarget.AddKeyBind( KeyCode.KC_LBRACKET  , KB_EVENT_RELEASE );
-		toggleOrbit .AddKeyBind( KeyCode.KC_RBRACKET  , KB_EVENT_RELEASE );
+		toggleCamera.AddKeyBind( KeyCode.KC_INSERT    , KeyMouseBinding.KB_EVENT_RELEASE );
+		freezeCamera.AddKeyBind( KeyCode.KC_BACKSLASH , KeyMouseBinding.KB_EVENT_RELEASE );
+		freezePlayer.AddKeyBind( KeyCode.KC_CAPITAL   , KeyMouseBinding.KB_EVENT_RELEASE );
+		followTarget.AddKeyBind( KeyCode.KC_LBRACKET  , KeyMouseBinding.KB_EVENT_RELEASE );
+		toggleOrbit .AddKeyBind( KeyCode.KC_RBRACKET  , KeyMouseBinding.KB_EVENT_RELEASE );
 		
-		targetCamera.AddMouseBind( MouseState.MIDDLE , MB_EVENT_CLICK );
-		zoomCamera	.AddMouseBind( MouseState.RIGHT  , MB_EVENT_DRAG  );
+		targetCamera.AddMouseBind( MouseState.MIDDLE , KeyMouseBinding.MB_EVENT_CLICK );
+		zoomCamera	.AddMouseBind( MouseState.RIGHT  , KeyMouseBinding.MB_EVENT_DRAG  );
 		
 		RegisterKeyMouseBinding( toggleCamera );
 		RegisterKeyMouseBinding( freezeCamera );
@@ -65,7 +65,6 @@ class CameraTool extends Module
 		RegisterKeyMouseBinding( toggleOrbit  );
 		RegisterKeyMouseBinding( targetCamera );
 		RegisterKeyMouseBinding( zoomCamera   );
-		
 	}
 	
 	void ToggleCamera() 

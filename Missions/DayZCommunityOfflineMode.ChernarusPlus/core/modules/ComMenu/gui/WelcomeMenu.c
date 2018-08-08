@@ -13,7 +13,7 @@ class WelcomeMenu extends UIScriptedMenu
 
     override Widget Init()
     {
-        layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComMenu\\gui\\layouts\\WelcomeMenu.layout" );
+        layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComMenu\\gui\\layouts\\WelcomeMenu.layout" );
 
         m_InfoBox = TextWidget.Cast( layoutRoot.FindAnyWidget( "infotext" ) );
         m_BtnOk = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_ok" ) );

@@ -1,27 +1,33 @@
-const int KB_EVENT_PRESS			= 0;
-const int KB_EVENT_RELEASE			= 1;
-const int KB_EVENT_HOLD				= 2;
-const int MB_EVENT_HOLD 			= 5;
-
 class KeyMouseBinding
 {
-	private typename object;
-	private ref map<int, int> k_Bind;
-	private ref map<int, int> m_Bind;
-	private string k_m_CallbackFunction;
-	private string k_m_Shortcut;
-	private string k_m_Description;
-	private bool canUseInMenu;
+    const int KB_EVENT_PRESS			= 0;
+    const int KB_EVENT_RELEASE			= 1;
+    const int KB_EVENT_HOLD				= 2;
+
+    const int MB_EVENT_PRESS			= 0;
+    const int MB_EVENT_CLICK			= 1;
+    const int MB_EVENT_RELEASE			= 2;
+    const int MB_EVENT_DOUBLECLICK		= 3;
+    const int MB_EVENT_DRAG				= 4;
+    const int MB_EVENT_HOLD 			= 5;
+
+	protected typename m_Object;
+	protected ref map<int, int> m_KeyBinds;
+	protected ref map<int, int> m_MouseBinds;
+	protected string m_strCallbackFunction;
+	protected string m_strShortcut;
+	protected string m_strDescription;
+	protected bool canUseInMenu;
 	
 	void KeyMouseBinding( typename object, string callback, string shortcut, string description, bool menu = false ) 
 	{
-		this.object = object;
-		k_Bind = new map<int, int>;
-		m_Bind = new map<int, int>;
+		m_Object = object;
+		m_KeyBinds = new map< int, int >;
+		m_MouseBinds = new map< int, int >;
 		
-		k_m_CallbackFunction = callback;
-		k_m_Shortcut = shortcut;
-		k_m_Description = description;
+		m_strCallbackFunction = callback;
+		m_strShortcut = shortcut;
+		m_strDescription = description;
 		
 		canUseInMenu = menu;
 	}
@@ -34,10 +40,10 @@ class KeyMouseBinding
 	bool Check()
 	{
 		bool k_m_Pressed = true;
-		for ( int kb = 0; kb < k_Bind.Count(); ++kb ) 
+		for ( int kb = 0; kb < m_KeyBinds.Count(); ++kb ) 
 		{
-			int keyCode = k_Bind.GetKey(kb);
-			int keyEvent = k_Bind.Get(keyCode);
+			int keyCode = m_KeyBinds.GetKey(kb);
+			int keyEvent = m_KeyBinds.Get(keyCode);
 			
 			if ( keyEvent == KB_EVENT_RELEASE ) 
 			{ // Skip checking for release keys
@@ -49,10 +55,10 @@ class KeyMouseBinding
 			}
 		}
 		
-		for ( int mb = 0; mb < m_Bind.Count(); ++mb ) 
+		for ( int mb = 0; mb < m_MouseBinds.Count(); ++mb ) 
 		{
-			int mouseButton = m_Bind.GetKey(mb);
-			int mouseEvent = m_Bind.Get(mouseButton);
+			int mouseButton = m_MouseBinds.GetKey(mb);
+			int mouseEvent = m_MouseBinds.Get(mouseButton);
 			
 			if ( mouseEvent == MB_EVENT_RELEASE || mouseEvent == MB_EVENT_CLICK || mouseEvent == MB_EVENT_DOUBLECLICK || mouseButton == MouseState.WHEEL || mouseEvent == MB_EVENT_DRAG ) 
 			{
@@ -70,10 +76,10 @@ class KeyMouseBinding
 	{
 		bool recurring = true;
 	
-		for ( int kb = 0; kb < k_Bind.Count(); ++kb ) 
+		for ( int kb = 0; kb < m_KeyBinds.Count(); ++kb ) 
 		{
-			int keyCode = k_Bind.GetKey(kb);
-			int keyEvent = k_Bind.Get(keyCode);
+			int keyCode = m_KeyBinds.GetKey(kb);
+			int keyEvent = m_KeyBinds.Get(keyCode);
 			
 			
 			if ( keyEvent != KB_EVENT_HOLD ) 
@@ -82,10 +88,10 @@ class KeyMouseBinding
 			} 
 		}
 		
-		for ( int mb = 0; mb < m_Bind.Count(); ++mb ) 
+		for ( int mb = 0; mb < m_MouseBinds.Count(); ++mb ) 
 		{
-			int mouseButton = m_Bind.GetKey(mb);
-			int mouseEvent = m_Bind.Get(mouseButton);
+			int mouseButton = m_MouseBinds.GetKey(mb);
+			int mouseEvent = m_MouseBinds.Get(mouseButton);
 			
 			if ( mouseEvent != MB_EVENT_DRAG && mouseEvent != MB_EVENT_HOLD && mouseButton != MouseState.WHEEL ) 
 			{
@@ -103,8 +109,8 @@ class KeyMouseBinding
 		
 		for ( int kb = 0; kb < GetKeyBinds().Count(); ++kb) 
 		{
-			int keyCode = k_Bind.GetKey(kb);
-			int keyEvent = k_Bind.Get(keyCode);
+			int keyCode = m_KeyBinds.GetKey(kb);
+			int keyEvent = m_KeyBinds.Get(keyCode);
 			
 			if ( keyEvent == KB_EVENT_RELEASE ) 
 			{
@@ -112,15 +118,15 @@ class KeyMouseBinding
 			}
 		}
 		
-		return ( k_Bind.GetKeyByValue(KB_EVENT_RELEASE) || m_Bind.GetKeyByValue(MB_EVENT_RELEASE) );
+		return ( m_KeyBinds.GetKeyByValue(KB_EVENT_RELEASE) || m_MouseBinds.GetKeyByValue(MB_EVENT_RELEASE) );
 	}
 	
 	bool HasKeyEvent( int key_Event ) 
 	{
 		for ( int kb = 0; kb < GetKeyBinds().Count(); ++kb) 
 		{
-			int keyCode = k_Bind.GetKey(kb);
-			int keyEvent = k_Bind.Get(keyCode);
+			int keyCode = m_KeyBinds.GetKey(kb);
+			int keyEvent = m_KeyBinds.Get(keyCode);
 			
 			if ( keyEvent == key_Event ) 
 			{
@@ -133,12 +139,12 @@ class KeyMouseBinding
 	
 	bool ContainsKey( int key ) 
 	{
-		return k_Bind.Contains( key );
+		return m_KeyBinds.Contains( key );
 	}
 	
 	bool ContainsButton( int button ) 
 	{
-		return m_Bind.Contains( button );
+		return m_MouseBinds.Contains( button );
 	}
 	
 	bool ContainsKeyEvent( int key, int key_Event ) 
@@ -146,8 +152,8 @@ class KeyMouseBinding
 		int kc = -1;
 		for ( int kb = 0; kb < GetKeyBinds().Count(); ++kb) 
 		{
-			int keyCode = k_Bind.GetKey(kb);
-			int keyEvent = k_Bind.Get(keyCode);
+			int keyCode = m_KeyBinds.GetKey(kb);
+			int keyEvent = m_KeyBinds.Get(keyCode);
 			
 			if ( keyCode == key && keyEvent == key_Event ) 
 			{
@@ -163,8 +169,8 @@ class KeyMouseBinding
 		int m = -1;
 		for ( int mb = 0; mb < GetMouseBinds().Count(); ++mb) 
 		{
-			int mouseBind = m_Bind.GetKey(mb);
-			int mouseEvemt = m_Bind.Get(mouseBind);
+			int mouseBind = m_MouseBinds.GetKey(mb);
+			int mouseEvemt = m_MouseBinds.Get(mouseBind);
 			
 			if ( mouseBind == button && mouseEvemt == button_Event ) 
 			{
@@ -177,42 +183,42 @@ class KeyMouseBinding
 	
 	void AddKeyBind( int key, int key_event ) 
 	{
-		k_Bind.Insert( key, key_event );
+		m_KeyBinds.Insert( key, key_event );
 	}
 	
 	void AddMouseBind( int button, int mouse_event ) 
 	{
-		m_Bind.Insert( button, mouse_event );
+		m_MouseBinds.Insert( button, mouse_event );
 	}
 	
 	ref map<int, int> GetKeyBinds() 
 	{
-		return k_Bind;
+		return m_KeyBinds;
 	}
 	
 	ref map<int, int> GetMouseBinds() 
 	{
-		return m_Bind;
+		return m_MouseBinds;
 	}
 	
 	typename GetObject() 
 	{
-		return object;
+		return m_Object;
 	}
 	
 	string GetShortcut() 
 	{
-		return k_m_Shortcut;
+		return m_strShortcut;
 	}
 	
 	string GetDescription() 
 	{
-		return k_m_Description;
+		return m_strDescription;
 	}
 	
 	string GetCallBackFunction() 
 	{
-		return k_m_CallbackFunction;
+		return m_strCallbackFunction;
 	}
 
 }

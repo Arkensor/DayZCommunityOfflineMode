@@ -18,7 +18,7 @@ class EditorMenu extends UIScriptedMenu
 	
 	override Widget Init()
     {
-        layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\EditorMenu.layout" );
+        layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\EditorMenu.layout" );
 
 		/*
 		m_changelogbox = RichTextWidget.Cast( layoutRoot.FindAnyWidget( "changelog" ) );
