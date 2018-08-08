@@ -7,6 +7,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComKeyBinds\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComMenu\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\module.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\DebugMonitor\\module.c"
 
 class ModuleManager
 {
@@ -43,6 +44,7 @@ class ModuleManager
         m_Modules.Insert( new CameraTool );
         m_Modules.Insert( new COMKeyBinds );
         m_Modules.Insert( new SaveModule );
+        m_Modules.Insert( new CustomDebugMonitor );
     }
 
 	void OnInit()
