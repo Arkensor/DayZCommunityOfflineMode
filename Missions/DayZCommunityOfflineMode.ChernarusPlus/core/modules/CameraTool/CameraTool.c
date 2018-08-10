@@ -131,7 +131,7 @@ class CameraTool extends Module
 			vector from = GetGame().GetCurrentCameraPosition();
 			vector to = from + ( dir * 10000 );
 			
-			set< Object > objects = GetObjectsAtCursor(from, to);
+			set< Object > objects = GetObjectsAt(from, to);
 			
 			if ( objects.Count() > 0) 
 			{
