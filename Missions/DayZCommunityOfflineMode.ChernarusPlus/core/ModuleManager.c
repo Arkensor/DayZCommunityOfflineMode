@@ -43,7 +43,7 @@ class ModuleManager
         m_Modules.Insert( new ObjectEditor );
         m_Modules.Insert( new CameraTool );
         m_Modules.Insert( new COMKeyBinds );
-        m_Modules.Insert( new SaveModule );
+        m_Modules.Insert( new PersistencyModule );
         m_Modules.Insert( new CustomDebugMonitor );
     }
 

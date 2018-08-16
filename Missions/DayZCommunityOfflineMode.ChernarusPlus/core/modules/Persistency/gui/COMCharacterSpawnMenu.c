@@ -1,4 +1,4 @@
-class CharacterSpawnMenu extends UIScriptedMenu
+class COMCharacterSpawnMenu extends UIScriptedMenu
 {
 	protected TextListboxWidget m_CharacterList;
 	protected TextListboxWidget m_SaveList;
@@ -18,7 +18,9 @@ class CharacterSpawnMenu extends UIScriptedMenu
 
 	protected ref PersistencyModule m_oPersistencyModule;
 
-	void CharacterSpawnMenu(ref PersistencyModule oPersistencyModule)
+	protected ref COMCharacterCreationMenu m_CharacterCreationMenu;
+
+	void COMCharacterSpawnMenu(ref PersistencyModule oPersistencyModule)
 	{
 		m_oPersistencyModule = oPersistencyModule;
 
@@ -48,13 +50,13 @@ class CharacterSpawnMenu extends UIScriptedMenu
 		}
 	}
 
-	void ~CharacterSpawnMenu()
+	void ~COMCharacterSpawnMenu()
 	{
 	}
 
 	override Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\CharacterSpawnMenu.layout" );
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\COMCharacterSpawnMenu.layout" );
 
 		m_CharacterList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget("tls_character_list") );
 		m_SaveList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget("tls_save_list") );
@@ -120,10 +122,15 @@ class CharacterSpawnMenu extends UIScriptedMenu
 	{
 		if ( w == m_CreateNewButton)
 		{
-			Close();
+			if (!m_CharacterCreationMenu) {
+				m_CharacterCreationMenu = new COMCharacterCreationMenu(m_oPersistencyModule, this);
+			}
 
-			m_oPersistencyModule.SavePlayer();
-			m_oPersistencyModule.CreateNew( m_NewCharacterName.GetText() );
+			if (!m_CharacterCreationMenu.IsVisible()) {
+				GetGame().GetUIManager().ShowScriptedMenu( m_CharacterCreationMenu , NULL );
+			}
+
+			Close();
 
 			return true;
 		}
