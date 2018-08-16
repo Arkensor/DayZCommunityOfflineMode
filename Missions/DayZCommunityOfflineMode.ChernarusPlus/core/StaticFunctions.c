@@ -84,7 +84,7 @@ static TStringArray WorkingZombieClasses()
              "ZmbF_Clerk_Normal_Base","ZmbF_Clerk_Normal_Blue","ZmbF_Clerk_Normal_White","ZmbF_Clerk_Normal_Green","ZmbF_Clerk_Normal_Red" };
 }
 
-static set< Object > GetObjectsAtCursor( vector from, vector to, Object ignore = NULL )
+static set< Object > GetObjectsAt( vector from, vector to, Object ignore = NULL )
 {
     vector contact_pos;
     vector contact_dir;
@@ -95,6 +95,21 @@ static set< Object > GetObjectsAtCursor( vector from, vector to, Object ignore =
     if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, objects, NULL, ignore, false, false, ObjIntersectView, 0.5 ) )
     {
         return objects;
+    }
+
+    return NULL;
+}
+
+static Object GetCursorObject()
+{
+    vector rayStart = GetGame().GetCurrentCameraPosition();
+    vector rayEnd = rayStart + GetGame().GetCurrentCameraDirection() * 10000;
+
+    auto objs = GetObjectsAt( rayStart, rayEnd );
+
+    if( objs.Count() > 0 )
+    {
+        return objs[ 0 ];
     }
 
     return NULL;

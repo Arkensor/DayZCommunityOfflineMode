@@ -29,24 +29,15 @@ class COMKeyBinds extends Module
 		KeyMouseBinding teleport	 = new KeyMouseBinding( GetModuleType() , "TeleportCursor", "[T]"    , "Teleport to cursor position." );
 		KeyMouseBinding reload       = new KeyMouseBinding( GetModuleType() , "Reload"        , "[R]"    , "Instantly reloads mag.");
 
-		KeyMouseBinding openEditor   = new KeyMouseBinding( GetModuleType() , "OpenEditor"    , "[Y]"    , "Opens the editor."     ); 
-		
-		toggleCursor.AddKeyBind( KeyCode.KC_U,    KeyMouseBinding.KB_EVENT_RELEASE );
+		toggleCursor.AddKeyBind( KeyCode.KC_U,    KeyMouseBinding.KB_EVENT_PRESS );
 		toggleUI    .AddKeyBind( KeyCode.KC_HOME, KeyMouseBinding.KB_EVENT_RELEASE );
-		openEditor  .AddKeyBind( KeyCode.KC_Y,    KeyMouseBinding.KB_EVENT_RELEASE );
 		teleport    .AddKeyBind( KeyCode.KC_T,    KeyMouseBinding.KB_EVENT_PRESS   );
 		reload      .AddKeyBind( KeyCode.KC_R,    KeyMouseBinding.KB_EVENT_RELEASE );
 		
 		RegisterKeyMouseBinding( toggleCursor );
 		RegisterKeyMouseBinding( toggleUI );
-		RegisterKeyMouseBinding( openEditor );
 		RegisterKeyMouseBinding( teleport );
 		RegisterKeyMouseBinding( reload );
-	}
-	
-	void OpenEditor() 
-	{
-		
 	}
 
     void ToggleCursor()
@@ -124,4 +115,6 @@ class COMKeyBinds extends Module
             }
         }
     }
+
+
 }

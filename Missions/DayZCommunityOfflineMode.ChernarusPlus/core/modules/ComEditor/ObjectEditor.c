@@ -184,7 +184,7 @@ class ObjectEditor extends Module
 		vector from = GetGame().GetCurrentCameraPosition();
 		vector to = from + ( dir * 10000 );
 
-		set< Object > objects = GetObjectsAtCursor(from, to, GetGame().GetPlayer() );
+		set< Object > objects = GetObjectsAt(from, to, GetGame().GetPlayer() );
 
 		bool selected = false;
 		
