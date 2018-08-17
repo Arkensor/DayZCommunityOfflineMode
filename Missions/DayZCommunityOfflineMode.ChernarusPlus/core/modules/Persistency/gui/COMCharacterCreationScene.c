@@ -20,12 +20,11 @@ class COMCharacterCreationScene: Managed
 	protected ref EntityAnimEndEventHandler 	m_anim_end_event_handler;
 	protected ref PlayerNameHandler 			m_PlayerNameHandler;
 
-	protected Camera 	m_Camera;
+	protected CameraTool m_CameraTool;
 	protected PlayerBase m_DemoUnit;
 	protected Weather	m_Weather;
 	protected vector 	m_DemoPos;
 	protected vector 	m_DemoRot;
-	protected vector 	m_CameraTrans[4];
 	protected vector 	m_Target;
 	protected bool		m_EnableClick;
 	protected bool 		m_RotatingCamera;
@@ -60,7 +59,6 @@ class COMCharacterCreationScene: Managed
 		m_LastShavedSeconds = 0;
 		m_CachedPlaytime = 0;
 		SetClickEnable( true );
-		
 		
 		string cached_playtime_str = "";
 		g_Game.GetProfileString("cachedPlaytime", cached_playtime_str);
@@ -108,38 +106,12 @@ class COMCharacterCreationScene: Managed
 		{
 			world.SetDate(date.Get(0), date.Get(1), date.Get(2), date.Get(3), date.Get(4));
 		}
-	
-		GetGame().ObjectDelete( m_Camera );
-		Class.CastTo(m_Camera, g_Game.CreateObject("staticcamera", SnapToGround(position), true)); //Vector(position[0] , position[1] + 1, position[2])
 		
-		Math3D.MatrixIdentity4(m_CameraTrans);
+		m_CameraTool = GetModuleManager().GetModuleByName("CameraTool");
+		m_CameraTool.EnableCamera();
 		
-		if (m_Camera)
-		{
-			//m_Camera.SetPosition(Vector(m_Camera.GetPosition()[0],m_Camera.GetPosition()[1]+0,m_Camera.GetPosition()[2]));
-			m_Camera.LookAt(m_Target);
-			m_Camera.SetFOV(fov);
-			m_Camera.SetFocus(5.0, 0.0); //5.0, 1.0
-			
-			m_Camera.SetActive(true);
-			
-			Math3D.DirectionAndUpMatrix(m_Target - SnapToGround(position), "0 1 0", m_CameraTrans);
-			m_CameraTrans[3] = m_Camera.GetPosition();
-			m_DemoPos = Vector(0.685547, -0.988281, 3.68823).Multiply4(m_CameraTrans);
-
-			float pos_x = m_DemoPos[0];
-			float pos_z = m_DemoPos[2];
-			float pos_y = GetGame().SurfaceY(pos_x, pos_z);
-			vector ground_demo_pos = Vector(pos_x, pos_y, pos_z);
-			m_DemoPos = ground_demo_pos;
-
-			m_DemoRot = "0 0 0";
-			vector to_cam_dir = m_Camera.GetPosition() - m_DemoPos;
-			m_DemoRot[0] = Math.Atan2(to_cam_dir[0], to_cam_dir[2]) * Math.RAD2DEG;
-		}
-		
-		m_DeltaX = Math.AbsFloat(m_DemoPos[0] - m_Camera.GetPosition()[0]);
-		m_DeltaZ = Math.AbsFloat(m_DemoPos[2] - m_Camera.GetPosition()[2]);
+		m_DeltaX = Math.AbsFloat(m_DemoPos[0] - m_CameraTool.GetCamera().GetPosition()[0]);
+		m_DeltaZ = Math.AbsFloat(m_DemoPos[2] - m_CameraTool.GetCamera().GetPosition()[2]);
 		if (!m_Radius || m_Radius == 0)
 		{
 			m_Radius = Math.Sqrt (Math.Pow(m_DeltaX, 2) + Math.Pow(m_DeltaZ, 2));
@@ -168,6 +140,11 @@ class COMCharacterCreationScene: Managed
 		}
 		
 		Init();
+	}
+
+	void Close()
+	{
+		
 	}
 	
 	void Init()
@@ -210,11 +187,6 @@ class COMCharacterCreationScene: Managed
 		//PPEffects.ResetAll();
 	}
 	
-	Camera GetCamera()
-	{
-		return m_Camera;
-	}
-	
 	void SetCharacterFemale(bool fem)
 	{
 		m_IsCharFemale = fem;
@@ -237,7 +209,8 @@ class COMCharacterCreationScene: Managed
 	
 	void ResetIntroCamera()
 	{
-		GetCamera().LookAt( GetIntroSceneCharacter().GetPosition() + Vector( 0, 1, 0 ) );
+		m_CameraTool.SetTarget(m_DemoUnit);
+		m_CameraTool.FollowTarget();
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater( SceneCharacterSetPos, 250 );
 	}
 	
@@ -579,13 +552,13 @@ class COMCharacterCreationScene: Managed
 			m_NewZ = Math.Sin(m_Angle + m_Angle_offset) * m_Radius;
 			
 			//set camera pos and dir
-			m_Camera.SetPosition(Vector(m_DemoPos[0] + m_NewX, m_DemoPos[1] + 2, m_DemoPos[2] + m_NewZ));
+			m_CameraTool.GetCamera().SetPosition(Vector(m_DemoPos[0] + m_NewX, m_DemoPos[1] + 2, m_DemoPos[2] + m_NewZ));
 			if(!GetGame().GetUIManager().IsMenuOpen(MENU_OPTIONS))
 			{
 				// obsolete
-				m_Camera.LookAt(Vector(m_DemoPos[0] + Math.Cos(m_Angle + m_Angle_offset + Math.PI*4/3), m_DemoPos[1] + 0.75, m_DemoPos[2] + Math.Sin(m_Angle + m_Angle_offset + Math.PI*4/3)));
+				m_CameraTool.GetCamera().LookAt(Vector(m_DemoPos[0] + Math.Cos(m_Angle + m_Angle_offset + Math.PI*4/3), m_DemoPos[1] + 0.75, m_DemoPos[2] + Math.Sin(m_Angle + m_Angle_offset + Math.PI*4/3)));
 			}
-			m_Camera.SetFocus(m_Radius, 0); //(distance, blur)
+			m_CameraTool.GetCamera().SetFocus(m_Radius, 0); //(distance, blur)
 			//Print(m_Camera.GetPosition());
 		}
 	}
@@ -593,16 +566,16 @@ class COMCharacterCreationScene: Managed
 	//camera zoom
 	void ZoomCamera(Widget w, int wheel)
 	{
-		if (w.GetName() == "CharacterRotationFrame" && m_DemoUnit && m_Camera)
+		if (w.GetName() == "CharacterRotationFrame" && m_DemoUnit && m_CameraTool.GetCamera())
 		{
-			m_DeltaX = Math.AbsFloat(m_DemoPos[0] - m_Camera.GetPosition()[0]);
-			m_DeltaZ = Math.AbsFloat(m_DemoPos[2] - m_Camera.GetPosition()[2]);
+			m_DeltaX = Math.AbsFloat(m_DemoPos[0] - m_CameraTool.GetCamera().GetPosition()[0]);
+			m_DeltaZ = Math.AbsFloat(m_DemoPos[2] - m_CameraTool.GetCamera().GetPosition()[2]);
 			
 			m_Radius = Math.Clamp(wheel/5 + Math.Sqrt (Math.Pow(m_DeltaX, 2) + Math.Pow(m_DeltaZ, 2)), m_Radius_original*0.75, m_Radius_original*1.5);
 			
 			m_NewX = Math.Cos(m_Angle + m_Angle_offset) * m_Radius;
 			m_NewZ = Math.Sin(m_Angle + m_Angle_offset) * m_Radius;
-			m_Camera.SetPosition(Vector(m_DemoPos[0] + m_NewX, m_DemoPos[1] + 2, m_DemoPos[2] + m_NewZ));
+			m_CameraTool.GetCamera().SetPosition(Vector(m_DemoPos[0] + m_NewX, m_DemoPos[1] + 2, m_DemoPos[2] + m_NewZ));
 		}
 	}
 	

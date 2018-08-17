@@ -28,6 +28,7 @@ class PersistencyModule extends Module
 	void ~PersistencyModule()
 	{
 		Print("PersistencyModule::~PersistencyModule()");
+		m_CharacterMenu = NULL;
 	}
 	
 	override void Init() 

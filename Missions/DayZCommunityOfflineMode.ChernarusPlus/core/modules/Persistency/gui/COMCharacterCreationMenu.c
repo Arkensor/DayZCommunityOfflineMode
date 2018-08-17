@@ -27,13 +27,10 @@ class COMCharacterCreationMenu extends UIScriptedMenu
 		m_Scene = new COMCharacterCreationScene;
 
 		MissionMainMenu mission = MissionMainMenu.Cast( GetGame().GetMission() );
-		
-		// m_Scene.m_Camera.LookAt( Vector( m_Scene.m_DemoPos[0], m_Scene.m_DemoPos[1] + 1, m_Scene.m_DemoPos[2] ) );
 	}
 	
 	override Widget Init()
 	{
-		// Temp;
 		GetGame().GetInput().ChangeGameFocus(1, INPUT_DEVICE_MOUSE);
 		GetGame().GetUIManager().ShowUICursor(true);	
 
@@ -104,14 +101,17 @@ class COMCharacterCreationMenu extends UIScriptedMenu
 	
 	void ~COMCharacterCreationMenu()
 	{
+		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
+		
 		m_GenderSelector.m_OptionChanged.Remove( GenderChanged );
 		m_SkinSelector.m_OptionChanged.Remove( SkinChanged );
 		m_TopSelector.m_OptionChanged.Remove( TopChanged );
 		m_BottomSelector.m_OptionChanged.Remove( BottomChanged );
 		m_ShoesSelector.m_OptionChanged.Remove( ShoesChanged );
+
+		Close();
 	}
 	
-	//Button Events
 	void Apply()
 	{
 		g_Game.SetPlayerGameName( m_PlayerName.GetText() );
@@ -154,9 +154,6 @@ class COMCharacterCreationMenu extends UIScriptedMenu
 	{
 		g_Game.SetNewCharacter(true);
 		
-		// m_Scene.SetCurrentCharacterID( -1 );
-		
-		// make random selection
 		m_Scene.RandomSelectGender();
 		
 		if ( m_Scene.IsCharacterFemale() )
@@ -181,7 +178,6 @@ class COMCharacterCreationMenu extends UIScriptedMenu
 		CheckNewOptions();
 	}
 	
-	//Selector Events
 	void GenderChanged()
 	{
 		m_Scene.SetCharacterFemale( ( m_GenderSelector.GetStringValue() == "Female" ) );
@@ -236,13 +232,18 @@ class COMCharacterCreationMenu extends UIScriptedMenu
 		return true;
 	}
 
+	void UpdateInterval()
+	{
+		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
+	}
+
 	override bool OnKeyPress( Widget w, int x, int y, int key )
 	{
 		if (key == KeyCode.KC_ESCAPE)
 		{
-			m_oPersistencyModule.LoadLast();
+			// m_oPersistencyModule.LoadLast();
 
-			Close();
+			GetGame().GetMission().Continue();
 
 			return true;
 		}
@@ -264,8 +265,8 @@ class COMCharacterCreationMenu extends UIScriptedMenu
 		}
 		else if ( w == m_BackButton )
 		{
-			Close();
 			m_oPersistencyModule.ShowCharacterMenu();
+			Close();
 			return true;
 		}
 		return false;
@@ -348,10 +349,18 @@ class COMCharacterCreationMenu extends UIScriptedMenu
 		SetFocus( m_Apply );
 		CheckNewOptions();
 		
-		if( m_Scene && m_Scene.GetCamera() )
+		if( m_Scene )
 		{
-			m_Scene.GetCamera().LookAt( m_Scene.GetIntroSceneCharacter().GetPosition() + Vector( 0, 1, 0 ) );
+			m_Scene.ResetIntroCamera();
 		}
+
+		IngameHud hud = IngameHud.Cast( GetGame().GetMission().GetHud() );
+		if ( hud )
+		{
+			hud.ToggleHud( hud.GetHudState(), false );
+		}
+
+		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.UpdateInterval);
 	}
 	
 	override void Refresh()
@@ -360,6 +369,15 @@ class COMCharacterCreationMenu extends UIScriptedMenu
 	
 	override void OnHide()
 	{
+		m_Scene.Close();
+
+		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
+
+		IngameHud hud = IngameHud.Cast( GetGame().GetMission().GetHud() );
+		if ( hud )
+		{
+			hud.ToggleHud( hud.GetHudState(), true );
+		}
 		super.OnHide();
 	}
 	

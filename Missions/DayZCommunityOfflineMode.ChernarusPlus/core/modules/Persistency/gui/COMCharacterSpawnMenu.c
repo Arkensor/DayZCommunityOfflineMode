@@ -52,6 +52,7 @@ class COMCharacterSpawnMenu extends UIScriptedMenu
 
 	void ~COMCharacterSpawnMenu()
 	{
+		Close();
 	}
 
 	override Widget Init()

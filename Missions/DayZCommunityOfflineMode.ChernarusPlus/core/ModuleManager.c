@@ -113,73 +113,76 @@ class ModuleManager
 		{
 			Module module = m_Modules.Get(i);
 
-			for ( int kb = 0; kb < module.GetBindings().Count(); ++kb )
-			{
-				KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
+            if ( !module.IsPreventingInput() )
+            {
+                for ( int kb = 0; kb < module.GetBindings().Count(); ++kb )
+                {
+                    KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
 
-				if ( k_m_Binding.IsRecurring() )
-				{
-					if (k_m_Binding.Check())
-					{
-						int mouseButton = -1;
+                    if ( k_m_Binding.IsRecurring() )
+                    {
+                        if (k_m_Binding.Check())
+                        {
+                            int mouseButton = -1;
 
-						bool hasDrag = false;
-						for ( int mb = 0; mb < k_m_Binding.GetMouseBinds().Count(); ++mb)
-						{
-							int mouseBind = k_m_Binding.GetMouseBinds().GetKey(mb);
-							int mouseEvent = k_m_Binding.GetMouseBinds().Get(mouseBind);
+                            bool hasDrag = false;
+                            for ( int mb = 0; mb < k_m_Binding.GetMouseBinds().Count(); ++mb)
+                            {
+                                int mouseBind = k_m_Binding.GetMouseBinds().GetKey(mb);
+                                int mouseEvent = k_m_Binding.GetMouseBinds().Get(mouseBind);
 
-							if ( mouseEvent == KeyMouseBinding.MB_EVENT_DRAG )
-							{
-								hasDrag = true;
-								mouseButton = mouseBind;
-							}
-							else if ( mouseEvent == KeyMouseBinding.MB_EVENT_HOLD )
-							{
-								mouseButton = mouseBind;
-							}
-						}
+                                if ( mouseEvent == KeyMouseBinding.MB_EVENT_DRAG )
+                                {
+                                    hasDrag = true;
+                                    mouseButton = mouseBind;
+                                }
+                                else if ( mouseEvent == KeyMouseBinding.MB_EVENT_HOLD )
+                                {
+                                    mouseButton = mouseBind;
+                                }
+                            }
 
-						if ( mouseButton > -1 )
-						{
-							MouseButtonInfo info = m_MouseButtons.Get( mouseButton );
-							if ( info )
-							{
-								if ( info.IsButtonDown() )
-								{
-									int time_curr = GetGame().GetTime();
-									int time_hold = info.GetTimeLastPress() + HOLD_CLICK_TIME_MIN;
+                            if ( mouseButton > -1 )
+                            {
+                                MouseButtonInfo info = m_MouseButtons.Get( mouseButton );
+                                if ( info )
+                                {
+                                    if ( info.IsButtonDown() )
+                                    {
+                                        int time_curr = GetGame().GetTime();
+                                        int time_hold = info.GetTimeLastPress() + HOLD_CLICK_TIME_MIN;
 
-									if ( time_hold < time_curr )
-									{
-										if ( hasDrag )
-										{
-											GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
-										}
-										else if ( k_m_Binding.ContainsButtonEvent( mouseButton, KeyMouseBinding.MB_EVENT_HOLD) )
-										{
-											GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
-										}
-									}
-								}
-							}
-						}
+                                        if ( time_hold < time_curr )
+                                        {
+                                            if ( hasDrag )
+                                            {
+                                                GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
+                                            }
+                                            else if ( k_m_Binding.ContainsButtonEvent( mouseButton, KeyMouseBinding.MB_EVENT_HOLD) )
+                                            {
+                                                GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
+                                            }
+                                        }
+                                    }
+                                }
+                            }
 
-						if ( k_m_Binding.ContainsButton( MouseState.WHEEL ) )
-						{
-							if ( GetMouseState (MouseState.WHEEL) != 0 )
-							{
-								GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, GetMouseState( MouseState.WHEEL ) );
-							}
-						}
+                            if ( k_m_Binding.ContainsButton( MouseState.WHEEL ) )
+                            {
+                                if ( GetMouseState (MouseState.WHEEL) != 0 )
+                                {
+                                    GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, GetMouseState( MouseState.WHEEL ) );
+                                }
+                            }
 
-						if ( k_m_Binding.HasKeyEvent( KeyMouseBinding.KB_EVENT_HOLD ) )
-						{
-							GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
-						}
-					}
-				}
-			}
+                            if ( k_m_Binding.HasKeyEvent( KeyMouseBinding.KB_EVENT_HOLD ) )
+                            {
+                                GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
+                            }
+                        }
+                    }
+                }
+            }
 			module.onUpdate( timeslice );
 		}
     }
@@ -245,6 +248,11 @@ class ModuleManager
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             Module module = m_Modules.Get(i);
+
+            if ( module.IsPreventingInput() )
+            {
+                continue;
+            }
 
             for ( int kb = 0; kb < module.GetBindings().Count(); ++kb )
             {
@@ -313,6 +321,11 @@ class ModuleManager
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             Module module = m_Modules.Get(i);
+
+            if ( module.IsPreventingInput() )
+            {
+                continue;
+            }
 
             for ( int kb = 0; kb < module.GetBindings().Count(); ++kb )
             {

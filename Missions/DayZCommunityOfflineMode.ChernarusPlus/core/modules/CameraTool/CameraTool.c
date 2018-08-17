@@ -66,8 +66,29 @@ class CameraTool extends Module
 		RegisterKeyMouseBinding( targetCamera );
 		RegisterKeyMouseBinding( zoomCamera   );
 	}
-	
-	void ToggleCamera() 
+
+	Camera GetCamera()
+	{
+		return m_oCamera;
+	}
+
+	void EnableCamera()
+	{
+		if (m_oCamera)
+		{
+			return;
+		}
+
+		m_oCamera = g_Game.CreateObject( "FreeDebugCamera", GetPlayer().GetPosition(), true );
+
+		m_oCamera.SetActive( true );
+			
+		SetFreezePlayer(true);
+			
+		m_DistanceToObject = 0.0;
+	}
+
+	void DisableCamera()
 	{
 		if ( m_oCamera )
 		{
@@ -102,15 +123,17 @@ class CameraTool extends Module
 			
 			PPEffects.ResetDOFOverride();
 		}
+	}
+	
+	void ToggleCamera() 
+	{
+		if ( m_oCamera )
+		{
+			DisableCamera();
+		}
 		else
 		{
-			m_oCamera = g_Game.CreateObject( "FreeDebugCamera", GetPlayer().GetPosition(), true );
-
-			m_oCamera.SetActive( true );
-			
-			SetFreezePlayer(true);
-			
-			m_DistanceToObject = 0.0;
+			EnableCamera();
 		}
 	}
 	
@@ -144,6 +167,18 @@ class CameraTool extends Module
 				} 
 			}
 			m_TargetPos = GetCursorPos();
+		}
+	}
+
+	void SetTarget(Object oObject)
+	{
+		if (oObject)
+		{
+			m_Target = oObject;
+			m_TargetPos = oObject.GetPosition();
+		} else
+		{
+			m_Target = NULL;
 		}
 	}
 	
