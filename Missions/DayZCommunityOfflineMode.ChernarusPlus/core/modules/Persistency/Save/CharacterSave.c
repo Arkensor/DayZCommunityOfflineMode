@@ -2,7 +2,20 @@ class CharacterSave
 {   
     static void SavePlayer(string sCharacter, string sSave, PlayerBase oPlayer = NULL)
     {
-        if (oPlayer == NULL)
+        string character = sCharacter;
+        string save = sSave;
+
+        if ( character == "" )
+        {
+            character = "default";
+        }
+        
+        if ( save == "" )
+        {
+            save = "latest";
+        }
+
+        if ( oPlayer == NULL )
         {
             return;
         }
@@ -45,6 +58,6 @@ class CharacterSave
             HandSave.Save(oHands, oPlayer, oData.OHands);
         }
 
-        JsonFileLoader<CharacterData>.JsonSaveFile(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json", oData);
+        JsonFileLoader<CharacterData>.JsonSaveFile(BASE_PLAYER_SAVE_DIR + "\\" + character + "\\" + save + ".json", oData);
     }
 }

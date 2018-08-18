@@ -505,36 +505,4 @@ class CommunityOfflineMode : MissionGameplay
         weather.SetWindMaximumSpeed( 50 );
         weather.SetWindFunctionParams( 0, 0, 1 );
     }
-
-	static PlayerBase CreateCustomDefaultCharacter()
-    {
-    	PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
-
-    	EntityAI item = oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
-    	item = oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
-    	item = oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
-    	item = oPlayer.GetInventory().CreateInInventory( "PlateCarrierHolster" );
-    	item = oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
-    	item = oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
-    	item = oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
-    	item = oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
-
-    	item = oPlayer.GetInventory().CreateInInventory( "M4A1_Black" );
-    	item.GetInventory().CreateAttachment( "M4_Suppressor" );
-    	item.GetInventory().CreateAttachment( "M4_RISHndgrd_Black" );
-    	item.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
-    	item.GetInventory().CreateAttachment( "ACOGOptic" );
-
-    	auto oMag = oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-    	oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-    	oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-
-    	oPlayer.LocalTakeEntityToHands( item );
-
-    	oPlayer.SetQuickBarEntityShortcut( item, 0, true );
-
-    	oPlayer.GetWeaponManager().AttachMagazine( oMag );
-
-    	return oPlayer;
-    }
 }

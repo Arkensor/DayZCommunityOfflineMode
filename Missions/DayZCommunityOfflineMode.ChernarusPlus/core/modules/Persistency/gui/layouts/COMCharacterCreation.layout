@@ -34,6 +34,37 @@ FrameWidgetClass character_creation_root {
 					vexactsize 1
 					style DayZDefaultPanelTop
 					{
+						ButtonWidgetClass prev_character {
+							visible 1
+							color 1 1 1 0
+							size 38 38
+							valign center_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							fixaspect fixwidth
+							priority 1
+							style Empty
+							"no focus" 0
+							font "gui/fonts/sdf_MetronLight24"
+							{
+								ImageWidgetClass prev_character_image {
+									inheritalpha 0
+									ignorepointer 1
+									size 0.75 1
+									halign center_ref
+									valign center_ref
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									image0 "set:dayz_gui image:arrow_left"
+									mode blend
+									"src alpha" 1
+								}
+							}
+						}
 						TextWidgetClass character_text {
 							visible 1
 							ignorepointer 1
@@ -50,6 +81,150 @@ FrameWidgetClass character_creation_root {
 							"exact text" 0
 							"text halign" center
 							"text valign" center
+						}
+						ButtonWidgetClass next_character {
+							visible 1
+							color 1 1 1 0
+							size 38 38
+							halign right_ref
+							valign center_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							fixaspect fixwidth
+							priority 1
+							style Empty
+							"no focus" 0
+							font "gui/fonts/sdf_MetronLight24"
+							{
+								ImageWidgetClass next_character_image {
+								ignorepointer 1
+								size 0.75 1
+								halign center_ref
+								valign center_ref
+								hexactpos 1
+								vexactpos 1
+								hexactsize 0
+								vexactsize 0
+								image0 "set:dayz_gui image:arrow_right"
+								mode blend
+								"src alpha" 1
+								}
+							}
+						}
+					}
+				}
+				GridSpacerWidgetClass character_save {
+					ignorepointer 1
+					color 0 0 0 0.8627
+					position 0 36
+					size 1 1
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 0
+					style DayZDefaultPanelBottom
+					Padding 0
+					Margin 10
+					"Size To Content H" 1
+					"Size To Content V" 1
+					Columns 1
+					Rows 1
+					{
+						ButtonWidgetClass character_save_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							style Empty
+							"next up" "character_name_button"
+							"next down" "character_gender_button"
+							{
+								GridSpacerWidgetClass character_save_setting {
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									"no focus" 1
+									Padding 0
+									Margin 0
+									"Size To Content H" 1
+									Columns 2
+									Rows 1
+									{
+										FrameWidgetClass character_save_setting_panel {
+											ignorepointer 1
+											position 0 0
+											size 0.4 0.6
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												TextWidgetClass character_save_setting_label {
+													ignorepointer 1
+													size 1 0.55
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													text "SAVE"
+													font "gui/fonts/sdf_MetronLight24"
+													"text offset" 8 0
+													"exact text" 0
+													"exact text size" 18
+													"text valign" center
+												}
+											}
+										}
+										FrameWidgetClass character_save_setting_option {
+											ignorepointer 1
+											position 0 0
+											size 0.6 1
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+										}
+									}
+								}
+								PanelWidgetClass character_save_setting_disable {
+									visible 0
+									ignorepointer 1
+									color 0.1569 0.1569 0.1569 0.902
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									style rover_sim_colorable
+									{
+										TextWidgetClass character_save_no_saves_text {
+											ignorepointer 1
+											size 1 0.55
+											valign center_ref
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											text "ERROR: NO SAVES FOUND"
+											font "gui/fonts/sdf_MetronLight24"
+											"text offset" 8 0
+											"exact text" 0
+											"exact text size" 18
+											"text valign" center
+										}
+									}
+								}
+							}
 						}
 					}
 				}
@@ -161,7 +336,7 @@ FrameWidgetClass character_creation_root {
 								}
 							}
 						}
-						ButtonWidgetClass character_gender_button {
+						ButtonWidgetClass character_save_button {
 							position 0 0
 							size 1 30
 							hexactpos 1
@@ -169,7 +344,7 @@ FrameWidgetClass character_creation_root {
 							hexactsize 0
 							vexactsize 1
 							style Empty
-							"next up" "character_name_button"
+							"next up" "character_save_button"
 							"next down" "character_head_button"
 							{
 								GridSpacerWidgetClass character_gender_setting {
@@ -604,35 +779,14 @@ FrameWidgetClass character_creation_root {
 					"no focus" 0
 					"next left" ""
 					"next right" ""
-					"next up" "back"
-					"next down" "randomize_character"
-					text "APPLY"
+					"next up" "new_character"
+					"next down" "cancel"
+					text "PLAY"
 					text_proportion 0.8
 					font "gui/fonts/sdf_MetronLight72"
 					switch normal
 				}
-				ButtonWidgetClass back {
-					color 0 0 0 0.7843
-					position 0 0
-					size 1 38
-					halign center_ref
-					valign bottom_ref
-					hexactpos 1
-					vexactpos 1
-					hexactsize 0
-					vexactsize 1
-					style DayZDefaultButton
-					"no focus" 0
-					"next left" ""
-					"next right" ""
-					"next up" "randomize_character"
-					"next down" "apply"
-					text "BACK"
-					text_proportion 0.55
-					font "gui/fonts/sdf_MetronLight24"
-					switch normal
-				}
-				ButtonWidgetClass randomize_character {
+				ButtonWidgetClass new_character {
 					color 0 0 0 0.7843
 					position 0 0
 					size 1 38
@@ -647,8 +801,29 @@ FrameWidgetClass character_creation_root {
 					"next left" ""
 					"next right" ""
 					"next up" "apply"
-					"next down" "back"
-					text "RANDOMIZE CHARACTER"
+					"next down" "cancel"
+					text "NEW CHARACTER"
+					text_proportion 0.55
+					font "gui/fonts/sdf_MetronLight24"
+					switch normal
+				}
+				ButtonWidgetClass cancel {
+					color 0 0 0 0.7843
+					position 0 0
+					size 1 38
+					halign center_ref
+					valign bottom_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 1
+					style DayZDefaultButton
+					"no focus" 0
+					"next left" ""
+					"next right" ""
+					"next up" "apply"
+					"next down" "new_character"
+					text "EXIT"
 					text_proportion 0.55
 					font "gui/fonts/sdf_MetronLight24"
 					switch normal
@@ -666,250 +841,6 @@ FrameWidgetClass character_creation_root {
 					hexactsize 0
 					vexactsize 1
 					style DayZDefaultPanel
-				}
-			}
-		}
-		WrapSpacerWidgetClass ConsoleToolbar {
-			visible 0
-			clipchildren 1
-			position 80 40
-			size 700 36
-			halign right_ref
-			valign bottom_ref
-			hexactpos 1
-			vexactpos 1
-			hexactsize 1
-			vexactsize 1
-			priority 100
-			"no focus" 1
-			Padding 8
-			Margin 0
-			"Size To Content V" 1
-			content_halign right
-			content_valign center
-			{
-				GridSpacerWidgetClass Select {
-					visible 1
-					clipchildren 0
-					size 110 1
-					halign right_ref
-					valign bottom_ref
-					hexactpos 1
-					vexactpos 1
-					hexactsize 1
-					vexactsize 0
-					priority 3
-					Padding 4
-					Margin 0
-					"Size To Content H" 1
-					"Size To Content V" 1
-					content_halign center
-					content_valign center
-					Columns 2
-					Rows 1
-					{
-						ImageWidgetClass SelectIcon {
-							clipchildren 0
-							inheritalpha 0
-							size 36 36
-							valign center_ref
-							hexactpos 1
-							vexactpos 1
-							hexactsize 1
-							vexactsize 1
-							scaled 1
-							image0 "set:xbox_buttons image:A"
-							mode blend
-							"src alpha" 1
-							"no wrap" 1
-							stretch 0
-							"flip u" 0
-							"flip v" 0
-							filter 1
-							nocache 0
-						}
-						TextWidgetClass SelectText {
-							clipchildren 0
-							position 40 0
-							size 70 22
-							valign center_ref
-							hexactpos 1
-							vexactpos 1
-							hexactsize 1
-							vexactsize 1
-							text "Select"
-							font "gui/fonts/sdf_MetronBook24"
-							"text halign" center
-							"text valign" center
-						}
-					}
-				}
-				GridSpacerWidgetClass Randomize {
-					visible 1
-					clipchildren 0
-					size 153 1
-					halign right_ref
-					valign bottom_ref
-					hexactpos 1
-					vexactpos 1
-					hexactsize 1
-					vexactsize 0
-					priority 2
-					Padding 4
-					Margin 0
-					"Size To Content H" 1
-					"Size To Content V" 1
-					content_halign center
-					content_valign center
-					Columns 2
-					Rows 1
-					{
-						ImageWidgetClass RandomizeIcon {
-							clipchildren 0
-							inheritalpha 0
-							position 0 0
-							size 36 36
-							valign center_ref
-							hexactpos 1
-							vexactpos 1
-							hexactsize 1
-							vexactsize 1
-							scaled 1
-							image0 "set:xbox_buttons image:X"
-							mode blend
-							"src alpha" 1
-							"no wrap" 1
-							stretch 0
-							"flip u" 0
-							"flip v" 0
-							filter 1
-							nocache 0
-						}
-						TextWidgetClass RandomizeText {
-							clipchildren 0
-							position 40 0
-							size 122 22
-							valign center_ref
-							hexactpos 1
-							vexactpos 1
-							hexactsize 1
-							vexactsize 1
-							text "Randomize"
-							font "gui/fonts/sdf_MetronBook24"
-							"text halign" center
-							"text valign" center
-						}
-					}
-				}
-				GridSpacerWidgetClass Reset {
-					visible 1
-					clipchildren 0
-					size 189 1
-					halign right_ref
-					valign bottom_ref
-					hexactpos 1
-					vexactpos 1
-					hexactsize 1
-					vexactsize 0
-					priority 1
-					Padding 4
-					Margin 0
-					"Size To Content H" 1
-					"Size To Content V" 1
-					content_halign center
-					content_valign center
-					Columns 2
-					Rows 1
-					{
-						ImageWidgetClass ResetIcon {
-							clipchildren 0
-							inheritalpha 0
-							size 36 36
-							valign center_ref
-							hexactpos 1
-							vexactpos 1
-							hexactsize 1
-							vexactsize 1
-							scaled 1
-							image0 "set:xbox_buttons image:Y"
-							mode blend
-							"src alpha" 1
-							"no wrap" 1
-							stretch 0
-							"flip u" 0
-							"flip v" 0
-							filter 1
-							nocache 0
-						}
-						TextWidgetClass ResetText {
-							clipchildren 0
-							position 40 0
-							size 160 22
-							valign center_ref
-							hexactpos 1
-							vexactpos 1
-							hexactsize 1
-							vexactsize 1
-							text "New Character"
-							font "gui/fonts/sdf_MetronBook24"
-							"text halign" center
-							"text valign" center
-						}
-					}
-				}
-				GridSpacerWidgetClass Back {
-					clipchildren 0
-					size 88 1
-					halign right_ref
-					valign bottom_ref
-					hexactpos 1
-					vexactpos 1
-					hexactsize 1
-					vexactsize 0
-					Padding 4
-					Margin 0
-					"Size To Content H" 1
-					"Size To Content V" 1
-					content_halign center
-					content_valign center
-					Columns 2
-					Rows 1
-					{
-						ImageWidgetClass BackIcon {
-							clipchildren 0
-							inheritalpha 0
-							size 36 36
-							valign center_ref
-							hexactpos 1
-							vexactpos 1
-							hexactsize 1
-							vexactsize 1
-							scaled 1
-							image0 "set:xbox_buttons image:B"
-							mode blend
-							"src alpha" 1
-							"no wrap" 1
-							stretch 0
-							"flip u" 0
-							"flip v" 0
-							filter 1
-							nocache 0
-						}
-						TextWidgetClass BackText {
-							clipchildren 0
-							position 40 0
-							size 52 22
-							valign center_ref
-							hexactpos 1
-							vexactpos 1
-							hexactsize 1
-							vexactsize 1
-							text "Back"
-							font "gui/fonts/sdf_MetronBook24"
-							"text halign" center
-							"text valign" center
-						}
-					}
 				}
 			}
 		}
@@ -956,6 +887,22 @@ FrameWidgetClass character_creation_root {
 			"exact text" 0
 			"text valign" center
 		}
+		TextWidgetClass copyright2 {
+			visible 1
+			clipchildren 0
+			position 80 20
+			size 600 14
+			valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			priority 2
+			text "This was modified by the Community Offline Mode team"
+			font "gui/fonts/sdf_MetronLight24"
+			"exact text" 0
+			"text valign" center
+		}
 		TextWidgetClass CharacterCreationTextWidget {
 			ignorepointer 1
 			position 80 80
@@ -967,7 +914,7 @@ FrameWidgetClass character_creation_root {
 			vexactsize 1
 			priority 1
 			style Normal
-			text "CHARACTER CREATION"
+			text "CHARACTER MENU"
 			font "gui/fonts/sdf_MetronLight72"
 			"text color" 0.8157 0.1255 0.7843 1
 			"exact text" 0

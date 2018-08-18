@@ -72,14 +72,21 @@ class CameraTool extends Module
 		return m_oCamera;
 	}
 
-	void EnableCamera()
+	void EnableCamera(bool staticCam = false)
 	{
 		if (m_oCamera)
 		{
 			return;
 		}
 
-		m_oCamera = g_Game.CreateObject( "FreeDebugCamera", GetPlayer().GetPosition(), true );
+		if ( !staticCam ) 
+		{
+			m_oCamera = g_Game.CreateObject( "FreeDebugCamera", GetPlayer().GetPosition(), true );
+		} 
+		else 
+		{
+			m_oCamera = g_Game.CreateObject( "staticcamera", GetPlayer().GetPosition(), true );
+		}
 
 		m_oCamera.SetActive( true );
 			
@@ -100,16 +107,22 @@ class CameraTool extends Module
 				vector oCamPos = m_oCamera.GetPosition();
 				oCamPos[1] = GetGame().SurfaceY( oCamPos[0], oCamPos[2] );
 
-				GetPlayer().SetPosition( oCamPos );
+				if ( GetPlayer() ) {
+					GetPlayer().SetPosition( oCamPos );
+				}
 			}
 			else
 			{
-				GetPlayer().SetPosition( GetCursorPos() );
+				if ( GetPlayer() ) {
+					GetPlayer().SetPosition( GetCursorPos() );
+				}
 			}
 
 			m_oCamera.SetActive( false );
 
 			GetGame().ObjectDelete( m_oCamera );
+
+			// delete m_oCamera;
 
 			m_oCamera = NULL;
 			
@@ -434,6 +447,8 @@ class CameraTool extends Module
 	
 	void SetFreezeCam( bool freeze ) 
 	{
+		if ( !FreeDebugCamera.Cast( m_oCamera ) ) return; // We are using a static camera instead
+
 		if ( m_FollowTarget && !freeze && !m_OrbitalCam ) 
 		{
 			m_FreezeCam = true;

@@ -1,57 +1,57 @@
-class COMCharacterCreationScene: Managed
+enum CharGender
 {
-	protected string m_lastCharacter;
-	protected bool m_IsCharFemale;
-	protected int m_LastShavedSeconds;
-	protected int m_CachedPlaytime;
-	protected int m_currentCharacterID;
+	MALE, FEMALE
+}
+
+class COMPersistencyScene: Managed
+{
+	protected string 							m_lastCharacter;
+	protected CharGender 						m_Gender;
+	protected int 								m_LastShavedSeconds;
+	protected int 								m_CachedPlaytime;
+	protected int								m_currentCharacterID;
 	
-	ref TStringArray 			m_CharAllCharacters;
-	ref TStringAdvanceArray 	m_CharGenderList;
-	ref TStringAdvanceArray 	m_CharPersonalityMaleList;
-	ref TStringAdvanceArray 	m_CharPersonalityFemaleList;
-	ref TStringAdvanceArray		m_CharShirtList;
-	int 						m_CharShirtIndex;
-	ref TStringAdvanceArray 	m_CharPantsList;
-	int 						m_CharPantsIndex;
-	ref TStringAdvanceArray 	m_CharShoesList;
-	int 						m_CharShoesIndex;
+	ref TStringArray 							m_CharAllCharacters;
+	ref TStringAdvanceArray 					m_CharGenderList;
+	ref TStringAdvanceArray 					m_CharPersonalityMaleList;
+	ref TStringAdvanceArray 					m_CharPersonalityFemaleList;
+	ref TStringAdvanceArray						m_CharShirtList;
+	int 										m_CharShirtIndex;
+	ref TStringAdvanceArray 					m_CharPantsList;
+	int 										m_CharPantsIndex;
+	ref TStringAdvanceArray 					m_CharShoesList;
+	int 										m_CharShoesIndex;
 	
 	protected ref EntityAnimEndEventHandler 	m_anim_end_event_handler;
 	protected ref PlayerNameHandler 			m_PlayerNameHandler;
 
-	protected CameraTool m_CameraTool;
-	protected PlayerBase m_DemoUnit;
-	protected Weather	m_Weather;
-	protected vector 	m_DemoPos;
-	protected vector 	m_DemoRot;
-	protected vector 	m_Target;
-	protected bool		m_EnableClick;
-	protected bool 		m_RotatingCamera;
-	protected bool 		m_RotatingCharacter;
-	protected int 		m_RotatingCharacterMouseX;
-	protected int 		m_RotatingCharacterMouseY;
-	protected float 	m_RotatingCharacterRot;
-	protected float 	m_Radius;
-	protected float 	m_Radius_original;
-	protected float 	m_DiffX;
-	protected float 	m_DeltaX;
-	protected float 	m_DeltaZ;
-	protected float 	m_Angle;
-	protected float 	m_Angle_offset = 0;
-	protected float 	m_NewX = 0;
-	protected float 	m_NewZ = 0;
-	protected float 	m_BlurValue;
+	protected CameraTool 						m_CameraTool;
+	protected PlayerBase 						m_DemoUnit;
+	protected Weather							m_Weather;
+	protected vector 							m_DemoPos;
+	protected vector 							m_DemoRot;
+	protected vector 							m_CameraTrans[4];
+	protected vector 							m_Target;
 
-	protected ref OptionsMenu m_optmenu = new OptionsMenu;
-	protected MenuData m_data;
+	protected bool								m_EnableClick;
+	protected bool 								m_RotatingCamera;
+	protected bool 								m_RotatingCharacter;
+	protected int 								m_RotatingCharacterMouseX;
+	protected int 								m_RotatingCharacterMouseY;
+	protected float 							m_RotatingCharacterRot;
+	protected float 							m_Radius;
+	protected float 							m_Radius_original;
+	protected float 							m_DiffX;
+	protected float 							m_DeltaX;
+	protected float 							m_DeltaZ;
 
-	protected ref Timer m_timer;
-	protected EntityAI m_entity_to_take;
-
-	void COMCharacterCreationScene()
+	void COMPersistencyScene()
 	{
-		m_timer = new Timer();
+		if ( GetPlayer() )
+		{
+			GetPlayer().Delete();
+		}
+
 		m_currentCharacterID = -1;
 		m_DemoPos = "0 0 0";
 		m_DemoRot = "0 0 0";
@@ -67,14 +67,6 @@ class COMCharacterCreationScene: Managed
 			m_CachedPlaytime = cached_playtime_str.ToInt();
 		}
 		World w = g_Game.GetWorld();
-		m_data = g_Game.GetMenuData();
-		m_data.LoadCharacters();
-		
-		if (m_data.GetLastPlayedCharacter() > -1 )
-		{
-			m_currentCharacterID = m_data.GetLastPlayedCharacter();
-			m_data.GetCharacterName(m_currentCharacterID, g_Game.GetPlayerGameName());
-		}
 
 		string worldName;
 		g_Game.GetWorldName(worldName);
@@ -108,7 +100,35 @@ class COMCharacterCreationScene: Managed
 		}
 		
 		m_CameraTool = GetModuleManager().GetModuleByName("CameraTool");
-		m_CameraTool.EnableCamera();
+		m_CameraTool.DisableCamera();
+		m_CameraTool.EnableCamera( true );
+
+		m_CameraTool.GetCamera().SetPosition( SnapToGround( position ) );
+
+		Math3D.MatrixIdentity4(m_CameraTrans);
+		
+		if ( m_CameraTool.GetCamera() )
+		{
+			m_CameraTool.GetCamera().LookAt(m_Target);
+			m_CameraTool.GetCamera().SetFOV(fov);
+			m_CameraTool.GetCamera().SetFocus(5.0, 0.0); //5.0, 1.0
+			
+			m_CameraTool.GetCamera().SetActive(true);
+			
+			Math3D.DirectionAndUpMatrix(m_Target - SnapToGround(position), "0 1 0", m_CameraTrans);
+			m_CameraTrans[3] = m_CameraTool.GetCamera().GetPosition();
+			m_DemoPos = Vector(0.685547, -0.988281, 3.68823).Multiply4(m_CameraTrans);
+
+			float pos_x = m_DemoPos[0];
+			float pos_z = m_DemoPos[2];
+			float pos_y = GetGame().SurfaceY(pos_x, pos_z);
+			vector ground_demo_pos = Vector(pos_x, pos_y, pos_z);
+			m_DemoPos = ground_demo_pos;
+
+			m_DemoRot = "0 0 0";
+			vector to_cam_dir = m_CameraTool.GetCamera().GetPosition() - m_DemoPos;
+			m_DemoRot[0] = Math.Atan2(to_cam_dir[0], to_cam_dir[2]) * Math.RAD2DEG;
+		}
 		
 		m_DeltaX = Math.AbsFloat(m_DemoPos[0] - m_CameraTool.GetCamera().GetPosition()[0]);
 		m_DeltaZ = Math.AbsFloat(m_DemoPos[2] - m_CameraTool.GetCamera().GetPosition()[2]);
@@ -142,14 +162,18 @@ class COMCharacterCreationScene: Managed
 		Init();
 	}
 
-	void Close()
+	void ~COMPersistencyScene()
 	{
+		ref CameraTool ct = GetModuleManager().GetModuleByName("CameraTool");
+
+		ct.DisableCamera();
+		ct.EnableCamera();
 		
+		ct.DisableCamera();
 	}
 	
 	void Init()
 	{
-		//fill default lists
 		m_CharGenderList = new TStringAdvanceArray;
 		m_CharPersonalityMaleList = new TStringAdvanceArray;
 		m_CharPersonalityFemaleList = new TStringAdvanceArray;
@@ -180,21 +204,17 @@ class COMCharacterCreationScene: Managed
 			}
 		}
 		
-		// ChangeCharacter(m_currentCharacterID);
-		
-		PPEffects.Init();
-		PPEffects.DisableBurlapSackBlindness(); //HOTFIX
-		//PPEffects.ResetAll();
+		CreateRandomCharacter();
 	}
 	
-	void SetCharacterFemale(bool fem)
+	void SetCharacterGender(CharGender gender)
 	{
-		m_IsCharFemale = fem;
+		m_Gender = gender;
 	}
 	
-	bool IsCharacterFemale()
+	CharGender GetCharacterGender()
 	{
-		return m_IsCharFemale;
+		return m_Gender;
 	}
 	
 	void SetClickEnable( bool enable )
@@ -209,22 +229,26 @@ class COMCharacterCreationScene: Managed
 	
 	void ResetIntroCamera()
 	{
-		m_CameraTool.SetTarget(m_DemoUnit);
-		m_CameraTool.FollowTarget();
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater( SceneCharacterSetPos, 250 );
-	}
-	
-	PlayerBase GetIntroSceneCharacter()
-	{
-		return m_DemoUnit;
+		// m_CameraTool.SetTarget(m_DemoUnit);
+		// m_CameraTool.FollowTarget();
+
+		
+		m_CameraTool.GetCamera().LookAt(m_Target);
+
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater( this.SceneCharacterSetPos, 250 );
 	}
 	
 	void RandomSelectGender()
 	{
-		m_IsCharFemale = Math.RandomInt(0, 2);
+		int chance = Math.RandomInt(0, 2);
+		if (chance == 0)
+		{
+			m_Gender = CharGender.MALE;
+		} else {
+			m_Gender = CharGender.FEMALE;
+		}
 	}
 	
-	// ------------------------------------------------------------
 	void CreateRandomCharacter()
 	{
 		string character_name;
@@ -232,7 +256,7 @@ class COMCharacterCreationScene: Managed
 		
 		RandomSelectGender();
 		
-		if (IsCharacterFemale())
+		if (m_Gender == CharGender.FEMALE)
 		{
 			character_name = m_CharPersonalityFemaleList.GetRandomElement();
 		}
@@ -240,6 +264,7 @@ class COMCharacterCreationScene: Managed
 		{
 			character_name = m_CharPersonalityMaleList.GetRandomElement();
 		}
+
 		CreateNewCharacter(character_name);
 		
 		if (m_DemoUnit)
@@ -248,7 +273,8 @@ class COMCharacterCreationScene: Managed
 			SetAttachment(m_CharPantsList.GetRandomElement(), InventorySlots.LEGS);
 			SetAttachment(m_CharShoesList.GetRandomElement(), InventorySlots.FEET);
 		}
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(SceneCharacterSetPos, 250);
+
+		ResetIntroCamera();
 	}
 	
 	int RandomSelectIndex(TStringAdvanceArray list)
@@ -330,7 +356,6 @@ class COMCharacterCreationScene: Managed
 		return index;
 	}
 	
-	// ------------------------------------------------------------
 	void CreateNewCharacter(string type)
 	{
 		if (m_DemoUnit)
@@ -340,18 +365,15 @@ class COMCharacterCreationScene: Managed
 		}
 
 		g_Game.PreloadObject(type, 1.0);
-		m_DemoUnit = PlayerBase.Cast(g_Game.CreateObject(type, SnapToGround(Vector(m_DemoPos[0],m_DemoPos[1],m_DemoPos[2]) + "0 0 333"), true));
+		m_DemoUnit = PlayerBase.Cast( g_Game.CreateObject( type, SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] ) + "0 0 333"), true ) );
 		
 		if (m_DemoUnit)
 		{
-			//GetGame().SetPlayerName("Survivor");
-			//GetGame().GetPlayerName(m_player_name);
 			m_DemoUnit.PlaceOnSurface();
 			m_DemoUnit.SetOrientation(m_DemoRot);
 			m_DemoUnit.SetEventHandler(m_anim_end_event_handler);
 			m_DemoUnit.SetLastShavedSeconds(m_LastShavedSeconds);
 
-			// NEW STATS API
 			string lvalue = "";
 			m_DemoUnit.StatGetCounter("playtime", lvalue);
 
@@ -359,6 +381,8 @@ class COMCharacterCreationScene: Managed
 			Class.CastTo(module_lifespan, PluginLifespan.Cast( GetPlugin( PluginLifespan ) ));
 			module_lifespan.UpdateLifespanParam( m_DemoUnit, lvalue, true );
 		}
+
+		ResetIntroCamera();
 	}
 	
 	void SceneCharacterSetPos()
@@ -370,52 +394,11 @@ class COMCharacterCreationScene: Managed
 		}
 		SetClickEnable( true );
 	}
-	
-	// ------------------------------------------------------------
-	void GetAllItemsInInventory(out array<InventoryItem> items)
-	{
-		items.Clear();
-		
-		if (!m_DemoUnit) return;
-		
-		for (int i = 0; i < InventorySlots.COUNT; i++)
-		{
-			InventoryItem item;
-			Class.CastTo(item, m_DemoUnit.GetInventory().FindAttachment(i));
-	
-			if (!item) continue;
-	
-			items.Insert(item);
-	
-			if (item.GetInventory().GetCargo())
-			{
-				CargoBase cargo = item.GetInventory().GetCargo();
-	
-				for (int j = 0; j < cargo.GetItemCount(); j++)
-				{
-					InventoryItemBase inventoryItem;
-					Class.CastTo(inventoryItem, cargo.GetItem(j));
-					items.Insert(inventoryItem);
-				}
-			}
-	
-			for (j = 0; j < item.GetInventory().AttachmentCount(); j++)
-			{
-				Class.CastTo(inventoryItem, item.GetInventory().GetAttachmentFromIndex(j));
-				items.Insert(inventoryItem);
-			}
-		}
-		
-		Class.CastTo(item, m_DemoUnit.GetHumanInventory().GetEntityInHands());
-		if (item) items.Insert(item);
+
+	bool IsRotatingCharacter() {
+		return m_RotatingCharacter;
 	}
 	
-	// ------------------------------------------------------------
-	void ~COMCharacterCreationScene()
-	{
-	}
-	
-	// ------------------------------------------------------------
 	void CharacterRotationStart()
 	{
 		m_RotatingCharacter = true;
@@ -426,7 +409,6 @@ class COMCharacterCreationScene: Managed
 		}
 	}
 	
-	// ------------------------------------------------------------
 	void CharacterRotationStop()
 	{
 		if (m_RotatingCharacter)
@@ -435,7 +417,6 @@ class COMCharacterCreationScene: Managed
 		}
 	}
 	
-	// ------------------------------------------------------------
 	void CharacterRotate()
 	{
 		int actual_mouse_x;
@@ -449,27 +430,25 @@ class COMCharacterCreationScene: Managed
 		{
 			coef = ( m_RotatingCharacterRot + (m_DiffX * 0.5) ) / 360;
 			coef = coef - Math.Floor(coef);
-			//m_DemoRot[0] = m_RotatingCharacterRot + (diff_x * 0.5);
+
 			m_DemoRot[0] = coef * 360;
 			
 			m_DemoUnit.SetOrientation(m_DemoRot);
 		}
 	}
 	
-	// ------------------------------------------------------------
 	void Update()
 	{
+		// m_CameraTool.UpdateCamera();
+		
+		m_CameraTool.GetCamera().LookAt(m_Target);
+
 		if (m_DemoUnit && m_RotatingCharacter)
 		{
 			CharacterRotate();
 		}
-		else if (m_DemoUnit && m_RotatingCamera)
-		{
-			CameraRotate();
-		}
 	}
 	
-	// ------------------------------------------------------------
 	vector SwapYZ(vector vec)
 	{
 		vector tmp;
@@ -480,7 +459,6 @@ class COMCharacterCreationScene: Managed
 		return tmp;
 	}
 	
-	// ------------------------------------------------------------
 	vector SnapToGround(vector pos)
 	{
 		float pos_x = pos[0];
@@ -490,93 +468,6 @@ class COMCharacterCreationScene: Managed
 		tmp_pos[1] = tmp_pos[1] + pos[1];
 	
 		return tmp_pos;
-	}
-
-	bool IsRotatingCharacter() {
-		return m_RotatingCharacter;
-	}
-
-	bool IsRotatingCamera() {
-		return m_RotatingCamera;
-	}
-
-	//Camera rotation
-	// ------------------------------------------------------------
-	void CameraRotationStart()
-	{
-		m_RotatingCamera = true;
-		if (m_DemoUnit)
-		{
-			if (m_Angle)
-			{
-				//angle_offset = angle + angle_offset;
-				m_Angle_offset = Math.DEG2RAD*(Math.NormalizeAngle(Math.RAD2DEG*(m_Angle + m_Angle_offset)));
-			}
-			g_Game.GetMousePos(m_RotatingCharacterMouseX, m_RotatingCharacterMouseY);
-
-			m_optmenu.m_Options = new GameOptions;
-			NumericOptionsAccess numeric;
-			Class.CastTo(numeric, NumericOptionsAccess.Cast( m_optmenu.m_Options.GetOption(21) )); //21 = Radial blur option
-			m_BlurValue = numeric.ReadValue();
-			numeric.WriteValue(0.0); //sets rotation blur to 0
-		}
-	}
-	
-	// ------------------------------------------------------------
-	void CameraRotationStop()
-	{
-		if (m_RotatingCamera)
-		{
-			m_optmenu.m_Options = new GameOptions;
-			NumericOptionsAccess numeric;
-			Class.CastTo(numeric, NumericOptionsAccess.Cast( m_optmenu.m_Options.GetOption(21) )); //21 = Radial blur option
-			numeric.WriteValue(m_BlurValue); //restores original rotation blur value
-			
-			m_RotatingCamera = false;
-		}
-	}
-	
-	// ------------------------------------------------------------
-	void CameraRotate()
-	{
-		if (m_DemoUnit && m_RotatingCamera)
-		{
-			int actual_mouse_x_camera;
-			int actual_mouse_y;
-			g_Game.GetMousePos(actual_mouse_x_camera, actual_mouse_y);
-
-			m_DiffX = m_RotatingCharacterMouseX * 0.05 - actual_mouse_x_camera * 0.05;//obvod vysece
-
-			m_Angle = m_DiffX;//Math.DEG2RAD*(Math.NormalizeAngle(Math.RAD2DEG*(((diff_x - (2 * r)) / r)))); //in Rad
-			m_NewX = Math.Cos(m_Angle + m_Angle_offset) * m_Radius;
-			m_NewZ = Math.Sin(m_Angle + m_Angle_offset) * m_Radius;
-			
-			//set camera pos and dir
-			m_CameraTool.GetCamera().SetPosition(Vector(m_DemoPos[0] + m_NewX, m_DemoPos[1] + 2, m_DemoPos[2] + m_NewZ));
-			if(!GetGame().GetUIManager().IsMenuOpen(MENU_OPTIONS))
-			{
-				// obsolete
-				m_CameraTool.GetCamera().LookAt(Vector(m_DemoPos[0] + Math.Cos(m_Angle + m_Angle_offset + Math.PI*4/3), m_DemoPos[1] + 0.75, m_DemoPos[2] + Math.Sin(m_Angle + m_Angle_offset + Math.PI*4/3)));
-			}
-			m_CameraTool.GetCamera().SetFocus(m_Radius, 0); //(distance, blur)
-			//Print(m_Camera.GetPosition());
-		}
-	}
-
-	//camera zoom
-	void ZoomCamera(Widget w, int wheel)
-	{
-		if (w.GetName() == "CharacterRotationFrame" && m_DemoUnit && m_CameraTool.GetCamera())
-		{
-			m_DeltaX = Math.AbsFloat(m_DemoPos[0] - m_CameraTool.GetCamera().GetPosition()[0]);
-			m_DeltaZ = Math.AbsFloat(m_DemoPos[2] - m_CameraTool.GetCamera().GetPosition()[2]);
-			
-			m_Radius = Math.Clamp(wheel/5 + Math.Sqrt (Math.Pow(m_DeltaX, 2) + Math.Pow(m_DeltaZ, 2)), m_Radius_original*0.75, m_Radius_original*1.5);
-			
-			m_NewX = Math.Cos(m_Angle + m_Angle_offset) * m_Radius;
-			m_NewZ = Math.Sin(m_Angle + m_Angle_offset) * m_Radius;
-			m_CameraTool.GetCamera().SetPosition(Vector(m_DemoPos[0] + m_NewX, m_DemoPos[1] + 2, m_DemoPos[2] + m_NewZ));
-		}
 	}
 	
 	string GetCharacterName()
