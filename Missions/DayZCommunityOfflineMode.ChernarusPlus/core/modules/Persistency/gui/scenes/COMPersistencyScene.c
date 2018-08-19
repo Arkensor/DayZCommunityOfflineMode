@@ -365,6 +365,9 @@ class COMPersistencyScene: Managed
 		}
 
 		g_Game.PreloadObject(type, 1.0);
+
+		// m_DemoUnit = PlayerBase.Cast( g_Game.CreatePlayer( NULL, type, SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] ) ), 0, "NONE") );
+
 		m_DemoUnit = PlayerBase.Cast( g_Game.CreateObject( type, SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] ) + "0 0 333"), true ) );
 		
 		if (m_DemoUnit)

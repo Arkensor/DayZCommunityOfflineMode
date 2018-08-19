@@ -37,12 +37,16 @@ class COMCharacterMenu extends UIScriptedMenu
 
         m_IsLoadingSave = true;
 		m_NoSaves = true;
+		
+		g_Game.SetKeyboardHandle(this);
 
 		SetCharacterList();
 	}
 
     void ~COMCharacterMenu()
     {
+		g_Game.SetKeyboardHandle(NULL);
+
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
     }
 	
@@ -165,11 +169,14 @@ class COMCharacterMenu extends UIScriptedMenu
 		return true;
 	}
 
+	//override native bool CanCloseOnEscape()
+	//{
+	//	return false;
+	//}
+
 	void Cancel()
 	{
         m_oPersistencyModule.LoadLast();
-
-		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 	}
 
 	void Apply()
@@ -199,8 +206,6 @@ class COMCharacterMenu extends UIScriptedMenu
         		m_oPersistencyModule.CreatePlayer( characterName, m_oPersistencyModule.GetScene().GetPlayerUnit(), "latest" );
 			}
 		}
-
-		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 	}
 
 	void NewCharacter()
@@ -243,9 +248,6 @@ class COMCharacterMenu extends UIScriptedMenu
     
     void UpdateInterval()
 	{
-		MissionGameplay.Cast(GetGame().GetMission()).Continue();
-		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
-
         m_oPersistencyModule.GetScene().Update();
 
 		SetOptions();
@@ -282,20 +284,24 @@ class COMCharacterMenu extends UIScriptedMenu
     
     override bool OnKeyPress( Widget w, int x, int y, int key )
 	{
-        Print("A key of stuffs was pressed!");
-
-        if ( key == KeyCode.KC_ESCAPE )
-        {
-            Print("Called the escape a rino");
-
-            m_oPersistencyModule.LoadLast();
-
-		    GetGame().GetUIManager().CloseMenu( MENU_INGAME );
-
-			return true;
-        }
-
-		return false;
+		super.OnKeyDown( w, x, y, key);
+		
+		switch(key)
+		{
+			// TODO: just temporary until new inputs are done
+			case KeyCode.KC_W:
+			case KeyCode.KC_S:
+			case KeyCode.KC_A:
+			case KeyCode.KC_D:
+			case KeyCode.KC_UP:
+			case KeyCode.KC_DOWN:
+			case KeyCode.KC_LEFT:
+			case KeyCode.KC_RIGHT:
+			case KeyCode.KC_ESCAPE:
+				Cancel();
+		}
+		
+		return true;
 	}
 
 	override bool OnClick( Widget w, int x, int y, int button )

@@ -14,6 +14,8 @@ class PersistencyModule extends Module
 	protected string m_sLastPlayer = "";
 	protected string m_sLastSave = "";
 
+	protected bool m_bExit;
+
 	void PersistencyModule()
 	{
 		Print("PersistencyModule::PersistencyModule");
@@ -69,6 +71,13 @@ class PersistencyModule extends Module
 
 			delete m_CharacterMenu;
 		}
+
+		if (m_Scene)
+		{
+			delete m_Scene;
+		}
+
+		m_CanPause = true;
 	}
 
 	void RefreshCharacterMenu()
@@ -82,16 +91,22 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::ShowCharacterMenu");
 
+		m_sCharacter = "temp";
+		m_sSave = "latest";
+		m_sLastPlayer = m_sCharacter;
+		m_sLastSave = m_sSave;
+
+		SavePlayer(m_sLastSave);
+
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
 
-		GetGame().SelectPlayer( NULL, NULL );
-
-		if (!m_Scene)
-		{
-			m_Scene = new COMPersistencyScene;
-		} 
-
 		CloseCharacterMenu();
+		
+		m_CanBeSaved = false;
+
+		m_bExit = true;
+
+		m_Scene = new COMPersistencyScene;
 
 		if ( !m_CharacterMenu ) {
 			m_CharacterMenu = new COMCharacterMenu( this );
@@ -101,6 +116,8 @@ class PersistencyModule extends Module
 			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
 		}
 
+		m_CanPause = false;
+
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
 	}
 	
@@ -108,7 +125,7 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::SavePlayer");
 
-		if (m_CanBeSaved) {
+		if ( m_CanBeSaved ) {
 			m_sSave = sSave;
 			CharacterSave.SavePlayer( m_sCharacter, m_sSave, GetPlayer() );
 		}
@@ -120,6 +137,8 @@ class PersistencyModule extends Module
 
 		m_CanBeSaved = false;
 
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
+
 		MakeDirectory(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter);
 
 		m_sCharacter = sCharacter;
@@ -128,11 +147,13 @@ class PersistencyModule extends Module
 		m_sLastPlayer = sCharacter;
 		m_sLastSave = sSave;
 
-		GetGame().SelectPlayer( NULL, oPlayer );
+		oPlayer.SetPosition( GetSpawnPoints().GetRandomElement() );
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
+		CharacterSave.SavePlayer( m_sCharacter, m_sSave, oPlayer );
+
+		oPlayer.Delete();
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.FinishLoadingInt, 100, true);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.LoadPlayer, 100, true, m_sCharacter, m_sSave);
 	
 		m_CanBeSaved = true;
 	}
@@ -142,6 +163,8 @@ class PersistencyModule extends Module
 		Print("PersistencyModule::LoadLast");
 
 		m_CanBeSaved = false;
+
+		m_bExit = true;
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
 
@@ -157,7 +180,10 @@ class PersistencyModule extends Module
 		m_sLastPlayer = sCharacter;
 		m_sLastSave = sSave;
 
+		m_bExit = false;
+
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.LoadPlayer);
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, true, sCharacter, sSave);
 	}
@@ -166,25 +192,27 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::CreatePlayerInt");
 
-		if ( GetPlayer() )
-		{
-			GetPlayer().Delete();
-		}
-
 		m_sCharacter = sCharacter;
 		m_sSave = sSave;
 
 		PlayerBase oPlayer;
 
-		if (m_sLastPlayer == "" || m_sLastSave == "")
+		if ( !m_bExit )
 		{
-			oPlayer = CreateCustomDefaultCharacter();
-			GetGame().SelectPlayer( NULL, oPlayer );
-		} else 
-		{
-			oPlayer = CharacterLoad.LoadPlayer(m_sCharacter, m_sSave);
-			GetGame().SelectPlayer( NULL, oPlayer );
+			if ( m_sLastPlayer == "" || m_sLastSave == "" )
+			{
+				oPlayer = CreateCustomDefaultCharacter();
+			} else 
+			{
+				oPlayer = CharacterLoad.LoadPlayer( m_sCharacter, m_sSave );
+			}
+		} else {
+			oPlayer = CharacterLoad.LoadPlayer( m_sLastPlayer, m_sLastSave );
 		}
+
+		m_bExit = false;
+
+		GetGame().SelectPlayer( NULL, oPlayer );
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.CreatePlayerInt);
 
@@ -205,6 +233,6 @@ class PersistencyModule extends Module
 
 		m_CanBeSaved = true;
 
-		delete m_Scene;
+		CloseCharacterMenu();
 	}
 }

@@ -48,6 +48,7 @@ class ItemLoad
         {
             for (int iAttachment = 0; iAttachment < oData.NumAttachments; iAttachment++) 
             {
+                //ItemLoad.Load(oEntity, oPlayer, oData.ItemAttachments[iAttachment]);
                 FixAndLoadAttachment(oEntity, oPlayer, oData.ItemAttachments[iAttachment]);
             }
         }
@@ -67,19 +68,21 @@ class ItemLoad
         ItemBase oItem = NULL;
         EntityAI oEntity = NULL;
 
-        if (oItemData.Name.Contains("Mag")) {
-            oItemData.LocationType = COM_DEFAULT_TYPE;
-            oEntity = ItemLoad.Load(oPlayer, oPlayer, oItemData);
-        } else {
-            oEntity = ItemLoad.Load(oParent, oPlayer, oItemData);
-        }
+        oEntity = ItemLoad.Load(oParent, oPlayer, oItemData);
 
         if (Class.CastTo(oItem, oEntity) && oEntity.IsItemBase())
         {
             if (oItem.IsInherited(Magazine))
             {
                 Magazine oMagazine = Magazine.Cast( oItem ); 
-                oPlayer.GetWeaponManager().AttachMagazine( oMagazine ); 
+
+                if (oParent.IsInherited(Weapon_Base))
+                {
+                    Weapon_Base oWpn = Weapon_Base.Cast( oParent );
+
+                    oWpn.AttachMagazine( oWpn.GetCurrentMuzzle(), oMagazine );
+                    oWpn.NetSyncCurrentStateID( 3 );
+                }
             }
         }
         

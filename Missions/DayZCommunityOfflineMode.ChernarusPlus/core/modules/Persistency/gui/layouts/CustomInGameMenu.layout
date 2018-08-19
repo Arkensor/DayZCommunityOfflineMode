@@ -1,0 +1,316 @@
+FrameWidgetClass FrameWidget {
+	size 1 1
+	halign center_ref
+	valign center_ref
+	priority 995
+	{
+		FrameWidgetClass CampaignMenuLeftPanel {
+			visible 1
+			clipchildren 0
+			color 1 1 1 1
+			position 0 0
+			size 0.25 1
+			halign left
+			valign top
+			hexactpos 0
+			vexactpos 0
+			hexactsize 0
+			vexactsize 0
+			priority 50
+			{
+				ImageWidgetClass LeftPanelBackground {
+					color 0 0 0 0.9882
+					position 0 0
+					size 1 1
+					hexactpos 0
+					vexactpos 0
+					hexactsize 0
+					vexactsize 0
+					imageTexture "{68AE58E5E99FB598}Gui/textures/left_pane_full_ca.edds"
+					mode blend
+					"src alpha" 1
+					stretch 1
+				}
+				FrameWidgetClass CampaignMenuLeftWindowClipper {
+					clipchildren 0
+					color 1 1 1 1
+					position 0.04 0.01
+					size 0.92 0.98
+					halign left
+					valign top
+					hexactpos 0
+					vexactpos 0
+					hexactsize 0
+					vexactsize 0
+					priority 50
+					{
+						WindowWidgetClass CampaignMenuWindow {
+							clipchildren 0
+							inheritalpha 1
+							color 1 1 1 1
+							position 0.1 0.28
+							size 0.9 0.4
+							valign center_ref
+							hexactpos 0
+							vexactpos 0
+							hexactsize 0
+							vexactsize 0
+							priority 1
+							style Default
+							"text color" 1 1 0 1
+							{
+								ButtonWidgetClass ContinueBtn {
+									visible 1
+									clipchildren 0
+									inheritalpha 1
+									position 0 0
+									size 360 50
+									halign left
+									hexactpos 1
+									vexactpos 1
+									hexactsize 1
+									vexactsize 1
+									scaled 1
+									userID 114
+									draggable 0
+									scriptclass ""
+									style MainMenu
+									text "#main_menu_continue"
+									text_offset 0 0
+									text_proportion 0.7
+									text_halign left
+									font "gui/fonts/sdf_MetronBook24"
+									"disabled text color" 0.3373 0.3373 0.3373 1
+									switch normal
+								}
+								ButtonWidgetClass SaveBtn {
+									visible 1
+									clipchildren 0
+									inheritalpha 1
+									position 0 52
+									size 360 50
+									halign left
+									hexactpos 1
+									vexactpos 1
+									hexactsize 1
+									vexactsize 1
+									scaled 1
+									userID 125
+									draggable 0
+									scriptclass ""
+									style MainMenu
+									text "SAVE CHARACTER"
+									text_offset 0 0
+									text_proportion 0.7
+									text_halign left
+									font "gui/fonts/sdf_MetronBook24"
+									"disabled text color" 0.3373 0.3373 0.3373 1
+									switch normal
+								}
+								ButtonWidgetClass SavesBtn {
+									visible 1
+									clipchildren 0
+									inheritalpha 1
+									position 0 104
+									size 360 50
+									halign left
+									hexactpos 1
+									vexactpos 1
+									hexactsize 1
+									vexactsize 1
+									scaled 1
+									userID 126
+									draggable 0
+									scriptclass ""
+									style MainMenu
+									text "LOAD CHARACTER"
+									text_offset 0 0
+									text_proportion 0.7
+									text_halign left
+									font "gui/fonts/sdf_MetronBook24"
+									"disabled text color" 0.3373 0.3373 0.3373 1
+									switch normal
+								}
+								ButtonWidgetClass CreateBtn {
+									visible 1
+									clipchildren 0
+									inheritalpha 1
+									position 0 156
+									size 360 50
+									halign left
+									hexactpos 1
+									vexactpos 1
+									hexactsize 1
+									vexactsize 1
+									scaled 1
+									userID 127
+									draggable 0
+									scriptclass ""
+									style MainMenu
+									text "CREATE CHARACTER"
+									text_offset 0 0
+									text_proportion 0.7
+									text_halign left
+									font "gui/fonts/sdf_MetronBook24"
+									"disabled text color" 0.3373 0.3373 0.3373 1
+									switch normal
+								}
+								ButtonWidgetClass OptionsBtn {
+									visible 1
+									clipchildren 0
+									inheritalpha 1
+									position 0 208
+									size 360 50
+									halign left
+									hexactpos 1
+									vexactpos 1
+									hexactsize 1
+									vexactsize 1
+									userID 102
+									scriptclass ""
+									style MainMenu
+									text "#main_menu_configure"
+									text_offset 0 0
+									text_proportion 0.7
+									text_halign left
+									font "gui/fonts/sdf_MetronBook24"
+									"disabled text color" 0.3373 0.3373 0.3373 1
+								}
+								ButtonWidgetClass OptionsBtn1 {
+									visible 1
+									clipchildren 0
+									inheritalpha 1
+									position 0 260
+									size 360 50
+									halign left
+									hexactpos 1
+									vexactpos 1
+									hexactsize 1
+									vexactsize 1
+									userID 106
+									scriptclass ""
+									style MainMenu
+									text "#main_menu_exit"
+									text_offset 0 0
+									text_proportion 0.7
+									text_halign left
+									font "gui/fonts/sdf_MetronBook24"
+									"disabled text color" 0.3373 0.3373 0.3373 1
+								}
+								ButtonWidgetClass OptionsBtn2 {
+									visible 1
+									clipchildren 0
+									inheritalpha 1
+									position 0 312
+									size 360 50
+									halign left
+									hexactpos 1
+									vexactpos 1
+									hexactsize 1
+									vexactsize 1
+									userID 105
+									scriptclass ""
+									style MainMenu
+									text "#main_menu_restart"
+									text_offset 0 0
+									text_proportion 0.7
+									text_halign left
+									font "gui/fonts/sdf_MetronBook24"
+									"disabled text color" 0.3373 0.3373 0.3373 1
+								}
+							}
+						}
+						PanelWidgetClass PanelLogo {
+							position 0 -0.005
+							size 1 0.2
+							valign center_ref
+							hexactpos 0
+							vexactpos 0
+							hexactsize 0
+							vexactsize 0
+							{
+								ImageWidgetClass ImageDayZLogo {
+									inheritalpha 1
+									position 0 0
+									size 0.02 0.01
+									halign center_ref
+									valign center_ref
+									hexactpos 0
+									vexactpos 0
+									hexactsize 0
+									vexactsize 0
+									fixaspect inside
+									imageTexture "{07EC9681964DCC2E}Gui/textures/dayz_logo_small_ca.edds"
+									mode blend
+									"src alpha" 1
+									stretch 1
+								}
+							}
+						}
+						TextWidgetClass version {
+							visible 1
+							clipchildren 0
+							ignorepointer 1
+							position 0.1 60
+							size 180 14
+							valign bottom_ref
+							hexactpos 0
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							priority 100
+							text "#main_menu_version"
+							font "gui/fonts/sdf_MetronLight24"
+							"exact text" 1
+							"exact text size" 14
+							"size to text h" 1
+							"size to text v" 1
+							"text valign" center
+						}
+						MultilineTextWidgetClass copyright {
+							visible 1
+							clipchildren 0
+							position 0.1 40
+							size 260.845 14
+							valign bottom_ref
+							hexactpos 0
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							priority 100
+							text "#copyright_disclamer"
+							font "gui/fonts/sdf_MetronLight24"
+							"bold text" 0
+							"exact text" 1
+							"exact text size" 14
+							"size to text h" 1
+							"size to text v" 1
+							"text valign" center
+							wrap 1
+						}
+					}
+				}
+			}
+		}
+		ImageWidgetClass vignette {
+			visible 1
+			ignorepointer 0
+			color 0 0 0 0.7843
+			position 0 0
+			size 1.6 0.9
+			halign center_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 0
+			fixaspect outside
+			imageTexture "{E6B3EF816E067499}Gui/textures/inventory_bgvignette.edds"
+			mode blend
+			"src alpha" 1
+			"no wrap" 1
+			stretch 1
+			filter 0
+			nocache 1
+		}
+	}
+}

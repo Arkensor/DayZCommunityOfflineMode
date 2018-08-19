@@ -68,6 +68,46 @@ class CommunityOfflineMode : MissionGameplay
 		
 		GetModuleManager().OnMissionLoaded();
     }
+	
+	bool CanPause()
+	{
+		return GetModuleManager().CanPause();
+	}
+
+	override void Pause()
+	{
+		if ( IsPaused() || !CanPause() )
+		{
+			return;
+		} 
+		
+		CloseAllMenus();
+		
+		// open ingame menu
+		GetUIManager().EnterScriptedMenu(MENU_INGAME, NULL);
+		m_IsOpenPauseMenu = true;
+	}
+
+	override UIScriptedMenu CreateScriptedMenu(int id)
+	{
+		UIScriptedMenu menu = super.CreateScriptedMenu(id);
+
+		switch (id)
+		{
+			#ifdef MODULE_PERSISTENCY
+			case MENU_INGAME:
+				menu = new CustomInGameMenu;
+				break;
+			#endif
+		}
+
+		if (menu)
+		{
+			menu.SetID(id);
+		}
+
+		return menu;
+	}
 
 	override void OnUpdate( float timeslice )
 	{

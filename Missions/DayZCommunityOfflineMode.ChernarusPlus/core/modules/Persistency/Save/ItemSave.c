@@ -27,7 +27,7 @@ class ItemSave
                 {
                     oItemData = new ItemData;
                     if (ItemSave.Save(oCEntity, oPlayer, oItemData)) {
-                        oItemData.NumItems++;
+                        oThisData.NumItems++;
 
                         oItemData.LocationType = COM_CARGO_TYPE; // Cargo
 
@@ -50,7 +50,7 @@ class ItemSave
             {
                 oItemData = new ItemData;
                 if (ItemSave.Save(oAttachment, oPlayer, oItemData)) {
-                    oItemData.NumAttachments++;
+                    oThisData.NumAttachments++;
 
                     oItemData.LocationType = COM_ATTACHMENT_TYPE; // Attachment
 

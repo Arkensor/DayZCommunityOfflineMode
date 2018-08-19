@@ -107,6 +107,18 @@ class ModuleManager
 		moduleKeyCheck( key, KeyMouseBinding.KB_EVENT_RELEASE );
     }
 
+    bool CanPause()
+    {
+        for ( int i = 0; i < m_Modules.Count(); ++i)
+		{
+			if (!m_Modules.Get(i).CanPause())
+            {
+                return false;
+            }
+		}
+        return true;
+    }
+
     void OnUpdate( float timeslice )
     {
 		for ( int i = 0; i < m_Modules.Count(); ++i)

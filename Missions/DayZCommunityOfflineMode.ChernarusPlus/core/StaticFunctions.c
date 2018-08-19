@@ -165,6 +165,23 @@ static bool WINKEY()
     return( ( KeyState( KeyCode.KC_LWIN ) > 0 ) || ( KeyState( KeyCode.KC_RWIN ) > 0 ) );
 }
 
+static Weapon_Base CreateWeapon(PlayerBase oPlayer)
+{
+    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "M4A1_Black" ));
+    oWpn.GetInventory().CreateAttachment( "M4_Suppressor" );
+    oWpn.GetInventory().CreateAttachment( "M4_RISHndgrd_Black" );
+    oWpn.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
+    oWpn.GetInventory().CreateAttachment( "ACOGOptic" );
+
+    Magazine oMag = Magazine.Cast(oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" ));
+
+    oWpn.AttachMagazine( oWpn.GetCurrentMuzzle(), oMag );
+
+    oWpn.NetSyncCurrentStateID(3);
+
+    return oWpn;
+}
+
 static PlayerBase CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
@@ -178,21 +195,16 @@ static PlayerBase CreateCustomDefaultCharacter()
     item = oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
     item = oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
 
-    item = oPlayer.GetInventory().CreateInInventory( "M4A1_Black" );
-    item.GetInventory().CreateAttachment( "M4_Suppressor" );
-    item.GetInventory().CreateAttachment( "M4_RISHndgrd_Black" );
-    item.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
-    item.GetInventory().CreateAttachment( "ACOGOptic" );
-
-    auto oMag = oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
     oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
     oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
 
-    oPlayer.LocalTakeEntityToHands( item );
+    Weapon_Base oWpn = CreateWeapon(oPlayer);
 
-    oPlayer.SetQuickBarEntityShortcut( item, 0, true );
+    oPlayer.LocalTakeEntityToHands( oWpn );
 
-    oPlayer.GetWeaponManager().AttachMagazine( oMag );
+    oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );
+
+    CreateWeapon(oPlayer);
 
     return oPlayer;
 }
