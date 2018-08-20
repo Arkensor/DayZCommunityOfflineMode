@@ -1,6 +1,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\Module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\KeyMouseBinding.c"
 
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\module.c"
@@ -45,6 +46,7 @@ class ModuleManager
         m_Modules.Insert( new COMKeyBinds );
         m_Modules.Insert( new PersistencyModule );
         m_Modules.Insert( new CustomDebugMonitor );
+        m_Modules.Insert( new OverrideMenus );
     }
 
 	void OnInit()

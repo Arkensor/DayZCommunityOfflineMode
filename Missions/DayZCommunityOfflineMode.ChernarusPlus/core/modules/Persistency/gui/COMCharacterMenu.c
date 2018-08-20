@@ -31,11 +31,11 @@ class COMCharacterMenu extends UIScriptedMenu
     protected int 							m_Save;
 	protected bool							m_NoSaves;
 
-    void COMCharacterMenu( ref PersistencyModule oPersistencyModule )
+    void COMCharacterMenu( ref PersistencyModule oPersistencyModule, bool isLoadSave = true )
 	{
 		m_oPersistencyModule = oPersistencyModule;
 
-        m_IsLoadingSave = true;
+        m_IsLoadingSave = isLoadSave;
 		m_NoSaves = true;
 		
 		g_Game.SetKeyboardHandle(this);

@@ -20,14 +20,11 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::PersistencyModule");
 
-		KeyMouseBinding showCharacterMenu = new KeyMouseBinding( GetModuleType() , "ShowCharacterMenu"  , "[M]"    , "Shows the character menu."   );
-		//KeyMouseBinding refreshCharacterMenu = new KeyMouseBinding( GetModuleType() , "RefreshCharacterMenu"  , "[O]"    , "Refreshes the character menu."   );
+		//KeyMouseBinding showCharacterMenu = new KeyMouseBinding( GetModuleType() , "ShowCharacterMenu"  , "[M]"    , "Shows the character menu."   );
 		
-		showCharacterMenu.AddKeyBind( KeyCode.KC_M, KeyMouseBinding.KB_EVENT_RELEASE );
-		//refreshCharacterMenu.AddKeyBind( KeyCode.KC_O, KeyMouseBinding.KB_EVENT_RELEASE );
+		//showCharacterMenu.AddKeyBind( KeyCode.KC_M, KeyMouseBinding.KB_EVENT_RELEASE );
 
-		RegisterKeyMouseBinding( showCharacterMenu );
-		//RegisterKeyMouseBinding( refreshCharacterMenu );
+		//RegisterKeyMouseBinding( showCharacterMenu );
 
 		MakeDirectory("$saves:CommunityOfflineMode");
 		MakeDirectory(BASE_PLAYER_SAVE_DIR);
@@ -42,6 +39,18 @@ class PersistencyModule extends Module
 	override void Init() 
 	{
 		super.Init();
+
+		#ifdef MODULE_OVERRIDEMENUS
+		OverrideMenus om = GetModuleManager().GetModuleByName("OverrideMenus");
+
+		if ( om )
+		{
+			om.AddPauseButton( new CustomPauseButton( "LOAD CHARACTER", 47842, GetModuleType(), "ShowCharacterSaves" ), new OverrideValid(true, true), 1 );
+			om.AddPauseButton( new CustomPauseButton( "SAVE CHARACTER", 47842, GetModuleType(), "ShowSaveCharacter" ), new OverrideValid(true, true), 1 );
+			om.AddPauseButton( new CustomPauseButton( "CREATE CHARACTER", 47892, GetModuleType(), "ShowCreateNewCharacter" ), new OverrideValid(true, true), 1 );
+		}
+
+		#endif
 	}
 
 	override void onMissionLoaded()
@@ -79,17 +88,12 @@ class PersistencyModule extends Module
 
 		m_CanPause = true;
 	}
-
-	void RefreshCharacterMenu()
+	
+	private void PreShowMenu()
 	{
-		Print("PersistencyModule::RefreshCharacterMenu");
-		CloseCharacterMenu();
-		ShowCharacterMenu();
-	}
+		Print("PersistencyModule::PreShowMenu");
 
-	void ShowCharacterMenu()
-	{
-		Print("PersistencyModule::ShowCharacterMenu");
+		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
 		m_sCharacter = "temp";
 		m_sSave = "latest";
@@ -107,10 +111,11 @@ class PersistencyModule extends Module
 		m_bExit = true;
 
 		m_Scene = new COMPersistencyScene;
+	}
 
-		if ( !m_CharacterMenu ) {
-			m_CharacterMenu = new COMCharacterMenu( this );
-		} 
+	private void PostShowMenu()
+	{
+		Print("PersistencyModule::PostShowMenu");
 
 		if (m_CharacterMenu.IsVisible()) {
 			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
@@ -119,6 +124,37 @@ class PersistencyModule extends Module
 		m_CanPause = false;
 
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
+	}
+
+	void ShowCreateNewCharacter()
+	{
+		Print("PersistencyModule::ShowCreateNewCharacter");
+
+		PreShowMenu();
+
+		if ( !m_CharacterMenu ) {
+			m_CharacterMenu = new COMCharacterMenu( this, false );
+		} 
+
+		PostShowMenu();
+	}
+
+	void ShowCharacterSaves()
+	{
+		Print("PersistencyModule::ShowCharacterSaves");
+
+		PreShowMenu();
+
+		if ( !m_CharacterMenu ) {
+			m_CharacterMenu = new COMCharacterMenu( this, true );
+		} 
+
+		PostShowMenu();
+	}
+
+	void ShowSaveCharacter()
+	{
+
 	}
 	
 	void SavePlayer(string sSave = "latest") 

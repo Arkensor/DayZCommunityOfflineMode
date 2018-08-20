@@ -11,6 +11,8 @@ class CommunityOfflineMode : MissionGameplay
 	{
 	    Print( "CommunityOfflineMode::CommunityOfflineMode()" );
 	    m_bLoaded = false;
+
+		GetModuleManager();
 	}
 
 	void ~CommunityOfflineMode()
@@ -88,26 +90,31 @@ class CommunityOfflineMode : MissionGameplay
 		m_IsOpenPauseMenu = true;
 	}
 
-	override UIScriptedMenu CreateScriptedMenu(int id)
+	#ifdef MODULE_OVERRIDEMENUS
+	override UIScriptedMenu CreateScriptedMenu( int id )
 	{
-		UIScriptedMenu menu = super.CreateScriptedMenu(id);
+		UIScriptedMenu menu = super.CreateScriptedMenu( id );
 
-		switch (id)
+		OverrideMenus om = OverrideMenus.Cast(GetModuleManager().GetModuleByName("OverrideMenus"));
+
+		if ( om )
 		{
-			#ifdef MODULE_PERSISTENCY
-			case MENU_INGAME:
-				menu = new CustomInGameMenu;
-				break;
-			#endif
+			UIScriptedMenu tempMenu = om.CreateScriptedMenu( id );
+
+			if ( tempMenu )
+			{
+				menu = tempMenu;
+			}
 		}
 
-		if (menu)
+		if ( menu )
 		{
-			menu.SetID(id);
+			menu.SetID( id );
 		}
 
 		return menu;
 	}
+	#endif
 
 	override void OnUpdate( float timeslice )
 	{
@@ -200,8 +207,8 @@ class CommunityOfflineMode : MissionGameplay
 //
 //		// dannydog: port over old keybinds and functions to new module system
 //
-//		switch( key )
-//		{
+		switch( key )
+		{
 //			case KeyCode.KC_LCONTROL:
 //			{
 //				m_IsCtrlHolding = true;
@@ -319,12 +326,12 @@ class CommunityOfflineMode : MissionGameplay
 //            }
 //
 //
-//			case KeyCode.KC_K:
-//			{
-//				if (!CTRL() && !SHIFT())
-//				GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Call( GetGame().RestartMission );
-//				break;
-//			}
+			case KeyCode.KC_K:
+			{
+				if (!CTRL() && !SHIFT())
+				GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Call( GetGame().RestartMission );
+				break;
+			}
 //
 //
 //			case KeyCode.KC_N:
@@ -412,7 +419,7 @@ class CommunityOfflineMode : MissionGameplay
 //				Particle.Play( ParticleList.EXPLOSION_TEST, GetCursorPos() );
 //				break;
 //			}
-//		}
+		}
 	}
 
 	override void OnKeyRelease( int key )
