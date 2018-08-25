@@ -24,5 +24,6 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\Save\\ItemSave.c"
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\COMCharacterMenu.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\COMCharacterSave.c"
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\scenes\\COMPersistencyScene.c"

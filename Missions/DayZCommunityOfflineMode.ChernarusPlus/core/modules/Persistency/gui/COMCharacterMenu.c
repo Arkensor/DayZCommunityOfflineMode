@@ -24,6 +24,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	protected ref OptionSelectorMultistate	m_ShoesSelector;
 
     protected bool                          m_IsLoadingSave;
+	protected bool 							m_CanLoadSave;
 	
 	protected ref map< string, ref TStringAdvanceArray > m_Saves = new map< string, ref TStringAdvanceArray >;
 
@@ -45,14 +46,22 @@ class COMCharacterMenu extends UIScriptedMenu
 
     void ~COMCharacterMenu()
     {
-		g_Game.SetKeyboardHandle(NULL);
-
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
+
+		delete m_Saves;
+		delete m_SaveSelector;
+		delete m_GenderSelector;
+		delete m_SkinSelector;
+		delete m_TopSelector;
+		delete m_BottomSelector;
+		delete m_ShoesSelector;
+
+		g_Game.SetKeyboardHandle(NULL);
     }
 	
 	override Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\COMCharacterCreation.layout" );
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\COMCharacterMenu.layout" );
 
 		m_CharacterRotationFrame            = layoutRoot.FindAnyWidget( "character_rotation_frame" );
 
@@ -79,14 +88,16 @@ class COMCharacterMenu extends UIScriptedMenu
 		m_CharacterText.SetText( GetCharacter() );
 		TStringAdvanceArray saves = GetSavesForCharacter( GetCharacter() );
 
-		if ( saves.Count() == 0 ) {
+		if ( !saves || saves.Count() == 0 ) {
 			m_NoSaves = true;
 
 			ref TStringAdvanceArray ts = new TStringAdvanceArray;
 			ts.Insert("temp");
+
 			m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, ts );
 		} else {
 			m_NoSaves = false;
+
 			m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, saves );
 		}
 
@@ -113,6 +124,8 @@ class COMCharacterMenu extends UIScriptedMenu
 		m_TopSelector.m_OptionChanged.Insert( TopChanged );
 		m_BottomSelector.m_OptionChanged.Insert( BottomChanged );
 		m_ShoesSelector.m_OptionChanged.Insert( ShoesChanged );
+
+		SetCharacter(m_Character);
 
 		return layoutRoot;
 	}
@@ -157,6 +170,22 @@ class COMCharacterMenu extends UIScriptedMenu
 			layoutRoot.FindAnyWidget( "character_content" ).Show( true );
 			layoutRoot.FindAnyWidget( "character_save" ).Show( false );
 		}
+
+		if ( m_oPersistencyModule.GetLoadedCharacter() == "" || m_oPersistencyModule.GetLoadedSave() == "" )
+		{
+			layoutRoot.FindAnyWidget( "cancel" ).Show( false );
+		} else 
+		{
+			layoutRoot.FindAnyWidget( "cancel" ).Show( true );
+		}
+
+		if ( m_CanLoadSave )
+		{
+			layoutRoot.FindAnyWidget( "new_character" ).Show( true );
+		} else 
+		{
+			layoutRoot.FindAnyWidget( "new_character" ).Show( false );
+		}
 	}
     
     override bool UseMouse()
@@ -169,11 +198,6 @@ class COMCharacterMenu extends UIScriptedMenu
 		return true;
 	}
 
-	//override native bool CanCloseOnEscape()
-	//{
-	//	return false;
-	//}
-
 	void Cancel()
 	{
         m_oPersistencyModule.LoadLast();
@@ -183,36 +207,50 @@ class COMCharacterMenu extends UIScriptedMenu
 	{
 		if ( m_IsLoadingSave )
 		{
-        	m_oPersistencyModule.LoadPlayer( GetCharacter(), GetSave() );
-		} else {
-			string characterName = m_PlayerName.GetText();
+			LoadSave();
+		} else 
+		{
+			CreateCharacter();
+		}
+	}
 
-			bool canCreate = true;
+	void LoadSave()
+	{
+		if (m_NoSaves)
+		{
+			GetGame().GetUIManager().ShowDialog("FAILURE", "No save found for this character!", 0, DBT_OK, DBB_OK, DMT_WARNING, NULL);
+		} else 
+		{
+       		m_oPersistencyModule.LoadPlayer( GetCharacter(), GetSave() );
+		}
+	}
 
-			if ( characterName == "" )
-			{
-				GetGame().GetUIManager().ShowDialog("FAILURE", "You didn't give a character name!", 0, DBT_OK, DBB_OK, DMT_WARNING, NULL);
-				canCreate = false;
-			}
+	void CreateCharacter()
+	{
+		bool passed = true;
 
-			if ( canCreate && FileExist(BASE_PLAYER_SAVE_DIR + "\\" + characterName) )
-			{
-				GetGame().GetUIManager().ShowDialog("FAILURE", "That character already exists!", 0, DBT_OK, DBB_OK, DMT_WARNING, NULL);
-				canCreate = false;
-			}
+		string characterName = m_PlayerName.GetText();
 
-			if ( canCreate )
-			{
-        		m_oPersistencyModule.CreatePlayer( characterName, m_oPersistencyModule.GetScene().GetPlayerUnit(), "latest" );
-			}
+		if ( characterName == "" )
+		{
+			GetGame().GetUIManager().ShowDialog("FAILURE", "You didn't give a character name!", 0, DBT_OK, DBB_OK, DMT_WARNING, NULL);
+			passed = false;
+		}
+		if ( passed && FileExist(BASE_PLAYER_SAVE_DIR + "\\" + characterName) )
+		{
+			GetGame().GetUIManager().ShowDialog("FAILURE", "That character already exists!", 0, DBT_OK, DBB_OK, DMT_WARNING, NULL);
+			passed = false;
+		}
+
+		if ( passed )
+		{
+        	m_oPersistencyModule.CreatePlayer( characterName, m_oPersistencyModule.GetScene().GetPlayerUnit() );
 		}
 	}
 
 	void NewCharacter()
 	{
 		m_IsLoadingSave = !m_IsLoadingSave;
-		
-		SetCharacter(m_Character);
 	}
 
 	void PreviousCharacter()
@@ -236,14 +274,29 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		TStringAdvanceArray saves = GetSavesForCharacter( GetCharacter() );
 
-		if ( saves.Count() == 0 ) {
+		if ( !saves || saves.Count() == 0 ) {
 			m_NoSaves = true;
 		} else {
 			m_NoSaves = false;
 			m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, saves );
 		}
+
+		SetSave();
 	
 		m_Character = index;
+	}
+
+	void SetSave()
+	{
+		string character = GetCharacter();
+		string save = GetSave();
+
+		if ( character == "" || save == "" )
+		{
+			return;
+		}
+
+		m_oPersistencyModule.GetScene().SetCharacter( character,save );
 	}
     
     void UpdateInterval()
@@ -256,6 +309,11 @@ class COMCharacterMenu extends UIScriptedMenu
     override void OnShow()
 	{
 		super.OnShow();
+
+		if ( GetPlayer() )
+		{
+			GetPlayer().Delete();
+		}
 
         GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
         GetGame().GetUIManager().ShowUICursor( true );
@@ -274,34 +332,34 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
-        if ( !m_IsLoadingSave )
-        {
-            m_oPersistencyModule.LoadLast();
-        }
-
 		super.OnHide();
 	}
-    
-    override bool OnKeyPress( Widget w, int x, int y, int key )
+
+	void TemporaryFix_ReloadCharacterMenu()
+	{
+		m_oPersistencyModule.TemporaryFix_ReloadCharacterMenu();
+
+		GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
+        GetGame().GetUIManager().ShowUICursor( true );
+
+        GetGame().GetMission().GetHud().Show(false);
+	}
+
+	// This is all temporary! Waiting on a feature from the developers which should be implemented sometime soon!
+    override bool OnKeyDown( Widget w, int x, int y, int key )
 	{
 		super.OnKeyDown( w, x, y, key);
 		
 		switch(key)
 		{
-			// TODO: just temporary until new inputs are done
-			case KeyCode.KC_W:
-			case KeyCode.KC_S:
-			case KeyCode.KC_A:
-			case KeyCode.KC_D:
-			case KeyCode.KC_UP:
-			case KeyCode.KC_DOWN:
-			case KeyCode.KC_LEFT:
-			case KeyCode.KC_RIGHT:
 			case KeyCode.KC_ESCAPE:
-				Cancel();
+			{
+				TemporaryFix_ReloadCharacterMenu();
+				return true;
+			}
 		}
 		
-		return true;
+		return false;
 	}
 
 	override bool OnClick( Widget w, int x, int y, int button )
@@ -486,11 +544,14 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		Print("Character: " + sName + ", File Attr: " + oFileAttr);
 
+		int index = 0;
+
 		if (sName != "")
 		{
 			if (sName != GetCharacter())
 			{
 				m_Saves.Set(sName, new TStringAdvanceArray);
+				index++;
 			}
 
 			while (FindNextFile(oFileHandle, sName, oFileAttr))
@@ -499,8 +560,17 @@ class COMCharacterMenu extends UIScriptedMenu
 				{
 					Print("Character: " + sName + ", File Attr: " + oFileAttr);
 					m_Saves.Set(sName, new TStringAdvanceArray);
+					index++;
 				}
 			}
+		}
+
+		if ( index == 0 ) 
+		{
+			m_IsLoadingSave = false;
+			m_CanLoadSave = false;
+		} else {
+			m_CanLoadSave = true;
 		}
 	}
 
@@ -523,6 +593,8 @@ class COMCharacterMenu extends UIScriptedMenu
 	void SaveChanged()
 	{
 		m_Save = m_SaveSelector.GetValue();
+
+		SetSave();
 	}
 
 	void SetGender( string gender )
@@ -554,8 +626,6 @@ class COMCharacterMenu extends UIScriptedMenu
 	void SkinChanged()
 	{
 		m_oPersistencyModule.GetScene().CreateNewCharacter( m_SkinSelector.GetStringValue() );
-		
-		layoutRoot.FindAnyWidget( "character_root" ).Show( g_Game.IsNewCharacter() );
 		
 		TopChanged();
 		BottomChanged();

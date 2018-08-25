@@ -116,6 +116,7 @@ class CommunityOfflineMode : MissionGameplay
 	}
 	#endif
 
+
 	override void OnUpdate( float timeslice )
 	{
 	    super.OnUpdate( timeslice );
@@ -128,21 +129,19 @@ class CommunityOfflineMode : MissionGameplay
             OnMissionLoaded();
         }
 
-//		if( m_bGodMode )
-//		{
-//			m_oPlayer.SetHealth( m_oPlayer.GetMaxHealth( "", "" ) );
-//			m_oPlayer.SetHealth( "","Blood", m_oPlayer.GetMaxHealth( "", "Blood" ) );
-//			m_oPlayer.SetHealth( "","Shock", m_oPlayer.GetMaxHealth( "", "Shock" ) );
-//			m_oPlayer.SetStamina(1000, 1000);
-//			m_oPlayer.GetStatStamina().Set(1000);
-//			m_oPlayer.GetStatEnergy().Set(1000);
-//			m_oPlayer.GetStatWater().Set(1000);
-//			m_oPlayer.GetStatStomachSolid().Set(300);
-//			m_oPlayer.GetStatStomachWater().Set(300);
-//			m_oPlayer.GetStatStomachEnergy().Set(300);
-//			m_oPlayer.GetStatHeatComfort().Set(0);
+//			GetPlayer().SetHealth( GetPlayer().GetMaxHealth( "", "" ) );
+//			GetPlayer().SetHealth( "","Blood", GetPlayer().GetMaxHealth( "", "Blood" ) );
+//			GetPlayer().SetHealth( "","Shock", GetPlayer().GetMaxHealth( "", "Shock" ) );
+//			// GetPlayer().SetStamina(1000, 1000);
+//			GetPlayer().GetStatStamina().Set(1000);
+//			GetPlayer().GetStatEnergy().Set(1000);
+//			GetPlayer().GetStatWater().Set(1000);
+//			GetPlayer().GetStatStomachSolid().Set(300);
+//			GetPlayer().GetStatStomachWater().Set(300);
+//			GetPlayer().GetStatStomachEnergy().Set(300);
+//			GetPlayer().GetStatHeatComfort().Set(0);
 //
-//			EntityAI oWeapon = m_oPlayer.GetHumanInventory().GetEntityInHands();
+//			EntityAI oWeapon = GetPlayer().GetHumanInventory().GetEntityInHands();
 //
 //			if( oWeapon )
 //			{
@@ -160,8 +159,6 @@ class CommunityOfflineMode : MissionGameplay
 //					oSupressor.SetHealth( oSupressor.GetMaxHealth( "", "" ) );
 //				}
 //			}
-//
-//		}
 //
 //		UpdateAutoWalk();
 
@@ -506,9 +503,11 @@ class CommunityOfflineMode : MissionGameplay
 
     void SpawnPlayer()
     {
+		#ifndef MODULE_PERSISTENCY
 		auto oPlayer = CreateCustomDefaultCharacter();
 		
 		GetGame().SelectPlayer( NULL, oPlayer );
+		#endif
     }
 
 	void InitHive()

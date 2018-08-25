@@ -79,18 +79,27 @@ class CameraTool extends Module
 			return;
 		}
 
+		vector position = "0 0 0";
+		if ( GetPlayer() )
+		{
+			position = GetPlayer().GetPosition()
+		}
+
 		if ( !staticCam ) 
 		{
-			m_oCamera = g_Game.CreateObject( "FreeDebugCamera", GetPlayer().GetPosition(), true );
+			m_oCamera = g_Game.CreateObject( "FreeDebugCamera", position, true );
 		} 
 		else 
 		{
-			m_oCamera = g_Game.CreateObject( "staticcamera", GetPlayer().GetPosition(), true );
+			m_oCamera = g_Game.CreateObject( "staticcamera", position, true );
 		}
 
 		m_oCamera.SetActive( true );
-			
-		SetFreezePlayer(true);
+
+		if ( !staticCam ) 
+		{	
+			SetFreezePlayer(true);
+		}
 			
 		m_DistanceToObject = 0.0;
 	}
@@ -102,20 +111,20 @@ class CameraTool extends Module
 			SetFreezePlayer(false);
 			SetFreezeMouse(false);
 
+			vector position = "0 0 0";
+
 			if( CTRL() || SHIFT() ) // Extra
 			{
-				vector oCamPos = m_oCamera.GetPosition();
-				oCamPos[1] = GetGame().SurfaceY( oCamPos[0], oCamPos[2] );
-
-				if ( GetPlayer() ) {
-					GetPlayer().SetPosition( oCamPos );
-				}
+				position = m_oCamera.GetPosition();
+				position[1] = GetGame().SurfaceY( position[0], position[2] );
 			}
 			else
 			{
-				if ( GetPlayer() ) {
-					GetPlayer().SetPosition( GetCursorPos() );
-				}
+				position = GetCursorPos();
+			}
+
+			if ( GetPlayer() ) {
+				GetPlayer().SetPosition( position );
 			}
 
 			m_oCamera.SetActive( false );
@@ -419,7 +428,7 @@ class CameraTool extends Module
 		
 		if ( m_Target.IsInherited( SurvivorBase )) 
 		{
-			targetPosition = GetPlayer().GetPosition();
+			targetPosition = m_Target.GetPosition();
 			targetPosition[1] = targetPosition[1] + 1.5;
 		}
 		else 

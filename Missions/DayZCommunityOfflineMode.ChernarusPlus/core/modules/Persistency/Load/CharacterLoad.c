@@ -1,11 +1,19 @@
 class CharacterLoad
 {
-    static PlayerBase LoadPlayer(string sCharacter, string sSave) {
+    static PlayerBase LoadPlayer(string sCharacter, string sSave, bool bNoControl = false) {
         ref CharacterData oData = new CharacterData;
 
         JsonFileLoader<CharacterData>.JsonLoadFile(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json", oData);
 
-		PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, oData.SModel, "0 0 0", 0, "NONE") );
+		PlayerBase oPlayer;
+		
+		if ( bNoControl )
+		{
+			oPlayer = PlayerBase.Cast( GetGame().CreateObject( oData.SModel, "0 0 0", true ) );
+		} else 
+		{
+			oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, oData.SModel, "0 0 0", 0, "NONE") );
+		}
 
         // Temporary for debugging purposes. Death checking not yet implemented.
         if (oData.FHealth < 20) oData.FHealth = 20;

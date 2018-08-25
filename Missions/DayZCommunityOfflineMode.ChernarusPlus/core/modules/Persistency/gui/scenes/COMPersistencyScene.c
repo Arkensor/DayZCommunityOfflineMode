@@ -47,11 +47,6 @@ class COMPersistencyScene: Managed
 
 	void COMPersistencyScene()
 	{
-		if ( GetPlayer() )
-		{
-			GetPlayer().Delete();
-		}
-
 		m_currentCharacterID = -1;
 		m_DemoPos = "0 0 0";
 		m_DemoRot = "0 0 0";
@@ -100,7 +95,6 @@ class COMPersistencyScene: Managed
 		}
 		
 		m_CameraTool = GetModuleManager().GetModuleByName("CameraTool");
-		m_CameraTool.DisableCamera();
 		m_CameraTool.EnableCamera( true );
 
 		m_CameraTool.GetCamera().SetPosition( SnapToGround( position ) );
@@ -164,12 +158,20 @@ class COMPersistencyScene: Managed
 
 	void ~COMPersistencyScene()
 	{
+		if ( m_DemoUnit )
+		{
+			GetGame().ObjectDelete(m_DemoUnit);
+		}
+
 		ref CameraTool ct = GetModuleManager().GetModuleByName("CameraTool");
 
-		ct.DisableCamera();
-		ct.EnableCamera();
-		
-		ct.DisableCamera();
+		if ( ct )
+		{
+			ct.DisableCamera();
+			ct.EnableCamera();
+			
+			ct.DisableCamera();
+		}
 	}
 	
 	void Init()
@@ -229,11 +231,8 @@ class COMPersistencyScene: Managed
 	
 	void ResetIntroCamera()
 	{
-		// m_CameraTool.SetTarget(m_DemoUnit);
-		// m_CameraTool.FollowTarget();
-
-		
-		m_CameraTool.GetCamera().LookAt(m_Target);
+		m_CameraTool.SetTarget(m_DemoUnit);
+		m_CameraTool.FollowTarget();
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater( this.SceneCharacterSetPos, 250 );
 	}
@@ -290,6 +289,7 @@ class COMPersistencyScene: Managed
 	void SetAttachment(string type, int slot)
 	{
 		if (!m_DemoUnit) return;
+
 		g_Game.ObjectDelete(m_DemoUnit.GetInventory().FindAttachment(slot));
 		EntityAI entity;
 		Class.CastTo(entity, g_Game.CreateObject(type, "0 2000 0", true));
@@ -355,20 +355,38 @@ class COMPersistencyScene: Managed
 		
 		return index;
 	}
+
+	void SetCharacter(string character, string save)
+	{
+		if ( m_DemoUnit )
+		{
+			GetGame().ObjectDelete(m_DemoUnit);
+			m_DemoUnit = NULL;
+		}
+
+		m_DemoUnit = CharacterLoad.LoadPlayer( character, save, true );
+		m_DemoUnit.SetPosition( SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )) );
+
+		if (m_DemoUnit)
+		{
+			m_DemoUnit.PlaceOnSurface();
+			m_DemoUnit.SetOrientation(m_DemoRot);
+		}
+
+		ResetIntroCamera();
+	}
 	
 	void CreateNewCharacter(string type)
 	{
 		if (m_DemoUnit)
 		{
-			g_Game.ObjectDelete(m_DemoUnit);
+			GetGame().ObjectDelete(m_DemoUnit);
 			m_DemoUnit = NULL;
 		}
 
 		g_Game.PreloadObject(type, 1.0);
 
-		// m_DemoUnit = PlayerBase.Cast( g_Game.CreatePlayer( NULL, type, SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] ) ), 0, "NONE") );
-
-		m_DemoUnit = PlayerBase.Cast( g_Game.CreateObject( type, SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] ) + "0 0 333"), true ) );
+		m_DemoUnit = PlayerBase.Cast( g_Game.CreateObject( type, SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )), true ) );
 		
 		if (m_DemoUnit)
 		{

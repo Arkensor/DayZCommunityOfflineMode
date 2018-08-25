@@ -175,15 +175,4 @@ class ObjectMenu extends UIScriptedMenu
 
 		return "";
 	}
-
-	vector GetCursorPos()
-    {
-        vector rayStart = GetGame().GetCurrentCameraPosition();
-        vector rayEnd = rayStart + GetGame().GetCurrentCameraDirection() * 10000;
-        vector hitPos;
-        vector hitNormal;
-        int hitComponentIndex;
-        DayZPhysics.RaycastRV( rayStart, rayEnd, hitPos, hitNormal, hitComponentIndex, NULL, NULL, GetGame().GetPlayer() );
-        return hitPos;
-    }
 }

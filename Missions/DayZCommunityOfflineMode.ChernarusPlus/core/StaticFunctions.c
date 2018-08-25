@@ -140,6 +140,16 @@ static Weapon GetWeaponInHands()
     return weapon_in_hands;
 }
 
+static MissionBase GetMission()
+{
+    return GetGame().GetMission();
+}
+
+static CommunityOfflineMode GetCOMMission()
+{
+    return CommunityOfflineMode.Cast( GetGame().GetMission() );
+}
+
 static PlayerBase GetPlayer()
 {
     return GetGame().GetPlayer();
@@ -163,6 +173,11 @@ static bool ALT()
 static bool WINKEY()
 {
     return( ( KeyState( KeyCode.KC_LWIN ) > 0 ) || ( KeyState( KeyCode.KC_RWIN ) > 0 ) );
+}
+
+static ZombieBase SpawnInfected(vector pos)
+{
+    return ZombieBase.Cast(GetGame().CreateObject( WorkingZombieClasses().GetRandomElement(), pos, false, true ));
 }
 
 static Weapon_Base CreateWeapon(PlayerBase oPlayer)
