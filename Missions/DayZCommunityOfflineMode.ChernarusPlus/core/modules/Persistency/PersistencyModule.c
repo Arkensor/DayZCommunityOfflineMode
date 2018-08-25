@@ -31,6 +31,7 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::~PersistencyModule");
 
+		CleanupCharacterSaving();
 		CleanupCharacterMenu();
 		CleanupScene();
 	}
@@ -106,6 +107,8 @@ class PersistencyModule extends Module
 		{
 			m_CharacterMenu.Close();
 
+			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
+
 			delete m_CharacterMenu;
 		}
 
@@ -149,16 +152,23 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::TemporaryFix_ReloadCharacterMenu");
 
+		if ( m_CharacterMenu )
+		{
+			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
+		}
+
 		m_CharacterMenu = new COMCharacterMenu( this, true );
 
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
 	}
 
-	private void SetupCharacterSaving()
+	private void CleanupCharacterSaving()
 	{
 		if (m_CharacterSave)
 		{
 			m_CharacterSave.Close();
+			
+			GetGame().GetUIManager().HideScriptedMenu( m_CharacterSave );
 
 			delete m_CharacterSave;
 		}
@@ -166,7 +176,7 @@ class PersistencyModule extends Module
 
 	void OpenCharacterSaving()
 	{
-		SetupCharacterSaving();
+		CleanupCharacterSaving();
 
 		m_CharacterSave = new COMCharacterSave( this );
 
@@ -199,7 +209,6 @@ class PersistencyModule extends Module
 		m_sCharacter = sCharacter;
 		m_sSave = "latest";
 
-		oPlayer.SetPosition( GetSpawnPoints().GetRandomElement() );
 		CharacterSave.CreatePlayer( m_sCharacter, oPlayer );
 		
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.LoadPlayer, 100, true, m_sCharacter, m_sSave);

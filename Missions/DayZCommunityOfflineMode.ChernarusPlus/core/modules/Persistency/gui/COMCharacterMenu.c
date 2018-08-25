@@ -243,7 +243,12 @@ class COMCharacterMenu extends UIScriptedMenu
 		}
 
 		if ( passed )
-		{
+		{	
+			vector position = GetSpawnPoints().GetRandomElement();
+			// position = m_oPersistencyModule.GetScene().SwapYZ( position );
+			position = m_oPersistencyModule.GetScene().SnapToGround( position );
+			position = position + Vector( 0, 1.5, 0);
+			m_oPersistencyModule.GetScene().GetPlayerUnit().SetPosition( position );
         	m_oPersistencyModule.CreatePlayer( characterName, m_oPersistencyModule.GetScene().GetPlayerUnit() );
 		}
 	}
