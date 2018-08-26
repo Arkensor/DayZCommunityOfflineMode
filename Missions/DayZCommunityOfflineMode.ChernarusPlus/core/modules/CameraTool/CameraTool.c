@@ -82,7 +82,7 @@ class CameraTool extends Module
 		vector position = "0 0 0";
 		if ( GetPlayer() )
 		{
-			position = GetPlayer().GetPosition()
+			position = GetPlayer().GetPosition();
 		}
 
 		if ( !staticCam ) 

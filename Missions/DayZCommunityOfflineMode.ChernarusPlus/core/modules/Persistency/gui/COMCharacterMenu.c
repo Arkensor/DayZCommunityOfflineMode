@@ -221,7 +221,7 @@ class COMCharacterMenu extends UIScriptedMenu
 			GetGame().GetUIManager().ShowDialog("FAILURE", "No save found for this character!", 0, DBT_OK, DBB_OK, DMT_WARNING, NULL);
 		} else 
 		{
-       		m_oPersistencyModule.LoadPlayer( GetCharacter(), GetSave() );
+			GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.LoadPlayer, 100, false, GetCharacter(), GetSave());
 		}
 	}
 
@@ -249,7 +249,8 @@ class COMCharacterMenu extends UIScriptedMenu
 			position = m_oPersistencyModule.GetScene().SnapToGround( position );
 			position = position + Vector( 0, 1.5, 0);
 			m_oPersistencyModule.GetScene().GetPlayerUnit().SetPosition( position );
-        	m_oPersistencyModule.CreatePlayer( characterName, m_oPersistencyModule.GetScene().GetPlayerUnit() );
+
+			GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.CreatePlayer, 100, false, characterName, m_oPersistencyModule.GetScene().GetPlayerUnit());
 		}
 	}
 
@@ -541,7 +542,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		FileAttr oFileAttr = FileAttr.INVALID;
 		FindFileHandle oFileHandle = FindFile(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\*.json", sName, oFileAttr, FindFileFlags.ALL);
 
-		if (sName != "")
+		if (sName != "" && oSaves)
 		{
 			oSaves.Clear();
 

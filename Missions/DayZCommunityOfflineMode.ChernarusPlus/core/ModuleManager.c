@@ -41,12 +41,24 @@ class ModuleManager
     {
         Print( "ModuleManager::RegisterModules()" );
 
+        #ifdef MODULE_COM_EDITOR
         m_Modules.Insert( new ObjectEditor );
+        #endif
+        #ifdef MODULE_CAMERA_TOOL
         m_Modules.Insert( new CameraTool );
+        #endif
+        #ifdef MODULE_COM_KEYBINDS
         m_Modules.Insert( new COMKeyBinds );
+        #endif
+        #ifdef MODULE_PERSISTENCY
         m_Modules.Insert( new PersistencyModule );
+        #endif
+        #ifdef MODULE_DEBUG_MONITOR
         m_Modules.Insert( new CustomDebugMonitor );
+        #endif
+        #ifdef MODULE_OVERRIDEMENUS
         m_Modules.Insert( new OverrideMenus );
+        #endif
     }
 
 	void OnInit()

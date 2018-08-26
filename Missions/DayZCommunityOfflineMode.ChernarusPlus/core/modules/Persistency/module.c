@@ -3,6 +3,9 @@
 */
 #define MODULE_PERSISTENCY
 
+string BASE_COM_DIR = "$saves:CommunityOfflineMode";
+string BASE_PLAYER_SAVE_DIR = BASE_COM_DIR + "\\PlayerSaves";
+
 /*
     Include of all .c files that belong to this module
 */

@@ -3,7 +3,11 @@ class CharacterLoad
     static PlayerBase LoadPlayer(string sCharacter, string sSave, bool bNoControl = false) {
         ref CharacterData oData = new CharacterData;
 
-        JsonFileLoader<CharacterData>.JsonLoadFile(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json", oData);
+		string file = BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json";
+
+		Print("Loading file: " + file)
+
+        JsonFileLoader<CharacterData>.JsonLoadFile(file, oData);
 
 		PlayerBase oPlayer;
 		
@@ -15,7 +19,7 @@ class CharacterLoad
 			oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, oData.SModel, "0 0 0", 0, "NONE") );
 		}
 
-        // Temporary for debugging purposes. Death checking not yet implemented.
+		// Temporary for debugging purposes. Death checking not yet implemented.
         if (oData.FHealth < 20) oData.FHealth = 20;
         if (oData.FBlood < 2000) oData.FBlood = 2000;
 
@@ -51,5 +55,6 @@ class CharacterLoad
 		oPlayer.SetPosition( oData.VecPosition );
 
         return oPlayer;
+
     }
 }

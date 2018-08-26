@@ -1,6 +1,3 @@
-const string BASE_COM_DIR = "$saves:CommunityOfflineMode";
-const string BASE_PLAYER_SAVE_DIR = BASE_COM_DIR + "\\PlayerSaves";
-
 class PersistencyModule extends Module
 {
 	protected ref COMPersistencyScene	m_Scene;
@@ -77,7 +74,7 @@ class PersistencyModule extends Module
 
 	override void onMissionFinish()
 	{
-		SavePlayer();
+		SavePlayer(m_sSave);
 	}
 
 	ref COMPersistencyScene GetScene()
@@ -103,9 +100,9 @@ class PersistencyModule extends Module
 
 		if (m_CharacterMenu)
 		{
-			m_CharacterMenu.Close();
+			// m_CharacterMenu.Close();
 
-			// GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
+			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
 
 			delete m_CharacterMenu;
 		}
@@ -155,12 +152,9 @@ class PersistencyModule extends Module
 		if ( m_CharacterMenu )
 		{
 			isLoadingSave = m_CharacterMenu.IsLoadingSave();
-
-			m_CharacterMenu.Close();
-			// GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
-
-			delete m_CharacterMenu;
 		}
+
+		CleanupCharacterMenu();
 
 		m_CharacterMenu = NULL;
 
@@ -192,7 +186,7 @@ class PersistencyModule extends Module
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterSave , m_InGameMenu );
 	}
 	
-	void SavePlayer(string sSave = "latest") 
+	void SavePlayer(string sSave) 
 	{
 		Print("PersistencyModule::SavePlayer");
 
@@ -218,7 +212,7 @@ class PersistencyModule extends Module
 
 		CharacterSave.CreatePlayer( m_sCharacter, oPlayer );
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.LoadPlayer, 100, false, m_sCharacter, m_sSave);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false);
 	}
 
 	void LoadLast()
@@ -227,7 +221,7 @@ class PersistencyModule extends Module
 
 		m_CanBeSaved = false;
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false, m_sCharacter, m_sSave);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false);
 	}
 
 	void LoadPlayer(string sCharacter, string sSave = "latest")
@@ -236,17 +230,15 @@ class PersistencyModule extends Module
 
 		m_CanBeSaved = false;
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
-
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false, sCharacter, sSave);
-	}
-
-	private void CreatePlayerInt(string sCharacter, string sSave)
-	{
-		Print("PersistencyModule::CreatePlayerInt");
-
 		m_sCharacter = sCharacter;
 		m_sSave = sSave;
+
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false);
+	}
+
+	private void CreatePlayerInt()
+	{
+		Print("PersistencyModule::CreatePlayerInt");
 
 		PlayerBase oPlayer;
 
@@ -260,7 +252,7 @@ class PersistencyModule extends Module
 				m_sSave = "latest";
 			}
 
-			oPlayer = CharacterLoad.LoadPlayer( m_sCharacter, m_sSave );
+			oPlayer = CharacterLoad.LoadPlayer( m_sCharacter, m_sSave, false );
 		}
 
 		GetGame().SelectPlayer( NULL, oPlayer );
@@ -272,15 +264,18 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::FinishLoadingInt");
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 1000, true);
-
         GetGame().GetMission().GetHud().Show(true);
 
-		GetPlayer().MessageStatus("Loaded character \'" + m_sCharacter + "\' with save \'" + m_sSave + "\'");
+		if ( m_sCharacter != "" && m_sSave != "" )
+		{
+			GetPlayer().MessageStatus("Loaded character \'" + m_sCharacter + "\' with save \'" + m_sSave + "\'");
+		}
 
 		CleanupCharacterMenu();
 		CleanupScene();
 		
 		m_CanBeSaved = true;
+
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 1000, true, "latest");
 	}
 }
