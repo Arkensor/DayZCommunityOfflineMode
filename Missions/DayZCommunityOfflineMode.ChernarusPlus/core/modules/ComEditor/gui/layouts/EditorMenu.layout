@@ -71,7 +71,7 @@ FrameWidgetClass EditorMenu
 							vexactsize 1
 							vexactpos 1
 							hexactpos 1
-							"no focus" 0
+							"no focus" 1
 							{
 								TextWidgetClass objects_button_text
 								{
@@ -119,6 +119,7 @@ FrameWidgetClass EditorMenu
 							vexactsize 1
 							vexactpos 1
 							hexactpos 1
+							"no focus" 1
 							{
 								TextWidgetClass position_button_text
 								{
@@ -166,6 +167,7 @@ FrameWidgetClass EditorMenu
 							vexactsize 1
 							vexactpos 1
 							hexactpos 1
+							"no focus" 1
 							{
 								TextWidgetClass weather_button_text
 								{
@@ -199,6 +201,7 @@ FrameWidgetClass EditorMenu
 					hexactsize 1
 					vexactsize 1
 					vexactpos 1
+					"no focus" 1
 					{
 						TextWidgetClass game_button_text
 						{
@@ -229,6 +232,7 @@ FrameWidgetClass EditorMenu
 					hexactsize 1
 					vexactsize 1
 					vexactpos 1
+					"no focus" 1
 					{
 						ImageWidgetClass objectEditor_image
 						{
@@ -256,6 +260,7 @@ FrameWidgetClass EditorMenu
 					hexactsize 1
 					vexactsize 1
 					vexactpos 1
+					"no focus" 1
 					{
 						ImageWidgetClass camera_button_image
 						{

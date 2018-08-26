@@ -24,18 +24,18 @@ class COMKeyBinds extends Module
 	
 	override void RegisterKeyMouseBindings() 
 	{
-		KeyMouseBinding toggleCursor = new KeyMouseBinding( GetModuleType() , "ToggleCursor"  , "[U]"    , "Toggles the cursor."   , true);
-		KeyMouseBinding toggleUI     = new KeyMouseBinding( GetModuleType() , "ToggleUI"      , "[HOME]" , "Toggles the UI."       );
-		KeyMouseBinding teleport	 = new KeyMouseBinding( GetModuleType() , "TeleportCursor", "[T]"    , "Teleport to cursor position." );
-		KeyMouseBinding reload       = new KeyMouseBinding( GetModuleType() , "Reload"        , "[R]"    , "Instantly reloads mag.");
+		KeyMouseBinding toggleCursor    = new KeyMouseBinding( GetModuleType() , "ToggleCursor"  , "[U]"    , "Toggles the cursor."   , true );
+		KeyMouseBinding toggleCOMEditor = new KeyMouseBinding( GetModuleType() , "ShowCOMEditor" , "[Y]"    , "Opens the COM Editor."        );
+		KeyMouseBinding teleport	    = new KeyMouseBinding( GetModuleType() , "TeleportCursor", "[T]"    , "Teleport to cursor position." );
+		KeyMouseBinding reload          = new KeyMouseBinding( GetModuleType() , "Reload"        , "[R]"    , "Instantly reloads mag."		 );
 
-		toggleCursor.AddKeyBind( KeyCode.KC_U,    KeyMouseBinding.KB_EVENT_PRESS );
-		toggleUI    .AddKeyBind( KeyCode.KC_HOME, KeyMouseBinding.KB_EVENT_RELEASE );
-		teleport    .AddKeyBind( KeyCode.KC_T,    KeyMouseBinding.KB_EVENT_PRESS   );
-		reload      .AddKeyBind( KeyCode.KC_R,    KeyMouseBinding.KB_EVENT_RELEASE );
+		toggleCursor   .AddKeyBind( KeyCode.KC_U,    KeyMouseBinding.KB_EVENT_PRESS   );
+		toggleCOMEditor.AddKeyBind( KeyCode.KC_HOME, KeyMouseBinding.KB_EVENT_RELEASE );
+		teleport       .AddKeyBind( KeyCode.KC_T,    KeyMouseBinding.KB_EVENT_PRESS   );
+		reload         .AddKeyBind( KeyCode.KC_R,    KeyMouseBinding.KB_EVENT_RELEASE );
 		
 		RegisterKeyMouseBinding( toggleCursor );
-		RegisterKeyMouseBinding( toggleUI );
+		RegisterKeyMouseBinding( toggleCOMEditor );
 		RegisterKeyMouseBinding( teleport );
 		RegisterKeyMouseBinding( reload );
 	}
@@ -54,12 +54,9 @@ class COMKeyBinds extends Module
         }
     }
 
-    void ToggleUI()
+    void ShowCOMEditor()
     {
         GetGame().GetUIManager().ShowScriptedMenu( new EditorMenu , NULL );
-        //m_IsHudVisible = !m_IsHudVisible;
-        //GetGame().GetMission().GetHud().Show(m_IsHudVisible);
-
     }
 
     void TeleportCursor()
