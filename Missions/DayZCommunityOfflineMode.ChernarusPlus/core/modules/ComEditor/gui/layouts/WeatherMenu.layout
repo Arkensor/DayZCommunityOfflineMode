@@ -1,64 +1,65 @@
-FrameWidgetClass WeatherMenu
-{
-	visible 0
-	color 0 0 0 0
-	position 0 0
-	size 570 250
-	halign center_ref
-	valign center_ref
-	hexactpos 0
-	vexactpos 0
-	hexactsize 1
-	vexactsize 1
-	style EditorPanel
 
-	{
+PanelWidgetClass WeatherMenu
+{
+    visible 0
+    color 0 0 0 0
+    position 0.045 0.136
+    size 570 250
+    halign right_ref
+    valign top_ref
+    hexactpos 0
+    vexactpos 0
+    hexactsize 1
+    vexactsize 1
+    style EditorPanel
+
+    {
         PanelWidgetClass Background
         {
-			visible 1
-			color 0 0 0 0.45
-			position 0 0
-			size 570 250
-			hexactpos 1
-			vexactpos 1
-			hexactsize 0
-			vexactsize 1
-			style rover_sim_colorable
+            visible 1
+            color 0 0 0 0.45
+            position 0 0
+            size 570 250
+            hexactpos 1
+            vexactpos 1
+            hexactsize 0
+            vexactsize 1
+            style rover_sim_colorable
         }
 
-		PanelWidgetClass title_wrapper
-		{
-			visible 1
-			color 0 0 0 0.7843
-			position 0 0
-			size 1 25
-			hexactpos 1
-			vexactpos 1
-			hexactsize 0
-			vexactsize 1
-			style rover_sim_colorable
+        PanelWidgetClass title_wrapper
+        {
+            visible 1
+            color 0 0 0 0.7843
+            position 0 0
+            size 1 25
+            hexactpos 1
+            vexactpos 1
+            hexactsize 0
+            vexactsize 1
+            style rover_sim_colorable
 
-			{
-				TextWidgetClass title_text
-				{
-					position 0 0
-					size 1 0.6
-					halign center_ref
-					valign center_ref
-					hexactpos 0
-					vexactpos 0
-					hexactsize 0
-					vexactsize 0
-					style Normal
-					text "Weather Manager"
-					font "gui/fonts/Metron-Bold58"
+            {
+                TextWidgetClass title_text
+                {
+                    position 0 0
+                    size 1 0.6
+                    halign center_ref
+                    valign center_ref
+                    hexactpos 0
+                    vexactpos 0
+                    hexactsize 0
+                    vexactsize 0
+                    style Normal
+                    text "Weather Manager"
+                    font "gui/fonts/Metron-Bold58"
                     "exact text" 1
                     "exact text size" 20
                     "text halign" center
                     "text valign" center
-				}
-			}
-		}
+                }
+            }
+        }
 
         TextWidgetClass txt_ppp_st_w_time
         {
@@ -402,7 +403,7 @@ FrameWidgetClass WeatherMenu
 
         ButtonWidgetClass btn_save
         {
-            position 100 5
+            position 5 5
             size 80 20
             halign right_ref
             valign bottom_ref
@@ -412,18 +413,5 @@ FrameWidgetClass WeatherMenu
             vexactsize 1
             text "Save"
         }
-
-        ButtonWidgetClass btn_cancel
-        {
-            position 5 5
-            size 80 20
-            halign right_ref
-            valign bottom_ref
-            hexactpos 1
-            vexactpos 1
-            hexactsize 1
-            vexactsize 1
-            text "Cancel"
-        }
-	}
+    }
 }

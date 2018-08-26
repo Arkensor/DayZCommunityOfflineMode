@@ -56,7 +56,9 @@ class CameraTool extends Module
 		toggleOrbit .AddKeyBind( KeyCode.KC_RBRACKET  , KeyMouseBinding.KB_EVENT_RELEASE );
 		
 		targetCamera.AddMouseBind( MouseState.MIDDLE , KeyMouseBinding.MB_EVENT_CLICK );
+		
 		zoomCamera	.AddMouseBind( MouseState.RIGHT  , KeyMouseBinding.MB_EVENT_DRAG  );
+		zoomCamera  .AddKeyBind( KeyCode.KC_LSHIFT	 , KeyMouseBinding.KB_EVENT_HOLD  );
 		
 		RegisterKeyMouseBinding( toggleCamera );
 		RegisterKeyMouseBinding( freezeCamera );
@@ -298,6 +300,7 @@ class CameraTool extends Module
 		
 			if ( i != 0 ) 
 			{
+				SetFreezeMouse(true);
 				m_CamFOV+=i*0.000008; // zoom speed
 				
 				if ( m_CamFOV < 0.01 ) 
@@ -412,7 +415,7 @@ class CameraTool extends Module
 		{
 			if ( button == MouseState.RIGHT ) 
 			{
-				SetFreezeMouse( true );
+				// SetFreezeMouse( true );
 			}
 		}
 	}

@@ -1,5 +1,7 @@
-class ObjectMenu extends UIScriptedMenu
+class ObjectMenu
 {
+
+	Widget layoutRoot;
 	protected TextListboxWidget m_classList;
 	protected EditBoxWidget m_SearchBox;
 	protected ButtonWidget m_btnSpawnGround;
@@ -7,44 +9,46 @@ class ObjectMenu extends UIScriptedMenu
 	protected ButtonWidget m_btnSpawnInventory;
 	protected ButtonWidget m_btnCancel;
 
-	void ObjectMenu()
+	void ObjectMenu( Widget parentWidget )
 	{
+
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\ObjectMenu.layout", parentWidget );
+
+		Init();
 	}
 
 	void ~ObjectMenu()
 	{
 	}
 
-	override Widget Init()
+	Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\ObjectMenu.layout" );
-
-         m_classList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget( "classlist" ) );
-         m_SearchBox = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "search_input" ) );
-         m_btnSpawnGround = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_ground" ) );
-         m_btnSpawnCursor = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_cursorpos" ) );
-         m_btnSpawnInventory = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_inventory" ) );
-         m_btnCancel = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_cancel" ) );
+		m_classList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget( "classlist" ) );
+		m_SearchBox = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "search_input" ) );
+		m_btnSpawnGround = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_ground" ) );
+		m_btnSpawnCursor = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_cursorpos" ) );
+		m_btnSpawnInventory = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_inventory" ) );
+		m_btnCancel = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_cancel" ) );
 
 		return layoutRoot;
 	}
 
-	override void OnShow()
+	void Toggle()
 	{
-	    super.OnShow();
+		layoutRoot.Show(!layoutRoot.IsVisible());
 
-	    UpdateList();
+		if ( layoutRoot.IsVisible() ) 
+		{
+			UpdateList();
+		}
+		else 
+		{
+
+		}
 	}
 
-	override void OnHide()
+	bool OnChange( Widget w, int x, int y, bool finished )
 	{
-		super.OnHide();
-	}
-
-	override bool OnChange( Widget w, int x, int y, bool finished )
-	{
-		super.OnChange( w, x, y, finished );
-
         if ( w == m_SearchBox )
         {
             UpdateList();
@@ -54,7 +58,7 @@ class ObjectMenu extends UIScriptedMenu
         return false;
     }
 
-	override bool OnClick( Widget w, int x, int y, int button )
+	bool OnClick( Widget w, int x, int y, int button )
 	{
 	    string strSelection = GetCurrentSelection();
 
@@ -94,30 +98,14 @@ class ObjectMenu extends UIScriptedMenu
             }
         }
 
-        if( ( w == m_btnCancel ) )
-        {
-			Close();
-            return true;
-        }
-
         return false;
 	}
 
-	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
+	bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
 	{
         //Todo use this for item preview change maybe?
 
 		return true;
-	}
-
-	override bool OnKeyPress( Widget w, int x, int y, int key )
-	{
-        if( key == KeyCode.KC_ESCAPE )
-        {
-			Close();
-        }
-
-		return false;
 	}
 
     void UpdateList()

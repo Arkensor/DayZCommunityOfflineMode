@@ -41,14 +41,10 @@ class ObjectEditor extends Module
 		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate." );
 		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object."  );
 		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground."  );
-		KeyMouseBinding objectSpawner  = new KeyMouseBinding( GetModuleType(), "SpawnObjectMenu" , "[END]", "Snaps objects to ground."  );
 
 		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    ); 
 		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
 		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KeyMouseBinding.KB_EVENT_RELEASE ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
-
-		
-		objectSpawner.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE );
 		
 		objectSelect.AddMouseBind( MouseState.LEFT		, KeyMouseBinding.MB_EVENT_CLICK ); // Left Click
 		objectDrag.  AddMouseBind( MouseState.LEFT 		, KeyMouseBinding.MB_EVENT_DRAG  );
@@ -61,22 +57,7 @@ class ObjectEditor extends Module
 		RegisterKeyMouseBinding( objectScroll );
 		RegisterKeyMouseBinding( objectDelete );
 		RegisterKeyMouseBinding( objectGround );
-		RegisterKeyMouseBinding( objectSpawner );
 		
-	}
-
-	void SpawnObjectMenu()
-	{
-		if (!m_ObjectMenu)
-		{
-			m_ObjectMenu = new ObjectMenu;
-		}
-
-		if (m_ObjectMenu.IsVisible()) {
-			GetGame().GetUIManager().HideScriptedMenu( m_ObjectMenu );
-		}
-
-		GetGame().GetUIManager().ShowScriptedMenu( m_ObjectMenu , NULL );
 	}
 	
 	void ToggleEditor()

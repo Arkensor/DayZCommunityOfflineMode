@@ -200,11 +200,6 @@ class ModuleManager
                                     GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, GetMouseState( MouseState.WHEEL ) );
                                 }
                             }
-
-                            if ( k_m_Binding.HasKeyEvent( KeyMouseBinding.KB_EVENT_HOLD ) )
-                            {
-                                GetGame().GameScript.CallFunction(GetModule(k_m_Binding.GetObject()), k_m_Binding.GetCallBackFunction(), NULL, 0 );
-                            }
                         }
                     }
                 }

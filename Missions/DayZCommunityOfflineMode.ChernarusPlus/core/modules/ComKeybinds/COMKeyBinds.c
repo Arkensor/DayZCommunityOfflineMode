@@ -24,7 +24,7 @@ class COMKeyBinds extends Module
 	
 	override void RegisterKeyMouseBindings() 
 	{
-		KeyMouseBinding toggleCursor = new KeyMouseBinding( GetModuleType() , "ToggleCursor"  , "[U]"    , "Toggles the cursor."   );
+		KeyMouseBinding toggleCursor = new KeyMouseBinding( GetModuleType() , "ToggleCursor"  , "[U]"    , "Toggles the cursor."   , true);
 		KeyMouseBinding toggleUI     = new KeyMouseBinding( GetModuleType() , "ToggleUI"      , "[HOME]" , "Toggles the UI."       );
 		KeyMouseBinding teleport	 = new KeyMouseBinding( GetModuleType() , "TeleportCursor", "[T]"    , "Teleport to cursor position." );
 		KeyMouseBinding reload       = new KeyMouseBinding( GetModuleType() , "Reload"        , "[R]"    , "Instantly reloads mag.");
@@ -56,8 +56,10 @@ class COMKeyBinds extends Module
 
     void ToggleUI()
     {
-        m_IsHudVisible = !m_IsHudVisible;
-        GetGame().GetMission().GetHud().Show(m_IsHudVisible);
+        GetGame().GetUIManager().ShowScriptedMenu( new EditorMenu , NULL );
+        //m_IsHudVisible = !m_IsHudVisible;
+        //GetGame().GetMission().GetHud().Show(m_IsHudVisible);
+
     }
 
     void TeleportCursor()
@@ -70,6 +72,7 @@ class COMKeyBinds extends Module
 //			return;
 //		}
 
+        
         vector hitPos = GetCursorPos();
 
         float distance = vector.Distance( GetPlayer().GetPosition(), hitPos );

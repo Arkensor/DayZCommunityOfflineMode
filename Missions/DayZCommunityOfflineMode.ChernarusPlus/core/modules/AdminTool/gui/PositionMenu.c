@@ -1,5 +1,6 @@
-class PositionMenu extends UIScriptedMenu
+class PositionMenu
 {
+	Widget layoutRoot;
 	protected TextListboxWidget m_LstPositionList;
 	protected EditBoxWidget m_TxtSelectedX;
 	protected EditBoxWidget m_TxtSelectedY;
@@ -12,8 +13,10 @@ class PositionMenu extends UIScriptedMenu
 
     protected bool m_bOverCurrentPos;
 
-	void PositionMenu()
+	void PositionMenu( Widget parentWidget )
 	{
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\gui\\layouts\\PositionMenu.layout", parentWidget );
+
 	    m_bOverCurrentPos = false;
 
         m_oPositions.Insert( "Severograd", "8428.0 0.0 12767.1" );
@@ -38,16 +41,16 @@ class PositionMenu extends UIScriptedMenu
         m_oPositions.Insert( "Svetlojarsk Center", "13835.3 0.0 13202.3" );
         m_oPositions.Insert( "Zelenogorsk Center", "2660.99 0.0 5299.28" );
         m_oPositions.Insert( "Zelenogorsk West", "2489.45 0.0 5080.41" );
+
+        Init();
 	}
 
 	void ~PositionMenu()
 	{
 	}
 
-	override Widget Init()
+	Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\gui\\layouts\\PositionMenu.layout" );
-
 		m_LstPositionList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget("tls_ppp_pm_positions_list") );
 		m_TxtSelectedX = EditBoxWidget.Cast( layoutRoot.FindAnyWidget("pnl_ppp_pm_selected_x_value") );
 		m_TxtSelectedY = EditBoxWidget.Cast( layoutRoot.FindAnyWidget("pnl_ppp_pm_selected_y_value") );
@@ -64,22 +67,34 @@ class PositionMenu extends UIScriptedMenu
 		return layoutRoot;
 	}
 
-	override void OnShow()
+	void Toggle()
 	{
-	    super.OnShow();
+		layoutRoot.Show(!layoutRoot.IsVisible());
 
+		if ( layoutRoot.IsVisible() ) 
+		{
+			OnShow();
+		}
+		else 
+		{
+
+		}
+	}
+
+	void OnShow()
+	{
         vector player_pos = GetGame().GetPlayer().GetPosition();
 
         m_TxtCurrentX.SetText( player_pos[0].ToString() );
 		m_TxtCurrentY.SetText( player_pos[2].ToString() );
 	}
 
-	override void OnHide()
+	void OnHide()
 	{
-		super.OnHide();
+
 	}
 
-	override bool OnMouseEnter(Widget w, int x, int y)
+	bool OnMouseEnter(Widget w, int x, int y)
 	{
         if ( w == m_TxtCurrentX || w == m_TxtCurrentY )
         {
@@ -89,7 +104,7 @@ class PositionMenu extends UIScriptedMenu
 		return false;
 	}
 
-	override bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
+	bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
 	{
         if ( w == m_TxtCurrentX || w == m_TxtCurrentY )
         {
@@ -99,7 +114,7 @@ class PositionMenu extends UIScriptedMenu
 		return false;
 	}
 
-	override bool OnKeyPress( Widget w, int x, int y, int key )
+	bool OnKeyPress( Widget w, int x, int y, int key )
 	{
 		if ( m_bOverCurrentPos )
 		{
@@ -107,15 +122,10 @@ class PositionMenu extends UIScriptedMenu
             m_TxtSelectedY.SetText( "" );
 		}
 
-        if( key == KeyCode.KC_ESCAPE )
-        {
-			Close();
-        }
-
 		return false;
 	}
 
-	override bool OnClick( Widget w, int x, int y, int button )
+	bool OnClick( Widget w, int x, int y, int button )
 	{
 		if ( w == m_TeleportButton )
 		{
@@ -148,19 +158,13 @@ class PositionMenu extends UIScriptedMenu
 
 			GetGame().GetPlayer().SetPosition( vPlayerPos );
 
-			Close();
-			return true;
-		}
-		else if ( w == m_CancelButton )
-		{
-			Close();
 			return true;
 		}
 
 		return false;
 	}
 
-	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
+	bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
 	{
 		vector position = "0 0 0";
 

@@ -1,6 +1,8 @@
-class WeatherMenu extends UIScriptedMenu
+class WeatherMenu
 {
 	private static const int m_DaysInMonth [ 12 ] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+	Widget layoutRoot;
 
     protected ButtonWidget m_BtnSave;
     protected ButtonWidget m_BtnCancel;
@@ -39,17 +41,19 @@ class WeatherMenu extends UIScriptedMenu
 	private float m_CurrFog;
 	private float m_CurrWindForce;
 
-	void WeatherMenu()
+	void WeatherMenu( Widget parentWidget )
 	{
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\WeatherMenu.layout", parentWidget );
+
+		Init();
 	}
 
 	void ~WeatherMenu()
 	{
 	}
 
-	override Widget Init()
+	Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\WeatherMenu.layout" );
 
         m_BtnSave			= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_save" ) );
         m_BtnCancel			= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_cancel" ) );
@@ -78,19 +82,22 @@ class WeatherMenu extends UIScriptedMenu
 		return layoutRoot;
 	}
 
-	override bool OnKeyPress( Widget w, int x, int y, int key )
+	void Toggle() 
 	{
-        if( key == KeyCode.KC_ESCAPE )
-        {
-            GetGame().GetUIManager().Back();
-        }
+		layoutRoot.Show( !layoutRoot.IsVisible() );
 
-		return false;
+		if ( layoutRoot.IsVisible() ) 
+		{
+			OnShow();
+		}
+		else 
+		{
+			// OnHide();
+		}
 	}
 
-	override bool OnClick( Widget w, int x, int y, int button )
+	bool OnClick( Widget w, int x, int y, int button )
 	{
-		super.OnClick(w, x, y, button);
 
 		if ( w == m_BtnSave )
 		{
@@ -108,15 +115,7 @@ class WeatherMenu extends UIScriptedMenu
 			editor.SetWeather(m_CurrOvercast, m_CurrRain, m_CurrFog, m_CurrWindForce);
 			editor.SetDate(m_CurrYear, m_CurrMonth, m_CurrDay, m_CurrHour, m_CurrMinute);
 
-            GetGame().GetWeather().SetWindFunctionParams( m_CurrWindForce, m_CurrWindForce, 1 );
-
-			Close();
-
-			return true;
-		}
-		else if ( w == m_BtnCancel )
-		{
-			Close();
+            GetGame().GetWeather().SetWindFunctionParams( m_OrigWindForce, m_CurrWindForce, 1 );
 
 			return true;
 		}
@@ -124,7 +123,7 @@ class WeatherMenu extends UIScriptedMenu
 		return false;
 	}
 
-	override bool OnChange( Widget w, int x, int y, bool finished )
+	bool OnChange( Widget w, int x, int y, bool finished )
 	{
 		if ( w == m_SldStartTime )
 		{
@@ -173,6 +172,7 @@ class WeatherMenu extends UIScriptedMenu
 
 			m_CurrOvercast = m_SldOvercast.GetCurrent() * 0.01;
 			GetGame().GetWeather().GetOvercast().Set( m_CurrOvercast, 0, 1000 );
+			GetGame().GetWorld().SetDate( m_CurrYear, m_CurrMonth, m_CurrDay, m_CurrHour, m_CurrMinute+5 );
 
 			return true;
 		}
@@ -200,7 +200,7 @@ class WeatherMenu extends UIScriptedMenu
 
 			m_CurrWindForce = m_SldWindForce.GetCurrent() * 0.01;
 
-            GetGame().GetWeather().SetWindFunctionParams( m_CurrWindForce, m_CurrWindForce, 1 );
+            GetGame().GetWeather().SetWindFunctionParams( m_OrigWindForce, m_CurrWindForce, 1 );
 
 			return true;
 		}
@@ -208,10 +208,8 @@ class WeatherMenu extends UIScriptedMenu
 		return false;
 	}
 
-	override void OnShow()
+	void OnShow()
 	{
-	    super.OnShow();
-
 		GetGame().GetWorld().GetDate( m_OrigYear, m_OrigMonth, m_OrigDay, m_OrigHour, m_OrigMinute );
 
 		Weather weather = GetGame().GetWeather();
@@ -236,10 +234,9 @@ class WeatherMenu extends UIScriptedMenu
 		ResetSliders();
 	}
 
-	override void OnHide()
+	void OnHide()
 	{
-		super.OnHide();
-
+		/*
 		Weather weather = GetGame().GetWeather();
 
 		GetGame().GetWorld().SetDate( m_OrigYear, m_OrigMonth, m_OrigDay, m_OrigHour, m_OrigMinute );
@@ -247,6 +244,8 @@ class WeatherMenu extends UIScriptedMenu
 		weather.GetRain().Set( m_OrigRain, 0, 1000 );
 		weather.GetFog().Set( m_OrigFog, 0, 1000 );
 		weather.SetWindSpeed( m_OrigWindForce );
+
+		*/
 	}
 
 	void OnUpdate()
