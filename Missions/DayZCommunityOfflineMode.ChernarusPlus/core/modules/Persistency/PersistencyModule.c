@@ -19,10 +19,6 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::PersistencyModule");
 
-		KeyMouseBinding showCharacterMenu = new KeyMouseBinding( GetModuleType() , "ShowCharacterMenu"  , "[M]"    , "Shows the character menu."   );
-		showCharacterMenu.AddKeyBind( KeyCode.KC_M, KeyMouseBinding.KB_EVENT_RELEASE );
-		RegisterKeyMouseBinding( showCharacterMenu );
-
 		MakeDirectory(BASE_COM_DIR);
 		MakeDirectory(BASE_PLAYER_SAVE_DIR);
 	}
@@ -97,6 +93,8 @@ class PersistencyModule extends Module
 		{
 			delete m_Scene;
 		}
+
+		Print("Did I get far?");
 	}
 
 	void CleanupCharacterMenu()
@@ -107,7 +105,7 @@ class PersistencyModule extends Module
 		{
 			m_CharacterMenu.Close();
 
-			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
+			// GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
 
 			delete m_CharacterMenu;
 		}
@@ -152,12 +150,21 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::TemporaryFix_ReloadCharacterMenu");
 
+		bool isLoadingSave = true;
+
 		if ( m_CharacterMenu )
 		{
-			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
+			isLoadingSave = m_CharacterMenu.IsLoadingSave();
+
+			m_CharacterMenu.Close();
+			// GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
+
+			delete m_CharacterMenu;
 		}
 
-		m_CharacterMenu = new COMCharacterMenu( this, true );
+		m_CharacterMenu = NULL;
+
+		m_CharacterMenu = new COMCharacterMenu( this, isLoadingSave );
 
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
 	}
@@ -211,7 +218,7 @@ class PersistencyModule extends Module
 
 		CharacterSave.CreatePlayer( m_sCharacter, oPlayer );
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.LoadPlayer, 100, true, m_sCharacter, m_sSave);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.LoadPlayer, 100, false, m_sCharacter, m_sSave);
 	}
 
 	void LoadLast()
@@ -220,7 +227,7 @@ class PersistencyModule extends Module
 
 		m_CanBeSaved = false;
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, true, m_sCharacter, m_sSave);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false, m_sCharacter, m_sSave);
 	}
 
 	void LoadPlayer(string sCharacter, string sSave = "latest")
@@ -230,16 +237,13 @@ class PersistencyModule extends Module
 		m_CanBeSaved = false;
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.LoadPlayer);
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, true, sCharacter, sSave);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false, sCharacter, sSave);
 	}
 
 	private void CreatePlayerInt(string sCharacter, string sSave)
 	{
 		Print("PersistencyModule::CreatePlayerInt");
-
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.CreatePlayerInt);
 
 		m_sCharacter = sCharacter;
 		m_sSave = sSave;
@@ -261,7 +265,7 @@ class PersistencyModule extends Module
 
 		GetGame().SelectPlayer( NULL, oPlayer );
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.FinishLoadingInt, 100, true);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.FinishLoadingInt, 100, false);
 	}
 
 	private void FinishLoadingInt()
@@ -269,8 +273,6 @@ class PersistencyModule extends Module
 		Print("PersistencyModule::FinishLoadingInt");
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 1000, true);
-
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.FinishLoadingInt);
 
         GetGame().GetMission().GetHud().Show(true);
 

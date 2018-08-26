@@ -256,6 +256,23 @@ class COMCharacterMenu extends UIScriptedMenu
 	void NewCharacter()
 	{
 		m_IsLoadingSave = !m_IsLoadingSave;
+		
+		SetCharacter(m_Character);
+	}
+
+	void UpdateCreatorSelectionsFromScene()
+	{
+		if (m_oPersistencyModule.GetScene().m_Gender == CharGender.FEMALE)
+		{
+			m_GenderSelector.SetValue(0, true);
+		} else
+		{
+			m_GenderSelector.SetValue(1, true);
+		}
+		m_SkinSelector.SetValue(m_oPersistencyModule.GetScene().m_CharacterType, true);
+		m_TopSelector.SetValue(m_oPersistencyModule.GetScene().m_CharShirtIndex, true);
+		m_BottomSelector.SetValue(m_oPersistencyModule.GetScene().m_CharPantsIndex, true);
+		m_ShoesSelector.SetValue(m_oPersistencyModule.GetScene().m_CharShoesIndex, true);
 	}
 
 	void PreviousCharacter()
@@ -272,23 +289,29 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void SetCharacter( int index )
 	{
-		if ( index < 0 ) index = m_Saves.Count() - 1;
-		if ( index >= m_Saves.Count() - 1 ) index = 0;
+		if ( m_IsLoadingSave )
+		{
+			if ( index < 0 ) index = m_Saves.Count() - 1;
+			if ( index >= m_Saves.Count() - 1 ) index = 0;
 
-		m_CharacterText.SetText( GetCharacter() );
+			m_CharacterText.SetText( GetCharacter() );
 
-		TStringAdvanceArray saves = GetSavesForCharacter( GetCharacter() );
+			TStringAdvanceArray saves = GetSavesForCharacter( GetCharacter() );
 
-		if ( !saves || saves.Count() == 0 ) {
-			m_NoSaves = true;
-		} else {
-			m_NoSaves = false;
-			m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, saves );
+			if ( !saves || saves.Count() == 0 ) {
+				m_NoSaves = true;
+			} else {
+				m_NoSaves = false;
+				m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, saves );
+			}
+
+			SetSave();
+		
+			m_Character = index;
+		} else 
+		{	
+			UpdateCreatorSelectionsFromScene();
 		}
-
-		SetSave();
-	
-		m_Character = index;
 	}
 
 	void SetSave()
@@ -342,7 +365,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void TemporaryFix_ReloadCharacterMenu()
 	{
-		m_oPersistencyModule.TemporaryFix_ReloadCharacterMenu();
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.TemporaryFix_ReloadCharacterMenu, 100, false);
 
 		GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
         GetGame().GetUIManager().ShowUICursor( true );

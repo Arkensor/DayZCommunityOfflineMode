@@ -5,16 +5,15 @@ enum CharGender
 
 class COMPersistencyScene: Managed
 {
-	protected string 							m_lastCharacter;
-	protected CharGender 						m_Gender;
-	protected int 								m_LastShavedSeconds;
-	protected int 								m_CachedPlaytime;
-	protected int								m_currentCharacterID;
+	CharGender 									m_Gender;
+	int 										m_LastShavedSeconds;
+	int											m_currentCharacterID;
 	
 	ref TStringArray 							m_CharAllCharacters;
 	ref TStringAdvanceArray 					m_CharGenderList;
 	ref TStringAdvanceArray 					m_CharPersonalityMaleList;
 	ref TStringAdvanceArray 					m_CharPersonalityFemaleList;
+	string										m_CharacterType;
 	ref TStringAdvanceArray						m_CharShirtList;
 	int 										m_CharShirtIndex;
 	ref TStringAdvanceArray 					m_CharPantsList;
@@ -50,17 +49,10 @@ class COMPersistencyScene: Managed
 		m_currentCharacterID = -1;
 		m_DemoPos = "0 0 0";
 		m_DemoRot = "0 0 0";
-		m_lastCharacter = "";
 		m_LastShavedSeconds = 0;
-		m_CachedPlaytime = 0;
-		SetClickEnable( true );
 		
-		string cached_playtime_str = "";
-		g_Game.GetProfileString("cachedPlaytime", cached_playtime_str);
-		if ( cached_playtime_str != "" )
-		{
-			m_CachedPlaytime = cached_playtime_str.ToInt();
-		}
+		SetClickEnable( true );
+
 		World w = g_Game.GetWorld();
 
 		string worldName;
@@ -250,21 +242,20 @@ class COMPersistencyScene: Managed
 	
 	void CreateRandomCharacter()
 	{
-		string character_name;
 		string params[2];
 		
 		RandomSelectGender();
 		
 		if (m_Gender == CharGender.FEMALE)
 		{
-			character_name = m_CharPersonalityFemaleList.GetRandomElement();
+			m_CharacterType = m_CharPersonalityFemaleList.GetRandomElement();
 		}
 		else
 		{
-			character_name = m_CharPersonalityMaleList.GetRandomElement();
+			m_CharacterType = m_CharPersonalityMaleList.GetRandomElement();
 		}
 
-		CreateNewCharacter(character_name);
+		CreateNewCharacter(m_CharacterType);
 		
 		if (m_DemoUnit)
 		{
