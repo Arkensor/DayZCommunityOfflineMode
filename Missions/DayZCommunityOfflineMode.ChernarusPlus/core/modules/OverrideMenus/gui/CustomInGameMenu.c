@@ -4,6 +4,8 @@ class CustomInGameMenu extends UIScriptedMenu
 
 	protected ref map< int, ButtonWidget > m_Buttons = new map< int, ButtonWidget >;
 
+	Widget m_RightPanel;
+
 	void CustomInGameMenu( ref OverrideMenus om )
 	{
 		m_OM = om;
@@ -124,6 +126,8 @@ class CustomInGameMenu extends UIScriptedMenu
 				Print("Button: " + data.m_Text + " Details: OBCW: " + oldBCWidth + ", OBCH: " + oldBCHeight + ", NBCW: " + newBCWidth + ", NBCW: " + newBCHeight + ", BW: " + bWidth + ", BH: " + bHeight + ", PY: " + newBPosY);
 			}
 		}
+
+		m_RightPanel = layoutRoot.FindAnyWidget( "CampaignMenuRightPanel" );
 
 		return layoutRoot;
 	}

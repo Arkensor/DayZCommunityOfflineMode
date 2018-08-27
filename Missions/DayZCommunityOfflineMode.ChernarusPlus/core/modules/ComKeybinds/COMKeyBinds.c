@@ -4,6 +4,8 @@
 class COMKeyBinds extends Module 
 {
 	bool m_IsHudVisible = true;
+
+    protected ref EditorMenu m_EditorMenu;
 	
 	void COMKeyBinds()
 	{
@@ -56,7 +58,16 @@ class COMKeyBinds extends Module
 
     void ShowCOMEditor()
     {
-        GetGame().GetUIManager().ShowScriptedMenu( new EditorMenu , NULL );
+		if (m_EditorMenu)
+		{
+			GetGame().GetUIManager().HideScriptedMenu( m_EditorMenu );
+
+			delete m_EditorMenu;
+		} else {
+            m_EditorMenu = new EditorMenu;
+
+            GetGame().GetUIManager().ShowScriptedMenu( m_EditorMenu , NULL );
+        }
     }
 
     void TeleportCursor()

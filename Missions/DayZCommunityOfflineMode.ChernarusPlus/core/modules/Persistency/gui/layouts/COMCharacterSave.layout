@@ -71,7 +71,7 @@ FrameWidgetClass character_save_root {
 					Columns 1
 					Rows 1
 					{
-						ButtonWidgetClass character_name_button {
+						ButtonWidgetClass character_save_button {
 							position 0 0
 							size 1 30
 							hexactpos 1
@@ -79,10 +79,10 @@ FrameWidgetClass character_save_root {
 							hexactsize 0
 							vexactsize 1
 							style Empty
-							"next up" "character_save_button"
-							"next down" "character_save_button"
+							"next up" "character_save_button_button"
+							"next down" "character_save_button_button"
 							{
-								GridSpacerWidgetClass general_name_setting {
+								GridSpacerWidgetClass character_save_setting {
 									ignorepointer 1
 									position 0 0
 									size 1 1
@@ -97,7 +97,7 @@ FrameWidgetClass character_save_root {
 									Columns 2
 									Rows 1
 									{
-										FrameWidgetClass general_name_setting_panel {
+										FrameWidgetClass character_save_setting_panel {
 											ignorepointer 1
 											position 0 0
 											size 0.4 0.6
@@ -106,7 +106,7 @@ FrameWidgetClass character_save_root {
 											hexactsize 0
 											vexactsize 0
 											{
-												TextWidgetClass general_name_setting_label {
+												TextWidgetClass character_save_setting_label {
 													ignorepointer 1
 													size 1 0.55
 													valign center_ref
@@ -114,7 +114,7 @@ FrameWidgetClass character_save_root {
 													vexactpos 1
 													hexactsize 0
 													vexactsize 0
-													text "NAME"
+													text "SAVE"
 													font "gui/fonts/sdf_MetronLight24"
 													"text offset" 8 0
 													"exact text" 0
@@ -123,16 +123,16 @@ FrameWidgetClass character_save_root {
 												}
 											}
 										}
-										FrameWidgetClass general_name_setting_option {
+										FrameWidgetClass character_save_setting_option {
 											ignorepointer 1
 											position 0 0
-											size 0.6 1
+											size 0.8 1
 											hexactpos 1
 											vexactpos 1
 											hexactsize 0
 											vexactsize 0
 											{
-												EditBoxWidgetClass general_name_setting_text {
+												EditBoxWidgetClass general_save_setting_text {
 													ignorepointer 0
 													position 0 0
 													size 1 0.6
@@ -148,7 +148,7 @@ FrameWidgetClass character_save_root {
 										}
 									}
 								}
-								PanelWidgetClass general_name_setting_disable {
+								PanelWidgetClass character_save_setting_disable {
 									visible 0
 									ignorepointer 1
 									color 0.1569 0.1569 0.1569 0.902
@@ -162,107 +162,30 @@ FrameWidgetClass character_save_root {
 								}
 							}
 						}
-						ButtonWidgetClass character_save_button {
+						ButtonWidgetClass character_save_button_button {
 							position 0 0
 							size 1 30
 							hexactpos 1
 							vexactpos 1
 							hexactsize 0
 							vexactsize 1
-							style Empty
-							"next up" "character_name_button"
-							"next down" "character_name_button"
-							{
-								GridSpacerWidgetClass character_gender_setting {
-									ignorepointer 1
-									position 0 0
-									size 1 1
-									hexactpos 1
-									vexactpos 1
-									hexactsize 0
-									vexactsize 0
-									"no focus" 1
-									Padding 0
-									Margin 0
-									"Size To Content H" 1
-									Columns 2
-									Rows 1
-									{
-										FrameWidgetClass character_gender_setting_panel {
-											ignorepointer 1
-											position 0 0
-											size 0.4 0.6
-											hexactpos 1
-											vexactpos 1
-											hexactsize 0
-											vexactsize 0
-											{
-												TextWidgetClass character_gender_setting_label {
-													ignorepointer 1
-													size 1 0.55
-													valign center_ref
-													hexactpos 1
-													vexactpos 1
-													hexactsize 0
-													vexactsize 0
-													text "GENDER"
-													font "gui/fonts/sdf_MetronLight24"
-													"text offset" 8 0
-													"exact text" 0
-													"exact text size" 18
-													"text valign" center
-												}
-											}
-										}
-										FrameWidgetClass character_gender_setting_option {
-											ignorepointer 1
-											position 0 0
-											size 0.6 1
-											hexactpos 1
-											vexactpos 1
-											hexactsize 0
-											vexactsize 0
-										}
-									}
-								}
-								PanelWidgetClass character_gender_setting_disable {
-									visible 0
-									ignorepointer 1
-									color 0.1569 0.1569 0.1569 0.902
-									position 0 0
-									size 1 1
-									hexactpos 1
-									vexactpos 1
-									hexactsize 0
-									vexactsize 0
-									style rover_sim_colorable
-								}
-							}
+							"next up" "character_save_button"
+							"next down" "character_save_button"
+							visible 1
+							inheritalpha 1
+							scriptclass ""
+							style MainMenu
+							text "SAVE CHARACTER AS"
+							text_offset 10 -1
+							text_proportion 0.7
+							text_halign center
+							font "gui/fonts/sdf_MetronBook24"
+							"disabled text color" 0.3373 0.3373 0.3373 1
+							switch normal
 						}
 					}
 				}
 			}
-		}
-		ImageWidgetClass vignette {
-			visible 1
-			ignorepointer 0
-			color 0 0 0 0.902
-			position 0 0
-			size 1.6 0.9
-			halign center_ref
-			hexactpos 1
-			vexactpos 1
-			hexactsize 0
-			vexactsize 0
-			fixaspect outside
-			priority 1
-			imageTexture "{E6B3EF816E067499}Gui/textures/inventory_bgvignette.edds"
-			mode blend
-			"src alpha" 1
-			"no wrap" 1
-			stretch 1
-			filter 0
-			nocache 1
 		}
 	}
 }

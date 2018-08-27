@@ -171,7 +171,7 @@ class WeatherMenu
 			UpdateSliderOvercast();
 
 			m_CurrOvercast = m_SldOvercast.GetCurrent() * 0.01;
-			GetGame().GetWeather().GetOvercast().Set( m_CurrOvercast, 0, 1000 );
+			GetGame().GetWeather().GetOvercast().Set( m_CurrOvercast, 0, 0 );
 			GetGame().GetWorld().SetDate( m_CurrYear, m_CurrMonth, m_CurrDay, m_CurrHour, m_CurrMinute+5 );
 
 			return true;
@@ -181,7 +181,13 @@ class WeatherMenu
 			UpdateSliderRain();
 
 			m_CurrRain = m_SldRain.GetCurrent() * 0.01;
-			GetGame().GetWeather().GetRain().Set( m_CurrRain, 0, 1000 );
+			GetGame().GetWeather().GetRain().Set( m_CurrRain, 0, 0 );
+
+			float density = m_CurrRain * m_CurrRain; 
+			float threshold = 0.8; 
+			float timeOut = 4000;
+
+			GetGame().GetWeather().SetStorm(density, threshold, timeOut);
 
 			return true;
 		}
@@ -190,7 +196,7 @@ class WeatherMenu
 			UpdateSliderFog();
 
 			m_CurrFog = m_SldFog.GetCurrent() * 0.01;
-			GetGame().GetWeather().GetFog().Set( m_CurrFog, 0, 1000 );
+			GetGame().GetWeather().GetFog().Set( m_CurrFog, 0, 0 );
 
 			return true;
 		}

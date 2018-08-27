@@ -5,7 +5,7 @@ class CharacterLoad
 
 		string file = BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json";
 
-		Print("Loading file: " + file)
+		Print("Loading file: " + file);
 
         JsonFileLoader<CharacterData>.JsonLoadFile(file, oData);
 

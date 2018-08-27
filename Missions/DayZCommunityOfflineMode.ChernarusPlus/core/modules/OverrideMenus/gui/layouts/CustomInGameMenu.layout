@@ -131,6 +131,20 @@ FrameWidgetClass FrameWidget {
 				}
 			}
 		}
+		FrameWidgetClass CampaignMenuRightPanel {
+			visible 1
+			clipchildren 1
+			color 1 1 1 1
+			position 0.25 0
+			size 0.75 1
+			halign left
+			valign top
+			hexactpos 0
+			vexactpos 0
+			hexactsize 0
+			vexactsize 0
+			priority 40
+		}
 		ImageWidgetClass vignette {
 			visible 1
 			ignorepointer 0
