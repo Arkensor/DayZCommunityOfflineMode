@@ -10,6 +10,7 @@ PanelWidgetClass ObjectMenu
 	vexactpos 0
 	hexactsize 1
 	vexactsize 1
+	scriptclass "ObjectMenu"
 	style EditorPanel
 	{
         

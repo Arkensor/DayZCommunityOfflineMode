@@ -326,7 +326,7 @@ class CommunityOfflineMode : MissionGameplay
 			case KeyCode.KC_K:
 			{
 				if (!CTRL() && !SHIFT())
-				GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Call( GetGame().RestartMission );
+				// GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Call( GetGame().RestartMission );
 				break;
 			}
 //

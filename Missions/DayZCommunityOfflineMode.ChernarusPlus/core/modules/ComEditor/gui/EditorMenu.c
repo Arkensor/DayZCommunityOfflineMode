@@ -7,14 +7,13 @@ class EditorMenu extends UIScriptedMenu
 	protected ButtonWidget m_GameButton;
 	protected ButtonWidget m_CameraButton;
 	
-	// Object Menu
-	ref ObjectMenu  m_objectMenu;
-	ref WeatherMenu m_weatherMenu;
-	ref PositionMenu m_positionMenu;
+	protected Widget m_objectMenu;
+	protected Widget m_weatherMenu;
+	protected Widget m_positionMenu;
+	protected Widget m_gameMenu;
 
 	void EditorMenu()
 	{
-		Init();
 	}	
 	
 	void ~EditorMenu()
@@ -32,9 +31,10 @@ class EditorMenu extends UIScriptedMenu
 		m_CameraButton   = ButtonWidget.Cast( layoutRoot.FindAnyWidget("camera_button") );
 
 		// object menu
-		m_objectMenu   = new ObjectMenu ( layoutRoot );
-		m_weatherMenu  = new WeatherMenu( layoutRoot );
-		m_positionMenu = new PositionMenu ( layoutRoot );
+		m_objectMenu   = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\ObjectMenu.layout", layoutRoot );
+		m_weatherMenu  = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\WeatherMenu.layout", layoutRoot );
+		m_positionMenu = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\gui\\layouts\\PositionMenu.layout", layoutRoot );
+		m_gameMenu 	   = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\GameMenu.layout", layoutRoot );
 
         return layoutRoot;
 
@@ -67,29 +67,25 @@ class EditorMenu extends UIScriptedMenu
 
     override bool OnClick( Widget w, int x, int y, int button )
 	{
+		PopupMenu popMenu;
+
 		if ( w == m_ObjectButton ) 
 		{
-			m_objectMenu.Toggle();
-			SetButtonFocus( w );
-			HideMenus( m_objectMenu.layoutRoot );
+			m_objectMenu.GetScript( popMenu );
 		}
 		if ( w == m_PositionButton ) 
 		{
-			m_positionMenu.Toggle();
-			SetButtonFocus( w );
-			HideMenus( m_positionMenu.layoutRoot );
+			m_positionMenu.GetScript( popMenu );
 		}
 
 		if ( w == m_WeatherButton ) 
 		{
-			m_weatherMenu.Toggle();
-			SetButtonFocus( w );
-			HideMenus( m_weatherMenu.layoutRoot );
+			m_weatherMenu.GetScript( popMenu );
 		}
 
 		if ( w == m_GameButton ) 
 		{
-			// Todo
+			m_gameMenu.GetScript( popMenu );
 		}
 
 		if ( w == m_CameraButton ) 
@@ -97,9 +93,30 @@ class EditorMenu extends UIScriptedMenu
 			CameraTool.Cast(GetModuleManager().GetModule( CameraTool )).ToggleCamera();
 		}
 
-		m_objectMenu  .OnClick( w, x, y, button );
-		m_weatherMenu .OnClick( w, x, y, button );
-		m_positionMenu.OnClick( w, x, y, button );
+		if ( popMenu ) 
+		{
+
+			if ( popMenu.GetLayoutRoot().IsVisible() ) 
+			{
+				popMenu.GetLayoutRoot().Show( false );
+			}
+			else 
+			{
+				popMenu.GetLayoutRoot().Show( true );
+			}
+
+			if ( popMenu.GetLayoutRoot().IsVisible() ) 
+			{
+				popMenu.OnShow();
+			} 
+			else 
+			{
+				popMenu.OnHide();
+			}
+
+			SetButtonFocus( w );
+			HideMenus( popMenu.GetLayoutRoot() );
+		}
 
 		return false;
 	}
@@ -110,77 +127,48 @@ class EditorMenu extends UIScriptedMenu
 		Widget m_ObjectButtonBkg   = layoutRoot.FindAnyWidget("objects_button_bkg");
 		Widget m_PositionButtonBkg = layoutRoot.FindAnyWidget("position_button_bkg");
 		Widget m_WeatherButtonBkg  = layoutRoot.FindAnyWidget("weather_button_bkg");
+		Widget m_GameButtonBkg     = layoutRoot.FindAnyWidget("game_button_bkg");
 
 		m_ObjectButtonBkg.SetColor(ARGB(0, 255, 255, 255)); // reset colors
 		m_PositionButtonBkg.SetColor(ARGB(0, 255, 255, 255));
 		m_WeatherButtonBkg.SetColor(ARGB(0, 255, 255, 255));
+		m_GameButtonBkg.SetColor(ARGB(0, 255, 255, 255));
 
-		if ( m_ObjectButton == focus && m_objectMenu.layoutRoot.IsVisible() ) 
+		if ( m_ObjectButton == focus && m_objectMenu.IsVisible() ) 
 		{
 			m_ObjectButtonBkg.SetColor(ARGB(255, 255, 0, 0));
 		}
-		if ( m_WeatherButton == focus && m_weatherMenu.layoutRoot.IsVisible() )
+		if ( m_WeatherButton == focus && m_weatherMenu.IsVisible() )
 		{
 			m_WeatherButtonBkg.SetColor(ARGB(255, 255, 0, 0));
 		}
-		if ( m_PositionButton == focus && m_positionMenu.layoutRoot.IsVisible() )
+		if ( m_PositionButton == focus && m_positionMenu.IsVisible() )
 		{
 			m_PositionButtonBkg.SetColor(ARGB(255, 255, 0, 0));
+		}
+		if ( m_GameButton == focus && m_gameMenu.IsVisible() )
+		{
+			m_GameButtonBkg.SetColor(ARGB(255, 255, 0, 0));
 		}
 	}
 
 	void HideMenus( Widget focus ) 
 	{
-		if ( m_objectMenu.layoutRoot != focus && m_objectMenu.layoutRoot.IsVisible() ) 
+		if ( m_objectMenu != focus && m_objectMenu.IsVisible() ) 
 		{
-			m_objectMenu.layoutRoot.Show(false);
+			m_objectMenu.Show(false);
 		}
-		if ( m_weatherMenu.layoutRoot != focus && m_weatherMenu.layoutRoot.IsVisible() ) 
+		if ( m_weatherMenu != focus && m_weatherMenu.IsVisible() ) 
 		{
-			m_weatherMenu.layoutRoot.Show(false);
+			m_weatherMenu.Show(false);
 		}
-		if ( m_positionMenu.layoutRoot != focus && m_positionMenu.layoutRoot.IsVisible() ) 
+		if ( m_positionMenu != focus && m_positionMenu.IsVisible() ) 
 		{
-			m_positionMenu.layoutRoot.Show(false);
+			m_positionMenu.Show(false);
+		}
+		if ( m_gameMenu != focus && m_gameMenu.IsVisible() ) 
+		{
+			m_gameMenu.Show(false);
 		}
 	}
-
-	override bool OnChange( Widget w, int x, int y, bool finished )
-	{
-		super.OnChange( w, x, y, finished );
-
-		m_objectMenu .OnChange( w, x, y, finished );
-		m_weatherMenu.OnChange( w, x, y, finished );
-
-        return false;
-    }
-
-	override bool OnKeyPress( Widget w, int x, int y, int key )
-	{
-
-		return m_positionMenu.OnKeyPress( w, x, y, key );
-	}
-
-	override bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
-	{
-		return m_positionMenu.OnMouseLeave( w, enterW, x, y );
-	}
-	
-	override bool OnMouseEnter(Widget w, int x, int y) 
-	{
-		return m_positionMenu.OnMouseEnter( w, x, y );
-	}
-
-	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn ) 
-	{
-		return m_positionMenu.OnItemSelected( w, x, y, row, column, oldRow, oldColumn );
-	}
-
-	override bool OnMouseWheel(Widget w, int x, int y, int wheel)
-	{
-		
-		return false;
-	}
-
-
 }

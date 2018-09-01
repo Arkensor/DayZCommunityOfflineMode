@@ -32,7 +32,7 @@ class COMKeyBinds extends Module
 		KeyMouseBinding reload          = new KeyMouseBinding( GetModuleType() , "Reload"        , "[R]"    , "Instantly reloads mag."		 );
 
 		toggleCursor   .AddKeyBind( KeyCode.KC_U,    KeyMouseBinding.KB_EVENT_PRESS   );
-		toggleCOMEditor.AddKeyBind( KeyCode.KC_HOME, KeyMouseBinding.KB_EVENT_RELEASE );
+		toggleCOMEditor.AddKeyBind( KeyCode.KC_Y, KeyMouseBinding.KB_EVENT_RELEASE );
 		teleport       .AddKeyBind( KeyCode.KC_T,    KeyMouseBinding.KB_EVENT_PRESS   );
 		reload         .AddKeyBind( KeyCode.KC_R,    KeyMouseBinding.KB_EVENT_RELEASE );
 		
@@ -126,6 +126,4 @@ class COMKeyBinds extends Module
             }
         }
     }
-
-
 }

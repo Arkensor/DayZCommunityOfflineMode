@@ -11,6 +11,7 @@ PanelWidgetClass WeatherMenu
     vexactpos 0
     hexactsize 1
     vexactsize 1
+    scriptclass "WeatherMenu"
     style EditorPanel
 
     {

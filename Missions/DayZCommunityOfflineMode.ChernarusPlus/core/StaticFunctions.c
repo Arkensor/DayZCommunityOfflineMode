@@ -132,6 +132,17 @@ static vector GetCursorPos()
     return hitPos;
 }
 
+static vector SnapToGround(vector pos)
+ {
+    float pos_x = pos[0];
+    float pos_z = pos[2];
+    float pos_y = GetGame().SurfaceY( pos_x, pos_z );
+    vector tmp_pos = Vector( pos_x, pos_y, pos_z );
+    tmp_pos[1] = tmp_pos[1] + pos[1];
+
+    return tmp_pos;
+}
+
 static Weapon GetWeaponInHands()
 {
     Weapon weapon_in_hands;

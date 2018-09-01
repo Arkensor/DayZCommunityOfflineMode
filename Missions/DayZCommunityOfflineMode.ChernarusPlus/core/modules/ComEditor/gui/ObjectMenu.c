@@ -1,7 +1,5 @@
-class ObjectMenu
+class ObjectMenu extends PopupMenu
 {
-
-	Widget layoutRoot;
 	protected TextListboxWidget m_classList;
 	protected EditBoxWidget m_SearchBox;
 	protected ButtonWidget m_btnSpawnGround;
@@ -9,19 +7,15 @@ class ObjectMenu
 	protected ButtonWidget m_btnSpawnInventory;
 	protected ButtonWidget m_btnCancel;
 
-	void ObjectMenu( Widget parentWidget )
+	void ObjectMenu()
 	{
-
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\ObjectMenu.layout", parentWidget );
-
-		Init();
 	}
 
 	void ~ObjectMenu()
 	{
 	}
 
-	Widget Init()
+	void Init()
 	{
 		m_classList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget( "classlist" ) );
 		m_SearchBox = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "search_input" ) );
@@ -29,25 +23,14 @@ class ObjectMenu
 		m_btnSpawnCursor = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_cursorpos" ) );
 		m_btnSpawnInventory = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_inventory" ) );
 		m_btnCancel = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_cancel" ) );
-
-		return layoutRoot;
 	}
 
-	void Toggle()
+	override void OnShow()
 	{
-		layoutRoot.Show(!layoutRoot.IsVisible());
-
-		if ( layoutRoot.IsVisible() ) 
-		{
-			UpdateList();
-		}
-		else 
-		{
-
-		}
+		UpdateList();
 	}
 
-	bool OnChange( Widget w, int x, int y, bool finished )
+	override bool OnChange( Widget w, int x, int y, bool finished )
 	{
         if ( w == m_SearchBox )
         {
@@ -58,7 +41,7 @@ class ObjectMenu
         return false;
     }
 
-	bool OnClick( Widget w, int x, int y, int button )
+	override bool OnClick( Widget w, int x, int y, int button )
 	{
 	    string strSelection = GetCurrentSelection();
 
@@ -101,7 +84,7 @@ class ObjectMenu
         return false;
 	}
 
-	bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
+	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
 	{
         //Todo use this for item preview change maybe?
 

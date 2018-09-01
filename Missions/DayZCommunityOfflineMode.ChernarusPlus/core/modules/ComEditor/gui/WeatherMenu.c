@@ -1,8 +1,6 @@
-class WeatherMenu
+class WeatherMenu extends PopupMenu
 {
 	private static const int m_DaysInMonth [ 12 ] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
-
-	Widget layoutRoot;
 
     protected ButtonWidget m_BtnSave;
     protected ButtonWidget m_BtnCancel;
@@ -41,18 +39,15 @@ class WeatherMenu
 	private float m_CurrFog;
 	private float m_CurrWindForce;
 
-	void WeatherMenu( Widget parentWidget )
+	void WeatherMenu()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\WeatherMenu.layout", parentWidget );
-
-		Init();
 	}
 
 	void ~WeatherMenu()
 	{
 	}
 
-	Widget Init()
+	void Init()
 	{
 
         m_BtnSave			= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_save" ) );
@@ -78,25 +73,9 @@ class WeatherMenu
 
 		m_SldWindForce		= SliderWidget.Cast( layoutRoot.FindAnyWidget( "sld_ppp_st_wind_force" ) );
 		m_TxtWindForceValue	= TextWidget.Cast( layoutRoot.FindAnyWidget( "txt_ppp_st_wind_force_value" ) );
-
-		return layoutRoot;
 	}
 
-	void Toggle() 
-	{
-		layoutRoot.Show( !layoutRoot.IsVisible() );
-
-		if ( layoutRoot.IsVisible() ) 
-		{
-			OnShow();
-		}
-		else 
-		{
-			// OnHide();
-		}
-	}
-
-	bool OnClick( Widget w, int x, int y, int button )
+	override bool OnClick( Widget w, int x, int y, int button )
 	{
 
 		if ( w == m_BtnSave )
@@ -123,7 +102,7 @@ class WeatherMenu
 		return false;
 	}
 
-	bool OnChange( Widget w, int x, int y, bool finished )
+	override bool OnChange( Widget w, int x, int y, bool finished )
 	{
 		if ( w == m_SldStartTime )
 		{
@@ -214,7 +193,7 @@ class WeatherMenu
 		return false;
 	}
 
-	void OnShow()
+	override void OnShow()
 	{
 		GetGame().GetWorld().GetDate( m_OrigYear, m_OrigMonth, m_OrigDay, m_OrigHour, m_OrigMinute );
 
@@ -235,12 +214,12 @@ class WeatherMenu
 		m_CurrFog = m_OrigFog;
 		m_CurrWindForce = m_OrigWindForce;
 
-		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.OnUpdate);
+		GetGame().GetUpdateQueue(CALL_CATEGORY_GUI).Insert(Update);
 
 		ResetSliders();
 	}
 
-	void OnHide()
+	override void OnHide()
 	{
 		/*
 		Weather weather = GetGame().GetWeather();
@@ -254,7 +233,7 @@ class WeatherMenu
 		*/
 	}
 
-	void OnUpdate()
+	void Update()
 	{
 		m_TxtWeatherTime.SetText( GetGame().GetWeather().GetTime().ToString() );
 		m_TxtAirTemperature.SetText( GetGame().GetWeather().GetAirTemperature().ToString() );

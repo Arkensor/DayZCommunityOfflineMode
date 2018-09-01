@@ -65,12 +65,8 @@ FrameWidgetClass EditorMenu
 							color 1 0 0 1
 							position 0 0
 							size 50 50
-							halign left_ref
-							valign top_ref
 							hexactsize 1
 							vexactsize 1
-							vexactpos 1
-							hexactpos 1
 							"no focus" 1
 							{
 								TextWidgetClass objects_button_text
@@ -113,12 +109,8 @@ FrameWidgetClass EditorMenu
 							color 1 0 0 1
 							position 0 0
 							size 50 50
-							halign left_ref
-							valign top_ref
 							hexactsize 1
 							vexactsize 1
-							vexactpos 1
-							hexactpos 1
 							"no focus" 1
 							{
 								TextWidgetClass position_button_text
@@ -161,12 +153,8 @@ FrameWidgetClass EditorMenu
 							color 1 0 0 1
 							position 0 0
 							size 50 50
-							halign left_ref
-							valign top_ref
 							hexactsize 1
 							vexactsize 1
-							vexactpos 1
-							hexactpos 1
 							"no focus" 1
 							{
 								TextWidgetClass weather_button_text
@@ -190,34 +178,45 @@ FrameWidgetClass EditorMenu
 					}
 				}
 
-
-				ButtonWidgetClass game_button
+				PanelWidgetClass game_button_bkg 
 				{
-					color 1 0 0 1
+					visible 1
+					color 0 0 0 0.25
 					position 0.1 175
 					size 50 50
 					halign left_ref
 					valign top_ref
+					vexactpos 1
 					hexactsize 1
 					vexactsize 1
-					vexactpos 1
-					"no focus" 1
-					{
-						TextWidgetClass game_button_text
+					style rover_sim_colorable
+				    {
+						ButtonWidgetClass game_button
 						{
-							ignorepointer 1
+							color 1 0 0 1
 							position 0 0
-							size 1 1
-							halign center_ref
-							valign center_ref
-							hexactsize 0
-							vexactsize 0
-							text "G"
-							font "gui/fonts/Metron-Bold58"
-						   "exact text" 1
-						   "text halign" center
-						   "text valign" center
-						   "exact text size" 32
+							size 50 50
+							hexactsize 1
+							vexactsize 1
+							"no focus" 1
+							{
+								TextWidgetClass game_button_text
+								{
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									halign center_ref
+									valign center_ref
+									hexactsize 0
+									vexactsize 0
+									text "G"
+									font "gui/fonts/Metron-Bold58"
+								   "exact text" 1
+								   "text halign" center
+								   "text valign" center
+								   "exact text size" 32
+								}
+							}
 						}
 					}
 				}
