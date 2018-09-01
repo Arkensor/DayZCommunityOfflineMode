@@ -1,3 +1,7 @@
+**ATTENTION: THIS IS THE DEVELOPMENT BRANCH. PLEASE REFRAIN FROM DOWNLOADING AND ONLY DOWNLOAD RELEASE VERSIONS LOCATED HERE:
+https://github.com/Arkensor/DayZCommunityOfflineMode/releases**
+
+
 # DayZCommunityOfflineMode
 
 **Thank you for over 25.000 downloads!**  
