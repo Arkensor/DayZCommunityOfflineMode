@@ -34,7 +34,7 @@ class BarrelCrosshair extends ScriptedWidgetEventHandler
 	{
 		if(!m_Player) Class.CastTo(m_Player, GetGame().GetPlayer());
 		
-		if (CommunityOfflineMode.Cast( GetGame().GetMission() ).m_bOldAiming) 
+		if ( GetMission().m_bOldAiming ) 
 		{
 			if( m_Player && m_Player.IsPlayerSelected() && !m_Player.IsInIronsights() && !GetGame().IsInventoryOpen() )
 			{

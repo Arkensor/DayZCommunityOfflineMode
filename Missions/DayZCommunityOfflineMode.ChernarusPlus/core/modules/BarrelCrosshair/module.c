@@ -7,3 +7,5 @@
     Include of all .c files that belong to this module
 */
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\BarrelCrosshair.c"
+
+// #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\CustomFirstPersonCamera.c"

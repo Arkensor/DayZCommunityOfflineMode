@@ -58,12 +58,7 @@ class CharacterSave
             HandSave.Save(oHands, oPlayer, oData.OHands);
         }
 
-		string file = BASE_PLAYER_SAVE_DIR + "\\" + character + "\\" + save + ".json";
-
-		Print("Saving file: " + file);
-
-        JsonFileLoader<CharacterData>.JsonSaveFile(file, oData);
-
+        JsonFileLoader<CharacterData>.JsonSaveFile(BASE_PLAYER_SAVE_DIR + "\\" + character + "\\" + save + ".json", oData);
     }
 
     static void CreatePlayer(string sCharacter, PlayerBase oPlayer)
@@ -115,10 +110,6 @@ class CharacterSave
             HandSave.Save(oHands, oPlayer, oData.OHands);
         }
 
-		string file = BASE_PLAYER_SAVE_DIR + "\\" + character + "\\" + save + ".json";
-
-		Print("Saving file: " + file);
-
-        JsonFileLoader<CharacterData>.JsonSaveFile(file, oData);
+        JsonFileLoader<CharacterData>.JsonSaveFile(BASE_PLAYER_SAVE_DIR + "\\" + character + "\\" + save + ".json", oData);
     }
 }

@@ -124,11 +124,14 @@ class COMPersistencyScene: Managed
 			m_Radius_original = m_Radius;
 		}
 		
-		m_Weather = g_Game.GetWeather();		
-
-		m_Weather.GetOvercast().Set( overcast, 0, 1);
-		m_Weather.GetRain().Set( rain, 0, 1);
-		m_Weather.GetFog().Set( fog, 0, 1);
+		m_Weather = g_Game.GetWeather();
+		m_Weather.GetOvercast().SetLimits( overcast, overcast );
+		m_Weather.GetRain().SetLimits( rain, rain );
+		m_Weather.GetFog().SetLimits( fog, fog );
+		
+		m_Weather.GetOvercast().Set( overcast, 0, 0);
+		m_Weather.GetRain().Set( rain, 0, 0);
+		m_Weather.GetFog().Set( fog, 0, 0);
 		
 		if ( storm.Count() == 3 )
 		{

@@ -5,14 +5,12 @@
 class Module
 {
 	protected bool m_Enabled;
-	protected bool m_CanPause;
 	protected bool m_PreventInput;
 	protected ref set< ref KeyMouseBinding > m_KeyBindings;
 	
 	void Module()
 	{
 		m_Enabled = true;
-		m_CanPause = true;
 		m_PreventInput = false;
 		m_KeyBindings = new ref set< ref KeyMouseBinding >;
 	}
@@ -34,11 +32,6 @@ class Module
 	void PreventInput(bool prevent)
 	{
 		m_PreventInput = prevent;
-	}
-
-	bool CanPause()
-	{
-		return m_CanPause;
 	}
 
     string GetModuleName()

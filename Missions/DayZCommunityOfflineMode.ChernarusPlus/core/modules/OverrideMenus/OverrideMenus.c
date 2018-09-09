@@ -99,7 +99,7 @@ class OverrideMenus extends Module
 
 	void ContinueMission()
 	{
-		GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call(GetGame().GetMission().Continue);
+		GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call(GetMission().Continue);
 	}
 
 	void QuitMission()

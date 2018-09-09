@@ -4,8 +4,6 @@
 class COMKeyBinds extends Module 
 {
 	bool m_IsHudVisible = true;
-
-    protected ref EditorMenu m_EditorMenu;
 	
 	void COMKeyBinds()
 	{
@@ -32,7 +30,7 @@ class COMKeyBinds extends Module
 		KeyMouseBinding reload          = new KeyMouseBinding( GetModuleType() , "Reload"        , "[R]"    , "Instantly reloads mag."		 );
 
 		toggleCursor   .AddKeyBind( KeyCode.KC_U,    KeyMouseBinding.KB_EVENT_PRESS   );
-		toggleCOMEditor.AddKeyBind( KeyCode.KC_Y, KeyMouseBinding.KB_EVENT_RELEASE );
+		toggleCOMEditor.AddKeyBind( KeyCode.KC_HOME, KeyMouseBinding.KB_EVENT_RELEASE );
 		teleport       .AddKeyBind( KeyCode.KC_T,    KeyMouseBinding.KB_EVENT_PRESS   );
 		reload         .AddKeyBind( KeyCode.KC_R,    KeyMouseBinding.KB_EVENT_RELEASE );
 		
@@ -58,16 +56,7 @@ class COMKeyBinds extends Module
 
     void ShowCOMEditor()
     {
-		if (m_EditorMenu)
-		{
-			GetGame().GetUIManager().HideScriptedMenu( m_EditorMenu );
-
-			delete m_EditorMenu;
-		} else {
-            m_EditorMenu = new EditorMenu;
-
-            GetGame().GetUIManager().ShowScriptedMenu( m_EditorMenu , NULL );
-        }
+        GetGame().GetUIManager().ShowScriptedMenu( new EditorMenu , NULL );
     }
 
     void TeleportCursor()
@@ -126,4 +115,6 @@ class COMKeyBinds extends Module
             }
         }
     }
+
+
 }

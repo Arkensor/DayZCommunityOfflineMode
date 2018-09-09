@@ -37,7 +37,6 @@ class EditorMenu extends UIScriptedMenu
 		m_gameMenu 	   = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\GameMenu.layout", layoutRoot );
 
         return layoutRoot;
-
 	}
 
 	override bool UseMouse() 

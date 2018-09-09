@@ -13,7 +13,7 @@ class CustomInGameMenu extends UIScriptedMenu
 	
 	void ~CustomInGameMenu()
 	{
-		Mission mission = GetGame().GetMission();
+		Mission mission = GetMission();
 		if ( mission )
 		{
 			IngameHud hud = IngameHud.Cast( mission.GetHud() );
@@ -46,7 +46,7 @@ class CustomInGameMenu extends UIScriptedMenu
 		delete restart_btn;
 	#endif
 
-		Mission mission = GetGame().GetMission();
+		Mission mission = GetMission();
 		if ( mission )
 		{
 			IngameHud hud = IngameHud.Cast( mission.GetHud() );
@@ -136,7 +136,7 @@ class CustomInGameMenu extends UIScriptedMenu
 	{
 		super.OnClick(w, x, y, button);
 		
-		Mission mission = GetGame().GetMission();
+		Mission mission = GetMission();
 
 		ButtonWidget bwButton = m_Buttons.Get( w.GetUserID() );
 
@@ -164,12 +164,12 @@ class CustomInGameMenu extends UIScriptedMenu
 			if (GetGame().IsMultiplayer())
 			{
 				GetGame().LogoutRequestTime();
-				GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call(GetGame().GetMission().CreateLogoutMenu, this);
+				GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call( GetMission().CreateLogoutMenu, this );
 			}
 			else
 			{
 				// skip logout screen in singleplayer
-				GetGame().GetMission().AbortMission();
+				GetMission().AbortMission();
 			}	
 			g_Game.CancelQueueTime();
 			return true;
@@ -190,10 +190,10 @@ class CustomInGameMenu extends UIScriptedMenu
 				GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(player.ShowDeadScreen, DayZPlayerImplement.DEAD_SCREEN_DELAY, false, false);
 			}
 			
-			MissionGameplay missionGP = MissionGameplay.Cast(GetGame().GetMission());
+			MissionGameplay missionGP = MissionGameplay.Cast(GetMission());
 			missionGP.DestroyAllMenus();
 			//---------------------------------------------------
-			GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call(GetGame().GetMission().Continue);
+			GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call(GetMission().Continue);
 			return true;
 		}
 	

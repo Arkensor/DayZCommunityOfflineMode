@@ -7,6 +7,8 @@ class CommunityOfflineMode : MissionGameplay
 
     protected bool m_bLoaded;
 
+	protected bool m_CanPause = true;
+
 	void CommunityOfflineMode()
 	{
 	    Print( "CommunityOfflineMode::CommunityOfflineMode()" );
@@ -70,10 +72,15 @@ class CommunityOfflineMode : MissionGameplay
 		
 		GetModuleManager().OnMissionLoaded();
     }
+
+	void SetCanPause( bool can )
+	{
+		m_CanPause = can;
+	}
 	
 	bool CanPause()
 	{
-		return GetModuleManager().CanPause();
+		return m_CanPause;
 	}
 
 	override void Pause()
@@ -129,36 +136,42 @@ class CommunityOfflineMode : MissionGameplay
             OnMissionLoaded();
         }
 
-//			GetPlayer().SetHealth( GetPlayer().GetMaxHealth( "", "" ) );
-//			GetPlayer().SetHealth( "","Blood", GetPlayer().GetMaxHealth( "", "Blood" ) );
-//			GetPlayer().SetHealth( "","Shock", GetPlayer().GetMaxHealth( "", "Shock" ) );
-//			// GetPlayer().SetStamina(1000, 1000);
-//			GetPlayer().GetStatStamina().Set(1000);
-//			GetPlayer().GetStatEnergy().Set(1000);
-//			GetPlayer().GetStatWater().Set(1000);
-//			GetPlayer().GetStatStomachSolid().Set(300);
-//			GetPlayer().GetStatStomachWater().Set(300);
-//			GetPlayer().GetStatStomachEnergy().Set(300);
-//			GetPlayer().GetStatHeatComfort().Set(0);
-//
-//			EntityAI oWeapon = GetPlayer().GetHumanInventory().GetEntityInHands();
-//
-//			if( oWeapon )
-//			{
-//				Magazine oMag = ( Magazine ) oWeapon.GetAttachmentByConfigTypeName( "DefaultMagazine" );
-//
-//				if( oMag && oMag.IsMagazine() )
-//				{
-//					oMag.LocalSetAmmoMax();
-//				}
-//
-//				Object oSupressor = ( Object ) oWeapon.GetAttachmentByConfigTypeName( "SuppressorBase" );
-//
-//				if( oSupressor )
-//				{
-//					oSupressor.SetHealth( oSupressor.GetMaxHealth( "", "" ) );
-//				}
-//			}
+#ifdef COM_JACOBS_TEST
+		if ( GetPlayer() )
+		{
+			GetPlayer().SetHealth( GetPlayer().GetMaxHealth( "", "" ) );
+			GetPlayer().SetHealth( "","Blood", GetPlayer().GetMaxHealth( "", "Blood" ) );
+			GetPlayer().SetHealth( "","Shock", GetPlayer().GetMaxHealth( "", "Shock" ) );
+			GetPlayer().GetStaminaHandler().SyncStamina( 1000, 1000 );
+			// GetPlayer().SetStamina(1000, 1000);
+			GetPlayer().GetStatStamina().Set(1000);
+			GetPlayer().GetStatEnergy().Set(1000);
+			GetPlayer().GetStatWater().Set(1000);
+			GetPlayer().GetStatStomachSolid().Set(300);
+			GetPlayer().GetStatStomachWater().Set(300);
+			GetPlayer().GetStatStomachEnergy().Set(300);
+			GetPlayer().GetStatHeatComfort().Set(0);
+
+			EntityAI oWeapon = GetPlayer().GetHumanInventory().GetEntityInHands();
+
+			if( oWeapon )
+			{
+				Magazine oMag = ( Magazine ) oWeapon.GetAttachmentByConfigTypeName( "DefaultMagazine" );
+
+				if( oMag && oMag.IsMagazine() )
+				{
+					oMag.LocalSetAmmoMax();
+				}
+
+				Object oSupressor = ( Object ) oWeapon.GetAttachmentByConfigTypeName( "SuppressorBase" );
+
+				if( oSupressor )
+				{
+					oSupressor.SetHealth( oSupressor.GetMaxHealth( "", "" ) );
+				}
+			}
+		}
+#endif
 //
 //		UpdateAutoWalk();
 
@@ -190,6 +203,8 @@ class CommunityOfflineMode : MissionGameplay
 		super.OnKeyPress(key);
 
 		GetModuleManager().OnKeyPress( key );
+		
+#ifdef COM_JACOBS_TEST
 //
 //
 //
@@ -268,8 +283,8 @@ class CommunityOfflineMode : MissionGameplay
 //				break;
 //			}
 //
-//			case KeyCode.KC_O:
-//			{
+			case KeyCode.KC_O:
+			{
 //				if( CTRL() )
 //				{
 //					GetGame().CreateObject( "Animal_CanisLupus_Grey", GetCursorPos(), false, true );
@@ -280,11 +295,12 @@ class CommunityOfflineMode : MissionGameplay
 //				}
 //				else
 //				{
-//					GetGame().CreateObject( WorkingZombieClasses().GetRandomElement(), GetCursorPos(), false, true );
+					DayZInfected infected = DayZInfected.Cast( GetGame().CreateObject( WorkingZombieClasses().GetRandomElement(), GetCursorPos(), false, true ) );
+					// infected.UpdateSimulationPrecision(100);
 //				}
 //
-//				break;
-//			}
+				break;
+			}
 //
 //			case KeyCode.KC_P:
 //			{
@@ -326,28 +342,28 @@ class CommunityOfflineMode : MissionGameplay
 			case KeyCode.KC_K:
 			{
 				if (!CTRL() && !SHIFT())
-				// GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Call( GetGame().RestartMission );
+				GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Call( GetGame().RestartMission );
 				break;
 			}
-//
-//
-//			case KeyCode.KC_N:
-//			{
-//				TStringArray attArr = {
-//				"CivSedanWheel","CivSedanWheel","CivSedanWheel","CivSedanWheel",
-//				"CarBattery","CarRadiator","EngineBelt","SparkPlug","CivSedanHood",
-//				"CivSedanTrunk","CivSedanDoors_Driver","CivSedanDoors_CoDriver",
-//				"CivSedanDoors_BackLeft","CivSedanDoors_BackRight",
-//				};
-//
-//				EntityAI oCar = EntityAI.Cast( GetGame().CreateObject( "CivilianSedan", GetCursorPos(), false, true ) );
-//
-//				for (int j = 0; j < attArr.Count(); j++) { oCar.GetInventory().CreateAttachment( attArr.Get(j) ); }
-//
-//				oCar.SetAllowDamage( false );
-//
-//				break;
-//			}
+
+
+			case KeyCode.KC_N:
+			{
+				TStringArray attArr = {
+				"CivSedanWheel","CivSedanWheel","CivSedanWheel","CivSedanWheel",
+				"CarBattery","CarRadiator","EngineBelt","SparkPlug","CivSedanHood",
+				"CivSedanTrunk","CivSedanDoors_Driver","CivSedanDoors_CoDriver",
+				"CivSedanDoors_BackLeft","CivSedanDoors_BackRight",
+				};
+
+				EntityAI oCar = EntityAI.Cast( GetGame().CreateObject( "CivilianSedan", GetCursorPos(), false, true ) );
+
+				for (int j = 0; j < attArr.Count(); j++) { oCar.GetInventory().CreateAttachment( attArr.Get(j) ); }
+
+				oCar.SetAllowDamage( false );
+
+				break;
+			}
 //
 //			case KeyCode.KC_END:
 //			{
@@ -417,6 +433,7 @@ class CommunityOfflineMode : MissionGameplay
 //				break;
 //			}
 		}
+#endif
 	}
 
 	override void OnKeyRelease( int key )

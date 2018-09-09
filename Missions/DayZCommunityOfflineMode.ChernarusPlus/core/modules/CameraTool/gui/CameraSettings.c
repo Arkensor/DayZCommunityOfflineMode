@@ -20,7 +20,7 @@ class CameraSettings extends UIScriptedMenu
 	{
 		Init();
 		
-		m_Mission = CommunityOfflineMode.Cast( GetGame().GetMission() );
+		m_Mission = GetMission();
 	}	
 	
 	void ~CameraSettings()
