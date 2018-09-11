@@ -1,3 +1,6 @@
+#ifdef COM_TEST_NEWLOADING
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineMode.c"
+#endif
 /*
     Define used for optional compilations
 */
@@ -13,3 +16,10 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\GameMenu.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\PopupMenu.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\OverrideVerticalSpacer.c"
+
+#ifdef COM_TEST_NEWLOADING
+void RegisterModule()
+{
+    GetModuleManager().RegisterModule( new ObjectEditor );
+}
+#endif

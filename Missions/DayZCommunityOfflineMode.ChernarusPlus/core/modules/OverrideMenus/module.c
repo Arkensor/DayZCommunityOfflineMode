@@ -1,3 +1,6 @@
+#ifdef COM_TEST_NEWLOADING
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineMode.c"
+#endif
 /*
     Define used for optional compilations
 */
@@ -10,3 +13,10 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\CustomPauseButton.c"
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\gui\\CustomInGameMenu.c"
+
+#ifdef COM_TEST_NEWLOADING
+void RegisterModule()
+{
+    GetModuleManager().RegisterModule( new OverrideMenus );
+}
+#endif

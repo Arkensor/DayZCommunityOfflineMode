@@ -1,3 +1,6 @@
+#ifdef COM_TEST_NEWLOADING
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineMode.c"
+#endif
 /*
     Define used for optional compilations
 */
@@ -8,3 +11,10 @@
 */
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\DebugMonitor\\CustomDebugMonitor.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\DebugMonitor\\gui\\DebugMonitor.c"
+
+#ifdef COM_TEST_NEWLOADING
+void RegisterModule()
+{
+    GetModuleManager().RegisterModule( new CustomDebugMonitor );
+}
+#endif

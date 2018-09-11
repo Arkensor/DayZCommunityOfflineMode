@@ -1,3 +1,6 @@
+#ifdef COM_TEST_NEWLOADING
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineMode.c"
+#endif
 /*
     Define used for optional compilations
 */
@@ -36,3 +39,10 @@ string BASE_PLAYER_SAVE_DIR = BASE_COM_DIR + "\\PlayerSaves";
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\COMCharacterSave.c"
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\scenes\\COMPersistencyScene.c"
+
+#ifdef COM_TEST_NEWLOADING
+void RegisterModule()
+{
+    GetModuleManager().RegisterModule( new PersistencyModule );
+}
+#endif

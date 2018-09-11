@@ -521,14 +521,13 @@ class CommunityOfflineMode : MissionGameplay
     void SpawnPlayer()
     {
 		#ifndef MODULE_PERSISTENCY
-		auto oPlayer = CreateCustomDefaultCharacter();
-		
-		GetGame().SelectPlayer( NULL, oPlayer );
+		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
 		#endif
     }
 
 	void InitHive()
 	{
+		// RD /s /q "storage_-1" > nul 2>&1
 		if ( !HIVE_ENABLED ) return;
 	
 		Hive oHive = GetHive();
@@ -542,6 +541,9 @@ class CommunityOfflineMode : MissionGameplay
 		{
 			oHive.InitOffline();
 		}
+
+		oHive.SetShardID("100");
+		oHive.SetEnviroment("stable");
 	}
 
     static void SetupWeather()

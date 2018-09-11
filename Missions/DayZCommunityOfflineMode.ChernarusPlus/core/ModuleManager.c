@@ -1,6 +1,9 @@
+// #define COM_TEST_NEWLOADING
+
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\Module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\KeyMouseBinding.c"
 
+#ifndef COM_TEST_NEWLOADING
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\module.c"
@@ -9,6 +12,12 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComMenu\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\DebugMonitor\\module.c"
+#endif
+
+#ifdef COM_TEST_NEWLOADING
+const string COM_MODULE_DIR = "$currentDir:";
+const string COM_MODULE_FOLDER = "Missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\";
+#endif
 
 class ModuleManager
 {
@@ -37,10 +46,61 @@ class ModuleManager
         Print( "ModuleManager::~ModuleManager()" );
     }
 
+#ifdef COM_TEST_NEWLOADING
+    bool IsValidModule( string name, FileAttr attributes )
+    {
+        Print( "Found: " + COM_MODULE_DIR + COM_MODULE_FOLDER + name + " as a " + attributes );
+
+        if ( attributes != FileAttr.DIRECTORY ) return false;
+
+        if ( name == "" ) return false;
+
+        return true;
+    }
+
+    void LoadModule( string name )
+    {
+		ScriptModule script = ScriptModule.LoadScript( GetGame().GameScript, COM_MODULE_FOLDER + name + "\\module.c", true );
+        if ( script )
+        {
+            Param p = new Param;
+            script.CallFunction( NULL, "RegisterModule", p, new Param );
+        }
+    }
+
+    void RegisterModule( Module module )
+    {
+        m_Modules.Insert( module );
+    }
+
     void RegisterModules()
     {
         Print( "ModuleManager::RegisterModules()" );
 
+		int index = 0;
+        string module = "";
+		FileAttr oFileAttr = FileAttr.INVALID;
+		FindFileHandle oFileHandle = FindFile( COM_MODULE_DIR + COM_MODULE_FOLDER + "*", module, oFileAttr, FindFileFlags.DIRECTORIES );
+
+		if ( IsValidModule( module, oFileAttr ) )
+		{
+            LoadModule( module );
+			index++;
+
+			while (FindNextFile(oFileHandle, module, oFileAttr))
+			{
+				if ( IsValidModule( module, oFileAttr ) )
+				{
+                    LoadModule( module );
+					index++;
+				}
+			}
+		}
+    }
+#else
+    void RegisterModules()
+    { 
+        Print( "ModuleManager::RegisterModules()" );
         #ifdef MODULE_COM_EDITOR
         m_Modules.Insert( new ObjectEditor );
         #endif
@@ -60,6 +120,7 @@ class ModuleManager
         m_Modules.Insert( new OverrideMenus );
         #endif
     }
+#endif
 
 	void OnInit()
 	{
