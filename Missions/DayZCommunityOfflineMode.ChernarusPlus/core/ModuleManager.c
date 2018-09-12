@@ -151,26 +151,22 @@ class ModuleManager
 
 	void OnInit()
 	{
-        /*
 	    Print( "ModuleManager::OnInit()" );
 
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).Init();
         }
-        */
 	}
 
     void OnMissionStart()
     {
-        /*
         Print( "ModuleManager::OnMissionStart()" );
 
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).onMissionStart();
         }
-        */
     }
 
     void OnMissionFinish()
@@ -186,11 +182,6 @@ class ModuleManager
     void OnMissionLoaded()
     {
         Print( "ModuleManager::OnMissionLoaded()" );
-
-        RegisterModules();
-
-        OnInit();
-        OnMissionStart();
 
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{
