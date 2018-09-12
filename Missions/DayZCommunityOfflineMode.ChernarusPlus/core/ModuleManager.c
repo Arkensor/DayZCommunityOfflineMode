@@ -28,6 +28,8 @@ class ModuleManager
     protected ref array< ref Module > m_Modules;
 	protected ref array< ref MouseButtonInfo > m_MouseButtons;
 
+    protected ScriptModule m_ParentScriptModule;
+
     void ModuleManager()
     {
         Print( "ModuleManager::ModuleManager()" );
@@ -60,7 +62,7 @@ class ModuleManager
 
     void LoadModule( string name )
     {
-		ScriptModule script = ScriptModule.LoadScript( GetGame().GameScript, COM_MODULE_FOLDER + name + "\\module.c", true );
+		ScriptModule script = ScriptModule.LoadScript( m_ParentScriptModule, COM_MODULE_FOLDER + name + "\\module.c", true );
         if ( script )
         {
             Param p = new Param;
@@ -73,9 +75,34 @@ class ModuleManager
         m_Modules.Insert( module );
     }
 
+    private ScriptModule LoadScriptModule( string path, bool listing = true )
+    {
+        Print( "Loading ScriptModule " + path );
+        ScriptModule module = ScriptModule.LoadScript( m_ParentScriptModule, path, listing );
+        if ( module )
+        {
+            Print( "Loaded ScriptModule " + path );
+        }
+        else
+        {
+            Print( "Failed to load ScriptModule " + path );
+        }
+        return module;
+    }
+
     void RegisterModules()
     {
         Print( "ModuleManager::RegisterModules()" );
+
+
+        //m_ParentScriptModule = NULL;
+        m_ParentScriptModule = GetGame().GameScript;
+
+        //m_ParentScriptModule = LoadScriptModule( "Scripts/1_Core" );
+        //m_ParentScriptModule = LoadScriptModule( "Scripts/2_GameLib" );
+        //m_ParentScriptModule = LoadScriptModule( "Scripts/3_Game" );
+        //m_ParentScriptModule = LoadScriptModule( "Scripts/4_World" );
+        //m_ParentScriptModule = LoadScriptModule( "Scripts/5_Mission" );
 
 		int index = 0;
         string module = "";
@@ -124,22 +151,26 @@ class ModuleManager
 
 	void OnInit()
 	{
+        /*
 	    Print( "ModuleManager::OnInit()" );
 
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).Init();
         }
+        */
 	}
 
     void OnMissionStart()
     {
+        /*
         Print( "ModuleManager::OnMissionStart()" );
 
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).onMissionStart();
         }
+        */
     }
 
     void OnMissionFinish()
@@ -155,6 +186,11 @@ class ModuleManager
     void OnMissionLoaded()
     {
         Print( "ModuleManager::OnMissionLoaded()" );
+
+        RegisterModules();
+
+        OnInit();
+        OnMissionStart();
 
 		for ( int i = 0; i < m_Modules.Count(); ++i)
 		{

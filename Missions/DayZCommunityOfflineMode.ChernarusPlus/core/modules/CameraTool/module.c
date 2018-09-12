@@ -1,5 +1,5 @@
 #ifndef COM_MODULES_OLDLOADING
-#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineMode.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\BaseModuleInclude.c"
 #endif
 
 /*
@@ -10,8 +10,10 @@
 /*
     Include of all .c files that belong to this module
 */
+#ifdef COM_MODULES_OLDLOADING
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\CameraTool.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\CameraSettings.c"
+#endif
 
 #ifndef COM_MODULES_OLDLOADING
 void RegisterModule()

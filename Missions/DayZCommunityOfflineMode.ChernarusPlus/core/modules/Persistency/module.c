@@ -1,5 +1,5 @@
 #ifndef COM_MODULES_OLDLOADING
-#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineMode.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\BaseModuleInclude.c"
 #endif
 /*
     Define used for optional compilations
@@ -18,6 +18,8 @@ string BASE_PLAYER_SAVE_DIR = BASE_COM_DIR + "\\PlayerSaves";
 /*
     Include of all .c files that belong to this module
 */
+
+#ifdef COM_MODULES_OLDLOADING
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\PersistencyModule.c"
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\Data\\CharacterData.c"
@@ -39,6 +41,7 @@ string BASE_PLAYER_SAVE_DIR = BASE_COM_DIR + "\\PlayerSaves";
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\COMCharacterSave.c"
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\scenes\\COMPersistencyScene.c"
+#endif
 
 #ifndef COM_MODULES_OLDLOADING
 void RegisterModule()
