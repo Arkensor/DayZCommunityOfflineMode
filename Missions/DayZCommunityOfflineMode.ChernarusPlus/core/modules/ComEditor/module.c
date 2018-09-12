@@ -1,4 +1,4 @@
-#ifdef COM_TEST_NEWLOADING
+#ifndef COM_MODULES_OLDLOADING
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineMode.c"
 #endif
 /*
@@ -17,7 +17,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\PopupMenu.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\OverrideVerticalSpacer.c"
 
-#ifdef COM_TEST_NEWLOADING
+#ifndef COM_MODULES_OLDLOADING
 void RegisterModule()
 {
     GetModuleManager().RegisterModule( new ObjectEditor );

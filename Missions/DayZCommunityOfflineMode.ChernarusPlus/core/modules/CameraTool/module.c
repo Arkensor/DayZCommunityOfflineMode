@@ -1,4 +1,4 @@
-#ifdef COM_TEST_NEWLOADING
+#ifndef COM_MODULES_OLDLOADING
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineMode.c"
 #endif
 
@@ -13,7 +13,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\CameraTool.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\CameraSettings.c"
 
-#ifdef COM_TEST_NEWLOADING
+#ifndef COM_MODULES_OLDLOADING
 void RegisterModule()
 {
     GetModuleManager().RegisterModule( new CameraTool );

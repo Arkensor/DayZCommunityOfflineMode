@@ -1,9 +1,9 @@
-// #define COM_TEST_NEWLOADING
+#define COM_MODULES_OLDLOADING
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\Module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\KeyMouseBinding.c"
 
-#ifndef COM_TEST_NEWLOADING
+#ifdef COM_MODULES_OLDLOADING
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\module.c"
@@ -14,7 +14,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\DebugMonitor\\module.c"
 #endif
 
-#ifdef COM_TEST_NEWLOADING
+#ifndef COM_MODULES_OLDLOADING
 const string COM_MODULE_DIR = "$currentDir:";
 const string COM_MODULE_FOLDER = "Missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\";
 #endif
@@ -46,7 +46,7 @@ class ModuleManager
         Print( "ModuleManager::~ModuleManager()" );
     }
 
-#ifdef COM_TEST_NEWLOADING
+#ifndef COM_MODULES_OLDLOADING
     bool IsValidModule( string name, FileAttr attributes )
     {
         Print( "Found: " + COM_MODULE_DIR + COM_MODULE_FOLDER + name + " as a " + attributes );
