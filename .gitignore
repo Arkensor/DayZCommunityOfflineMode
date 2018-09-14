@@ -2,4 +2,8 @@ DayZCommunityOfflineMode.ChernarusPlus/.idea/
 DayZCommunityOfflineMode.ChernarusPlus/storage_-1/
 *.db
 .idea/
+.vscode/
 deploy.bat
+launch.bat
+launch-deploy.bat
+desktop.ini

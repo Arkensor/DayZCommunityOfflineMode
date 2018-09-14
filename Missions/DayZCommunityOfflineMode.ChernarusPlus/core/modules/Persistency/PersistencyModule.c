@@ -65,7 +65,7 @@ class PersistencyModule extends Module
 		#ifdef MODULE_PERSITENCY_IGNORE_LOADING
 		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
 		#else
-		GetMission().SetCanPause( false );
+		GetClientMission().SetCanPause( false );
 
 		m_Scene = new COMPersistencyScene;
  
@@ -114,7 +114,7 @@ class PersistencyModule extends Module
 			delete m_CharacterMenu;
 		}
 
-		GetMission().SetCanPause( true );
+		GetClientMission().SetCanPause( true );
 	}
 	
 	private void SetupCharacterLoading()
@@ -122,7 +122,7 @@ class PersistencyModule extends Module
 		Print("PersistencyModule::SetupCharacterLoading");
 		
 		m_CanBeSaved = false;
-		GetMission().SetCanPause( false );
+		GetClientMission().SetCanPause( false );
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
 

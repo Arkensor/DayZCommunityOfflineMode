@@ -1,6 +1,6 @@
 class CharacterLoad
 {
-    static PlayerBase LoadPlayer(string sCharacter, string sSave, bool bNoControl = false) {
+    static PlayerBase LoadPlayer(string sCharacter, string sSave, bool bNotObject = false, PlayerIdentity oIdentity = NULL ) {
         ref CharacterData oData = new CharacterData;
 
 		string file = BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json";
@@ -11,12 +11,12 @@ class CharacterLoad
 
 		PlayerBase oPlayer;
 		
-		if ( bNoControl )
+		if ( bNotObject )
 		{
-			oPlayer = PlayerBase.Cast( GetGame().CreateObject( oData.SModel, "0 0 0", true ) );
+			oPlayer = PlayerBase.Cast( GetGame().CreateObject( oData.SModel, "0 0 0", true, true, true ) );
 		} else 
 		{
-			oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, oData.SModel, "0 0 0", 0, "NONE") );
+			oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( oIdentity, oData.SModel, "0 0 0", 0, "NONE") );
 		}
 
 		// Temporary for debugging purposes. Death checking not yet implemented.

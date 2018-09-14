@@ -1,8 +1,11 @@
-#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineMode.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\BaseModuleInclude.c"
   
 Mission CreateCustomMission(string path)
 {	
-    return new CommunityOfflineMode();
+    if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
+        return new CommunityOfflineServer();
+
+    return new CommunityOfflineClient();
 }
 
 void main()
