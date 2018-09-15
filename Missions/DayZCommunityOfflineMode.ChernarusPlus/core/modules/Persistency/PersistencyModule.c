@@ -93,12 +93,7 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::CleanupScene");
 
-		if (m_Scene)
-		{
-			delete m_Scene;
-		}
-
-		Print("Did I get far?");
+		delete m_Scene;
 	}
 
 	void CleanupCharacterMenu()
@@ -141,6 +136,7 @@ class PersistencyModule extends Module
 		Print("PersistencyModule::OpenCharacterLoading");
 
 		CleanupCharacterMenu();
+		
 		CleanupScene();
 
 		SetupCharacterLoading();
@@ -162,8 +158,6 @@ class PersistencyModule extends Module
 		}
 
 		CleanupCharacterMenu();
-
-		m_CharacterMenu = NULL;
 
 		m_CharacterMenu = new COMCharacterMenu( this, isLoadingSave );
 
@@ -326,12 +320,12 @@ class PersistencyModule extends Module
 		{
 			GetPlayer().MessageStatus("Loaded character \'" + m_sCharacter + "\' with save \'" + m_sSave + "\'");
 		}
-
-		CleanupCharacterMenu();
-		CleanupScene();
 		
 		m_CanBeSaved = true;
 
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 1000, true, "latest");
+
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CleanupCharacterMenu, 100, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CleanupScene, 150, false);
 	}
 }

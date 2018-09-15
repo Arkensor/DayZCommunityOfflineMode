@@ -50,28 +50,6 @@ class ModuleManager
     }
 
 #ifndef COM_MODULES_OLDLOADING
-    string FileAttributeToString( FileAttr attr )
-    {
-        string fileType = "";
-        if ( attr & FileAttr.DIRECTORY )
-        {
-            fileType = fileType + "DIRECTORY";
-        }
-        if ( attr & FileAttr.HIDDEN )
-        {
-            fileType = fileType + "HIDDEN";
-        }
-        if ( attr & FileAttr.READONLY )
-        {
-            fileType = fileType + "READONLY";
-        }
-        if ( attr & FileAttr.INVALID )
-        {
-            fileType = fileType + "INVALID";
-        }
-        return fileType;
-    }
-
     bool IsValidModule( string name, FileAttr attributes )
     {
         Print( "Found: " + COM_MODULE_DIR + COM_MODULE_FOLDER + name + " as a " + FileAttributeToString( attributes ) );

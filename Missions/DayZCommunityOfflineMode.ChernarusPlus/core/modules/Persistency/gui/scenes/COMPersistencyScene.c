@@ -356,10 +356,10 @@ class COMPersistencyScene: Managed
 		}
 
 		m_DemoUnit = CharacterLoad.LoadPlayer( character, save, true );
-		m_DemoUnit.SetPosition( SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )) );
-
+		
 		if (m_DemoUnit)
 		{
+			m_DemoUnit.SetPosition( SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )) );
 			m_DemoUnit.PlaceOnSurface();
 			m_DemoUnit.SetOrientation(m_DemoRot);
 		}
@@ -369,18 +369,19 @@ class COMPersistencyScene: Managed
 	
 	void CreateNewCharacter(string type)
 	{
-		if (m_DemoUnit)
+		if ( m_DemoUnit )
 		{
 			GetGame().ObjectDelete(m_DemoUnit);
-			m_DemoUnit = NULL;
+			// m_DemoUnit = NULL;
 		}
 
 		g_Game.PreloadObject(type, 1.0);
 
-		m_DemoUnit = PlayerBase.Cast( g_Game.CreateObject( type, SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )), true ) );
+		m_DemoUnit = PlayerBase.Cast( GetGame().CreateObject( type, "0 0 0", true, true, true ) );
 		
 		if (m_DemoUnit)
 		{
+			m_DemoUnit.SetPosition( SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )) );
 			m_DemoUnit.PlaceOnSurface();
 			m_DemoUnit.SetOrientation(m_DemoRot);
 			m_DemoUnit.SetEventHandler(m_anim_end_event_handler);

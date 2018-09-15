@@ -25,8 +25,9 @@ class COMCharacterMenu extends UIScriptedMenu
 
     protected bool                          m_IsLoadingSave;
 	protected bool 							m_CanLoadSave;
-	
-	protected ref map< string, ref TStringAdvanceArray > m_Saves = new map< string, ref TStringAdvanceArray >;
+
+	protected ref array< string >			m_Characters;
+	protected ref array< string >			m_Saves;
 
 	protected int							m_Character;
     protected int 							m_Save;
@@ -36,12 +37,16 @@ class COMCharacterMenu extends UIScriptedMenu
 	{
 		m_oPersistencyModule = oPersistencyModule;
 
+		m_Characters = new ref array< string >;
+		m_Saves = new ref array< string >;
+
         m_IsLoadingSave = isLoadSave;
 		m_NoSaves = true;
 		
 		g_Game.SetKeyboardHandle(this);
 
 		SetCharacterList();
+		SetSaveList();
 	}
 
     void ~COMCharacterMenu()
@@ -49,6 +54,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
 
 		delete m_Saves;
+		delete m_Characters;
 		delete m_SaveSelector;
 		delete m_GenderSelector;
 		delete m_SkinSelector;
@@ -86,20 +92,11 @@ class COMCharacterMenu extends UIScriptedMenu
 
 
 		m_CharacterText.SetText( GetCharacter() );
-		TStringAdvanceArray saves = GetSavesForCharacter( GetCharacter() );
 
-		if ( !saves || saves.Count() == 0 ) {
-			m_NoSaves = true;
+		ref TStringAdvanceArray ts = new TStringAdvanceArray;
+		ts.Insert("temp");
 
-			ref TStringAdvanceArray ts = new TStringAdvanceArray;
-			ts.Insert("temp");
-
-			m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, ts );
-		} else {
-			m_NoSaves = false;
-
-			m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, saves );
-		}
+		m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, ts );
 
 		m_GenderSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_gender_setting_option" ), 0, null, false, m_oPersistencyModule.GetScene().m_CharGenderList );
 
@@ -125,7 +122,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		m_BottomSelector.m_OptionChanged.Insert( BottomChanged );
 		m_ShoesSelector.m_OptionChanged.Insert( ShoesChanged );
 
-		SetCharacter(m_Character);
+		SetCharacter( 0 );
 
 		return layoutRoot;
 	}
@@ -293,23 +290,27 @@ class COMCharacterMenu extends UIScriptedMenu
 	{
 		if ( m_IsLoadingSave )
 		{
-			if ( index < 0 ) index = m_Saves.Count() - 1;
-			if ( index >= m_Saves.Count() - 1 ) index = 0;
+			if ( index < 0 ) index = m_Characters.Count() - 1;
+			if ( index >= m_Characters.Count() ) index = 0;
+			m_Character = index;
 
 			m_CharacterText.SetText( GetCharacter() );
 
-			TStringAdvanceArray saves = GetSavesForCharacter( GetCharacter() );
+			SetSaveList();
 
-			if ( !saves || saves.Count() == 0 ) {
+			if ( !m_Saves || m_Saves.Count() == 0 ) {
 				m_NoSaves = true;
 			} else {
 				m_NoSaves = false;
-				m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, saves );
 			}
 
-			SetSave();
-		
-			m_Character = index;
+			if ( !m_NoSaves )
+			{
+				m_Save = 0;
+				m_SaveSelector.LoadNewValues( m_Saves, m_Save );
+
+				SetSave();
+			}
 		} else 
 		{	
 			UpdateCreatorSelectionsFromScene();
@@ -326,7 +327,12 @@ class COMCharacterMenu extends UIScriptedMenu
 			return;
 		}
 
-		m_oPersistencyModule.GetScene().SetCharacter( character,save );
+		if ( m_oPersistencyModule.GetScene() )
+		{
+			//GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.GetScene().SetCharacter, 100, false, character, save );
+		
+			m_oPersistencyModule.GetScene().SetCharacter( character, save );
+		}
 	}
     
     void UpdateInterval()
@@ -342,6 +348,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		if ( GetPlayer() )
 		{
+			GetGame().SelectPlayer( NULL, NULL );
 			GetPlayer().Delete();
 		}
 
@@ -536,60 +543,85 @@ class COMCharacterMenu extends UIScriptedMenu
 		}
 	}
 
-	TStringAdvanceArray GetSavesForCharacter(string sCharacter)
+	bool IsValidSave( string name, FileAttr attributes )
+    {
+        Print( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + name + " as a " + FileAttributeToString( attributes ) );
+
+		string extenstion = ".json";
+		int strLength = name.Length();
+
+		if ( name == extenstion ) return false;
+
+        if ( (attributes & FileAttr.DIRECTORY ) ) return false;
+
+        if ( name == "" ) return false;
+
+		Print( "Loaded" );
+
+        return true;
+    }
+
+	bool IsValidCharacter( string name, FileAttr attributes )
+    {
+        Print( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + name + " as a " + FileAttributeToString( attributes ) );
+
+        if ( ! (attributes & FileAttr.DIRECTORY ) ) return false;
+
+        if ( name == "" ) return false;
+
+        return true;
+    }
+
+	void SetSaveList()
 	{
-		ref TStringAdvanceArray oSaves = m_Saves.Get(sCharacter);
+		m_Saves.Clear();
+
+		if ( !IsValidCharacter( GetCharacter(), FileAttr.DIRECTORY ) || !m_CanLoadSave ) return;
+
 		string sName = "";
 		FileAttr oFileAttr = FileAttr.INVALID;
-		FindFileHandle oFileHandle = FindFile(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\*.json", sName, oFileAttr, FindFileFlags.ALL);
+		FindFileHandle oFileHandle = FindFile(BASE_PLAYER_SAVE_DIR + "\\" + GetCharacter() + "\\*.json", sName, oFileAttr, FindFileFlags.ALL);
 
-		if (sName != "" && oSaves)
+		if (sName != "")
 		{
-			oSaves.Clear();
-
-			if (sName != ".json")
+			if ( IsValidSave( sName, oFileAttr ) )
 			{
-				oSaves.Insert(sName.Substring(0, sName.Length() - 5));
+				m_Saves.Insert(sName.Substring(0, sName.Length() - 5));
 			}
 
 			while (FindNextFile(oFileHandle, sName, oFileAttr))
 			{
-				if (sName != "" && sName != ".json")
+				if (  IsValidSave( sName, oFileAttr ))
 				{
-					oSaves.Insert(sName.Substring(0, sName.Length() - 5));
+					m_Saves.Insert(sName.Substring(0, sName.Length() - 5));
 				}
 			}
 		}
-
-		return oSaves;
 	}
 
 	void SetCharacterList()
 	{
+		m_Characters.Clear();
+
 		string sName = "";
 		FileAttr oFileAttr = FileAttr.INVALID;
 		FindFileHandle oFileHandle = FindFile(BASE_PLAYER_SAVE_DIR + "\\*", sName, oFileAttr, FindFileFlags.ALL);
-
-		Print("File Attributes: INVALID " + FileAttr.INVALID + " DIRECTORY " + FileAttr.DIRECTORY + " HIDDEN " + FileAttr.HIDDEN + " READONLY " + FileAttr.READONLY);
-
-		Print("Character: " + sName + ", File Attr: " + oFileAttr);
 
 		int index = 0;
 
 		if (sName != "")
 		{
-			if (sName != GetCharacter())
+			if ( IsValidCharacter( sName, oFileAttr ))
 			{
-				m_Saves.Set(sName, new TStringAdvanceArray);
+				m_Characters.Insert(sName);
 				index++;
 			}
 
 			while (FindNextFile(oFileHandle, sName, oFileAttr))
 			{
-				if (sName != GetCharacter())
+				if ( IsValidCharacter( sName, oFileAttr ) )
 				{
-					Print("Character: " + sName + ", File Attr: " + oFileAttr);
-					m_Saves.Set(sName, new TStringAdvanceArray);
+					m_Characters.Insert(sName);
 					index++;
 				}
 			}
@@ -606,18 +638,16 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	string GetCharacter()
 	{
-		return m_Saves.GetKey( m_Character );
+		if ( !m_Characters || m_Characters.Count() == 0 ) return "";
+
+		return m_Characters.Get( m_Character );
 	}
 
 	string GetSave()
 	{
-		TStringAdvanceArray saves = m_Saves.Get( GetCharacter() );
-		if ( saves == NULL )
-		{
-			return "";
-		}
+		if ( !m_Saves || m_Saves.Count() == 0 ) return "";
 
-		return saves.Get( m_Save );
+		return m_Saves.Get( m_Save );
 	}
 
 	void SaveChanged()

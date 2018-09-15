@@ -1,6 +1,6 @@
 class CharacterLoad
 {
-    static PlayerBase LoadPlayer(string sCharacter, string sSave, bool bNotObject = false, PlayerIdentity oIdentity = NULL ) {
+    static PlayerBase LoadPlayer(string sCharacter, string sSave, bool bObject = false, PlayerIdentity oIdentity = NULL ) {
         ref CharacterData oData = new CharacterData;
 
 		string file = BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json";
@@ -11,7 +11,7 @@ class CharacterLoad
 
 		PlayerBase oPlayer;
 		
-		if ( bNotObject )
+		if ( bObject )
 		{
 			oPlayer = PlayerBase.Cast( GetGame().CreateObject( oData.SModel, "0 0 0", true, true, true ) );
 		} else 
