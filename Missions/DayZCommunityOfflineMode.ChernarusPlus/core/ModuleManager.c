@@ -50,11 +50,33 @@ class ModuleManager
     }
 
 #ifndef COM_MODULES_OLDLOADING
+    string FileAttributeToString( FileAttr attr )
+    {
+        string fileType = "";
+        if ( attr & FileAttr.DIRECTORY )
+        {
+            fileType = fileType + "DIRECTORY";
+        }
+        if ( attr & FileAttr.HIDDEN )
+        {
+            fileType = fileType + "HIDDEN";
+        }
+        if ( attr & FileAttr.READONLY )
+        {
+            fileType = fileType + "READONLY";
+        }
+        if ( attr & FileAttr.INVALID )
+        {
+            fileType = fileType + "INVALID";
+        }
+        return fileType;
+    }
+
     bool IsValidModule( string name, FileAttr attributes )
     {
-        Print( "Found: " + COM_MODULE_DIR + COM_MODULE_FOLDER + name + " as a " + attributes );
+        Print( "Found: " + COM_MODULE_DIR + COM_MODULE_FOLDER + name + " as a " + FileAttributeToString( attributes ) );
 
-        if ( attributes != FileAttr.DIRECTORY ) return false;
+        if ( ! (attributes & FileAttr.DIRECTORY ) ) return false;
 
         if ( name == "" ) return false;
 
@@ -97,7 +119,8 @@ class ModuleManager
 
 
         //m_ParentScriptModule = NULL;
-        m_ParentScriptModule = GetGame().GameScript;
+        // m_ParentScriptModule = GetGame().GameScript;
+        m_ParentScriptModule = GetMission().MissionScript;
 
         //m_ParentScriptModule = LoadScriptModule( "Scripts/1_Core" );
         //m_ParentScriptModule = LoadScriptModule( "Scripts/2_GameLib" );
@@ -110,10 +133,13 @@ class ModuleManager
 		FileAttr oFileAttr = FileAttr.INVALID;
 		FindFileHandle oFileHandle = FindFile( COM_MODULE_DIR + COM_MODULE_FOLDER + "*", module, oFileAttr, FindFileFlags.DIRECTORIES );
 
-		if ( IsValidModule( module, oFileAttr ) )
+		if ( module != "" )
 		{
-            LoadModule( module );
-			index++;
+            if ( IsValidModule( module, oFileAttr ) )
+            {
+                LoadModule( module );
+			    index++;
+            }
 
 			while (FindNextFile(oFileHandle, module, oFileAttr))
 			{

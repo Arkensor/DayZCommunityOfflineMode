@@ -8,7 +8,7 @@
 */
 
 #ifdef COM_MODULES_OLDLOADING
-#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\BarrelCrosshair.c"
+// #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\BarrelCrosshair.c"
+// #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\CustomFirstPersonCamera.c"
 #endif
 
-// #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\CustomFirstPersonCamera.c"

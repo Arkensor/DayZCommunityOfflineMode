@@ -13,14 +13,9 @@ class CameraSettings extends UIScriptedMenu
 	private SliderWidget m_SldCamFnear;
 	private TextWidget m_TxtCamFnear;
 	
-	
-	protected CommunityOfflineMode m_Mission;
-	
 	void CameraSettings()
 	{
 		Init();
-		
-		m_Mission = GetMission();
 	}	
 	
 	void ~CameraSettings()

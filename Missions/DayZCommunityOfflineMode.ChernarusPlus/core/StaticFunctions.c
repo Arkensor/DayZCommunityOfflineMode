@@ -140,9 +140,19 @@ static Weapon GetWeaponInHands()
     return weapon_in_hands;
 }
 
-static CommunityOfflineMode GetMission()
+static MissionBase GetMission()
 {
-    return CommunityOfflineMode.Cast( GetGame().GetMission() );
+    return MissionBase.Cast( GetGame().GetMission() );
+}
+
+static CommunityOfflineClient GetClientMission()
+{
+    return CommunityOfflineClient.Cast( GetGame().GetMission() );
+}
+
+static CommunityOfflineServer GetServerMission()
+{
+    return CommunityOfflineServer.Cast( GetGame().GetMission() );
 }
 
 static PlayerBase GetPlayer()
