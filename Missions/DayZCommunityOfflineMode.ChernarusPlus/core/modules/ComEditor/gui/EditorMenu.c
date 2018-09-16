@@ -62,6 +62,7 @@ class EditorMenu extends UIScriptedMenu
         super.OnHide();
 
         GetGame().GetInput().ResetGameFocus( INPUT_DEVICE_MOUSE );
+        GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
     }
 
     override bool OnClick( Widget w, int x, int y, int button )
@@ -89,7 +90,14 @@ class EditorMenu extends UIScriptedMenu
 
 		if ( w == m_CameraButton ) 
 		{
-			CameraTool.Cast(GetModuleManager().GetModule( CameraTool )).ToggleCamera();
+			if ( CTRL() ) 
+			{
+				GetGame().GetUIManager().ShowScriptedMenu( new CameraToolsMenu(), this );
+			} 
+			else 
+			{
+				CameraTool.Cast(GetModuleManager().GetModule( CameraTool )).ToggleCamera();
+			}
 		}
 
 		if ( popMenu ) 
@@ -98,19 +106,12 @@ class EditorMenu extends UIScriptedMenu
 			if ( popMenu.GetLayoutRoot().IsVisible() ) 
 			{
 				popMenu.GetLayoutRoot().Show( false );
+				popMenu.OnHide();
 			}
 			else 
 			{
 				popMenu.GetLayoutRoot().Show( true );
-			}
-
-			if ( popMenu.GetLayoutRoot().IsVisible() ) 
-			{
 				popMenu.OnShow();
-			} 
-			else 
-			{
-				popMenu.OnHide();
 			}
 
 			SetButtonFocus( w );

@@ -3,13 +3,14 @@ PanelWidgetClass PositionMenu
 	visible 0
 	color 0 0 0 0
 	position 0.0425 0.09
-	size 500 450
+	size 200 450
 	halign right_ref
 	valign top_ref
 	hexactpos 0
 	vexactpos 0
 	hexactsize 1
 	vexactsize 1
+	scriptclass "PositionMenu"
 	style EditorPanel
 
 	{
@@ -182,7 +183,7 @@ PanelWidgetClass PositionMenu
 
 		ButtonWidgetClass btn_ppp_pm_teleport
 		{
-			position 93 6
+			position 5 5
 			size 80 20
 			halign right_ref
 			valign bottom_ref

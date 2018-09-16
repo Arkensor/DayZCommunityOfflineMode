@@ -3,7 +3,7 @@ PanelWidgetClass ObjectMenu
 	visible 0
 	color 0 0 0 0
 	position 0.0425 0.0425
-	size 500 395
+	size 600 395
 	halign right_ref
 	valign top_ref
 	hexactpos 0
@@ -69,7 +69,7 @@ PanelWidgetClass ObjectMenu
 			vexactpos 1
 			hexactsize 1
 			vexactsize 1
-			text "Filter:"
+			text "Search:"
 		}
 
 		EditBoxWidgetClass search_input
@@ -95,11 +95,94 @@ PanelWidgetClass ObjectMenu
 			style rover_sim_colorable
 		}
 
+		ButtonWidgetClass btn_filter_All
+		{
+			position 5 65
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "All"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_edible_base
+		{
+			position 5 100
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Food"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_weapon_base
+		{
+			position 5 135
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Firearms"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_clothing_base
+		{
+			position 5 170
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Clothing"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_transport
+		{
+			position 5 205
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Vehicles"
+            text_proportion 0.75
+		}
+		ButtonWidgetClass btn_filter_house
+		{
+			position 5 240
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Buildings"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_dz_lightai
+		{
+			position 5 275
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Ai"
+            text_proportion 0.75
+		}
+
 		TextListboxWidgetClass classlist
 		{
 			visible 1
-			position 5 65
-			size 490 300
+			position 95 65
+			size 250 300
 			hexactpos 1
 			vexactpos 1
 			hexactsize 1
@@ -107,6 +190,19 @@ PanelWidgetClass ObjectMenu
 			style Editor
 			lines 20
 			font "gui/fonts/Metron14"
+		}
+
+		PanelWidgetClass preview_pnl
+		{
+			visible 1
+			color 0 0 0 0.8
+			position 350 65
+			size 245 300
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			style rover_sim_colorable
 		}
 
 		TextWidgetClass search_text
