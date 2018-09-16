@@ -81,18 +81,24 @@ class ObjectEditor extends Module
 	}
 
 	void SaveScene() 
-	{
-		
+	{	
 		ref Scene scene = new Scene();
 		scene.name = "latest";
+
+		string tocopy = "";
+
 		foreach( Object m_object : m_Objects ) 
 		{
 			ref Param objectParam = new Param3<string, vector, vector>( m_object.GetType(), m_object.GetPosition(), m_object.GetOrientation() );
 			scene.m_SceneObjects.Insert( objectParam );
-		}
 
+			tocopy = tocopy + "{\"" + m_object.GetType() + "\"" + "," + m_object.GetPosition()[0] + " " + m_object.GetPosition()[1] + " "  + m_object.GetPosition()[2] + "," + m_object.GetOrientation()[0] + " " + m_object.GetOrientation()[1] + " " + m_object.GetOrientation()[2] + "},";
+		}
+		tocopy = "auto data = { \n" + tocopy;
+		tocopy = tocopy + "\n}; \nforeach( auto x : data ) { auto obj = GetGame().CreateObject( x[0], x[1] ); obj.SetPosition( x[1] ); obj.SetOrientation( x[2] ); }";
+
+		GetGame().CopyToClipboard(tocopy);
 		JsonFileLoader< Scene >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
-		
 	}
 
 	void LoadScene() 
