@@ -13,10 +13,12 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\ObjectEditor.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\EditorMenu.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\ObjectMenu.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\AdminTool\\gui\\PositionMenu.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\WeatherMenu.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\GameMenu.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\PopupMenu.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\OverrideVerticalSpacer.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\scene\\Scene.c"
 #endif
 
 #ifndef COM_MODULES_OLDLOADING

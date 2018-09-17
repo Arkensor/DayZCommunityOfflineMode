@@ -119,7 +119,7 @@ class PersistencyModule extends Module
 		m_CanBeSaved = false;
 		GetClientMission().SetCanPause( false );
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove(this.SavePlayer);
 
 		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
@@ -245,7 +245,7 @@ class PersistencyModule extends Module
 			CharacterSave.SavePlayer( m_sCharacter, m_sSave, GetPlayer() );
 		} else 
 		{
-			GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Remove(this.SavePlayer);
+			GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove(this.SavePlayer);
 		}
 	}
 
@@ -262,7 +262,7 @@ class PersistencyModule extends Module
 
 		CharacterSave.CreatePlayer( m_sCharacter, oPlayer );
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CreatePlayerInt, 100, false);
 	}
 
 	void LoadLast()
@@ -271,7 +271,7 @@ class PersistencyModule extends Module
 
 		m_CanBeSaved = false;
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CreatePlayerInt, 100, false);
 	}
 
 	void LoadPlayer(string sCharacter, string sSave = "latest")
@@ -283,7 +283,7 @@ class PersistencyModule extends Module
 		m_sCharacter = sCharacter;
 		m_sSave = sSave;
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CreatePlayerInt, 100, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CreatePlayerInt, 100, false);
 	}
 
 	private void CreatePlayerInt()
@@ -307,7 +307,7 @@ class PersistencyModule extends Module
 
 		GetGame().SelectPlayer( NULL, oPlayer );
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.FinishLoadingInt, 100, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.FinishLoadingInt, 100, false);
 	}
 
 	private void FinishLoadingInt()
@@ -323,9 +323,11 @@ class PersistencyModule extends Module
 		
 		m_CanBeSaved = true;
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.SavePlayer, 1000, true, "latest");
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.SavePlayer, 1000, true, "latest");
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CleanupCharacterMenu, 100, false);
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(this.CleanupScene, 150, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CleanupCharacterMenu, 100, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CleanupScene, 150, false);
+		
+		GetGame().GetUIManager().ScreenFadeOut( 0.5 );
 	}
 }

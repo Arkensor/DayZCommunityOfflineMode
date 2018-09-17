@@ -1,26 +1,12 @@
-class FunctionParam 
-{
-	string function;
-
-	void FunctionParam( string param ) 
-	{
-		function = param;
-	}
-}
-
 class GameMenu extends PopupMenu
 {
 	TextListboxWidget m_gameScriptList;
 	Widget 			  m_checkboxPanel;
 	ButtonWidget 	  m_gameScriptButton;
 
-	protected ref array< CheckBoxWidget > checkBoxList = new array< CheckBoxWidget >;
+	protected ref map< string, string > checkBoxMap = new map< string, string >; // store widget name
 
 	string checkboxLayout = "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\CheckboxTemplate.layout";
-
-	// Move these vars to own options object
-	bool m_GodMode;
-	bool m_OldAiming;
 
 	void GameMenu()
 	{
@@ -29,27 +15,36 @@ class GameMenu extends PopupMenu
 
 	void ~GameMenu()
 	{
-		GetGame().GetUpdateQueue( CALL_CATEGORY_SYSTEM ).Remove( Update );
 	}
 
 	override void Init()
 	{
 		m_checkboxPanel = layoutRoot.FindAnyWidget("game_checkbox_panel");
-		//m_gameScriptList = TextListboxWidget.Cast(layoutRoot.FindAnyWidget("game_list_box"));
+		m_gameScriptList = TextListboxWidget.Cast(layoutRoot.FindAnyWidget("game_list_box"));
 		m_gameScriptButton = ButtonWidget.Cast(layoutRoot.FindAnyWidget("game_script_button"));
 
-		//m_gameScriptList.AddItem("Toggle Old Aiming", new FunctionParam("ToggleOldAiming"), 0);
+		m_gameScriptList.AddItem("Spawn Hatchback", new Param1<string>("SpawnHatchback"), 0);
+		m_gameScriptList.AddItem("Spawn Sedan", 	new Param1<string>("SpawnSedan"), 	  0);
+		m_gameScriptList.AddItem("Spawn V3S_Cargo", new Param1<string>("SpawnV3SCargo"),  0);
+		m_gameScriptList.AddItem("Spawn V3S",		new Param1<string>("SpawnV3S"), 	  0);
+		m_gameScriptList.AddItem("Spawn Bus", 		new Param1<string>("SpawnBus"), 	  0);
+		m_gameScriptList.AddItem("Spawn Van",	    new Param1<string>("SpawnVan"), 	  0);
 
 		CheckBoxWidget checkBoxGodmode = CheckBoxWidget.Cast(GetGame().GetWorkspace().CreateWidgets( checkboxLayout, m_checkboxPanel ));
-		checkBoxGodmode.SetUserData( new FunctionParam( "ToggleGodMode" ));
+		checkBoxGodmode.SetName("Godmode");
 		checkBoxGodmode.SetText("Godmode");
 
 		CheckBoxWidget checkBoxAiming = CheckBoxWidget.Cast(GetGame().GetWorkspace().CreateWidgets( checkboxLayout, m_checkboxPanel ));
-		checkBoxAiming.SetUserData( new FunctionParam( "ToggleOldAiming" ));
+		checkBoxAiming.SetName("OldAiming");
 		checkBoxAiming.SetText("Old Aiming");
 
-		checkBoxList.Insert( checkBoxGodmode );
-		checkBoxList.Insert( checkBoxAiming );
+		CheckBoxWidget checkBoxLaser = CheckBoxWidget.Cast(GetGame().GetWorkspace().CreateWidgets( checkboxLayout, m_checkboxPanel ));
+		checkBoxLaser.SetName("LaserPointer");
+		checkBoxLaser.SetText("Laser Pointer");
+
+		checkBoxMap.Insert( checkBoxGodmode.GetName(), "ToggleGodMode" );
+		checkBoxMap.Insert( checkBoxAiming.GetName(), "ToggleOldAiming" );
+		checkBoxMap.Insert( checkBoxLaser.GetName(), "ToggleLaser" );
 	}
 
 	override void OnShow()
@@ -65,24 +60,23 @@ class GameMenu extends PopupMenu
 
 	void UpdateCheckBoxes() 
 	{
-		foreach( CheckBoxWidget checkbox : checkBoxList ) 
+		foreach( string widgetName, string function : checkBoxMap ) 
 		{
-			FunctionParam function
-			checkbox.GetUserData( function ); // TODO come back to this fix crashing. ugh kms
+			Widget widget = m_checkboxPanel.FindWidget( widgetName );
 
-			bool checked = false; 
-			if ( function ) 
+			if ( widget.IsInherited( CheckBoxWidget )) 
 			{
-				GetPlayer().MessageStatus( function.ToString() );
-				// GetGame().GameScript.CallFunction( this , funcParam.param1 , NULL, checkbox );
+				CheckBoxWidget checkbox = CheckBoxWidget.Cast( widget );
+				bool checked;
+				GetGame().GameScript.CallFunction( this , function , checked, NULL );
+				checkbox.SetChecked( checked );
 			}
-			checkbox.SetChecked( checked );
 		}
 	}
 
 	void Update() 
 	{
-		if ( m_GodMode ) 
+		if ( m_GodMode ) // located in staticfunctions
 		{
 			GetPlayer().SetAllowDamage( false );
 
@@ -123,62 +117,139 @@ class GameMenu extends PopupMenu
 	{
 		if ( widget ) // Temp work around. I'm lazy xd
 		{
-			m_OldAiming = widget.IsChecked();
+			m_OldAiming = !m_OldAiming;
 
-			GetPlayer().OverrideShootFromCamera( m_OldAiming );
-		} 
-		else 
-		{
-			return m_OldAiming;
+			GetPlayer().OverrideShootFromCamera( !m_OldAiming );
 		}
-
-		return false;
+		return m_OldAiming;
 	}
 
 	bool ToggleGodMode( CheckBoxWidget widget ) 
 	{
 		if ( widget ) 
 		{
-			m_GodMode = widget.IsChecked(); 
+			m_GodMode = !m_GodMode;
 
 			GetPlayer().SetAllowDamage( !m_GodMode );
 		}
-		else 
-		{
-			return m_GodMode;
-		}
-
-		return false;
+		return m_GodMode;
 	}
+
+	bool ToggleLaser( CheckBoxWidget widget ) 
+	{
+		if ( widget ) 
+		{
+			bc_Visible = !bc_Visible;
+		}
+		return bc_Visible;
+	} 
 
 	override bool OnClick( Widget w, int x, int y, int button )
 	{
 
-		FunctionParam param;
+		string param;
+		Param1<string> param1;
 
 		if ( w == m_gameScriptButton ) 
 		{
 			int selectRow = m_gameScriptList.GetSelectedRow();
 
-			m_gameScriptList.GetItemData( selectRow, 0, param );
+			m_gameScriptList.GetItemData( selectRow, 0, param1 );
 
-			if ( param ) 
+			if ( param1 ) 
 			{
-				GetGame().GameScript.CallFunction( this , param.function , NULL, 0 );
+				GetGame().GameScript.CallFunction( this , param1.param1 , NULL, 0 );
 			}
 		}
 
 		if ( w.IsInherited( CheckBoxWidget ) ) 
 		{
-			w.GetUserData( param );
+			param = checkBoxMap.Get( w.GetName() );
 
 			if ( param ) 
 			{
-				GetGame().GameScript.CallFunction( this , param.function , NULL, w );
+				GetGame().GameScript.CallFunction( this , param , NULL, CheckBoxWidget.Cast( w ) );
 			}
-			//CheckBoxWidget checkBox = CheckBoxWidget.Cast( checkBox );
 		}
 
 		return false;
+	}
+
+	void SpawnHatchback() 
+	{
+		TStringArray attArr = {
+		"HatchbackWheel","HatchbackWheel","HatchbackWheel","HatchbackWheel",
+		"CarBattery","CarRadiator","EngineBelt","SparkPlug","HatchbackHood",
+		"HatchbackTrunk","HatchbackDoors_Driver","HatchbackDoors_CoDriver",
+		}
+
+		SpawnVehicle( "OffroadHatchback", attArr );
+	}
+
+	void SpawnSedan() 
+	{
+		TStringArray attArr = {
+		"CivSedanWheel","CivSedanWheel","CivSedanWheel","CivSedanWheel",
+		"CarBattery", "CarRadiator","EngineBelt", "SparkPlug","CivSedanHood",
+		"CivSedanTrunk", "CivSedanDoors_Driver","CivSedanDoors_CoDriver",
+		"CivSedanDoors_BackLeft", "CivSedanDoors_BackRight",
+		}
+
+		SpawnVehicle( "CivilianSedan", attArr );
+	}
+
+	void SpawnV3SCargo() 
+	{
+		TStringArray attArr = {
+		"V3SWheel","V3SWheel", "V3SWheel","V3SWheel", "V3SWheelDouble","V3SWheelDouble", "V3SWheelDouble","V3SWheelDouble",
+		"TruckBattery","TruckRadiator","EngineBelt","GlowPlug","V3SHood",
+		"V3SDoors_Driver_Orange","V3SDoors_CoDriver_Orange",
+		}
+
+		SpawnVehicle( "V3S_Cargo_Blue", attArr );
+	}
+
+	void SpawnV3S() 
+	{
+		TStringArray attArr = {
+		"V3SWheel","V3SWheel", "V3SWheel","V3SWheel", "V3SWheelDouble","V3SWheelDouble", "V3SWheelDouble","V3SWheelDouble",
+		"TruckBattery","TruckRadiator","EngineBelt","GlowPlug","V3SHood",
+		"V3SDoors_Driver_Orange","V3SDoors_CoDriver_Orange",
+		}
+
+		SpawnVehicle( "V3S_Chassis_Blue", attArr );
+	}
+
+	void SpawnBus() 
+	{
+		TStringArray attArr = {
+		"TransitBusWheel","TransitBusWheel", "TransitBusWheelDouble","TransitBusWheelDouble",
+		"TruckBattery","TruckRadiator","EngineBelt","GlowPlug","BusHood",
+		"BusDoors_Left","BusDoors_Right", "BusDoors_Left","BusDoors_Right", "BusDoors_Left","BusDoors_Right",
+		}
+
+		SpawnVehicle( "TransitBus", attArr );
+	}
+
+	void SpawnVan() 
+	{
+		TStringArray attArr = {
+			"CivVanWheel","CivVanWheel","CivVanWheel","CivVanWheel",
+			"CarBattery","CarRadiator","EngineBelt","SparkPlug","CivVanTrunk",
+			"CivVanDoors_Driver","CivVanDoors_CoDriver","CivVanDoors_BackRight",
+			"CivVanDoors_TrumpDown", "CivVanDoors_TrumpUp",
+		}
+
+		SpawnVehicle( "CivilianVan", attArr );
+	}
+
+	void SpawnVehicle( string vehicle, TStringArray attachments) 
+	{
+		Car oCar = Car.Cast( GetGame().CreateObject( vehicle, GetCursorPos(), false, false ) );
+
+		for (int j = 0; j < attachments.Count(); j++) { oCar.GetInventory().CreateAttachment( attachments.Get(j) ); }
+
+		oCar.SetAllowDamage( false );
+		oCar.SwitchLights();
 	}
 }

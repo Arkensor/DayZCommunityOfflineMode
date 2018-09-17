@@ -213,13 +213,18 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void LoadSave()
 	{
-		if (m_NoSaves)
+		string character = GetCharacter();
+		string save = GetSave();
+
+		if ( m_NoSaves || character == "" || save == "" )
 		{
 			GetGame().GetUIManager().ShowDialog("FAILURE", "No save found for this character!", 0, DBT_OK, DBB_OK, DMT_WARNING, NULL);
-		} else 
-		{
-			GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.LoadPlayer, 100, false, GetCharacter(), GetSave());
+			return
 		}
+
+		GetGame().GetUIManager().ScreenFadeIn( 0, "Loading character.", FadeColors.BLACK, FadeColors.WHITE);
+
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(m_oPersistencyModule.LoadPlayer, 100, false, character, save);
 	}
 
 	void CreateCharacter()
@@ -247,7 +252,7 @@ class COMCharacterMenu extends UIScriptedMenu
 			position = position + Vector( 0, 1.5, 0);
 			m_oPersistencyModule.GetScene().GetPlayerUnit().SetPosition( position );
 
-			GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.CreatePlayer, 100, false, characterName, m_oPersistencyModule.GetScene().GetPlayerUnit());
+			GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(m_oPersistencyModule.CreatePlayer, 100, false, characterName, m_oPersistencyModule.GetScene().GetPlayerUnit());
 		}
 	}
 

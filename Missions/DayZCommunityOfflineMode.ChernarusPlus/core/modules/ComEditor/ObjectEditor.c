@@ -1,3 +1,4 @@
+
 class ObjectEditor extends Module
 {
 	protected bool m_ObjectEditorActive = false;
@@ -6,17 +7,31 @@ class ObjectEditor extends Module
 
 	protected ref ObjectMenu m_ObjectMenu;
 
+	// protected ref Scene active_Scene;
+	protected ref array< ref Object> m_Objects = new array< ref Object>;
+	string BASE_COM_DIR = "$saves:CommunityOfflineMode";
+	string BASE_SCENE_DIR = BASE_COM_DIR + "\\Scenes";
+
 	void ObjectEditor()
 	{
+		MakeDirectory(BASE_SCENE_DIR);
+
 	}
 
 	void ~ObjectEditor()
 	{
 	}
 	
+	void addObject( Object trackedObject ) 
+	{
+		m_Objects.Insert( trackedObject );
+	}
+
 	override void Init() 
 	{
 		super.Init();
+
+		LoadScene();
 	}
 
 	/**
@@ -41,11 +56,15 @@ class ObjectEditor extends Module
 		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate." );
 		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object."  );
 		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground."  );
+		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "SaveScene"    , "CTRL+S"	       , "Saves current scene of objects");
 
 		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    ); 
 		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
 		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KeyMouseBinding.KB_EVENT_RELEASE ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
-		
+		sceneSave.AddKeyBind( KeyCode.KC_LCONTROL,  KeyMouseBinding.KB_EVENT_HOLD );
+		sceneSave.AddKeyBind( KeyCode.KC_S, 	 KeyMouseBinding.KB_EVENT_RELEASE );
+
+
 		objectSelect.AddMouseBind( MouseState.LEFT		, KeyMouseBinding.MB_EVENT_CLICK ); // Left Click
 		objectDrag.  AddMouseBind( MouseState.LEFT 		, KeyMouseBinding.MB_EVENT_DRAG  );
 		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 							 ); // Doesn't matter what event for wheel
@@ -57,7 +76,45 @@ class ObjectEditor extends Module
 		RegisterKeyMouseBinding( objectScroll );
 		RegisterKeyMouseBinding( objectDelete );
 		RegisterKeyMouseBinding( objectGround );
+		RegisterKeyMouseBinding( sceneSave );
 		
+	}
+
+	void SaveScene() 
+	{	
+		ref Scene scene = new Scene();
+		scene.name = "latest";
+
+		string tocopy = "";
+
+		foreach( Object m_object : m_Objects ) 
+		{
+			ref Param objectParam = new Param3<string, vector, vector>( m_object.GetType(), m_object.GetPosition(), m_object.GetOrientation() );
+			scene.m_SceneObjects.Insert( objectParam );
+
+			tocopy = tocopy + "{\"" + m_object.GetType() + "\"" + "," + m_object.GetPosition()[0] + " " + m_object.GetPosition()[1] + " "  + m_object.GetPosition()[2] + "," + m_object.GetOrientation()[0] + " " + m_object.GetOrientation()[1] + " " + m_object.GetOrientation()[2] + "},";
+		}
+		tocopy = "auto data = { \n" + tocopy;
+		tocopy = tocopy + "\n}; \nforeach( auto x : data ) { auto obj = GetGame().CreateObject( x[0], x[1] ); obj.SetPosition( x[1] ); obj.SetOrientation( x[2] ); }";
+
+		GetGame().CopyToClipboard(tocopy);
+		JsonFileLoader< Scene >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
+	}
+
+	void LoadScene() 
+	{
+		ref Scene scene = new Scene();
+
+		JsonFileLoader<Scene>.JsonLoadFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
+
+		foreach( auto param : scene.m_SceneObjects ) 
+		{
+
+			Object object = GetGame().CreateObject( param.param1, param.param2, false, false );
+			object.SetOrientation( param.param3 );
+
+			m_Objects.Insert( object );
+		}
 	}
 	
 	void ToggleEditor()

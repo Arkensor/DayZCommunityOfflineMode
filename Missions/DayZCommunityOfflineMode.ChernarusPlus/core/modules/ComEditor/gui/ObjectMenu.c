@@ -7,12 +7,23 @@ class ObjectMenu extends PopupMenu
 	protected ButtonWidget m_btnSpawnInventory;
 	protected ButtonWidget m_btnCancel;
 
+	private ItemPreviewWidget m_item_widget;
+	protected EntityAI previewItem;
+	private int m_characterRotationX;
+	private int m_characterRotationY; // Borrowed from inspectmenu
+	private int m_characterScaleDelta;
+	private vector m_characterOrientation;
+
 	void ObjectMenu()
 	{
 	}
 
 	void ~ObjectMenu()
 	{
+		if ( previewItem ) 
+		{
+			GetGame().ObjectDelete( previewItem );
+		}
 	}
 
 	void Init()
@@ -27,49 +38,87 @@ class ObjectMenu extends PopupMenu
 
 	override void OnShow()
 	{
-		UpdateList();
+		UpdateList( "All" );
+	}
+
+	override void OnHide() 
+	{
+		if ( previewItem ) 
+		{
+			GetGame().ObjectDelete( previewItem );
+		}
 	}
 
 	override bool OnChange( Widget w, int x, int y, bool finished )
 	{
         if ( w == m_SearchBox )
         {
-            UpdateList();
+            UpdateList( "All" );
             return true;
         }
 
         return false;
     }
 
+    bool OnMouseEnter( Widget w , int x, int y ) 
+    {
+    	if ( w == m_SearchBox ) 
+    	{
+    		GetPlayer().GetInputController().OverrideMovementSpeed( true, 0 );
+    	}
+    	return false;
+    }
+
+    bool OnMouseLeave( Widget w, Widget enterW, int x, int y ) 
+    {
+    	if ( w == m_SearchBox ) 
+    	{
+    		GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
+    	}
+    	return false;
+    }
+
 	override bool OnClick( Widget w, int x, int y, int button )
 	{
 	    string strSelection = GetCurrentSelection();
+	    bool ai = false;
 
         if( strSelection != "" )
         {
+        	strSelection.ToLower();
+        	ObjectEditor obEditor = GetModuleManager().GetModule( ObjectEditor );
+
+        	if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) ) 
+        	{
+        		ai = true;
+        	}
+
             if( w == m_btnSpawnCursor )
             {
-                EntityAI oCursorObj = g_Game.CreateObject( strSelection, GetCursorPos(), false );
+                EntityAI oCursorObj = g_Game.CreateObject( strSelection, GetCursorPos(), false, ai );
 
                 if ( oCursorObj.IsInherited( ItemBase ) )
                 {
                     ItemBase oCursorItem = ( ItemBase ) oCursorObj;
                     SetupSpawnedItem( oCursorItem, oCursorItem.GetMaxHealth(), 1 );
-
                     return true;
                 }
+
+                obEditor.addObject( oCursorObj );
             }
             else if ( w == m_btnSpawnGround )
             {
-                EntityAI oObj = g_Game.CreateObject( strSelection, GetGame().GetPlayer().GetPosition(), false );
+                EntityAI oObj = g_Game.CreateObject( strSelection, GetGame().GetPlayer().GetPosition(), false, ai );
 
                 if ( oObj.IsInherited( ItemBase ) )
                 {
                     ItemBase oItem = ( ItemBase ) oObj;
                     SetupSpawnedItem( oItem, oItem.GetMaxHealth(), 1 );
 
-                     return true;
+                    return true;
                 }
+
+                obEditor.addObject( oCursorObj );
             }
             else if ( w == m_btnSpawnInventory )
             {
@@ -81,17 +130,118 @@ class ObjectMenu extends PopupMenu
             }
         }
 
+        if ( w.GetName().Contains( "btn_filter" ) ) 
+        {
+        	string buttonName = w.GetName();
+        	buttonName.Replace("btn_filter_", "");
+        	UpdateList( buttonName );
+
+        	return true;
+        }
+
         return false;
 	}
 
 	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
 	{
-        //Todo use this for item preview change maybe?
+        if ( w == m_classList ) 
+        {
+        	string strSelection = GetCurrentSelection();
+        	m_characterOrientation = vector.Zero;
+
+        	if ( !m_item_widget )
+			{
+				Widget preview_panel = layoutRoot.FindAnyWidget("preview_pnl");
+
+				if ( preview_panel ) 
+				{
+					float width;
+					float height;
+					preview_panel.GetSize(width, height);
+
+					m_item_widget = ItemPreviewWidget.Cast( GetGame().GetWorkspace().CreateWidget(ItemPreviewWidgetTypeID, 0, 0, 1, 1, WidgetFlags.VISIBLE, ARGB(255, 255, 255, 255), 10, preview_panel) );
+				}
+			}
+
+			if ( previewItem ) 
+			{
+				GetGame().ObjectDelete( previewItem );
+			}
+
+			previewItem = GetGame().CreateObject( strSelection, vector.Zero, false );
+
+			m_item_widget.SetItem( previewItem );
+			m_item_widget.SetModelPosition( Vector(0,0,0.5) );
+			m_item_widget.SetModelOrientation( m_characterOrientation );
+
+			float itemx, itemy;		
+			m_item_widget.GetPos(itemx, itemy);
+
+			m_item_widget.SetSize( 1.5, 1.5 );
+
+			// align to center 
+			m_item_widget.SetPos( -0.225, -0.225 );
+        }
 
 		return true;
 	}
 
-    void UpdateList()
+	override bool OnMouseButtonDown( Widget w, int x, int y, int button ) 
+	{
+		if (w == m_item_widget)
+		{
+			GetGame().GetDragQueue().Call(this, "UpdateRotation");
+			g_Game.GetMousePos(m_characterRotationX, m_characterRotationY);
+			return true;
+		}
+		return false;
+	}
+
+	override bool OnMouseWheel( Widget w, int x, int y, int wheel ) 
+	{
+		if ( w == m_item_widget )
+		{
+			GetGame().GetDragQueue().Call(this, "UpdateScale");
+			m_characterScaleDelta = wheel ;
+		}
+		return false;
+	}
+
+	void UpdateScale(int mouse_x, int mouse_y, int wheel, bool is_dragging) // Borrowed from inspect menu
+	{
+		float w, h, x, y;		
+		m_item_widget.GetPos(x, y);
+		m_item_widget.GetSize(w,h);
+		w = w + ( m_characterScaleDelta / 4);
+		h = h + ( m_characterScaleDelta / 4 );
+		if ( w > 0.5 && w < 4 )
+		{
+			m_item_widget.SetSize( w, h );
+	
+			// align to center 
+			int screen_w, screen_h;
+			GetScreenSize(screen_w, screen_h);
+			float new_x = x - ( m_characterScaleDelta / 8 );
+			float new_y = y - ( m_characterScaleDelta / 8 );
+			m_item_widget.SetPos( new_x, new_y );
+		}
+	}
+
+	void UpdateRotation(int mouse_x, int mouse_y, bool is_dragging) // Borrowed from inspect menu
+	{
+		vector o = m_characterOrientation;
+		o[0] = o[0] + (m_characterRotationY - mouse_y);
+		o[1] = o[1] - (m_characterRotationX - mouse_x);
+		
+		m_item_widget.SetModelOrientation( o );
+		
+		if (!is_dragging)
+		{
+			m_characterOrientation = o;
+		}
+	}
+
+    void UpdateList( string classFilter ) // All default
     {
         m_classList.ClearItems();
 
@@ -127,8 +277,18 @@ class ObjectMenu extends PopupMenu
 
 				strNameLower.ToLower();
 
-				if ( strNameLower.Contains( strSearch ) || ( strSearch == "" ) )
+				if ( GetGame().IsKindOf( strNameLower, classFilter ) || classFilter == "All" ) // Fix for weapon_base not being child of "All"
 				{
+					if ( (strSearch != "" && (!strNameLower.Contains( strSearch ))) ) 
+					{
+						continue;
+					}
+
+					if ( strName == "ItemOptics" ) 
+					{
+						continue; // Fix crash
+					}
+
 					m_classList.AddItem( strName, NULL, 0 );
 				}
 			}
@@ -147,3 +307,10 @@ class ObjectMenu extends PopupMenu
 		return "";
 	}
 }
+
+// DZ_LightAI
+// House?
+// Transport
+// Weapon_Base
+// Edible_Base
+// Clothing_Base

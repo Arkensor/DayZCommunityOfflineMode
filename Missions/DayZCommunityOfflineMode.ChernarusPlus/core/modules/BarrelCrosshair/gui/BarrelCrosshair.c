@@ -8,14 +8,12 @@ class BarrelCrosshair extends ScriptedWidgetEventHandler
 	
 	float distance = 0;
 	
-	private bool m_Visible = true;
-	
 	void BarrelCrosshair()
 	{
 		m_Player = NULL;
 		m_Weapon = NULL;
 		
-		GetGame().GetUpdateQueue(CALL_CATEGORY_GUI).Insert(this.Update);	
+		GetGame().GetUpdateQueue(CALL_CATEGORY_GUI).Insert(this.Update);
 	}
 	
 	void ~BarrelCrosshair()
@@ -34,7 +32,7 @@ class BarrelCrosshair extends ScriptedWidgetEventHandler
 	{
 		if(!m_Player) Class.CastTo(m_Player, GetGame().GetPlayer());
 		
-		if ( GetMission().m_bOldAiming ) 
+		if ( bc_Visible ) 
 		{
 			if( m_Player && m_Player.IsPlayerSelected() && !m_Player.IsInIronsights() && !GetGame().IsInventoryOpen() )
 			{

@@ -13,6 +13,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\DebugMonitor\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\module.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BotTest\\module.c"
 #endif
 
 #ifndef COM_MODULES_OLDLOADING
@@ -151,6 +152,8 @@ class ModuleManager
         #ifdef MODULE_OVERRIDEMENUS
         m_Modules.Insert( new OverrideMenus );
         #endif
+
+        m_Modules.Insert( new BotTest );
     }
 #endif
 
