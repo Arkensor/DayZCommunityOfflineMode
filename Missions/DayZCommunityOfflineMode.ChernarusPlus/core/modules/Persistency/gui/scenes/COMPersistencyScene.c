@@ -26,7 +26,6 @@ class COMPersistencyScene: Managed
 
 	protected CameraTool 						m_CameraTool;
 	protected PlayerBase 						m_DemoUnit;
-	protected Weather							m_Weather;
 	protected vector 							m_DemoPos;
 	protected vector 							m_DemoRot;
 	protected vector 							m_CameraTrans[4];
@@ -53,99 +52,22 @@ class COMPersistencyScene: Managed
 		
 		SetClickEnable( true );
 
-		World w = g_Game.GetWorld();
-
 		string worldName;
 		g_Game.GetWorldName(worldName);
-	
 		string root_path = "cfgCharacterScenes " + worldName;
-		
+
 		int count = g_Game.ConfigGetChildrenCount(root_path);
 		int index = Math.RandomInt(0, count - 1);
 		string childName;
 		g_Game.ConfigGetChildName(root_path, index, childName);
 	
 		string scene_path = root_path + " " + childName;
-		m_Target = SwapYZ(g_Game.ConfigGetVector(scene_path + " target"));
-		vector position = SwapYZ(g_Game.ConfigGetVector(scene_path + " position"));
-		TIntArray date = new TIntArray;
-		TFloatArray storm = new TFloatArray;
-		g_Game.ConfigGetIntArray(scene_path + " date", date);
-		float fov = g_Game.ConfigGetFloat(scene_path + " fov");
-		float overcast = g_Game.ConfigGetFloat(scene_path + " overcast");
-		float rain = g_Game.ConfigGetFloat(scene_path + " rain");
-		float fog = g_Game.ConfigGetFloat(scene_path + " fog");
-		float windspeed = -1;
-		if ( g_Game.ConfigIsExisting(scene_path + " windspeed") ) 	windspeed = g_Game.ConfigGetFloat(scene_path + " windspeed");
-		g_Game.ConfigGetFloatArray(scene_path + " storm", storm);
 		
-		World world = g_Game.GetWorld();
-	
-		if (world && date.Count() >= 5)
-		{
-			world.SetDate(date.Get(0), date.Get(1), date.Get(2), date.Get(3), date.Get(4));
-		}
-		
-		m_CameraTool = GetModuleManager().GetModuleByName("CameraTool");
-		m_CameraTool.EnableCamera( true );
+		SetupWorld( root_path, scene_path );
 
-		m_CameraTool.GetCamera().SetPosition( SnapToGround( position ) );
-
-		Math3D.MatrixIdentity4(m_CameraTrans);
+		SetupWeather( root_path, scene_path );
 		
-		if ( m_CameraTool.GetCamera() )
-		{
-			m_CameraTool.GetCamera().LookAt(m_Target);
-			m_CameraTool.GetCamera().SetFOV(fov);
-			m_CameraTool.GetCamera().SetFocus(5.0, 0.0); //5.0, 1.0
-			
-			m_CameraTool.GetCamera().SetActive(true);
-			
-			Math3D.DirectionAndUpMatrix(m_Target - SnapToGround(position), "0 1 0", m_CameraTrans);
-			m_CameraTrans[3] = m_CameraTool.GetCamera().GetPosition();
-			m_DemoPos = Vector(0.685547, -0.988281, 3.68823).Multiply4(m_CameraTrans);
-
-			float pos_x = m_DemoPos[0];
-			float pos_z = m_DemoPos[2];
-			float pos_y = GetGame().SurfaceY(pos_x, pos_z);
-			vector ground_demo_pos = Vector(pos_x, pos_y, pos_z);
-			m_DemoPos = ground_demo_pos;
-
-			m_DemoRot = "0 0 0";
-			vector to_cam_dir = m_CameraTool.GetCamera().GetPosition() - m_DemoPos;
-			m_DemoRot[0] = Math.Atan2(to_cam_dir[0], to_cam_dir[2]) * Math.RAD2DEG;
-		}
-		
-		m_DeltaX = Math.AbsFloat(m_DemoPos[0] - m_CameraTool.GetCamera().GetPosition()[0]);
-		m_DeltaZ = Math.AbsFloat(m_DemoPos[2] - m_CameraTool.GetCamera().GetPosition()[2]);
-		if (!m_Radius || m_Radius == 0)
-		{
-			m_Radius = Math.Sqrt (Math.Pow(m_DeltaX, 2) + Math.Pow(m_DeltaZ, 2));
-			m_Radius_original = m_Radius;
-		}
-		
-		m_Weather = g_Game.GetWeather();
-		m_Weather.GetOvercast().SetLimits( overcast, overcast );
-		m_Weather.GetRain().SetLimits( rain, rain );
-		m_Weather.GetFog().SetLimits( fog, fog );
-		
-		m_Weather.GetOvercast().Set( overcast, 0, 0);
-		m_Weather.GetRain().Set( rain, 0, 0);
-		m_Weather.GetFog().Set( fog, 0, 0);
-		
-		if ( storm.Count() == 3 )
-		{
-			m_Weather.SetStorm(storm.Get(0),storm.Get(1),storm.Get(2));
-		}
-		
-		if ( windspeed != -1 )
-		{
-			m_Weather.SetWindSpeed(windspeed);
-			m_Weather.SetWindMaximumSpeed(windspeed);
-			m_Weather.SetWindFunctionParams(1,1,1);
-		}
-		
-		Init();
+		SetupCamera( root_path, scene_path );
 	}
 
 	void ~COMPersistencyScene()
@@ -165,50 +87,99 @@ class COMPersistencyScene: Managed
 			ct.DisableCamera();
 		}
 	}
-	
-	void Init()
-	{
-		m_CharGenderList = new TStringAdvanceArray;
-		m_CharPersonalityMaleList = new TStringAdvanceArray;
-		m_CharPersonalityFemaleList = new TStringAdvanceArray;
-		m_CharAllCharacters = new TStringArray;
-		m_CharShirtList = new TStringAdvanceArray;
-		m_CharPantsList = new TStringAdvanceArray;
-		m_CharShoesList = new TStringAdvanceArray;
-		
-		string character_CfgName;
-		string root_path = "cfgCharacterCreation";
-		
-		g_Game.ConfigGetTextArray(root_path + " gender", m_CharGenderList);
-		g_Game.ConfigGetTextArray(root_path + " top", m_CharShirtList);
-		g_Game.ConfigGetTextArray(root_path + " bottom", m_CharPantsList);
-		g_Game.ConfigGetTextArray(root_path + " shoe", m_CharShoesList);
 
-		m_CharAllCharacters = GetGame().ListAvailableCharacters();
-		for (int i = 0; i < m_CharAllCharacters.Count(); i++)
+	void SetupCamera( string root_path, string scene_path )
+	{
+		float fov = GetGame().ConfigGetFloat(scene_path + " fov");
+		
+		vector position = SwapYZ(g_Game.ConfigGetVector(scene_path + " position"));
+
+		m_CameraTool = GetModuleManager().GetModuleByName("CameraTool");
+		m_CameraTool.EnableCamera( true );
+
+		m_CameraTool.GetCamera().SetPosition( SnapToGround( position ) );
+
+		Math3D.MatrixIdentity4( m_CameraTrans );
+		
+		if ( m_CameraTool.GetCamera() )
 		{
-			character_CfgName = m_CharAllCharacters.Get(i);
-			if (GetGame().IsKindOf(character_CfgName, "SurvivorMale_Base"))
-			{
-				m_CharPersonalityMaleList.Insert(character_CfgName);
-			}
-			else
-			{
-				m_CharPersonalityFemaleList.Insert(character_CfgName);
-			}
+			m_CameraTool.GetCamera().LookAt( m_Target );
+			m_CameraTool.GetCamera().SetFOV( fov );
+			m_CameraTool.GetCamera().SetFocus(5.0, 0.0); //5.0, 1.0
+			
+			m_CameraTool.GetCamera().SetActive(true);
+			
+			Math3D.DirectionAndUpMatrix( m_Target - SnapToGround(position), "0 1 0", m_CameraTrans );
+
+			m_CameraTrans[3] = m_CameraTool.GetCamera().GetPosition();
+
+			m_DemoPos = Vector( 0.685547, -0.988281, 3.68823 ).Multiply4( m_CameraTrans );
+			
+			m_DemoPos = Vector( m_DemoPos[0], GetGame().SurfaceY( m_DemoPos[0], m_DemoPos[2] ), m_DemoPos[2] );
+
+			m_DemoRot = "0 0 0";
+
+			vector camDirection = m_CameraTool.GetCamera().GetPosition() - m_DemoPos;
+			m_DemoRot[0] = Math.Atan2( camDirection[0], camDirection[2] ) * Math.RAD2DEG;
 		}
 		
-		CreateRandomCharacter();
+		m_DeltaX = Math.AbsFloat(m_DemoPos[0] - m_CameraTool.GetCamera().GetPosition()[0]);
+		m_DeltaZ = Math.AbsFloat(m_DemoPos[2] - m_CameraTool.GetCamera().GetPosition()[2]);
+		if (!m_Radius || m_Radius == 0)
+		{
+			m_Radius = Math.Sqrt (Math.Pow(m_DeltaX, 2) + Math.Pow(m_DeltaZ, 2));
+			m_Radius_original = m_Radius;
+		}
 	}
-	
-	void SetCharacterGender(CharGender gender)
+
+	void SetupWorld( string root_path, string scene_path )
 	{
-		m_Gender = gender;
+		TIntArray date = new TIntArray;
+		GetGame().ConfigGetIntArray(scene_path + " date", date);
+
+		m_Target = SwapYZ(g_Game.ConfigGetVector(scene_path + " target"));
+
+		World world = GetGame().GetWorld();
+	
+		if (world && date.Count() >= 5)
+		{
+			world.SetDate(date.Get(0), date.Get(1), date.Get(2), date.Get(3), date.Get(4));
+		}
 	}
-	
-	CharGender GetCharacterGender()
+
+	void SetupWeather( string root_path, string scene_path )
 	{
-		return m_Gender;
+		float overcast = GetGame().ConfigGetFloat(scene_path + " overcast");
+		float rain = GetGame().ConfigGetFloat(scene_path + " rain");
+		float fog = GetGame().ConfigGetFloat(scene_path + " fog");
+
+		float windspeed = -1;
+		if ( GetGame().ConfigIsExisting(scene_path + " windspeed") )
+			windspeed = GetGame().ConfigGetFloat(scene_path + " windspeed");
+
+		TFloatArray storm = new TFloatArray;
+		GetGame().ConfigGetFloatArray(scene_path + " storm", storm);
+
+		Weather weather = g_Game.GetWeather();
+		weather.GetOvercast().SetLimits( overcast, overcast );
+		weather.GetRain().SetLimits( rain, rain );
+		weather.GetFog().SetLimits( fog, fog );
+		
+		weather.GetOvercast().Set( overcast, 0, 0);
+		weather.GetRain().Set( rain, 0, 0);
+		weather.GetFog().Set( fog, 0, 0);
+		
+		if ( storm.Count() == 3 )
+		{
+			weather.SetStorm(storm.Get(0),storm.Get(1),storm.Get(2));
+		}
+		
+		if ( windspeed != -1 )
+		{
+			weather.SetWindSpeed(windspeed);
+			weather.SetWindMaximumSpeed(windspeed);
+			weather.SetWindFunctionParams(1,1,1);
+		}
 	}
 	
 	void SetClickEnable( bool enable )
@@ -223,58 +194,13 @@ class COMPersistencyScene: Managed
 	
 	void ResetIntroCamera()
 	{
-		m_CameraTool.SetTarget(m_DemoUnit);
-		m_CameraTool.FollowTarget();
+		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater( this.ResetPosition, 250 );
 
-		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater( this.SceneCharacterSetPos, 250 );
-	}
-	
-	void RandomSelectGender()
-	{
-		int chance = Math.RandomInt(0, 2);
-		if (chance == 0)
+		if ( m_DemoUnit )
 		{
-			m_Gender = CharGender.MALE;
-		} else {
-			m_Gender = CharGender.FEMALE;
+			m_CameraTool.SetTarget(m_DemoUnit);
+			m_CameraTool.FollowTarget();
 		}
-	}
-	
-	void CreateRandomCharacter()
-	{
-		string params[2];
-		
-		RandomSelectGender();
-		
-		if (m_Gender == CharGender.FEMALE)
-		{
-			m_CharacterType = m_CharPersonalityFemaleList.GetRandomElement();
-		}
-		else
-		{
-			m_CharacterType = m_CharPersonalityMaleList.GetRandomElement();
-		}
-
-		CreateNewCharacter(m_CharacterType);
-		
-		if (m_DemoUnit)
-		{
-			SetAttachment(m_CharShirtList.GetRandomElement(), InventorySlots.BODY);
-			SetAttachment(m_CharPantsList.GetRandomElement(), InventorySlots.LEGS);
-			SetAttachment(m_CharShoesList.GetRandomElement(), InventorySlots.FEET);
-		}
-
-		ResetIntroCamera();
-	}
-	
-	int RandomSelectIndex(TStringAdvanceArray list)
-	{
-		if (list)
-		{
-			int rnd = Math.RandomInt(0, list.Count());
-			return rnd;
-		}
-		return -1;
 	}
 	
 	void SetAttachment(string type, int slot)
@@ -290,64 +216,7 @@ class COMPersistencyScene: Managed
 		}
 	}
 
-	void CharChangePart( Direction dir, int inv_slot )
-	{
-		TStringAdvanceArray list;
-		int list_index;
-		
-		switch ( inv_slot )
-		{
-			case InventorySlots.BODY:
-			{
-				list = m_CharShirtList;
-				m_CharShirtIndex = AdjustListIndex(list, dir, m_CharShirtIndex);
-				list_index = m_CharShirtIndex;
-				break;
-			}
-			case InventorySlots.LEGS:
-			{
-				list = m_CharPantsList;
-				m_CharPantsIndex = AdjustListIndex(list, dir, m_CharPantsIndex);
-				list_index = m_CharPantsIndex;
-				break;
-			}
-			case InventorySlots.FEET:
-			{
-				list = m_CharShoesList;
-				m_CharShoesIndex = AdjustListIndex(list, dir, m_CharShoesIndex);
-				list_index = m_CharShoesIndex;
-				break;
-			}
-		}		
-		
-		SetAttachment(list.Get(list_index), inv_slot);
-	}
-	
-	int AdjustListIndex(TStringAdvanceArray list, Direction dir, int index)
-	{
-		if ( dir == Direction.RIGHT )
-		{
-			index++;
-			
-			if (index >= list.Count() )
-			{
-				index = 0;
-			}
-		}
-		else if ( dir == Direction.LEFT )
-		{
-			index--;
-			
-			if (index < 0)
-			{
-				index = list.Count() - 1;
-			}
-		}
-		
-		return index;
-	}
-
-	void SetCharacter(string character, string save)
+	void LoadFromSave(string character, string save)
 	{
 		if ( m_DemoUnit )
 		{
@@ -367,7 +236,7 @@ class COMPersistencyScene: Managed
 		ResetIntroCamera();
 	}
 	
-	void CreateNewCharacter(string type)
+	void SetCharacter(string type)
 	{
 		if ( m_DemoUnit )
 		{
@@ -398,7 +267,7 @@ class COMPersistencyScene: Managed
 		ResetIntroCamera();
 	}
 	
-	void SceneCharacterSetPos()
+	void ResetPosition()
 	{
 		if (m_DemoUnit)
 		{
@@ -481,11 +350,6 @@ class COMPersistencyScene: Managed
 		tmp_pos[1] = tmp_pos[1] + pos[1];
 	
 		return tmp_pos;
-	}
-	
-	string GetCharacterName()
-	{
-		return g_Game.GetPlayerGameName();
 	}
 	
 	PlayerBase GetPlayerUnit()

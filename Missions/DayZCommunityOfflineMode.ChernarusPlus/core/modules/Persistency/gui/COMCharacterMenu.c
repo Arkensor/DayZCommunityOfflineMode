@@ -1,5 +1,21 @@
 class COMCharacterMenu extends UIScriptedMenu
 {
+	ref TStringAdvanceArray 					m_CharGenderList;
+	ref TStringAdvanceArray 					m_CharPersonalityMaleList;
+	ref TStringAdvanceArray 					m_CharPersonalityFemaleList;
+	ref TStringAdvanceArray						m_CharShirtList;
+	ref TStringAdvanceArray 					m_CharPantsList;
+	ref TStringAdvanceArray 					m_CharShoesList;
+	
+	ref TStringAdvanceArray 					m_Characters;
+	ref TStringAdvanceArray 					m_Saves;
+
+	CharGender 									m_CharGender;
+	int											m_CharTypeIndex;
+	int 										m_CharShirtIndex;
+	int 										m_CharPantsIndex;
+	int 										m_CharShoesIndex;
+
 	protected ref PersistencyModule 		m_oPersistencyModule;
 
 	protected Widget						m_CharacterRotationFrame;
@@ -26,9 +42,6 @@ class COMCharacterMenu extends UIScriptedMenu
     protected bool                          m_IsLoadingSave;
 	protected bool 							m_CanLoadSave;
 
-	protected ref array< string >			m_Characters;
-	protected ref array< string >			m_Saves;
-
 	protected int							m_Character;
     protected int 							m_Save;
 	protected bool							m_NoSaves;
@@ -37,12 +50,24 @@ class COMCharacterMenu extends UIScriptedMenu
 	{
 		m_oPersistencyModule = oPersistencyModule;
 
-		m_Characters = new ref array< string >;
-		m_Saves = new ref array< string >;
+		m_Characters = new TStringAdvanceArray;
+		m_Saves = new TStringAdvanceArray;
+
+
+		m_CharGenderList = new TStringAdvanceArray;
+		m_CharPersonalityMaleList = new TStringAdvanceArray;
+		m_CharPersonalityFemaleList = new TStringAdvanceArray;
+		m_CharShirtList = new TStringAdvanceArray;
+		m_CharPantsList = new TStringAdvanceArray;
+		m_CharShoesList = new TStringAdvanceArray;
+
+		m_Saves.Insert("latest");
 
         m_IsLoadingSave = isLoadSave;
 		m_NoSaves = true;
 		
+		InitCharacterCreationData();
+
 		g_Game.SetKeyboardHandle(this);
 
 		SetCharacterList();
@@ -52,6 +77,13 @@ class COMCharacterMenu extends UIScriptedMenu
     void ~COMCharacterMenu()
     {
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
+
+		delete m_CharGenderList;
+		delete m_CharPersonalityMaleList;
+		delete m_CharPersonalityFemaleList;
+		delete m_CharShirtList;
+		delete m_CharPantsList;
+		delete m_CharShoesList;
 
 		delete m_Saves;
 		delete m_Characters;
@@ -64,24 +96,96 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		g_Game.SetKeyboardHandle(NULL);
     }
+
+	CharGender GenerateRandomGender()
+	{
+		int chance = Math.RandomInt(0, 2);
+		if (chance == 0)
+		{
+			m_CharGender = CharGender.MALE;
+		} else {
+			m_CharGender = CharGender.FEMALE;
+		}
+		return m_CharGender;
+	}
+
+	void GenerateRandomCharacterType()
+	{
+		if (m_CharGender == CharGender.FEMALE)
+		{
+			m_CharTypeIndex = m_CharPersonalityFemaleList.GetRandomIndex();
+		} else {
+			m_CharTypeIndex = m_CharPersonalityMaleList.GetRandomIndex();
+		}
+	}
+
+	string CharacterTypeIndexToString()
+	{
+		if (m_CharGender == CharGender.FEMALE)
+		{
+			return m_CharPersonalityFemaleList.Get( m_CharTypeIndex );
+		} else {
+			return m_CharPersonalityMaleList.Get( m_CharTypeIndex );
+		}
+	}
+
+	void GenerateRandomCharacter()
+	{
+		GenerateRandomGender();
+		GenerateRandomCharacterType();
+
+		m_oPersistencyModule.GetScene().SetCharacter( CharacterTypeIndexToString() );
+
+		m_oPersistencyModule.GetScene().SetAttachment(m_CharShirtList.GetRandomElement(), InventorySlots.BODY);
+		m_oPersistencyModule.GetScene().SetAttachment(m_CharPantsList.GetRandomElement(), InventorySlots.LEGS);
+		m_oPersistencyModule.GetScene().SetAttachment(m_CharShoesList.GetRandomElement(), InventorySlots.FEET);
+
+		m_oPersistencyModule.GetScene().ResetIntroCamera();
+	}
+
+	// Need to read from a list later on. 
+	void InitCharacterCreationData()
+	{
+		string character_CfgName;
+		string root_path = "cfgCharacterCreation";
+		
+		GetGame().ConfigGetTextArray(root_path + " gender", m_CharGenderList);
+		GetGame().ConfigGetTextArray(root_path + " top", m_CharShirtList);
+		GetGame().ConfigGetTextArray(root_path + " bottom", m_CharPantsList);
+		GetGame().ConfigGetTextArray(root_path + " shoe", m_CharShoesList);
+
+		TStringArray allTypes = GetGame().ListAvailableCharacters();
+		for (int i = 0; i < allTypes.Count(); i++)
+		{
+			character_CfgName = allTypes.Get(i);
+			if (GetGame().IsKindOf(character_CfgName, "SurvivorMale_Base"))
+			{
+				m_CharPersonalityMaleList.Insert(character_CfgName);
+			}
+			else
+			{
+				m_CharPersonalityFemaleList.Insert(character_CfgName);
+			}
+		}
+	}
 	
 	override Widget Init()
 	{
 		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\COMCharacterMenu.layout" );
 
-		m_CharacterRotationFrame            = layoutRoot.FindAnyWidget( "character_rotation_frame" );
+		m_CharacterRotationFrame = layoutRoot.FindAnyWidget( "character_rotation_frame" );
 
-        m_Apply								= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "apply" ) );
-		m_NewCharacter						= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "new_character" ) );
-		m_Cancel							= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "cancel" ) );
+        m_Apply = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "apply" ) );
+		m_NewCharacter = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "new_character" ) );
+		m_Cancel = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "cancel" ) );
 
-		m_PrevCharacter						= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "prev_character" ) );
-		m_CharacterText						= TextWidget.Cast( layoutRoot.FindAnyWidget( "character_text" ) );
-		m_NextCharacter						= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "next_character" ) );
+		m_PrevCharacter = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "prev_character" ) );
+		m_CharacterText = TextWidget.Cast( layoutRoot.FindAnyWidget( "character_text" ) );
+		m_NextCharacter = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "next_character" ) );
         
-        m_PlayerName						= EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "general_name_setting_text" ) );
-		m_ActionTitle						= TextWidget.Cast( layoutRoot.FindAnyWidget( "CharacterCreationTextWidget" ) );
-		m_Version							= TextWidget.Cast( layoutRoot.FindAnyWidget( "version" ) );
+        m_PlayerName = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "general_name_setting_text" ) );
+		m_ActionTitle = TextWidget.Cast( layoutRoot.FindAnyWidget( "CharacterCreationTextWidget" ) );
+		m_Version = TextWidget.Cast( layoutRoot.FindAnyWidget( "version" ) );
 		
         string version;
 		GetGame().GetVersion( version );
@@ -90,30 +194,27 @@ class COMCharacterMenu extends UIScriptedMenu
 		else
 			m_Version.Show( false );
 
-
 		m_CharacterText.SetText( GetCharacter() );
 
-		ref TStringAdvanceArray ts = new TStringAdvanceArray;
-		ts.Insert("temp");
+		m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, m_Saves );
 
-		m_SaveSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_save_setting_option" ), 0, null, false, ts );
+		m_GenderSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_gender_setting_option" ), 0, null, false, m_CharGenderList );
+		m_GenderSelector.SetValue( m_CharGender );
 
-		m_GenderSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_gender_setting_option" ), 0, null, false, m_oPersistencyModule.GetScene().m_CharGenderList );
-
-		if ( m_oPersistencyModule.GetScene().GetCharacterGender() == CharGender.FEMALE )
+		ref TStringAdvanceArray typeList = NULL;
+		if ( m_CharGender == CharGender.FEMALE )
 		{
-			m_GenderSelector.SetValue( "Female" );
-			m_SkinSelector	= new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_head_setting_option" ), 0, null, false, m_oPersistencyModule.GetScene().m_CharPersonalityFemaleList );
-		}
-		else
+			typeList = m_CharPersonalityFemaleList;
+		} else
 		{
-			m_GenderSelector.SetValue( "Male" );
-			m_SkinSelector	= new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_head_setting_option" ), 0, null, false, m_oPersistencyModule.GetScene().m_CharPersonalityMaleList );
+			typeList = m_CharPersonalityMaleList;
 		}
 
-		m_TopSelector						= new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_top_setting_option" ), 0, null, false, m_oPersistencyModule.GetScene().m_CharShirtList );
-		m_BottomSelector					= new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_bottom_setting_option" ), 0, null, false, m_oPersistencyModule.GetScene().m_CharPantsList );
-		m_ShoesSelector						= new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_shoes_setting_option" ), 0, null, false, m_oPersistencyModule.GetScene().m_CharShoesList );
+		m_SkinSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_head_setting_option" ), 0, null, false, typeList);
+
+		m_TopSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_top_setting_option" ), 0, null, false, m_CharShirtList );
+		m_BottomSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_bottom_setting_option" ), 0, null, false, m_CharPantsList );
+		m_ShoesSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_shoes_setting_option" ), 0, null, false, m_CharShoesList );
 
 		m_SaveSelector.m_OptionChanged.Insert( SaveChanged );
 		m_GenderSelector.m_OptionChanged.Insert( GenderChanged );
@@ -334,9 +435,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		if ( m_oPersistencyModule.GetScene() )
 		{
-			//GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.GetScene().SetCharacter, 100, false, character, save );
-		
-			m_oPersistencyModule.GetScene().SetCharacter( character, save );
+			GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.GetScene().LoadFromSave, 100, false, character, save );
 		}
 	}
     
@@ -668,19 +767,18 @@ class COMCharacterMenu extends UIScriptedMenu
 		{
 			case "Female":
 			{
-				m_oPersistencyModule.GetScene().SetCharacterGender( CharGender.FEMALE );
+				m_CharGender = CharGender.FEMALE;
 				m_SkinSelector.LoadNewValues( m_oPersistencyModule.GetScene().m_CharPersonalityFemaleList, 0 );
-				m_SkinSelector.SetRandomValue();
 				break;
 			}
 			case "Male":
 			{
-				m_oPersistencyModule.GetScene().SetCharacterGender( CharGender.MALE );
+				m_CharGender = CharGender.MALE;
 				m_SkinSelector.LoadNewValues( m_oPersistencyModule.GetScene().m_CharPersonalityMaleList, 0 );
-				m_SkinSelector.SetRandomValue();
 				break;
 			}
 		}
+		m_SkinSelector.SetRandomValue();
 	}
 
 	void GenderChanged()
@@ -690,7 +788,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	void SkinChanged()
 	{
-		m_oPersistencyModule.GetScene().CreateNewCharacter( m_SkinSelector.GetStringValue() );
+		m_oPersistencyModule.GetScene().SetCharacter( m_SkinSelector.GetStringValue() );
 		
 		TopChanged();
 		BottomChanged();

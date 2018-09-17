@@ -65,18 +65,16 @@ class PersistencyModule extends Module
 		#ifdef MODULE_PERSITENCY_IGNORE_LOADING
 		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
 		#else
-		GetClientMission().SetCanPause( false );
-
-		m_Scene = new COMPersistencyScene;
- 
-		m_CharacterMenu = new COMCharacterMenu( this, true );
-
-		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
+		OpenCharacterLoading();
 		#endif
 	}
 	
 	override void onUpdate( int timeslice ) 
 	{
+		if ( GetPlayer() && !m_CharacterIsLoaded )
+		{
+			GetPlayer().SimulateDeath( false );
+		}
 	}
 
 	override void onMissionFinish()
@@ -93,7 +91,10 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::CleanupScene");
 
-		delete m_Scene;
+		if ( m_Scene )
+		{
+			delete m_Scene;
+		}
 	}
 
 	void CleanupCharacterMenu()
@@ -116,10 +117,16 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::SetupCharacterLoading");
 		
+		m_CharacterIsLoaded = false;
 		m_CanBeSaved = false;
 		GetClientMission().SetCanPause( false );
 
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove(this.SavePlayer);
+		if ( GetPlayer() )
+		{
+			GetPlayer().SimulateDeath( false );
+		}
+
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove( this.SavePlayer );
 
 		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
@@ -322,6 +329,7 @@ class PersistencyModule extends Module
 		}
 		
 		m_CanBeSaved = true;
+		m_CharacterIsLoaded = true;
 
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.SavePlayer, 1000, true, "latest");
 
