@@ -100,12 +100,23 @@ class PersistencyModule extends Module
 
 		if (m_CharacterMenu)
 		{
-			// m_CharacterMenu.Close();
+			// GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
 
-			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
+			m_CharacterMenu.Close();
 
 			delete m_CharacterMenu;
 		}
+			
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.FixCleanupCharacterMenu, 200, false);
+	}
+
+	private void FixCleanupCharacterMenu()
+	{
+		Print("PersistencyModule::FixCleanupCharacterMenu");
+
+		delete m_CharacterMenu;
+
+		Print( "m_CharacterMenu: " + m_CharacterMenu );
 
 		GetClientMission().SetCanPause( true );
 	}
@@ -370,7 +381,7 @@ class PersistencyModule extends Module
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.SavePlayer, 1000, true, "latest");
 
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CleanupCharacterMenu, 100, false);
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CleanupScene, 150, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CleanupScene, 250, false);
 		
 	}
 

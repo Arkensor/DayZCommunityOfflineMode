@@ -68,7 +68,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		
 		InitCharacterCreationData();
 
-		g_Game.SetKeyboardHandle(this);
+		g_Game.SetKeyboardHandle( this );
 
 		SetCharacterList();
 		SetSaveList();
@@ -76,7 +76,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
     void ~COMCharacterMenu()
     {
-		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
+		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove( this.UpdateInterval );
 
 		delete m_CharGenderList;
 		delete m_CharPersonalityMaleList;
@@ -94,7 +94,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		delete m_BottomSelector;
 		delete m_ShoesSelector;
 
-		g_Game.SetKeyboardHandle(NULL);
+		g_Game.SetKeyboardHandle( NULL );
     }
 
 	CharGender GenerateRandomGender()
@@ -448,25 +448,31 @@ class COMCharacterMenu extends UIScriptedMenu
     
     void UpdateInterval()
 	{
+		Print( "COMCharacterMenu::UpdateInterval" );
 		if ( m_oPersistencyModule.GetScene() )
 		{
         	m_oPersistencyModule.GetScene().Update();
 		}
 
 		SetOptions();
+		Print( "Finished COMCharacterMenu::UpdateInterval" );
 	}
     
     override void OnShow()
 	{
-		Print( "PersistencyModule::OnShow" );
+		Print( "COMCharacterMenu::OnShow" );
 
 		super.OnShow();
 
 		if ( GetPlayer() )
 		{
-			GetGame().SelectPlayer( NULL, NULL );
 			GetPlayer().Delete();
+
+			GetGame().SelectPlayer( NULL, NULL );
 		}
+
+		if ( m_oPersistencyModule.GetScene() )
+			m_oPersistencyModule.GetScene().SetupScene();
 
         GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
         GetGame().GetUIManager().ShowUICursor( true );
@@ -475,7 +481,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.UpdateInterval);
 
-		Print( "Finished PersistencyModule::OnShow" );
+		Print( "Finished COMCharacterMenu::OnShow" );
 	}
     
     override void OnHide()
@@ -492,14 +498,17 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void TemporaryFix_ReloadCharacterMenu()
 	{
+		Print( "COMCharacterMenu::TemporaryFix_ReloadCharacterMenu" );
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.TemporaryFix_ReloadCharacterMenu, 100, false);
 
 		GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
         GetGame().GetUIManager().ShowUICursor( true );
 
         GetMission().GetHud().Show(false);
+		Print( "Finished COMCharacterMenu::TemporaryFix_ReloadCharacterMenu" );
 	}
 
+/*
 	// This is all temporary! Waiting on a feature from the developers which should be implemented sometime soon!
     override bool OnKeyDown( Widget w, int x, int y, int key )
 	{
@@ -516,6 +525,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		
 		return false;
 	}
+*/
 
 	override bool OnClick( Widget w, int x, int y, int button )
 	{

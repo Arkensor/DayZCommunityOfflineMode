@@ -44,31 +44,8 @@ class COMPersistencyScene: Managed
 	protected float 							m_DeltaZ;
 
 	void COMPersistencyScene()
-	{
-		m_currentCharacterID = -1;
-		m_DemoPos = "0 0 0";
-		m_DemoRot = "0 0 0";
-		m_LastShavedSeconds = 0;
-		
+	{		
 		SetClickEnable( true );
-
-		string worldName;
-		g_Game.GetWorldName(worldName);
-		string root_path = "cfgCharacterScenes " + worldName;
-
-		int count = g_Game.ConfigGetChildrenCount(root_path);
-		int index = Math.RandomInt(0, count - 1);
-		string childName;
-		g_Game.ConfigGetChildName(root_path, index, childName);
-	
-		string scene_path = root_path + " " + childName;
-		
-		SetupWorld( root_path, scene_path );
-
-		// Don't like it, removing it.
-		// SetupWeather( root_path, scene_path );
-		
-		SetupCamera( root_path, scene_path );
 	}
 
 	void ~COMPersistencyScene()
@@ -87,6 +64,32 @@ class COMPersistencyScene: Managed
 			
 			ct.DisableCamera();
 		}
+	}
+
+	void SetupScene()
+	{
+		m_currentCharacterID = -1;
+		m_DemoPos = "0 0 0";
+		m_DemoRot = "0 0 0";
+		m_LastShavedSeconds = 0;
+
+		string worldName;
+		g_Game.GetWorldName(worldName);
+		string root_path = "cfgCharacterScenes " + worldName;
+
+		int count = g_Game.ConfigGetChildrenCount(root_path);
+		int index = Math.RandomInt(0, count - 1);
+		string childName;
+		g_Game.ConfigGetChildName(root_path, index, childName);
+	
+		string scene_path = root_path + " " + childName;
+		
+		SetupWorld( root_path, scene_path );
+
+		// Don't like it, removing it.
+		// SetupWeather( root_path, scene_path );
+		
+		SetupCamera( root_path, scene_path );
 	}
 
 	void SetupCamera( string root_path, string scene_path )

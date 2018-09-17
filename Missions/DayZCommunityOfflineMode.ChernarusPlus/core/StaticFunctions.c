@@ -262,6 +262,6 @@ static vector SnapToGround(vector pos)
     return tmp_pos;
 }
 
-static bool m_GodMode; // move these to player saves?
+static bool m_GodMode; // move these to player saves? Edit: Jacob says "yes"
 static bool m_OldAiming;
 static bool bc_Visible;
