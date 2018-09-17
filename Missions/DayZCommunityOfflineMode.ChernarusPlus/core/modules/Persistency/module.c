@@ -6,11 +6,11 @@
 */
 #define MODULE_PERSISTENCY
 
-// #define MODULE_PERSITENCY_IGNORE_LOADING
+// #define MODULE_PERSISTENCY_IGNORE_LOADING
 
-int MODULE_PERSISTENCY_WIDGET_SAVE_CHARACTER            = 47842;
-int MODULE_PERSISTENCY_WIDGET_LOAD_CHARACTER            = 47843;
-int MODULE_PERSISTENCY_WIDGET_SAVE_CHARACTER_PANEL      = 47844;
+int MODULE_PERSISTENCY_WIDGET_SAVE_CHARACTER            = 4842;
+int MODULE_PERSISTENCY_WIDGET_LOAD_CHARACTER            = 4843;
+int MODULE_PERSISTENCY_WIDGET_SAVE_CHARACTER_PANEL      = 4844;
 
 string BASE_COM_DIR = "$saves:CommunityOfflineMode";
 string BASE_PLAYER_SAVE_DIR = BASE_COM_DIR + "\\PlayerSaves";
@@ -39,6 +39,7 @@ string BASE_PLAYER_SAVE_DIR = BASE_COM_DIR + "\\PlayerSaves";
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\COMCharacterMenu.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\COMCharacterSave.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\LoadText.c"
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\scenes\\COMPersistencyScene.c"
 #endif

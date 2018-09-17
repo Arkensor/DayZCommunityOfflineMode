@@ -63,7 +63,7 @@ class PersistencyModule extends Module
 		m_CanBeSaved = false;
 		m_CharacterIsLoaded = false;
 
-		#ifdef MODULE_PERSITENCY_IGNORE_LOADING
+		#ifdef MODULE_PERSISTENCY_IGNORE_LOADING
 		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
 		#else
 		OpenCharacterLoading();
@@ -76,7 +76,7 @@ class PersistencyModule extends Module
 
 	override void onMissionFinish()
 	{
-		SavePlayer(m_sSave);
+		SavePlayer( m_sSave );
 	}
 
 	ref COMPersistencyScene GetScene()
@@ -116,7 +116,7 @@ class PersistencyModule extends Module
 		
 		m_CharacterIsLoaded = false;
 		m_CanBeSaved = false;
-		
+
 		GetClientMission().SetCanPause( false );
 
 		if ( GetPlayer() )
@@ -139,6 +139,8 @@ class PersistencyModule extends Module
 	void OpenCharacterLoading()
 	{
 		Print("PersistencyModule::OpenCharacterLoading");
+
+		CleanupCharacterSaving();
 
 		CleanupCharacterMenu();
 		
@@ -168,20 +170,38 @@ class PersistencyModule extends Module
 
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
 	}
-
-	private void CleanupCharacterSaving()
-	{
-		if (m_CharacterSave)
-		{
-			m_CharacterSave.Close();
-			
-			GetGame().GetUIManager().HideScriptedMenu( m_CharacterSave );
-
-			delete m_CharacterSave;
-		}
-	}
 	
-	#ifdef MODULE_OVERRIDEMENUS
+	#ifndef MODULE_OVERRIDEMENUS
+	private bool CleanupCharacterSaving()
+	{
+		bool foundWidget = false;
+		
+		m_InGameMenu = GetGame().GetUIManager().FindMenu(MENU_INGAME);
+
+		if ( m_InGameMenu.IsInherited( CustomInGameMenu ) )
+		{
+			if (CustomInGameMenu.Cast( m_InGameMenu ).m_RightPanel.FindAnyWidgetById(MODULE_PERSISTENCY_WIDGET_SAVE_CHARACTER_PANEL))
+			{
+				foundWidget = true;
+			}
+		}
+
+		if ( m_CharacterSave || m_CharacterSaveWidget || foundWidget )
+		{
+			if ( m_InGameMenu.IsInherited( CustomInGameMenu ) && m_CharacterSaveWidget )
+			{
+				m_CharacterSaveWidget.Unlink();
+				delete m_CharacterSaveWidget;
+			} else {
+				GetGame().GetUIManager().HideScriptedMenu( m_CharacterSave );
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 	void OpenCharacterSaving()
 	{
 		bool foundWidget = false;
@@ -220,15 +240,28 @@ class PersistencyModule extends Module
 		}
 	}
 	#else
-	void OpenCharacterSaving()
+	private bool CleanupCharacterSaving()
 	{
-		m_InGameMenu = GetGame().GetUIManager().FindMenu(MENU_INGAME);
-
-		if ( m_CharacterSave || m_CharacterSaveWidget ) 
-		{
+		Print( "PersistencyModule::CleanupCharacterSaving" );
+		if (m_CharacterSave)
+		{			
 			GetGame().GetUIManager().HideScriptedMenu( m_CharacterSave );
 
 			delete m_CharacterSave;
+
+			return true;
+		}
+		return false;
+	}
+
+	void OpenCharacterSaving()
+	{
+		Print( "PersistencyModule::OpenCharacterSaving" );
+		m_InGameMenu = GetGame().GetUIManager().FindMenu(MENU_INGAME);
+
+		if ( m_CharacterSave ) 
+		{
+			CleanupCharacterSaving();
 		} else 
 		{
 			m_CharacterSave = new COMCharacterSave( this );
@@ -255,6 +288,8 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::CreatePlayer");
 
+		CameraTool.CAMERA_SMOOTH_BLUR = 1.0;
+
 		m_CanBeSaved = false;
 
 		MakeDirectory(BASE_PLAYER_SAVE_DIR + "\\" + sCharacter);
@@ -264,28 +299,32 @@ class PersistencyModule extends Module
 
 		CharacterSave.CreatePlayer( m_sCharacter, oPlayer );
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CreatePlayerInt, 100, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CreatePlayerInt, 200, false);
 	}
 
 	void LoadLast()
 	{
 		Print("PersistencyModule::LoadLast");
 
+		CameraTool.CAMERA_SMOOTH_BLUR = 1.0;
+
 		m_CanBeSaved = false;
 		
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CreatePlayerInt, 100, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CreatePlayerInt, 200, false);
 	}
 
 	void LoadPlayer(string sCharacter, string sSave = "latest")
 	{
 		Print("PersistencyModule::LoadPlayer");
 
+		CameraTool.CAMERA_SMOOTH_BLUR = 1.0;
+
 		m_CanBeSaved = false;
 
 		m_sCharacter = sCharacter;
 		m_sSave = sSave;
 
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CreatePlayerInt, 100, false);
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CreatePlayerInt, 200, false);
 	}
 
 	private void CreatePlayerInt()
@@ -315,8 +354,10 @@ class PersistencyModule extends Module
 	private void FinishLoadingInt()
 	{
 		Print("PersistencyModule::FinishLoadingInt");
+		
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.RemoveEffects, 500, false);
 
-        GetMission().GetHud().Show(true);
+		CameraTool.CAMERA_SMOOTH_BLUR = 0.5;
 
 		if ( m_sCharacter != "" && m_sSave != "" )
 		{
@@ -331,6 +372,21 @@ class PersistencyModule extends Module
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CleanupCharacterMenu, 100, false);
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.CleanupScene, 150, false);
 		
-		GetGame().GetUIManager().ScreenFadeOut( 0.5 );
+	}
+
+	private void RemoveEffects()
+	{
+		CloseLoadingText();
+		
+        GetMission().GetHud().Show(true);
+
+		CameraTool.CAMERA_SMOOTH_BLUR = 0.0;
+
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.FixEscape, 500, false);
+	}
+
+	private void FixEscape()
+	{
+		GetClientMission().SetCanPause( true );
 	}
 }

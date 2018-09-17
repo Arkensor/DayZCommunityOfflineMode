@@ -65,7 +65,8 @@ class COMPersistencyScene: Managed
 		
 		SetupWorld( root_path, scene_path );
 
-		SetupWeather( root_path, scene_path );
+		// Don't like it, removing it.
+		// SetupWeather( root_path, scene_path );
 		
 		SetupCamera( root_path, scene_path );
 	}
@@ -92,9 +93,17 @@ class COMPersistencyScene: Managed
 	{
 		float fov = GetGame().ConfigGetFloat(scene_path + " fov");
 		
+		m_Target = SwapYZ(g_Game.ConfigGetVector(scene_path + " target"));
 		vector position = SwapYZ(g_Game.ConfigGetVector(scene_path + " position"));
 
-		m_CameraTool = GetModuleManager().GetModuleByName("CameraTool");
+		Module possibleModule = GetModuleManager().GetModuleByName("CameraTool");
+
+		m_CameraTool = CameraTool.Cast( possibleModule );
+
+		if ( !m_CameraTool ) {
+			Print( "WTF, the camera doesn't exist shitbag! You dun fucked up in here." );
+		}
+
 		m_CameraTool.EnableCamera( true );
 
 		m_CameraTool.GetCamera().SetPosition( SnapToGround( position ) );
@@ -136,8 +145,6 @@ class COMPersistencyScene: Managed
 	{
 		TIntArray date = new TIntArray;
 		GetGame().ConfigGetIntArray(scene_path + " date", date);
-
-		m_Target = SwapYZ(g_Game.ConfigGetVector(scene_path + " target"));
 
 		World world = GetGame().GetWorld();
 	

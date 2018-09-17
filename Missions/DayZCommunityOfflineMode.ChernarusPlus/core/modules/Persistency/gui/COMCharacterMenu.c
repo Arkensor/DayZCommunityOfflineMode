@@ -130,7 +130,12 @@ class COMCharacterMenu extends UIScriptedMenu
 	}
 
 	void GenerateRandomCharacter()
-	{
+	{		
+		if ( !m_oPersistencyModule.GetScene() )
+		{
+			return;
+		}
+
 		GenerateRandomGender();
 		GenerateRandomCharacterType();
 
@@ -323,38 +328,41 @@ class COMCharacterMenu extends UIScriptedMenu
 			return
 		}
 
-		GetGame().GetUIManager().ScreenFadeIn( 0, "Loading character.", FadeColors.BLACK, FadeColors.WHITE);
+		CameraTool.CAMERA_SMOOTH_BLUR = 0.4;
 
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(m_oPersistencyModule.LoadPlayer, 100, false, character, save);
+		SetLoadingText("Loading Character");
+
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(m_oPersistencyModule.LoadPlayer, 200, false, character, save);
 	}
 
 	void CreateCharacter()
 	{
-		bool passed = true;
+		if ( !m_oPersistencyModule.GetScene() )
+		{
+			return;
+		}
 
 		string characterName = m_PlayerName.GetText();
 
 		if ( characterName == "" )
 		{
 			GetGame().GetUIManager().ShowDialog("FAILURE", "You didn't give a character name!", 0, DBT_OK, DBB_OK, DMT_WARNING, NULL);
-			passed = false;
+			return;
 		}
-		if ( passed && FileExist(BASE_PLAYER_SAVE_DIR + "\\" + characterName) )
+
+		if ( FileExist(BASE_PLAYER_SAVE_DIR + "\\" + characterName) )
 		{
 			GetGame().GetUIManager().ShowDialog("FAILURE", "That character already exists!", 0, DBT_OK, DBB_OK, DMT_WARNING, NULL);
-			passed = false;
+			return;
 		}
 
-		if ( passed )
-		{	
-			vector position = GetSpawnPoints().GetRandomElement();
-			// position = m_oPersistencyModule.GetScene().SwapYZ( position );
-			position = m_oPersistencyModule.GetScene().SnapToGround( position );
-			position = position + Vector( 0, 1.5, 0);
-			m_oPersistencyModule.GetScene().GetPlayerUnit().SetPosition( position );
+		CameraTool.CAMERA_SMOOTH_BLUR = 0.4;
 
-			GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(m_oPersistencyModule.CreatePlayer, 100, false, characterName, m_oPersistencyModule.GetScene().GetPlayerUnit());
-		}
+		SetLoadingText("Creating Character");
+
+		m_oPersistencyModule.GetScene().GetPlayerUnit().SetPosition( GetSpawnPoints().GetRandomElement() );
+
+		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(m_oPersistencyModule.CreatePlayer, 200, false, characterName, m_oPersistencyModule.GetScene().GetPlayerUnit());
 	}
 
 	void NewCharacter()
@@ -366,18 +374,17 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void UpdateCreatorSelectionsFromScene()
 	{
-		if (m_oPersistencyModule.GetScene().m_Gender == CharGender.FEMALE)
+		if ( !m_oPersistencyModule.GetScene() )
 		{
-			m_GenderSelector.SetValue(0, true);
-		} else
-		{
-			m_GenderSelector.SetValue(1, true);
+			return;
 		}
 
-		m_SkinSelector.SetValue(m_oPersistencyModule.GetScene().m_CharacterType, true);
-		m_TopSelector.SetValue(m_oPersistencyModule.GetScene().m_CharShirtIndex, true);
-		m_BottomSelector.SetValue(m_oPersistencyModule.GetScene().m_CharPantsIndex, true);
-		m_ShoesSelector.SetValue(m_oPersistencyModule.GetScene().m_CharShoesIndex, true);
+		m_GenderSelector.SetValue( m_CharGender );
+
+		m_SkinSelector.SetValue( CharacterTypeIndexToString(), true );
+		m_TopSelector.SetValue( m_CharShirtIndex, true );
+		m_BottomSelector.SetValue( m_CharPantsIndex, true );
+		m_ShoesSelector.SetValue( m_CharShoesIndex, true );
 	}
 
 	void PreviousCharacter()
@@ -441,13 +448,18 @@ class COMCharacterMenu extends UIScriptedMenu
     
     void UpdateInterval()
 	{
-        m_oPersistencyModule.GetScene().Update();
+		if ( m_oPersistencyModule.GetScene() )
+		{
+        	m_oPersistencyModule.GetScene().Update();
+		}
 
 		SetOptions();
 	}
     
     override void OnShow()
 	{
+		Print( "PersistencyModule::OnShow" );
+
 		super.OnShow();
 
 		if ( GetPlayer() )
@@ -462,6 +474,8 @@ class COMCharacterMenu extends UIScriptedMenu
         GetMission().GetHud().Show(false);
 
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.UpdateInterval);
+
+		Print( "Finished PersistencyModule::OnShow" );
 	}
     
     override void OnHide()
@@ -495,7 +509,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		{
 			case KeyCode.KC_ESCAPE:
 			{
-				TemporaryFix_ReloadCharacterMenu();
+				// TemporaryFix_ReloadCharacterMenu();
 				return true;
 			}
 		}
@@ -763,19 +777,22 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void SetGender( string gender )
 	{
-		switch ( gender )
+		if ( m_oPersistencyModule.GetScene() )
 		{
-			case "Female":
+			switch ( gender )
 			{
-				m_CharGender = CharGender.FEMALE;
-				m_SkinSelector.LoadNewValues( m_oPersistencyModule.GetScene().m_CharPersonalityFemaleList, 0 );
-				break;
-			}
-			case "Male":
-			{
-				m_CharGender = CharGender.MALE;
-				m_SkinSelector.LoadNewValues( m_oPersistencyModule.GetScene().m_CharPersonalityMaleList, 0 );
-				break;
+				case "Female":
+				{
+					m_CharGender = CharGender.FEMALE;
+					m_SkinSelector.LoadNewValues( m_CharPersonalityFemaleList, 0 );
+					break;
+				}
+				case "Male":
+				{
+					m_CharGender = CharGender.MALE;
+					m_SkinSelector.LoadNewValues( m_CharPersonalityMaleList, 0 );
+					break;
+				}
 			}
 		}
 		m_SkinSelector.SetRandomValue();
@@ -788,6 +805,11 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	void SkinChanged()
 	{
+		if ( !m_oPersistencyModule.GetScene() )
+		{
+			return;
+		}
+
 		m_oPersistencyModule.GetScene().SetCharacter( m_SkinSelector.GetStringValue() );
 		
 		TopChanged();
@@ -798,17 +820,32 @@ class COMCharacterMenu extends UIScriptedMenu
 	}
 	
 	void TopChanged()
-	{
+	{		
+		if ( !m_oPersistencyModule.GetScene() )
+		{
+			return;
+		}
+
 		m_oPersistencyModule.GetScene().SetAttachment( m_TopSelector.GetStringValue(), InventorySlots.BODY );
 	}
 	
 	void BottomChanged()
-	{
+	{		
+		if ( !m_oPersistencyModule.GetScene() )
+		{
+			return;
+		}
+
 		m_oPersistencyModule.GetScene().SetAttachment( m_BottomSelector.GetStringValue(), InventorySlots.LEGS );
 	}
 	
 	void ShoesChanged()
 	{
+		if ( !m_oPersistencyModule.GetScene() )
+		{
+			return;
+		}
+
 		m_oPersistencyModule.GetScene().SetAttachment( m_ShoesSelector.GetStringValue(), InventorySlots.FEET );
 	}
 }

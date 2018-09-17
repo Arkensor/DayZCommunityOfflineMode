@@ -15,11 +15,15 @@ class CameraTool extends Module
 	static float CAMERA_FNEAR = 50.0; // modified via ui
 	static float CAMERA_FDIST = 0.0;
 	static float CAMERA_DOFFSET = 0.0;
+
+	static float CAMERA_SMOOTH_BLUR = 0.0;
 	
 	protected vector m_CamOffset;
 	
 	protected Object m_Target;
 	protected vector m_TargetPos; // Static position
+
+	protected float m_CurrentSmoothBlur;
 	
 	void CameraTool()
 	{
@@ -36,6 +40,10 @@ class CameraTool extends Module
 	
 	override void onUpdate( int timeslice )
 	{
+		float speed = 0.2;
+		m_CurrentSmoothBlur = Math.Lerp( m_CurrentSmoothBlur, CAMERA_SMOOTH_BLUR, speed );
+		PPEffects.SetBlur( m_CurrentSmoothBlur );
+
 		UpdateCamera();
 	}
 	
