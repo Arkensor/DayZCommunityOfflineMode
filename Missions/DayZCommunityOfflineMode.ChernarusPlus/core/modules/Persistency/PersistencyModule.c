@@ -2,16 +2,16 @@ class PersistencyModule extends Module
 {
 	protected ref COMPersistencyScene	m_Scene;
 
-	protected ref COMCharacterMenu	m_CharacterMenu;
-	protected ref Widget			m_CharacterSaveWidget;
-	protected ref COMCharacterSave	m_CharacterSave;
-	protected ref UIScriptedMenu	m_InGameMenu;
+	protected ref COMCharacterMenu		m_CharacterMenu;
+	protected ref Widget				m_CharacterSaveWidget;
+	protected ref COMCharacterSave		m_CharacterSave;
+	protected ref UIScriptedMenu		m_InGameMenu;
 
-	protected bool m_CanBeSaved	= false;
-	protected bool m_CharacterIsLoaded = false;
+	protected bool m_CanBeSaved			= false;
+	protected bool m_CharacterIsLoaded 	= false;
 
-	protected string m_sCharacter = "";
-	protected string m_sSave = "";
+	protected string m_sCharacter 		= "";
+	protected string m_sSave			= "";
 
 	void PersistencyModule()
 	{
@@ -61,6 +61,7 @@ class PersistencyModule extends Module
 		Print("PersistencyModule::onMissionLoaded");
 
 		m_CanBeSaved = false;
+		m_CharacterIsLoaded = false;
 
 		#ifdef MODULE_PERSITENCY_IGNORE_LOADING
 		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
@@ -71,10 +72,6 @@ class PersistencyModule extends Module
 	
 	override void onUpdate( int timeslice ) 
 	{
-		if ( GetPlayer() && !m_CharacterIsLoaded )
-		{
-			GetPlayer().SimulateDeath( false );
-		}
 	}
 
 	override void onMissionFinish()
@@ -119,21 +116,22 @@ class PersistencyModule extends Module
 		
 		m_CharacterIsLoaded = false;
 		m_CanBeSaved = false;
+		
 		GetClientMission().SetCanPause( false );
 
 		if ( GetPlayer() )
 		{
 			GetPlayer().SimulateDeath( false );
-		}
 
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove( this.SavePlayer );
+			if ( m_sCharacter != "" && m_sSave != "" )
+			{
+				GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove( this.SavePlayer );
+				
+				CharacterSave.SavePlayer( m_sCharacter, m_sSave, GetPlayer() );
+			}
+		}
 
 		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
-
-		if ( m_sCharacter != "" && m_sSave != "" )
-		{
-			CharacterSave.SavePlayer( m_sCharacter, m_sSave, GetPlayer() );
-		}
 
 		m_Scene = new COMPersistencyScene;
 	}
@@ -250,9 +248,6 @@ class PersistencyModule extends Module
 				m_sSave = sSave;
 			}
 			CharacterSave.SavePlayer( m_sCharacter, m_sSave, GetPlayer() );
-		} else 
-		{
-			GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove(this.SavePlayer);
 		}
 	}
 

@@ -20,14 +20,14 @@ class WelcomeMenu extends UIScriptedMenu
 
 		string infotext;
 		
-		infotext = "Enjoy the DayZ Community Offline Mode.";
+		infotext = "Enjoy the DayZ Community Sandbox Mode.";
 		infotext += "\n \n \nThe current game build is still ALPHA!";
 		infotext += "\nCrashes and bugs can occur.";
-		infotext += "\nNot all 0.63 features are impletemented yet!";
-		infotext += "\nProvide feedback on the game via feedback.bistudio.com";
-		infotext += "\n \n \nCreated by Arkensor.";
+		infotext += "\nNot all features are implemented or working yet!";
+		infotext += "\nProvide feedback on the game via feedback.dayz.com";
+		infotext += "\n \n \nCreated and Managed by Arkensor, DannyDog and Jacob_Mango.";
 		infotext += "\n \n \nContributions from:";
-		infotext += "\n DuhOneZ, Watchman, n8m4re, wriley, gallexme, DannyDog and Jacob_Mango";
+		infotext += "\n DuhOneZ, Watchman, n8m4re, wriley and gallexme.";
 
         m_InfoBox.SetText( infotext );
 
