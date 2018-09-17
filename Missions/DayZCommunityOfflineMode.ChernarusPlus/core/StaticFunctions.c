@@ -229,7 +229,6 @@ static PlayerBase CreateCustomDefaultCharacter()
     return oPlayer;
 }
 
-<<<<<<< HEAD
 static string FileAttributeToString( FileAttr attr )
 {
     string fileType = "";
@@ -251,7 +250,7 @@ static string FileAttributeToString( FileAttr attr )
     }
     return fileType;
 }
-=======
+
 static vector SnapToGround(vector pos)
 {
     float pos_x = pos[0];
@@ -266,4 +265,3 @@ static vector SnapToGround(vector pos)
 static bool m_GodMode; // move these to player saves?
 static bool m_OldAiming;
 static bool bc_Visible;
->>>>>>> e888cd5ff22728d870a5d21491d0860251d51501
