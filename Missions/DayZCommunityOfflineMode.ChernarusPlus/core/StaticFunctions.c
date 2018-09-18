@@ -100,6 +100,24 @@ static set< Object > GetObjectsAt( vector from, vector to, Object ignore = NULL 
     return NULL;
 }
 
+static Object GetPointerObject()
+{
+    vector dir = GetGame().GetPointerDirection();
+
+	vector from = GetGame().GetCurrentCameraPosition();
+
+	vector to = from + ( dir * 10000 );
+
+    auto objs = GetObjectsAt( from, to );
+
+    if( objs.Count() > 0 )
+    {
+        return objs[ 0 ];
+    }
+
+    return NULL;
+}
+
 static Object GetCursorObject()
 {
     vector rayStart = GetGame().GetCurrentCameraPosition();
@@ -113,6 +131,29 @@ static Object GetCursorObject()
     }
 
     return NULL;
+}
+
+static vector GetPointerPos()
+{
+    if ( !GetPlayer() )
+    {
+        return "0 0 0";
+    }
+
+    vector dir = GetGame().GetPointerDirection();
+
+	vector from = GetGame().GetCurrentCameraPosition();
+
+	vector to = from + ( dir * 10000 );
+
+    vector rayStart = from;
+    vector rayEnd = to;
+    vector hitPos;
+    vector hitNormal;
+    int hitComponentIndex;
+    DayZPhysics.RaycastRV(rayStart, rayEnd, hitPos, hitNormal, hitComponentIndex, NULL, NULL, GetPlayer());
+
+    return hitPos;
 }
 
 static vector GetCursorPos()
@@ -215,8 +256,17 @@ static PlayerBase CreateCustomDefaultCharacter()
     item = oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
     item = oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
 
-    oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-    oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
+    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
+    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
+    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
+    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
+    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
+    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
+    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
+    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
+
+    //oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
+    //oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
 
     Weapon_Base oWpn = CreateWeapon(oPlayer);
 
@@ -224,7 +274,7 @@ static PlayerBase CreateCustomDefaultCharacter()
 
     oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );
 
-    CreateWeapon(oPlayer);
+    //CreateWeapon(oPlayer);
 
     return oPlayer;
 }

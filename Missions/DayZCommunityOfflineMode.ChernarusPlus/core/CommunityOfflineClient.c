@@ -97,7 +97,7 @@ class CommunityOfflineClient : MissionGameplay
 
 		if ( om )
 		{
-			UIScriptedMenu tempMenu = om.CreateScriptedMenu( id );
+			UIScriptedMenu tempMenu = om.CreateScriptedMenu( id, menu );
 
 			if ( tempMenu )
 			{

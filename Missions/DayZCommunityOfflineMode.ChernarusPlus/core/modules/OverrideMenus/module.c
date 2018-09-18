@@ -6,6 +6,8 @@
 */
 #define MODULE_OVERRIDEMENUS
 
+// #define COM_NEW_INVENTORY
+
 /*
     Include of all .c files that belong to this module
 */
@@ -14,6 +16,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\CustomPauseButton.c"
 
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\gui\\CustomInGameMenu.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\gui\\CustomInventory.c"
 #endif
 
 #ifndef COM_MODULES_OLDLOADING

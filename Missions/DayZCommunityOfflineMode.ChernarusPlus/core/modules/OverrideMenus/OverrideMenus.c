@@ -33,7 +33,10 @@ class OverrideMenus extends Module
 {
 	protected ref array<ref CustomPauseButton> m_PauseButtons = new array<ref CustomPauseButton>;
 
-	protected ref UIScriptedMenu m_CIGM;
+	protected ref UIScriptedMenu 		m_CIGM;
+	protected ref InventoryMenuNew 		m_InventoryMenu;
+
+	protected ref COMCustomInventory	m_COMInvMenu;
 
 	void OverrideMenus()
 	{
@@ -53,20 +56,37 @@ class OverrideMenus extends Module
 		super.Init();
 	}
 
-    UIScriptedMenu CreateScriptedMenu( int id )
+    UIScriptedMenu CreateScriptedMenu( int id, UIScriptedMenu menu )
     {
-        UIScriptedMenu menu = NULL;
-
         switch (id)
 		{
 			case MENU_INGAME:
 				m_CIGM = new CustomInGameMenu( this );
 				menu = m_CIGM;
 				break;
+			#ifdef COM_NEW_INVENTORY
+			case MENU_INVENTORY:
+				m_InventoryMenu = InventoryMenuNew.Cast( menu );
+				m_COMInvMenu = new COMCustomInventory(NULL);
+				m_InventoryMenu.m_Inventory = m_COMInvMenu;
+				m_InventoryMenu.m_Inventory.Reset();
+				m_InventoryMenu.m_Inventory.UpdateInterval();
+				break;
+			#endif
 		}
 
         return menu;
     }
+
+	override void onMouseButtonPress( int button )
+	{
+		#ifdef COM_NEW_INVENTORY
+		if ( m_COMInvMenu && m_InventoryMenu )
+		{
+			m_COMInvMenu.OnMouseButtonDownCenter( button );
+		}
+		#endif
+	}
 
 	void AddPauseButton( ref CustomPauseButton button )
 	{
