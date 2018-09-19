@@ -1,13 +1,34 @@
 class CameraTool extends Module
 {
-	protected Camera m_oCamera;
+	protected Camera m_oCamera; // active static camera "staticcamera"
+
+	protected float forwardVelocity;
+	protected float strafeVelocity;
+	protected float altitudeVelocity;
+
+	protected float yawVelocity;
+	protected float pitchVelocity;
+
+	protected float m_CamSpeed;
+	protected float m_CamMaxSpeed = 1.0;
+	protected float m_CamDrag
+
 	protected float m_CamFOV = 1.0; // default FOV
+	protected float m_TargetFOV = 1.0;
+	protected float m_TargetRoll;
 	protected float m_DistanceToObject;
 	protected bool m_FollowTarget = false;
 	protected bool m_FreezePlayer = false;
 	protected bool m_OrbitalCam = false;
 	protected bool m_FreezeCam = false;
 	
+	static float CAMERA_FOV = 1.0;
+	static float CAMERA_TARGETFOV = 1.0;
+	static float CAMERA_FOV_SPEED_MODIFIER = 6.0;
+	static float CAMERA_SPEED;
+	static float CAMERA_MAXSPEED = 1.0;
+	static float CAMERA_VELDRAG;
+
 	static bool  CAMERA_DOF = true;
 	static bool  CAMERA_AFOCUS = true;
 	static float CAMERA_BLUR = 0.0; // modified via ui
@@ -15,15 +36,14 @@ class CameraTool extends Module
 	static float CAMERA_FNEAR = 50.0; // modified via ui
 	static float CAMERA_FDIST = 0.0;
 	static float CAMERA_DOFFSET = 0.0;
-
-	static float CAMERA_SMOOTH_BLUR = 0.0;
 	
+	static Widget CAMERA_ROT = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraROT.layout" );
+	static Widget CAMERA_PHI = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraPHI.layout" );
+
 	protected vector m_CamOffset;
 	
 	protected Object m_Target;
 	protected vector m_TargetPos; // Static position
-
-	protected float m_CurrentSmoothBlur;
 	
 	void CameraTool()
 	{
@@ -38,13 +58,9 @@ class CameraTool extends Module
 		super.Init();
 	}
 	
-	override void onUpdate( int timeslice )
+	override void onUpdate( float timeslice )
 	{
-		float speed = 0.2;
-		m_CurrentSmoothBlur = Math.Lerp( m_CurrentSmoothBlur, CAMERA_SMOOTH_BLUR, speed );
-		PPEffects.SetBlur( m_CurrentSmoothBlur );
-
-		UpdateCamera();
+		UpdateCamera( timeslice );
 	}
 	
 	override void RegisterKeyMouseBindings() 
@@ -65,8 +81,9 @@ class CameraTool extends Module
 		
 		targetCamera.AddMouseBind( MouseState.MIDDLE , KeyMouseBinding.MB_EVENT_CLICK );
 		
-		zoomCamera	.AddMouseBind( MouseState.RIGHT  , KeyMouseBinding.MB_EVENT_DRAG  );
-		zoomCamera  .AddKeyBind( KeyCode.KC_LSHIFT	 , KeyMouseBinding.KB_EVENT_HOLD  );
+		//zoomCamera	.AddMouseBind( MouseState.RIGHT  , KeyMouseBinding.MB_EVENT_DRAG  );
+		//zoomCamera  .AddKeyBind( KeyCode.KC_LSHIFT	 , KeyMouseBinding.KB_EVENT_HOLD  );
+		zoomCamera    .AddMouseBind( MouseState.WHEEL, 0 );
 		
 		RegisterKeyMouseBinding( toggleCamera );
 		RegisterKeyMouseBinding( freezeCamera );
@@ -84,7 +101,7 @@ class CameraTool extends Module
 
 	void EnableCamera(bool staticCam = false)
 	{
-		if (m_oCamera)
+		if ( m_oCamera )
 		{
 			return;
 		}
@@ -93,24 +110,17 @@ class CameraTool extends Module
 		if ( GetPlayer() )
 		{
 			position = GetPlayer().GetPosition();
+			position[1] = position[1] + 2;
 		}
 
-		if ( !staticCam ) 
-		{
-			m_oCamera = g_Game.CreateObject( "FreeDebugCamera", position, true );
-		} 
-		else 
-		{
-			m_oCamera = g_Game.CreateObject( "staticcamera", position, true );
-		}
-
+		m_oCamera = g_Game.CreateObject( "staticcamera", position, false );
 		m_oCamera.SetActive( true );
 
 		if ( !staticCam ) 
-		{	
+		{
 			SetFreezePlayer(true);
 		}
-			
+		
 		m_DistanceToObject = 0.0;
 	}
 
@@ -133,15 +143,16 @@ class CameraTool extends Module
 				position = GetCursorPos();
 			}
 
-			if ( GetPlayer() ) {
+			if ( GetPlayer() ) 
+			{
 				GetPlayer().SetPosition( position );
 			}
 
 			m_oCamera.SetActive( false );
 
-			GetGame().ObjectDelete( m_oCamera );
+			GetGame().SelectPlayer( NULL, GetPlayer() );
 
-			// delete m_oCamera;
+			GetGame().ObjectDelete( m_oCamera );
 
 			m_oCamera = NULL;
 			
@@ -214,10 +225,86 @@ class CameraTool extends Module
 		}
 	}
 	
-	void UpdateCamera() 
+	void UpdateCamera( float timeslice) 
 	{
 		if ( m_oCamera ) 
 		{
+			if ( m_CamFOV != m_TargetFOV ) 
+			{
+				m_CamFOV = Math.Lerp( m_CamFOV, m_TargetFOV, timeslice*CAMERA_FOV_SPEED_MODIFIER );
+				m_oCamera.SetFOV( m_CamFOV );
+			}
+
+			vector oldOrient = m_oCamera.GetOrientation();
+			if ( oldOrient[2] != m_TargetRoll ) 
+			{
+				oldOrient[2] = Math.Lerp( oldOrient[2], m_TargetRoll, timeslice*CAMERA_FOV_SPEED_MODIFIER );
+				m_oCamera.SetOrientation( oldOrient );
+			}
+
+			// Camera movement
+			Input input = GetGame().GetInput();
+
+			float forward = input.GetAction(UAMoveForward) - input.GetAction(UAMoveBack); // -1, 0, 1
+			float strafe = input.GetAction(UATurnRight) - input.GetAction(UATurnLeft);
+
+			float speed = 2; // acceleration speed
+			float maxSpeed = 2;
+
+			float altitude = input.GetAction(UACarShiftGearUp) - input.GetAction(UACarShiftGearDown);
+			altitudeVelocity = altitudeVelocity + altitude * speed * timeslice;
+
+			Math.Clamp( altitudeVelocity, -m_CamMaxSpeed, m_CamMaxSpeed);
+			vector up = vector.Up * altitudeVelocity;
+
+			vector direction = m_oCamera.GetDirection();
+			vector directionAside = vector.Up * direction;
+
+			altitudeVelocity *= m_CamDrag;
+
+			vector oldPos = m_oCamera.GetPosition();
+
+			forwardVelocity = forwardVelocity + forward * speed * timeslice;
+			strafeVelocity = strafeVelocity + strafe * speed * timeslice;
+
+			Math.Clamp ( forwardVelocity, -m_CamMaxSpeed, m_CamMaxSpeed);
+			Math.Clamp ( strafeVelocity, -m_CamMaxSpeed, m_CamMaxSpeed);
+
+			vector forwardChange = forwardVelocity * direction;
+			vector strafeChange = strafeVelocity * directionAside;
+
+			forwardVelocity *= m_CamDrag;
+			strafeVelocity *= m_CamDrag;
+
+			vector newPos = oldPos + forwardChange + strafeChange + up;
+			m_oCamera.SetPosition(newPos);
+
+			float yawDiff = input.GetAction(UAAimHeadLeft) - input.GetAction(UAAimHeadRight);
+			float pitchDiff = input.GetAction(UAAimHeadDown) - input.GetAction(UAAimHeadUp);
+
+			yawVelocity = yawVelocity + yawDiff * 0.5;
+			pitchVelocity = pitchVelocity + pitchDiff * 0.5; // 0.8
+
+			vector newOrient = oldOrient;
+
+			Math.Clamp ( yawVelocity, -1.5, 1.5);
+			Math.Clamp ( pitchVelocity, -1.5, 1.5);
+
+			newOrient[0] = newOrient[0] - Math.RAD2DEG * yawVelocity * timeslice;
+			newOrient[1] = newOrient[1] - Math.RAD2DEG * pitchVelocity * timeslice;
+
+			yawVelocity *= 0.9; // drag 0.9
+			pitchVelocity *= 0.9;
+
+			if( newOrient[1] < -89 )
+				newOrient[1] = -89;
+			if( newOrient[1] > 89 )
+				newOrient[1] = 89;
+
+			m_oCamera.SetOrientation( newOrient );
+
+
+			// Camera targetting
 			float dist = 0.0;
 			vector from = GetGame().GetCurrentCameraPosition();
 	
@@ -260,11 +347,9 @@ class CameraTool extends Module
 						m_CamOffset.Normalize();
 					}
 					
-					vector newPos;
-					
 					if ( m_OrbitalCam ) 
 					{
-						vector direction = vector.Direction( GetTargetCenter() , m_oCamera.GetPosition() );
+						direction = vector.Direction( GetTargetCenter() , m_oCamera.GetPosition() );
 						direction.Normalize();
 						newPos = GetTargetCenter() + ( direction * m_DistanceToObject );
 					} 
@@ -273,7 +358,7 @@ class CameraTool extends Module
 						newPos = GetTargetCenter() + ( m_CamOffset * m_DistanceToObject );
 					}
 					
-					m_oCamera.SetPosition( newPos );
+					//m_oCamera.SetPosition( newPos );
 					dist = m_DistanceToObject;
 				}
 			}
@@ -302,6 +387,7 @@ class CameraTool extends Module
 	
 	void ZoomCamera() 
 	{
+		/* Old mouse Y function
 		if ( m_oCamera ) 
 		{
 			int i = GetMouseState(MouseState.Y);
@@ -317,6 +403,27 @@ class CameraTool extends Module
 				}
 				m_oCamera.SetFOV(m_CamFOV);
 			}
+		}
+		*/
+
+		if ( m_oCamera ) 
+		{
+			int i = GetMouseState( MouseState.WHEEL );
+
+			if ( CTRL() ) 
+			{
+				vector ori = m_oCamera.GetOrientation();
+				m_TargetRoll = ori[2] - Math.RAD2DEG * i*0.06;
+			}
+			else 
+			{
+				m_TargetFOV-=i*0.06; // invert
+				if ( m_TargetFOV < 0.01 ) 
+				{
+					m_TargetFOV = 0.01;
+				}
+			}
+			//m_oCamera.SetFOV(m_CamFOV);	
 		}
 	}
 	
@@ -405,27 +512,10 @@ class CameraTool extends Module
 	
 	override void onMouseButtonRelease( int button ) 
 	{
-		if ( m_oCamera ) 
-		{
-			if ( button == MouseState.RIGHT ) 
-			{
-				if ( !m_OrbitalCam ) 
-				{
-					SetFreezeMouse( false );
-				}
-			}
-		}
 	}
 	
 	override void onMouseButtonPress( int button ) 
 	{
-		if ( m_oCamera ) 
-		{
-			if ( button == MouseState.RIGHT ) 
-			{
-				// SetFreezeMouse( true );
-			}
-		}
 	}
 	
 	bool IsUsingCamera() 

@@ -18,7 +18,7 @@ class COMKeyBinds extends Module
 		super.Init();
 	}
 	
-	override void onUpdate( int timeslice )
+	override void onUpdate( float timeslice )
 	{
 	}
 	
@@ -68,8 +68,7 @@ class COMKeyBinds extends Module
 //			GetPlayer().MessageStatus( "You can not teleport while you are inside the freecam!" );
 //			return;
 //		}
-
-        
+		
         vector hitPos = GetCursorPos();
 
         float distance = vector.Distance( GetPlayer().GetPosition(), hitPos );

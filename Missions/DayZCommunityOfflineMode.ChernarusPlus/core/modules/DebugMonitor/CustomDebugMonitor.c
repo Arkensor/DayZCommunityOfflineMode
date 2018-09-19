@@ -23,7 +23,7 @@ class CustomDebugMonitor extends Module
 		m_debugMonitor.Hide();
 	}
 	
-	override void onUpdate( int timeslice )
+	override void onUpdate( float timeslice )
 	{
         if( m_IsVisible )
         {

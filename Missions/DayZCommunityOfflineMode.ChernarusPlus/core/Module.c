@@ -70,7 +70,7 @@ class Module
 
 	// Override functions 
 	
-	void onUpdate( int timeslice ) 
+	void onUpdate( float timeslice ) 
 	{
 	}
 	

@@ -142,7 +142,7 @@ class GameMenu extends PopupMenu
 			bc_Visible = !bc_Visible;
 		}
 		return bc_Visible;
-	} 
+	}
 
 	override bool OnClick( Widget w, int x, int y, int button )
 	{
@@ -251,5 +251,14 @@ class GameMenu extends PopupMenu
 
 		oCar.SetAllowDamage( false );
 		oCar.SwitchLights();
+	
+		/*
+		Object container = GetGame().CreateObject( "Land_Container_1Aoh", Vector(0, 2.5, -3.2), false, false);
+
+		oCar.AddChild( container, 0 );
+		*/
+
+		//GetPlayer().SetPosition(Vector(0, -1, 0));
+		//container.AddChild( GetPlayer(), 0);
 	}
 }

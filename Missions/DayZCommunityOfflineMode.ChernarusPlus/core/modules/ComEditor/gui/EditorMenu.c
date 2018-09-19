@@ -92,11 +92,15 @@ class EditorMenu extends UIScriptedMenu
 		{
 			if ( CTRL() ) 
 			{
-				GetGame().GetUIManager().ShowScriptedMenu( new CameraToolsMenu(), this );
+				// GetGame().GetUIManager().ShowScriptedMenu( new CameraToolsMenu(), this );
+				GetGame().GetUIManager().ShowScriptedMenu( new CameraSettings(), this );
+				// CameraTool.CAMERA_ROT.Show( !CameraTool.CAMERA_ROT.IsVisible() );
 			} 
 			else 
 			{
-				CameraTool.Cast(GetModuleManager().GetModule( CameraTool )).ToggleCamera();
+
+				ref CameraTool cmt = GetModuleManager().GetModule( CameraTool );
+				GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Call(cmt.ToggleCamera ); // Fix crash
 			}
 		}
 
