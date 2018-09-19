@@ -84,7 +84,7 @@ static TStringArray WorkingZombieClasses()
              "ZmbF_Clerk_Normal_Base","ZmbF_Clerk_Normal_Blue","ZmbF_Clerk_Normal_White","ZmbF_Clerk_Normal_Green","ZmbF_Clerk_Normal_Red" };
 }
 
-static set< Object > GetObjectsAt( vector from, vector to, Object ignore = NULL )
+static set< Object > GetObjectsAt( vector from, vector to, Object ignore = NULL, float radius = 0.5, Object with = NULL )
 {
     vector contact_pos;
     vector contact_dir;
@@ -92,7 +92,7 @@ static set< Object > GetObjectsAt( vector from, vector to, Object ignore = NULL 
 
     set< Object > objects = new set< Object >;
 
-    if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, objects, NULL, ignore, false, false, ObjIntersectView, 0.5 ) )
+    if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, objects, with, ignore, false, false, ObjIntersectView, radius ) )
     {
         return objects;
     }
@@ -100,7 +100,7 @@ static set< Object > GetObjectsAt( vector from, vector to, Object ignore = NULL 
     return NULL;
 }
 
-static Object GetPointerObject()
+static Object GetPointerObject( Object ignore = NULL, float radius = 0.5, Object with = NULL )
 {
     vector dir = GetGame().GetPointerDirection();
 
@@ -108,7 +108,7 @@ static Object GetPointerObject()
 
 	vector to = from + ( dir * 10000 );
 
-    auto objs = GetObjectsAt( from, to );
+    auto objs = GetObjectsAt( from, to, ignore, radius, with );
 
     if( objs.Count() > 0 )
     {
@@ -226,7 +226,7 @@ static ZombieBase SpawnInfected(vector pos)
     return ZombieBase.Cast(GetGame().CreateObject( WorkingZombieClasses().GetRandomElement(), pos, false, true ));
 }
 
-static Weapon_Base CreateWeapon(PlayerBase oPlayer)
+static Weapon_Base CreateWeapon( PlayerBase oPlayer )
 {
     Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "M4A1_Black" ));
     oWpn.GetInventory().CreateAttachment( "M4_Suppressor" );
@@ -234,13 +234,18 @@ static Weapon_Base CreateWeapon(PlayerBase oPlayer)
     oWpn.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
     oWpn.GetInventory().CreateAttachment( "ACOGOptic" );
 
+    return oWpn;
+}
+
+static Magazine LoadMagazine( PlayerBase oPlayer, Weapon_Base oWpn )
+{    
     Magazine oMag = Magazine.Cast(oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" ));
 
     oWpn.AttachMagazine( oWpn.GetCurrentMuzzle(), oMag );
 
     oWpn.NetSyncCurrentStateID(3);
 
-    return oWpn;
+    return oMag;
 }
 
 static PlayerBase CreateCustomDefaultCharacter()
@@ -271,10 +276,9 @@ static PlayerBase CreateCustomDefaultCharacter()
     Weapon_Base oWpn = CreateWeapon(oPlayer);
 
     oPlayer.LocalTakeEntityToHands( oWpn );
-
     oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );
 
-    //CreateWeapon(oPlayer);
+    oPlayer.SetQuickBarEntityShortcut( CreateWeapon(oPlayer), 2, true );
 
     return oPlayer;
 }

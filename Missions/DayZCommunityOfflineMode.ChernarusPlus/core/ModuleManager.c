@@ -198,6 +198,11 @@ class ModuleManager
 	{
 		moduleMouseCheck( button, KeyMouseBinding.MB_EVENT_RELEASE );
 	}
+    
+    void OnMouseButtonHold( int button )
+	{
+		moduleMouseCheck( button, KeyMouseBinding.MB_EVENT_HOLD );
+	}
 
 	void OnMouseButtonPress( int button )
 	{

@@ -88,6 +88,16 @@ class OverrideMenus extends Module
 		#endif
 	}
 
+	override void onMouseButtonRelease( int button )
+	{
+		#ifdef COM_NEW_INVENTORY
+		if ( m_COMInvMenu && m_InventoryMenu )
+		{
+			m_COMInvMenu.OnMouseButtonReleaseCenter( button );
+		}
+		#endif
+	}
+
 	void AddPauseButton( ref CustomPauseButton button )
 	{
 		m_PauseButtons.Insert( button );
