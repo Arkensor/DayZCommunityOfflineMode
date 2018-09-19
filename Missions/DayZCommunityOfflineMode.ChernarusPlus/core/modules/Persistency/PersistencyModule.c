@@ -70,7 +70,7 @@ class PersistencyModule extends Module
 		#endif
 	}
 	
-	override void onUpdate( int timeslice ) 
+	override void onUpdate( float timeslice ) 
 	{
 	}
 
