@@ -27,11 +27,11 @@ FrameWidgetClass CameraMenu
 				{
 					color 0 0 0 0.7843
 					position 0 0
-					size 1 25
+					size 1 0.1
 					hexactpos 1
 					vexactpos 1
 					hexactsize 0
-					vexactsize 1
+					vexactsize 0
 					style DayZDefaultPanelTop
 					{
 						TextWidgetClass TitleBarText
@@ -77,16 +77,16 @@ FrameWidgetClass CameraMenu
 				
 				PanelWidgetClass camera_sliders 
 				{
-					position 0 25
-					size 1 275
+					position 0 0.1
+					size 1 0.5
 					hexactpos 0
-					vexactpos 1
+					vexactpos 0
 					hexactsize 0
-					vexactsize 1
+					vexactsize 0
 					{
 						TextWidgetClass camera_slider_blur_text
 						{
-							position 0.025 0.1
+							position 0.025 0.05
 							size 1 20
 							hexactsize 0
 							vexactsize 1
@@ -130,7 +130,7 @@ FrameWidgetClass CameraMenu
 						
 						TextWidgetClass camera_slider_dist_text
 						{
-							position 0.025 0.2
+							position 0.025 0.25
 							size 1 20
 							valign top_ref
 							halign left_ref
@@ -173,7 +173,7 @@ FrameWidgetClass CameraMenu
 						
 						TextWidgetClass camera_slider_flen_text
 						{
-							position 0.025 0.3
+							position 0.025 0.45
 							size 1 20
 							valign top_ref
 							halign left_ref
@@ -216,7 +216,7 @@ FrameWidgetClass CameraMenu
 						
 						TextWidgetClass camera_slider_fnear_text
 						{
-							position 0.025 0.4
+							position 0.025 0.65
 							size 1 20
 							valign top_ref
 							halign left_ref
@@ -258,6 +258,306 @@ FrameWidgetClass CameraMenu
 						}
 					}
 				}
+
+				PanelWidgetClass camera_options_pnl
+				{
+					position 0 0.6
+					color 1 1 1 1
+					size 1 0.4
+					valign top_ref
+					halign left_ref
+					{
+						TextWidgetClass camera_speed_text
+						{
+							position 0.025 0.125
+							size 1 20
+							valign top_ref
+							halign left_ref
+							vexactsize 1
+							text "Cam Speed:"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 14
+						}
+						ButtonWidgetClass camera_speed_btn_inc
+						{
+							position 0.35 0.1
+							size 25 25
+							vexactsize 1
+							hexactpos 0
+							hexactsize 1
+							style Default
+							{
+								TextWidgetClass camera_speed_btn_inc_txt
+								{
+									ignorepointer 1
+									position 0 0
+									color 0 1 0 1
+									size 25 25
+									hexactsize 1
+									vexactsize 1
+									hexactpos 1
+									vexactpos 1
+									valign top_ref
+									halign left_ref
+									text "+"
+									font "gui/fonts/Metron-Bold58"
+									"exact text" 1
+									"exact text size" 16
+									"text halign" center
+								   	"text valign" center
+								}
+
+							}
+						}
+
+						ButtonWidgetClass camera_speed_btn_dec
+						{
+							position 0.275 0.1
+							size 25 25
+							vexactsize 1
+							hexactpos 0
+							hexactsize 1
+							style Default
+							{
+								TextWidgetClass camera_speed_btn_inc_txt
+								{
+									ignorepointer 1
+									position 0 0
+									color 1 0 0 1
+									size 25 25
+									hexactsize 1
+									vexactsize 1
+									hexactpos 1
+									vexactpos 1
+									valign top_ref
+									halign left_ref
+									text "-"
+									font "gui/fonts/Metron-Bold58"
+									"exact text" 1
+									"exact text size" 16
+									"text halign" center
+								   	"text valign" center
+								}
+
+							}
+						}
+
+						TextWidgetClass camera_speed_text
+						{
+							position 0.025 0.35
+							size 1 20
+							valign top_ref
+							halign left_ref
+							vexactsize 1
+							text "Cam Smooth:"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 14
+						}
+
+						ButtonWidgetClass camera_smooth_btn_dec
+						{
+							position 0.275 0.3
+							size 25 25
+							vexactsize 1
+							hexactpos 0
+							hexactsize 1
+							style Default
+							{
+								TextWidgetClass camera_smooth_btn_dec
+								{
+									ignorepointer 1
+									position 0 0
+									color 1 0 0 1
+									size 25 25
+									hexactsize 1
+									vexactsize 1
+									hexactpos 1
+									vexactpos 1
+									valign top_ref
+									halign left_ref
+									text "-"
+									font "gui/fonts/Metron-Bold58"
+									"exact text" 1
+									"exact text size" 16
+									"text halign" center
+								   	"text valign" center
+								}
+
+							}
+						}
+
+						ButtonWidgetClass camera_smooth_btn_inc
+						{
+							position 0.35 0.3
+							size 25 25
+							vexactsize 1
+							hexactpos 0
+							hexactsize 1
+							style Default
+							{
+								TextWidgetClass camera_smooth_btn_inc
+								{
+									ignorepointer 1
+									position 0 0
+									color 0 1 0 1
+									size 25 25
+									hexactsize 1
+									vexactsize 1
+									hexactpos 1
+									vexactpos 1
+									valign top_ref
+									halign left_ref
+									text "+"
+									font "gui/fonts/Metron-Bold58"
+									"exact text" 1
+									"exact text size" 16
+									"text halign" center
+								   	"text valign" center
+								}
+
+							}
+						}
+
+						TextWidgetClass camera_msens_text
+						{
+							position 0.475 0.125
+							size 1 20
+							valign top_ref
+							halign left_ref
+							vexactsize 1
+							text "Cam Sens:"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 14
+						}
+
+						ButtonWidgetClass camera_msens_btn_dec
+						{
+							position 0.675 0.1
+							size 25 25
+							vexactsize 1
+							hexactpos 0
+							hexactsize 1
+							style Default
+							{
+								TextWidgetClass camera_smooth_btn_dec
+								{
+									ignorepointer 1
+									position 0 0
+									color 1 0 0 1
+									size 25 25
+									hexactsize 1
+									vexactsize 1
+									hexactpos 1
+									vexactpos 1
+									valign top_ref
+									halign left_ref
+									text "-"
+									font "gui/fonts/Metron-Bold58"
+									"exact text" 1
+									"exact text size" 16
+									"text halign" center
+								   	"text valign" center
+								}
+
+							}
+						}
+
+						ButtonWidgetClass camera_msens_btn_inc
+						{
+							position 0.75 0.1
+							size 25 25
+							vexactsize 1
+							hexactpos 0
+							hexactsize 1
+							style Default
+							{
+								TextWidgetClass camera_msens_btn_inc
+								{
+									ignorepointer 1
+									position 0 0
+									color 0 1 0 1
+									size 25 25
+									hexactsize 1
+									vexactsize 1
+									hexactpos 1
+									vexactpos 1
+									valign top_ref
+									halign left_ref
+									text "+"
+									font "gui/fonts/Metron-Bold58"
+									"exact text" 1
+									"exact text size" 16
+									"text halign" center
+								   	"text valign" center
+								}
+
+							}
+						}
+
+						ButtonWidgetClass camera_btn_rot 
+						{
+							visible 1
+							size 100 25
+							color 1 1 1 1
+							position 0.025 0.55
+							valign top_ref
+							halign left_Ref
+							vexactsize 1
+							hexactsize 1
+							hexactpos 0
+							vexactpos 0
+							style Default
+							{
+								TextWidgetClass camera_btn_rot_text 
+								{
+									ignorepointer 1
+									size 1 1
+									position 0 0
+									text "Rule of Thirds"
+									"exact text" 1
+									"exact text size" 14
+									"text halign" center
+								    "text valign" center
+								}
+							}
+						}
+
+						ButtonWidgetClass camera_btn_phi
+						{
+							visible 1
+							size 100 25
+							color 1 1 1 1
+							position 0.3 0.55
+							valign top_ref
+							halign left_Ref
+							vexactsize 1
+							hexactsize 1
+							hexactpos 0
+							vexactpos 0
+							style Default
+							{
+								TextWidgetClass camera_btn_phi_text 
+								{
+									ignorepointer 1
+									size 1 1
+									position 0 0
+									text "PHI Grid"
+									"exact text" 1
+									"exact text size" 14
+									"text halign" center
+								    "text valign" center
+								}
+							}
+						}
+					}
+				}
+
 			}
 		}
 	}

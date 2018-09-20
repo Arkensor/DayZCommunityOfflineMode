@@ -12,7 +12,10 @@ class CameraSettings extends UIScriptedMenu
 	
 	private SliderWidget m_SldCamFnear;
 	private TextWidget m_TxtCamFnear;
-	
+
+	private ButtonWidget m_btn_rot;
+	private ButtonWidget m_btn_phi
+
 	void CameraSettings()
 	{
 		Init();
@@ -34,9 +37,12 @@ class CameraSettings extends UIScriptedMenu
 		
 		m_SldCamFLen = SliderWidget.Cast( layoutRoot.FindAnyWidget("camera_slider_flen" ) );
 		m_TxtCamFlen = TextWidget.Cast( layoutRoot.FindAnyWidget("camera_slider_flen_value") );
-
+		
 		m_SldCamFnear = SliderWidget.Cast( layoutRoot.FindAnyWidget("camera_slider_fnear") );
 		m_TxtCamFnear = TextWidget.Cast( layoutRoot.FindAnyWidget("camera_slider_fnear_value") );
+		
+		m_btn_rot = ButtonWidget.Cast( layoutRoot.FindAnyWidget("camera_btn_rot"));
+		m_btn_phi = ButtonWidget.Cast( layoutRoot.FindAnyWidget("camera_btn_phi"));
 		
         return layoutRoot;
 
@@ -66,6 +72,52 @@ class CameraSettings extends UIScriptedMenu
 		if ( w.GetName() == "close_button" ) 
 		{
 			Close();
+		}
+
+		if ( w == m_btn_rot ) 
+		{
+			CameraTool.CAMERA_ROT.Show( !CameraTool.CAMERA_ROT.IsVisible() );
+		}
+
+		if ( w == m_btn_phi )
+		{
+			CameraTool.CAMERA_PHI.Show( !CameraTool.CAMERA_PHI.IsVisible() );
+		}
+
+		if ( w.GetName() == "camera_speed_btn_inc" ) 
+		{
+			CameraTool.CAMERA_SPEED += 0.25;
+			CameraTool.CAMERA_MAXSPEED += 0.25;
+		}
+
+		if ( w.GetName() == "camera_speed_btn_dec" ) 
+		{
+			CameraTool.CAMERA_SPEED -= 0.25;
+			CameraTool.CAMERA_MAXSPEED -= 0.25;
+		}
+
+		if ( w.GetName() == "camera_smooth_btn_inc" )
+		{
+			CameraTool.CAMERA_SMOOTH += 0.05;
+			CameraTool.CAMERA_SMOOTH = Math.Clamp(CameraTool.CAMERA_SMOOTH, 0.0, 1.0); // ugh
+		}
+
+		if ( w.GetName() == "camera_smooth_btn_dec" )
+		{
+			CameraTool.CAMERA_SMOOTH -= 0.05;
+			CameraTool.CAMERA_SMOOTH = Math.Clamp(CameraTool.CAMERA_SMOOTH, 0.0, 1.0);
+		}
+
+		if ( w.GetName() == "camera_msens_btn_inc" ) 
+		{
+			CameraTool.CAMERA_MSENS += 0.05;
+			CameraTool.CAMERA_MSENS = Math.Clamp(CameraTool.CAMERA_MSENS, 0.0, 1.0);
+		}
+
+		if ( w.GetName() == "camera_msens_btn_dec" ) 
+		{
+			CameraTool.CAMERA_MSENS -= 0.05;
+			CameraTool.CAMERA_MSENS = Math.Clamp(CameraTool.CAMERA_MSENS, 0.0, 1.0);
 		}
 
 		return false;
@@ -113,7 +165,13 @@ class CameraSettings extends UIScriptedMenu
 	void UpdateSliders() 
 	{
 		m_TxtCamBlur.SetText(((CameraTool.CAMERA_BLUR / 4.0) * 100.0).ToString() + "%");
-		m_TxtCamDist.SetText(CameraTool.CAMERA_FDIST.ToString()+"m");
+
+		string autoF = "";
+		if ( CameraTool.CAMERA_AFOCUS ) 
+		{
+			autoF = " (AUTO)"
+		}
+		m_TxtCamDist.SetText(CameraTool.CAMERA_FDIST.ToString()+"m" + autoF);
 		m_TxtCamFlen.SetText(CameraTool.CAMERA_FLENGTH.ToString());
 		m_TxtCamFnear.SetText(CameraTool.CAMERA_FNEAR.ToString());
 	}

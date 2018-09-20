@@ -252,13 +252,11 @@ class GameMenu extends PopupMenu
 		oCar.SetAllowDamage( false );
 		oCar.SwitchLights();
 	
-		/*
-		Object container = GetGame().CreateObject( "Land_Container_1Aoh", Vector(0, 2.5, -3.2), false, false);
+		//Object container = GetGame().CreateObject( "Land_Container_1Aoh", Vector(0, 2.5, -3.2), false, false);
 
-		oCar.AddChild( container, 0 );
-		*/
-
-		//GetPlayer().SetPosition(Vector(0, -1, 0));
-		//container.AddChild( GetPlayer(), 0);
+		//oCar.AddChild( container, 0 );
+		
+		//GetPlayer().SetPosition( Vector(0, 1, 0) );
+		//oCar.AddChild( GetPlayer(), 0);
 	}
 }

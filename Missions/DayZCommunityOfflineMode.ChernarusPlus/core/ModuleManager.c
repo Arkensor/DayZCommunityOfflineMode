@@ -231,6 +231,14 @@ class ModuleManager
                 {
                     KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
 
+                    if ( GetGame().GetUIManager().GetMenu() )
+                    {
+                        if ( !k_m_Binding.canUseInMenu() )
+                        {
+                            continue;
+                        }
+                    }
+
                     if ( k_m_Binding.IsRecurring() )
                     {
                         if (k_m_Binding.Check())

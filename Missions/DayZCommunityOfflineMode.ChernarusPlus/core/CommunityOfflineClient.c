@@ -30,8 +30,6 @@ class CommunityOfflineClient : MissionGameplay
 		SpawnPlayer();
 
         GetModuleManager().OnInit();
-		
-		g_Game.SetProfileOption(EDayZProfilesOptions.GAME_MESSAGES, false);
 
 		GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\BarrelCrosshair.layout" );
 	}

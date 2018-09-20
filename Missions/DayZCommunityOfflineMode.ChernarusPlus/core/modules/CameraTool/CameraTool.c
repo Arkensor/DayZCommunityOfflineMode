@@ -2,6 +2,8 @@ class CameraTool extends Module
 {
 	protected Camera m_oCamera; // active static camera "staticcamera"
 
+	protected ref array<vector> m_cKeyframes = new array<vector>;
+
 	protected float forwardVelocity;
 	protected float strafeVelocity;
 	protected float altitudeVelocity;
@@ -9,9 +11,7 @@ class CameraTool extends Module
 	protected float yawVelocity;
 	protected float pitchVelocity;
 
-	protected float m_CamSpeed;
-	protected float m_CamMaxSpeed = 1.0;
-	protected float m_CamDrag
+	protected float m_CamDrag = 0.95;
 
 	protected float m_CamFOV = 1.0; // default FOV
 	protected float m_TargetFOV = 1.0;
@@ -21,13 +21,17 @@ class CameraTool extends Module
 	protected bool m_FreezePlayer = false;
 	protected bool m_OrbitalCam = false;
 	protected bool m_FreezeCam = false;
+
+	protected bool m_FreezeMouse = false;
 	
 	static float CAMERA_FOV = 1.0;
 	static float CAMERA_TARGETFOV = 1.0;
 	static float CAMERA_FOV_SPEED_MODIFIER = 6.0;
-	static float CAMERA_SPEED;
+	static float CAMERA_SPEED = 2.0;
 	static float CAMERA_MAXSPEED = 1.0;
 	static float CAMERA_VELDRAG;
+	static float CAMERA_MSENS = 0.8; // acceleration
+	static float CAMERA_SMOOTH = 0.5; // drag
 
 	static bool  CAMERA_DOF = true;
 	static bool  CAMERA_AFOCUS = true;
@@ -253,63 +257,73 @@ class CameraTool extends Module
 			// Camera movement
 			Input input = GetGame().GetInput();
 
-			float forward = input.GetAction(UAMoveForward) - input.GetAction(UAMoveBack); // -1, 0, 1
-			float strafe = input.GetAction(UATurnRight) - input.GetAction(UATurnLeft);
+			if ( !m_FreezeCam ) 
+			{
+				float forward = input.GetAction(UAMoveForward) - input.GetAction(UAMoveBack); // -1, 0, 1
+				float strafe = input.GetAction(UATurnRight) - input.GetAction(UATurnLeft);
 
-			float speed = 2; // acceleration speed
-			float maxSpeed = 2;
+				float altitude = input.GetAction(UACarShiftGearUp) - input.GetAction(UACarShiftGearDown);
+				altitudeVelocity = altitudeVelocity + altitude * CAMERA_SPEED * timeslice;
 
-			float altitude = input.GetAction(UACarShiftGearUp) - input.GetAction(UACarShiftGearDown);
-			altitudeVelocity = altitudeVelocity + altitude * speed * timeslice;
+				Math.Clamp( altitudeVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
+				vector up = vector.Up * altitudeVelocity;
 
-			Math.Clamp( altitudeVelocity, -m_CamMaxSpeed, m_CamMaxSpeed);
-			vector up = vector.Up * altitudeVelocity;
+				vector direction = m_oCamera.GetDirection();
+				vector directionAside = vector.Up * direction;
 
-			vector direction = m_oCamera.GetDirection();
-			vector directionAside = vector.Up * direction;
+				altitudeVelocity *= m_CamDrag;
 
-			altitudeVelocity *= m_CamDrag;
+				vector oldPos = m_oCamera.GetPosition();
 
-			vector oldPos = m_oCamera.GetPosition();
+				forwardVelocity = forwardVelocity + forward * CAMERA_SPEED * timeslice;
+				strafeVelocity = strafeVelocity + strafe * CAMERA_SPEED * timeslice;
 
-			forwardVelocity = forwardVelocity + forward * speed * timeslice;
-			strafeVelocity = strafeVelocity + strafe * speed * timeslice;
+				Math.Clamp ( forwardVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
+				Math.Clamp ( strafeVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
 
-			Math.Clamp ( forwardVelocity, -m_CamMaxSpeed, m_CamMaxSpeed);
-			Math.Clamp ( strafeVelocity, -m_CamMaxSpeed, m_CamMaxSpeed);
+				vector forwardChange = forwardVelocity * direction;
+				vector strafeChange = strafeVelocity * directionAside;
 
-			vector forwardChange = forwardVelocity * direction;
-			vector strafeChange = strafeVelocity * directionAside;
+				forwardVelocity *= m_CamDrag;
+				strafeVelocity *= m_CamDrag;
 
-			forwardVelocity *= m_CamDrag;
-			strafeVelocity *= m_CamDrag;
+				vector newPos = oldPos + forwardChange + strafeChange + up;
 
-			vector newPos = oldPos + forwardChange + strafeChange + up;
-			m_oCamera.SetPosition(newPos);
+				float surfaceY = GetGame().SurfaceY( newPos[0], newPos[2] ) + 0.25;
+				if ( newPos[1] < surfaceY ) 
+				{
+					newPos[1] = surfaceY;
+				}
 
-			float yawDiff = input.GetAction(UAAimHeadLeft) - input.GetAction(UAAimHeadRight);
-			float pitchDiff = input.GetAction(UAAimHeadDown) - input.GetAction(UAAimHeadUp);
+				m_oCamera.SetPosition(newPos);
+			}
 
-			yawVelocity = yawVelocity + yawDiff * 0.5;
-			pitchVelocity = pitchVelocity + pitchDiff * 0.5; // 0.8
+			if ( !m_FreezeMouse ) 
+			{
+				float yawDiff = input.GetAction(UAAimHeadLeft) - input.GetAction(UAAimHeadRight);
+				float pitchDiff = input.GetAction(UAAimHeadDown) - input.GetAction(UAAimHeadUp);
 
-			vector newOrient = oldOrient;
+				yawVelocity = yawVelocity + yawDiff * CAMERA_MSENS;
+				pitchVelocity = pitchVelocity + pitchDiff * CAMERA_MSENS; // 0.8
 
-			Math.Clamp ( yawVelocity, -1.5, 1.5);
-			Math.Clamp ( pitchVelocity, -1.5, 1.5);
+				vector newOrient = oldOrient;
 
-			newOrient[0] = newOrient[0] - Math.RAD2DEG * yawVelocity * timeslice;
-			newOrient[1] = newOrient[1] - Math.RAD2DEG * pitchVelocity * timeslice;
+				Math.Clamp ( yawVelocity, -1.5, 1.5);
+				Math.Clamp ( pitchVelocity, -1.5, 1.5);
 
-			yawVelocity *= 0.9; // drag 0.9
-			pitchVelocity *= 0.9;
+				newOrient[0] = newOrient[0] - Math.RAD2DEG * yawVelocity * timeslice;
+				newOrient[1] = newOrient[1] - Math.RAD2DEG * pitchVelocity * timeslice;
 
-			if( newOrient[1] < -89 )
-				newOrient[1] = -89;
-			if( newOrient[1] > 89 )
-				newOrient[1] = 89;
+				yawVelocity *= CAMERA_SMOOTH; // drag 0.9
+				pitchVelocity *= CAMERA_SMOOTH;
 
-			m_oCamera.SetOrientation( newOrient );
+				if( newOrient[1] < -89 )
+					newOrient[1] = -89;
+				if( newOrient[1] > 89 )
+					newOrient[1] = 89;
+
+				m_oCamera.SetOrientation( newOrient );
+			}
 
 
 			// Camera targetting
@@ -366,7 +380,7 @@ class CameraTool extends Module
 						newPos = GetTargetCenter() + ( m_CamOffset * m_DistanceToObject );
 					}
 					
-					//m_oCamera.SetPosition( newPos );
+					m_oCamera.SetPosition( newPos );
 					dist = m_DistanceToObject;
 				}
 			}
@@ -440,10 +454,6 @@ class CameraTool extends Module
 		if ( m_oCamera ) 
 		{
 			SetFreezeCam(!m_FreezeCam);
-			if ( m_OrbitalCam && m_FreezeCam ) 
-			{
-				SetFreezeMouse(false);
-			}
 		}		
 	}
 	
@@ -454,11 +464,8 @@ class CameraTool extends Module
 			if ( m_Target || m_TargetPos != vector.Zero ) 
 			{
 				m_FollowTarget = !m_FollowTarget;
-				
-				if ( !m_OrbitalCam ) 
-				{
-					SetFreezeCam( m_FollowTarget );
-				}
+				SetFreezeMouse( m_FollowTarget );
+				SetFreezeCam( m_FollowTarget );
 				
 				if ( !m_FollowTarget ) 
 				{
@@ -565,28 +572,11 @@ class CameraTool extends Module
 	
 	void SetFreezeCam( bool freeze ) 
 	{
-		if ( !FreeDebugCamera.Cast( m_oCamera ) ) return; // We are using a static camera instead
-
-		if ( m_FollowTarget && !freeze && !m_OrbitalCam ) 
-		{
-			m_FreezeCam = true;
-			FreeDebugCamera.Cast( m_oCamera ).SetFreezed( true );
-			return; // cannot un freeze camera during follow mode
-		}
-
 		m_FreezeCam = freeze;
-		FreeDebugCamera.Cast( m_oCamera ).SetFreezed( freeze );
 	}
 	
 	void SetFreezeMouse( bool freeze ) 
 	{
-		if ( freeze ) 
-		{
-			GetGame().GetInput().ChangeGameFocus(1, INPUT_DEVICE_MOUSE);
-		}
-		else 
-		{
-			GetGame().GetInput().ResetGameFocus(INPUT_DEVICE_MOUSE);
-		}
+		m_FreezeMouse = freeze;
 	}
 }
