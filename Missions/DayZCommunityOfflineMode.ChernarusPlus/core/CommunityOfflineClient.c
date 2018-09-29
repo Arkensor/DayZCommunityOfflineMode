@@ -87,7 +87,6 @@ class CommunityOfflineClient : MissionGameplay
 		
 		// open ingame menu
 		GetUIManager().EnterScriptedMenu(MENU_INGAME, NULL);
-		m_IsOpenPauseMenu = true;
 	}
 
 	#ifdef MODULE_OVERRIDEMENUS
