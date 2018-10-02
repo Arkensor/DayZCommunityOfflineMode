@@ -95,7 +95,7 @@ class ObjectMenu extends PopupMenu
 
             if( w == m_btnSpawnCursor )
             {
-                EntityAI oCursorObj = g_Game.CreateObject( strSelection, GetCursorPos(), false, ai );
+                EntityAI oCursorObj = g_Game.CreateObject( strSelection, GetCursorPos(), true, ai );
 
                 if ( oCursorObj.IsInherited( ItemBase ) )
                 {
@@ -103,6 +103,7 @@ class ObjectMenu extends PopupMenu
                     SetupSpawnedItem( oCursorItem, oCursorItem.GetMaxHealth(), 1 );
                     return true;
                 }
+                SnapToGroundNew( oCursorObj );
 
                 obEditor.addObject( oCursorObj );
             }
@@ -117,8 +118,9 @@ class ObjectMenu extends PopupMenu
 
                     return true;
                 }
+                SnapToGroundNew( oObj );
 
-                obEditor.addObject( oCursorObj );
+                obEditor.addObject( oObj );
             }
             else if ( w == m_btnSpawnInventory )
             {

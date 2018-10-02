@@ -42,9 +42,9 @@ class BarrelCrosshair extends ScriptedWidgetEventHandler
 				vector screenSpace = GetGame().GetScreenPos(m_Position);
 
 				m_root.GetSize(sx, sy);
-				screenSpace[0] = screenSpace[0] - sx/2;
-				screenSpace[1] = screenSpace[1] - sy/2;
-				
+				screenSpace[0] = screenSpace[0] - sx/2.0;
+				screenSpace[1] = screenSpace[1] - sy/2.0;
+
 				/*
 				float size = 0.005 - distance/100000.0;
 				if ( size < 0.002 ) size = 0.002;

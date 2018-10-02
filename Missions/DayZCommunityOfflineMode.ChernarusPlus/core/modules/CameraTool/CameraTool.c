@@ -11,8 +11,6 @@ class CameraTool extends Module
 	protected float yawVelocity;
 	protected float pitchVelocity;
 
-	protected float m_CamDrag = 0.95;
-
 	protected float m_CamFOV = 1.0; // default FOV
 	protected float m_TargetFOV = 1.0;
 	protected float m_TargetRoll;
@@ -26,12 +24,12 @@ class CameraTool extends Module
 	
 	static float CAMERA_FOV = 1.0;
 	static float CAMERA_TARGETFOV = 1.0;
-	static float CAMERA_FOV_SPEED_MODIFIER = 6.0;
+	static float CAMERA_FOV_SPEED_MODIFIER = 5.0;
 	static float CAMERA_SPEED = 2.0;
-	static float CAMERA_MAXSPEED = 1.0;
-	static float CAMERA_VELDRAG;
+	static float CAMERA_MAXSPEED = 2.0;
+	static float CAMERA_VELDRAG = 0.95;
 	static float CAMERA_MSENS = 0.8; // acceleration
-	static float CAMERA_SMOOTH = 0.5; // drag
+	static float CAMERA_SMOOTH = 0.6; // drag
 
 	static bool  CAMERA_DOF = true;
 	static bool  CAMERA_AFOCUS = true;
@@ -42,9 +40,25 @@ class CameraTool extends Module
 	static float CAMERA_DOFFSET = 0.0;
 
 	static float CAMERA_SMOOTH_BLUR = 0.0;
-	
-	static Widget CAMERA_ROT = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraROT.layout" );
-	static Widget CAMERA_PHI = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraPHI.layout" );
+
+	static float EXPOSURE = 0.0;
+	static float CHROMABERX = 0.0; // these need to go somewhere else. not where this object is GC'd
+	static float CHROMABERY = 0.0;
+	static float HUESHIFT = 0.0;
+
+	static float ROTBLUR = 0.0;
+	static float MINDEPTH = 2.5;
+	static float MAXDEPTH = 4.5;
+
+	static float RADBLURX = 0.0;
+	static float RADBLURY = 0.0;
+	static float RADBLUROFFX = 0.0;
+	static float RADBLUROFFY = 0.0;
+
+	static float VIGNETTE = 0.0;
+	static float VARGB[4] = { 0, 0, 0, 0 };
+
+	static float CARGB[4] = { 0, 0, 0, 1 }; // color overlay
 
 	protected vector m_CamOffset;
 	
@@ -81,7 +95,7 @@ class CameraTool extends Module
 		KeyMouseBinding freezeCamera  = new KeyMouseBinding( GetModuleType(), "FreezeCamera" , "[BackSlash]" , "Freezes camera." );
 		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "[Capslock]"  , "Freezes player." );
 		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "[LBracket]"  , "Follows target." );
-		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "[RBracket]"  , "Toggle orbital mode" );
+		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "[RBracket]"  , "Toggle orbital mode", true );
 		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "[Return]"	 , "Targets objects or positions" );
 		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "(RMB)+(Drag)", "Zooms camera"	 );
 		
@@ -241,12 +255,12 @@ class CameraTool extends Module
 	{
 		if ( m_oCamera ) 
 		{
+
 			if ( m_CamFOV != m_TargetFOV ) 
 			{
 				m_CamFOV = Math.Lerp( m_CamFOV, m_TargetFOV, timeslice*CAMERA_FOV_SPEED_MODIFIER );
 				m_oCamera.SetFOV( m_CamFOV );
 			}
-
 			vector oldOrient = m_oCamera.GetOrientation();
 			if ( oldOrient[2] != m_TargetRoll ) 
 			{
@@ -265,27 +279,27 @@ class CameraTool extends Module
 				float altitude = input.GetAction(UACarShiftGearUp) - input.GetAction(UACarShiftGearDown);
 				altitudeVelocity = altitudeVelocity + altitude * CAMERA_SPEED * timeslice;
 
-				Math.Clamp( altitudeVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
+				altitudeVelocity = Math.Clamp( altitudeVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
 				vector up = vector.Up * altitudeVelocity;
 
 				vector direction = m_oCamera.GetDirection();
 				vector directionAside = vector.Up * direction;
 
-				altitudeVelocity *= m_CamDrag;
+				altitudeVelocity *= CAMERA_VELDRAG;
 
 				vector oldPos = m_oCamera.GetPosition();
 
 				forwardVelocity = forwardVelocity + forward * CAMERA_SPEED * timeslice;
 				strafeVelocity = strafeVelocity + strafe * CAMERA_SPEED * timeslice;
 
-				Math.Clamp ( forwardVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
-				Math.Clamp ( strafeVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
+				forwardVelocity = Math.Clamp ( forwardVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
+				strafeVelocity = Math.Clamp ( strafeVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
 
 				vector forwardChange = forwardVelocity * direction;
 				vector strafeChange = strafeVelocity * directionAside;
 
-				forwardVelocity *= m_CamDrag;
-				strafeVelocity *= m_CamDrag;
+				forwardVelocity *= CAMERA_VELDRAG;
+				strafeVelocity *= CAMERA_VELDRAG;
 
 				vector newPos = oldPos + forwardChange + strafeChange + up;
 
@@ -308,11 +322,11 @@ class CameraTool extends Module
 
 				vector newOrient = oldOrient;
 
-				Math.Clamp ( yawVelocity, -1.5, 1.5);
-				Math.Clamp ( pitchVelocity, -1.5, 1.5);
+				//yawVelocity = Math.Clamp ( yawVelocity, -1.5, 1.5);
+				//pitchVelocity = Math.Clamp ( pitchVelocity, -1.5, 1.5);
 
-				newOrient[0] = newOrient[0] - Math.RAD2DEG * yawVelocity * timeslice;
-				newOrient[1] = newOrient[1] - Math.RAD2DEG * pitchVelocity * timeslice;
+				newOrient[0] = oldOrient[0] - Math.RAD2DEG * yawVelocity * timeslice;
+				newOrient[1] = oldOrient[1] - Math.RAD2DEG * pitchVelocity * timeslice;
 
 				yawVelocity *= CAMERA_SMOOTH; // drag 0.9
 				pitchVelocity *= CAMERA_SMOOTH;
@@ -386,7 +400,14 @@ class CameraTool extends Module
 			}
 			else if ( m_TargetPos != vector.Zero ) 
 			{
-				m_oCamera.LookAt( m_TargetPos ); // auto orbital
+				// m_oCamera.LookAt( m_TargetPos ); // auto orbital
+				vector lookDir = m_TargetPos - m_oCamera.GetPosition();
+				float roll = m_oCamera.GetOrientation()[2];
+				m_oCamera.SetDirection( lookDir );
+
+				vector newRoll = m_oCamera.GetOrientation();
+				newRoll[2] = roll;
+				m_oCamera.SetOrientation(newRoll);
 				dist = vector.Distance( from, m_TargetPos );
 			}
 			
@@ -432,14 +453,21 @@ class CameraTool extends Module
 		{
 			int i = GetMouseState( MouseState.WHEEL );
 
+			ObjectEditor objEditor = GetModuleManager().GetModule( ObjectEditor );
+
+			if ( objEditor.m_SelectedObject ) 
+			{	
+				return;
+			}
+
 			if ( CTRL() ) 
 			{
 				vector ori = m_oCamera.GetOrientation();
-				m_TargetRoll = ori[2] - Math.RAD2DEG * i*0.06;
+				m_TargetRoll = ori[2] - Math.RAD2DEG * i*0.09;
 			}
 			else 
 			{
-				m_TargetFOV-=i*0.06; // invert
+				m_TargetFOV-=i*0.09; // invert
 				if ( m_TargetFOV < 0.01 ) 
 				{
 					m_TargetFOV = 0.01;

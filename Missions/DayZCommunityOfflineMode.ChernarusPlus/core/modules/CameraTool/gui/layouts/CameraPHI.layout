@@ -1,5 +1,6 @@
 PanelWidgetClass CameraPHI
 {
+	ignorepointer 1
 	visible 0
 	position 0 0
 	size 1 1
@@ -11,20 +12,49 @@ PanelWidgetClass CameraPHI
 	vexactsize 0
 	style Editor
 	{
-		PanelWidgetClass box_horizontal
+		PanelWidgetClass line_horizontal_bottom
 		{
+			ignorepointer 1
 			color 1 1 1 1
 			visible 1
-			position -0.01 0.415
-			size 1.02 0.195
+			position 0 0.618
+			size 1 1
+			vexactsize 1
 			style EditorPanel
 		}
-		PanelWidgetClass box_vertical
+
+		PanelWidgetClass line_horizontal_top
 		{
+			ignorepointer 1
 			color 1 1 1 1
 			visible 1
-			position 0.415 -0.01
-			size 0.195 1.02
+			position 0 0.618
+			valign bottom_ref
+			size 1 1
+			vexactsize 1
+			style EditorPanel
+		}
+
+		PanelWidgetClass line_vertical_left
+		{
+			ignorepointer 1
+			color 1 1 1 1
+			visible 1
+			position 0.618 0
+			size 1 1
+			hexactsize 1
+			style EditorPanel
+		}
+
+		PanelWidgetClass line_vertical_right
+		{
+			ignorepointer 1
+			color 1 1 1 1
+			visible 1
+			position 0.618 0
+			halign right_ref
+			size 1 1
+			hexactsize 1
 			style EditorPanel
 		}
 	}

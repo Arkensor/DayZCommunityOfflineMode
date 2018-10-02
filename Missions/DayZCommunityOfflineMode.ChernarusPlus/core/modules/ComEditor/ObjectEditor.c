@@ -3,7 +3,7 @@ class ObjectEditor extends Module
 {
 	protected bool m_ObjectEditorActive = false;
 	protected bool m_IsDragging;
-	protected Object m_SelectedObject;
+	Object m_SelectedObject;
 
 	protected ref ObjectMenu m_ObjectMenu;
 
@@ -51,12 +51,12 @@ class ObjectEditor extends Module
 	override void RegisterKeyMouseBindings() 
 	{
 		KeyMouseBinding toggleEditor  = new KeyMouseBinding( GetModuleType(), "ToggleEditor" , "[Shift]+[End]" , "Toggle object editor."     );
-		KeyMouseBinding objectSelect  = new KeyMouseBinding( GetModuleType(), "ClickObject"  , "(LMB)+(Click)" , "Selects object on cursor." );
-		KeyMouseBinding objectDrag    = new KeyMouseBinding( GetModuleType(), "DragObject"   , "(LMB)+(Drag)"  , "Drag objects on cursor."   );
-		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate." );
-		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object."  );
-		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground."  );
-		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "SaveScene"    , "CTRL+S"	       , "Saves current scene of objects");
+		KeyMouseBinding objectSelect  = new KeyMouseBinding( GetModuleType(), "ClickObject"  , "(LMB)+(Click)" , "Selects object on cursor.", true );
+		KeyMouseBinding objectDrag    = new KeyMouseBinding( GetModuleType(), "DragObject"   , "(LMB)+(Drag)"  , "Drag objects on cursor.", true   );
+		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate.", true );
+		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object.", true  );
+		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground.", true  );
+		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "SaveScene"    , "CTRL+S"	       , "Saves current scene of objects", true);
 
 		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    ); 
 		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
@@ -116,6 +116,25 @@ class ObjectEditor extends Module
 			m_Objects.Insert( object );
 		}
 	}
+
+	void EditorState( bool state ) 
+	{
+		if ( m_ObjectEditorActive == state ) 
+		{
+			return;
+		}
+
+		m_ObjectEditorActive = state;
+
+		if ( m_ObjectEditorActive ) 
+		{	
+			GetPlayer().MessageStatus("Object Editor Enabled");
+		} 
+		else 
+		{
+			GetPlayer().MessageStatus("Object Editor Disabled");
+		}
+	}
 	
 	void ToggleEditor()
 	{
@@ -133,7 +152,7 @@ class ObjectEditor extends Module
 
 	bool IsEditing() 
 	{
-		return ( m_ObjectEditorActive && ( GetGame().GetUIManager().GetMenu() == NULL ) );
+		return m_ObjectEditorActive;
 	}
 
 	void SelectObject( Object object )
@@ -184,6 +203,12 @@ class ObjectEditor extends Module
 				contact_pos [ 1 ] = contact_pos [ 1 ] + nHightOffsetToGround;
 
 				m_SelectedObject.SetPosition( contact_pos );
+
+				ForceTargetCollisionUpdate( m_SelectedObject );
+
+				ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
+				ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
+				ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
 			}
 		}
 	}
@@ -194,34 +219,38 @@ class ObjectEditor extends Module
 		{
 			return;
 		}
+		/*
 		
 		if ( m_SelectedObject )
 		{
 			vector pos = m_SelectedObject.GetPosition();
-			vector yaw = m_SelectedObject.GetOrientation();
-			vector pitch = m_SelectedObject.GetOrientation();
-			vector roll = m_SelectedObject.GetOrientation();
-			
+			vector ori = m_SelectedObject.GetOrientation();
+
 			bool up = state < 0;
 			int value = 1;
 			if ( up ) value = -1;
 			
 			if ( SHIFT() )
 			{
-				pitch [ 1 ] = pitch [ 1 ] + value;
-				m_SelectedObject.SetOrientation(pitch);
+				if ( ori[0] > 0 ) // seemless pitch change
+				{
+					value = -value;
+				}
+				ori[1] = ori[1] + value;
+
+				m_SelectedObject.SetOrientation( ori );
 			}
 			else if ( CTRL() )
 			{
-				yaw [ 0 ] = yaw [ 0 ] + value;
+				ori [ 0 ] = ori [ 0 ] + value;
 
-				m_SelectedObject.SetOrientation( yaw );
+				m_SelectedObject.SetOrientation( ori );
 			}
 			else if ( ALT() )
 			{
-				roll[ 2 ] = roll[ 2 ] + value;
+				ori[ 2 ] = ori[ 2 ] + value;
 
-				m_SelectedObject.SetOrientation( roll );
+				m_SelectedObject.SetOrientation( ori );
 			}
 			else 
 			{
@@ -230,6 +259,7 @@ class ObjectEditor extends Module
 				m_SelectedObject.SetPosition( pos );
 			}
 		}
+		*/
 	}
 
 	void ClickObject() 
@@ -238,7 +268,13 @@ class ObjectEditor extends Module
 		{
 			return;
 		}
-	
+		Widget widgetCursor = GetGame().GetUIManager().GetWidgetUnderCursor();
+
+		if ( widgetCursor && widgetCursor.GetName() != "EditorMenu" ) 
+		{
+			return;
+		}
+
 		vector dir = GetGame().GetPointerDirection();
 		vector from = GetGame().GetCurrentCameraPosition();
 		vector to = from + ( dir * 10000 );
@@ -254,6 +290,10 @@ class ObjectEditor extends Module
 			selected = true;
 			
 			GetPlayer().MessageStatus("Selected object.");
+
+			ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
+			ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
+			ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
 		}
 	
 		if ( !selected && m_SelectedObject )
@@ -287,17 +327,34 @@ class ObjectEditor extends Module
 
 		if ( m_SelectedObject )
 		{
+			/*
+			TStringArray sArray = new TStringArray;
+			m_SelectedObject.GetSelectionList( sArray );
+
+			foreach( string s : sArray ) 
+			{
+				Print( s );
+				//GetPlayer().MessageStatus( s);
+			}
+			*/
+			/*
+
 			vector pos = m_SelectedObject.GetPosition();
 			pos[1] = GetGame().SurfaceY(pos[0], pos[2]);
 			
-			vector clippingInfo;
-			vector objectBBOX;
+			vector clippingInfo[2];
+			vector objectBBOX[2];
 			
-			m_SelectedObject.GetCollisionBox(objectBBOX);
-			
-			pos[1] = pos[1] - objectBBOX[1] + clippingInfo[1];
-			
+			m_SelectedObject.GetCollisionBox( objectBBOX );
+			m_SelectedObject.ClippingInfo( clippingInfo );
+		
+			//float clipY = objectBBOX[1][1] / 2.0//- clippingInfo[0][1];
+			//pos[1] = pos[1] + objectBBOX[1][1] - clipY;
+			pos[1] = pos[1] + clippingInfo[1][1] / 2.0;//objectBBOX[0][1] - clipY
+
 			m_SelectedObject.SetPosition(pos);
+			*/
+			SnapToGroundNew( m_SelectedObject );
 		}
 	}
 }

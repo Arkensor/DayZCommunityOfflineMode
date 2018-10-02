@@ -196,7 +196,7 @@ static CommunityOfflineServer GetServerMission()
     return CommunityOfflineServer.Cast( GetGame().GetMission() );
 }
 
-static PlayerBase GetPlayer()
+static ref PlayerBase GetPlayer()
 {
     return GetGame().GetPlayer();
 }
@@ -226,6 +226,7 @@ static ZombieBase SpawnInfected(vector pos)
     return ZombieBase.Cast(GetGame().CreateObject( WorkingZombieClasses().GetRandomElement(), pos, false, true ));
 }
 
+/*
 static Weapon_Base CreateWeapon( PlayerBase oPlayer )
 {
     Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "M4A1_Black" ));
@@ -236,10 +237,23 @@ static Weapon_Base CreateWeapon( PlayerBase oPlayer )
 
     return oWpn;
 }
+*/
 
-static Magazine LoadMagazine( PlayerBase oPlayer, Weapon_Base oWpn )
+static Weapon_Base CreateWeapon( PlayerBase oPlayer )
+{
+    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "MP5K" ));
+    oWpn.GetInventory().CreateAttachment( "MP5k_StockBttstck" );
+    oWpn.GetInventory().CreateAttachment( "MP5_RailHndgrd" );
+    oWpn.GetInventory().CreateAttachment( "PistolSuppressor" );
+    EntityAI optic = oWpn.GetInventory().CreateAttachment( "M68Optic" );
+    optic.GetInventory().CreateAttachment("Battery9V");
+
+    return oWpn;
+}
+
+static Magazine LoadMag( PlayerBase oPlayer, Weapon_Base oWpn )
 {    
-    Magazine oMag = Magazine.Cast(oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" ));
+    Magazine oMag = Magazine.Cast(oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" ));
 
     oWpn.AttachMagazine( oWpn.GetCurrentMuzzle(), oMag );
 
@@ -252,33 +266,24 @@ static PlayerBase CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
 
-    EntityAI item = oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
-    item = oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
-    item = oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
-    item = oPlayer.GetInventory().CreateInInventory( "PlateCarrierHolster" );
-    item = oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
-    item = oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
-    item = oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
-    item = oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
+    EntityAI item = oPlayer.GetInventory().CreateInInventory( "Jeans_Black" );
+    item = oPlayer.GetInventory().CreateInInventory( "QuiltedJacket_Grey" );
+    item = oPlayer.GetInventory().CreateInInventory( "CombatBoots_Green" );
+    item = oPlayer.GetInventory().CreateInInventory( "Ushanka_Green" );
 
-    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
-    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
-    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
-    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
-    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
-    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
-    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
-    item = oPlayer.GetInventory().CreateInInventory( "SodaCan_Kvass" );
+    item = oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" );
+    item = oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" );
+    item = oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" );
+    item = oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" );
 
     //oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
     //oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
 
     Weapon_Base oWpn = CreateWeapon(oPlayer);
+    LoadMag( oPlayer, oWpn );
 
     oPlayer.LocalTakeEntityToHands( oWpn );
     oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );
-
-    oPlayer.SetQuickBarEntityShortcut( CreateWeapon(oPlayer), 2, true );
 
     return oPlayer;
 }
@@ -319,3 +324,69 @@ static vector SnapToGround(vector pos)
 static bool m_GodMode; // move these to player saves? Edit: Jacob says "yes"
 static bool m_OldAiming;
 static bool bc_Visible;
+
+static void SnapToGroundNew( Object object ) 
+{
+    vector pos = object.GetPosition();
+    pos[1] = GetGame().SurfaceY(pos[0], pos[2]);
+    
+    vector clippingInfo[2];
+    vector objectBBOX[2];
+    
+    object.GetCollisionBox( objectBBOX );
+    object.ClippingInfo( clippingInfo );
+
+    //float clipY = objectBBOX[1][1] / 2.0//- clippingInfo[0][1];
+    //pos[1] = pos[1] + objectBBOX[1][1] - clipY;
+    pos[1] = pos[1] + clippingInfo[1][1] / 2.0;//objectBBOX[0][1] - clipY
+
+    object.SetPosition(pos);
+
+    ForceTargetCollisionUpdate( object );
+}
+
+static void ForceTargetCollisionUpdate( Object oObj )
+{
+    if ( !oObj ) return;
+
+    vector roll = oObj.GetOrientation();
+    roll [ 2 ] = roll [ 2 ] - 1;
+    oObj.SetOrientation( roll );
+    roll [ 2 ] = roll [ 2 ] + 1;
+    oObj.SetOrientation( roll );
+}
+
+static void ToggleCursor()
+{
+    if ( GetGame().GetInput().HasGameFocus( INPUT_DEVICE_MOUSE ) )
+    {
+        GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
+        GetGame().GetUIManager().ShowUICursor( true );
+    }
+    else
+    {
+        GetGame().GetUIManager().ShowUICursor( false );
+        GetGame().GetInput().ResetGameFocus( INPUT_DEVICE_MOUSE );
+    }
+}
+
+/*
+    Token types:
+     0 - error, no token
+     1 - defined token (special characters etc. . / * )
+     2 - quoted string. Quotes are removed -> TODO
+     3 - alphabetic string
+     4 - number
+     5 - end of line -> TODO
+*/
+static bool CheckStringType( string str, int type ) 
+{
+    for(int i = 0; i<str.Length(); i++ ) 
+    {
+        string character = str.Get(i);
+        string token;
+        int result = character.ParseStringEx(token);
+        if ( result == type ) return true;
+    }
+    return false;
+}

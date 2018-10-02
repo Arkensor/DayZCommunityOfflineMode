@@ -6,15 +6,18 @@ class EditorMenu extends UIScriptedMenu
 	protected ButtonWidget m_WeatherButton;
 	protected ButtonWidget m_GameButton;
 	protected ButtonWidget m_CameraButton;
+	protected ButtonWidget m_ObjectEditorButton;
 	
 	protected Widget m_objectMenu;
 	protected Widget m_weatherMenu;
 	protected Widget m_positionMenu;
 	protected Widget m_gameMenu;
+	protected Widget m_objectInfoMenu;
+	protected Widget m_cameraMenu;
 
 	void EditorMenu()
 	{
-	}	
+	}
 	
 	void ~EditorMenu()
 	{
@@ -29,12 +32,16 @@ class EditorMenu extends UIScriptedMenu
 		m_WeatherButton  = ButtonWidget.Cast( layoutRoot.FindAnyWidget("weather_button") );
 		m_GameButton     = ButtonWidget.Cast( layoutRoot.FindAnyWidget("game_button") );
 		m_CameraButton   = ButtonWidget.Cast( layoutRoot.FindAnyWidget("camera_button") );
+		m_ObjectEditorButton = layoutRoot.FindAnyWidget( "objectEditor_button" );
+
 
 		// object menu
 		m_objectMenu   = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\ObjectMenu.layout", layoutRoot );
 		m_weatherMenu  = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\WeatherMenu.layout", layoutRoot );
 		m_positionMenu = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\gui\\layouts\\PositionMenu.layout", layoutRoot );
 		m_gameMenu 	   = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\GameMenu.layout", layoutRoot );
+		m_objectInfoMenu = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\ObjectEditorInfo.layout", layoutRoot );
+		m_cameraMenu = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraSettings.layout", layoutRoot );
 
         return layoutRoot;
 	}
@@ -61,8 +68,13 @@ class EditorMenu extends UIScriptedMenu
     {
         super.OnHide();
 
+        ObjectEditor.Cast( GetModuleManager().GetModule( ObjectEditor )).EditorState( false );
+
         GetGame().GetInput().ResetGameFocus( INPUT_DEVICE_MOUSE );
         GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
+
+        CameraSettings.CAMERA_ROT.Show( false );
+        CameraSettings.CAMERA_PHI.Show( false );
     }
 
     override bool OnClick( Widget w, int x, int y, int button )
@@ -87,15 +99,22 @@ class EditorMenu extends UIScriptedMenu
 		{
 			m_gameMenu.GetScript( popMenu );
 		}
+		if ( w == m_ObjectEditorButton ) 
+		{
+			m_objectInfoMenu.GetScript( popMenu );
+
+			ObjectEditor.Cast( GetModuleManager().GetModule( ObjectEditor )).ToggleEditor();
+		}
 
 		if ( w == m_CameraButton ) 
 		{
 			if ( CTRL() ) 
 			{
 				// GetGame().GetUIManager().ShowScriptedMenu( new CameraToolsMenu(), this );
-				GetGame().GetUIManager().ShowScriptedMenu( new CameraSettings(), this );
+				//GetGame().GetUIManager().ShowScriptedMenu( new CameraSettings(), this );
+				m_cameraMenu.GetScript( popMenu );
 				// CameraTool.CAMERA_ROT.Show( !CameraTool.CAMERA_ROT.IsVisible() );
-			} 
+			}
 			else 
 			{
 
@@ -174,5 +193,32 @@ class EditorMenu extends UIScriptedMenu
 		{
 			m_gameMenu.Show(false);
 		}
+		if ( m_objectInfoMenu != focus && m_objectInfoMenu.IsVisible() ) 
+		{
+			m_objectInfoMenu.Show(false);
+		}
+	}
+
+	override void Update( float timeslice ) 
+	{
+		//GetPlayer().MessageStatus( (GetMouseState( MouseState.RIGHT ) & MB_PRESSED_MASK).ToString() );
+
+		if ( GetMouseState( MouseState.RIGHT ) & MB_PRESSED_MASK ) 
+		{
+			if ( GetGame().GetUIManager().IsCursorVisible() ) 
+			{
+				GetGame().GetUIManager().ShowUICursor( false );
+				GetGame().GetInput().ResetGameFocus( INPUT_DEVICE_MOUSE );
+			}
+		}
+		else
+		{
+			if ( !GetGame().GetUIManager().IsCursorVisible() ) 
+			{
+				GetGame().GetUIManager().ShowUICursor( true );
+				GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
+			}
+		}
 	}
 }
+

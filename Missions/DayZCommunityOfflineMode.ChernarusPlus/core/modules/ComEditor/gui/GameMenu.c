@@ -10,7 +10,6 @@ class GameMenu extends PopupMenu
 
 	void GameMenu()
 	{
-		GetGame().GetUpdateQueue( CALL_CATEGORY_SYSTEM ).Insert( Update );
 	}
 
 	void ~GameMenu()
@@ -76,41 +75,6 @@ class GameMenu extends PopupMenu
 
 	void Update() 
 	{
-		if ( m_GodMode ) // located in staticfunctions
-		{
-			GetPlayer().SetAllowDamage( false );
-
-			GetPlayer().SetHealth( GetPlayer().GetMaxHealth( "", "" ) );
-			GetPlayer().SetHealth( "","Blood", GetPlayer().GetMaxHealth( "", "Blood" ) );
-			GetPlayer().SetHealth( "","Shock", GetPlayer().GetMaxHealth( "", "Shock" ) );
-			GetPlayer().SetStamina(1000, 1000);
-			GetPlayer().GetStatStamina().Set(1000);
-			GetPlayer().GetStatEnergy().Set(1000);
-			GetPlayer().GetStatWater().Set(1000);
-			GetPlayer().GetStatStomachSolid().Set(300);		
-			GetPlayer().GetStatStomachWater().Set(300);
-			GetPlayer().GetStatStomachEnergy().Set(300);
-			GetPlayer().GetStatHeatComfort().Set(0);
-			
-			EntityAI oWeapon = GetPlayer().GetHumanInventory().GetEntityInHands();
-
-			if( oWeapon )
-			{
-				Magazine oMag = ( Magazine ) oWeapon.GetAttachmentByConfigTypeName( "DefaultMagazine" );
-
-				if( oMag && oMag.IsMagazine() )
-				{
-					oMag.LocalSetAmmoMax();
-				}
-				
-				Object oSupressor = ( Object ) oWeapon.GetAttachmentByConfigTypeName( "SuppressorBase" );
-
-				if( oSupressor )
-				{
-					oSupressor.SetHealth( oSupressor.GetMaxHealth( "", "" ) );
-				}
-			}
-		}
 	}
 
 	bool ToggleOldAiming( CheckBoxWidget widget )

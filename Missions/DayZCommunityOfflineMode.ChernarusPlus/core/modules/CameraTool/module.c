@@ -13,6 +13,7 @@
 #ifdef COM_MODULES_OLDLOADING
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\CameraTool.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\CameraSettings.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\WidgetStore.c"
 #endif
 
 #ifndef COM_MODULES_OLDLOADING

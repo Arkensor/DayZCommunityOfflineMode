@@ -6,6 +6,8 @@ class CommunityOfflineClient : MissionGameplay
 
 	protected bool m_CanPause = true;
 
+	protected bool m_IsOpenPauseMenu = false;
+
 	void CommunityOfflineClient()
 	{
 	    Print( "CommunityOfflineClient::CommunityOfflineClient()" );
@@ -31,7 +33,9 @@ class CommunityOfflineClient : MissionGameplay
 
         GetModuleManager().OnInit();
 
-		GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\gui\\layouts\\BarrelCrosshair.layout" );
+        DayZPlayerCameras.RegisterTransitionTime(DayZPlayerCameras.DAYZCAMERA_1ST, DayZPlayerCameras.DAYZCAMERA_OPTICS, DayZPlayerCameras.TIME_CAMERACHANGE_015, true);
+
+		GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\layouts\\BarrelCrosshair.layout" );
 	}
 
 	override void OnMissionStart()
@@ -87,7 +91,6 @@ class CommunityOfflineClient : MissionGameplay
 		
 		// open ingame menu
 		GetUIManager().EnterScriptedMenu(MENU_INGAME, NULL);
-		m_IsOpenPauseMenu = true;
 	}
 
 	#ifdef MODULE_OVERRIDEMENUS
