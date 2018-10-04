@@ -27,7 +27,7 @@ class CameraTool extends Module
 	static float CAMERA_FOV_SPEED_MODIFIER = 5.0;
 	static float CAMERA_SPEED = 2.0;
 	static float CAMERA_MAXSPEED = 2.0;
-	static float CAMERA_VELDRAG = 0.95;
+	static float CAMERA_VELDRAG = 0.8;
 	static float CAMERA_MSENS = 0.8; // acceleration
 	static float CAMERA_SMOOTH = 0.6; // drag
 
@@ -93,11 +93,11 @@ class CameraTool extends Module
 	{
 		KeyMouseBinding toggleCamera  = new KeyMouseBinding( GetModuleType(), "ToggleCamera" , "[Insert]"    , "Toggle camera."  );
 		KeyMouseBinding freezeCamera  = new KeyMouseBinding( GetModuleType(), "FreezeCamera" , "[BackSlash]" , "Freezes camera." );
-		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "[Capslock]"  , "Freezes player." );
+		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "[Capslock]"  , "Freezes player." , true);
 		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "[LBracket]"  , "Follows target." );
 		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "[RBracket]"  , "Toggle orbital mode", true );
-		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "[Return]"	 , "Targets objects or positions" );
-		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "(RMB)+(Drag)", "Zooms camera"	 );
+		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "[Return]"	 , "Targets objects or positions", true );
+		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "(RMB)+(Drag)", "Zooms camera"	 , true);
 		
 		toggleCamera.AddKeyBind( KeyCode.KC_INSERT    , KeyMouseBinding.KB_EVENT_RELEASE );
 		freezeCamera.AddKeyBind( KeyCode.KC_BACKSLASH , KeyMouseBinding.KB_EVENT_RELEASE );
@@ -183,6 +183,8 @@ class CameraTool extends Module
 			m_oCamera = NULL;
 			
 			m_CamFOV = 1.0;
+			m_TargetFOV = 1.0;
+			m_TargetRoll = 0;
 			
 			m_FollowTarget = false;
 			m_OrbitalCam = false;
@@ -210,12 +212,19 @@ class CameraTool extends Module
 	{
 		if ( m_oCamera ) 
 		{
+			if ( GetGame().GetUIManager().IsCursorVisible() ) 
+			{
+				return;
+			}
+
 			if ( m_Target || m_TargetPos != vector.Zero ) 
 			{
 				// Stop targetting
 				m_Target = NULL;
 				m_TargetPos = vector.Zero;
 			
+				SetFreezeMouse(false);
+
 				return;
 			}
 			
@@ -231,7 +240,6 @@ class CameraTool extends Module
 				if ( object.IsInherited( EntityAI ) && !object.IsBuilding() )
 				{
 					m_Target = object;
-					GetPlayer().MessageStatus("Selected Target: " + object.GetType());
 					return;
 				} 
 			}
@@ -451,6 +459,11 @@ class CameraTool extends Module
 
 		if ( m_oCamera ) 
 		{
+			if ( GetGame().GetUIManager().IsCursorVisible() ) 
+			{
+				return;
+			}
+
 			int i = GetMouseState( MouseState.WHEEL );
 
 			ObjectEditor objEditor = GetModuleManager().GetModule( ObjectEditor );
@@ -589,6 +602,16 @@ class CameraTool extends Module
 		}
 				
 		return targetPosition;
+	}
+
+	Object GetTargetObject() 
+	{
+		return m_Target;
+	}
+
+	vector GetTargetPos() 
+	{
+		return m_TargetPos;
 	}
 	
 	void SetFreezePlayer( bool freeze ) 

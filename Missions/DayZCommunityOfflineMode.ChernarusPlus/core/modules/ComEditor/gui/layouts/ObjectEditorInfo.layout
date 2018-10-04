@@ -2,7 +2,7 @@ PanelWidgetClass object_editor_info
 {
 	visible 0
 	color 0 0 0 1
-	position 0.045 0.4
+	position 0.045 0.425
 	size 300 400
 	halign right_ref
 	valign top_ref
@@ -62,7 +62,7 @@ PanelWidgetClass object_editor_info
 					color 1 1 1 1
 					position 0.05 0.05
 					size 0.9 0.055
-					text "No Object Selected"
+					text "No object Selected"
 				}
 
 				FrameWidgetClass objectInfo 

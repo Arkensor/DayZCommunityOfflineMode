@@ -77,6 +77,33 @@ class EditorMenu extends UIScriptedMenu
         CameraSettings.CAMERA_PHI.Show( false );
     }
 
+    override bool OnDoubleClick( Widget w, int x, int y, int button ) 
+    {
+    	if ( w == layoutRoot ) 
+    	{
+	    	ObjectMenu objectMenu;
+	    	m_objectMenu.GetScript( objectMenu );
+	    	string strSelection = objectMenu.GetCurrentSelection();
+
+	    	if ( strSelection != "" ) 
+	    	{
+	    		bool ai = false;
+
+	        	if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) ) 
+	        	{
+	        		ai = true;
+	        	}
+
+	    		Object obj = GetGame().CreateObject( strSelection, GetPointerPos(), true, ai );
+	    		obj.PlaceOnSurface(); // reeeeeeeeeeeee
+	    		ObjectEditor.Cast(GetModuleManager().GetModule( ObjectEditor )).SelectObject( obj );
+	    		ObjectEditor.Cast(GetModuleManager().GetModule( ObjectEditor )).addObject( obj );
+	    	}
+    	}
+
+    	return false;
+    }
+
     override bool OnClick( Widget w, int x, int y, int button )
 	{
 		PopupMenu popMenu;
@@ -108,19 +135,7 @@ class EditorMenu extends UIScriptedMenu
 
 		if ( w == m_CameraButton ) 
 		{
-			if ( CTRL() ) 
-			{
-				// GetGame().GetUIManager().ShowScriptedMenu( new CameraToolsMenu(), this );
-				//GetGame().GetUIManager().ShowScriptedMenu( new CameraSettings(), this );
-				m_cameraMenu.GetScript( popMenu );
-				// CameraTool.CAMERA_ROT.Show( !CameraTool.CAMERA_ROT.IsVisible() );
-			}
-			else 
-			{
-
-				ref CameraTool cmt = GetModuleManager().GetModule( CameraTool );
-				GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Call(cmt.ToggleCamera ); // Fix crash
-			}
+			m_cameraMenu.GetScript( popMenu );
 		}
 
 		if ( popMenu ) 
@@ -146,16 +161,21 @@ class EditorMenu extends UIScriptedMenu
 
 	void SetButtonFocus( Widget focus ) 
 	{
+		// todo change this so that its based on visible layout and not click event
 
 		Widget m_ObjectButtonBkg   = layoutRoot.FindAnyWidget("objects_button_bkg");
 		Widget m_PositionButtonBkg = layoutRoot.FindAnyWidget("position_button_bkg");
 		Widget m_WeatherButtonBkg  = layoutRoot.FindAnyWidget("weather_button_bkg");
 		Widget m_GameButtonBkg     = layoutRoot.FindAnyWidget("game_button_bkg");
+		Widget m_ObjectEditorBkg   = layoutRoot.FindAnyWidget("objectEditor_button_bkg");
+		Widget m_CameraButtonBkg   = layoutRoot.FindAnyWidget("camera_button_bkg");
 
 		m_ObjectButtonBkg.SetColor(ARGB(0, 255, 255, 255)); // reset colors
 		m_PositionButtonBkg.SetColor(ARGB(0, 255, 255, 255));
 		m_WeatherButtonBkg.SetColor(ARGB(0, 255, 255, 255));
 		m_GameButtonBkg.SetColor(ARGB(0, 255, 255, 255));
+		m_ObjectEditorBkg.SetColor(ARGB(0, 255, 255, 255));
+		m_CameraButtonBkg.SetColor(ARGB(0, 255, 255, 255));
 
 		if ( m_ObjectButton == focus && m_objectMenu.IsVisible() ) 
 		{
@@ -173,11 +193,19 @@ class EditorMenu extends UIScriptedMenu
 		{
 			m_GameButtonBkg.SetColor(ARGB(255, 255, 0, 0));
 		}
+		if ( m_ObjectEditorButton == focus && m_objectInfoMenu.IsVisible() )
+		{
+			m_ObjectEditorBkg.SetColor(ARGB(255, 255, 0, 0));
+		}
+		if ( m_CameraButton == focus && m_cameraMenu.IsVisible() )
+		{
+			m_CameraButtonBkg.SetColor(ARGB(255, 255, 0, 0));
+		}
 	}
 
 	void HideMenus( Widget focus ) 
 	{
-		if ( m_objectMenu != focus && m_objectMenu.IsVisible() ) 
+		if ( m_objectInfoMenu != focus && m_objectMenu != focus && m_objectMenu.IsVisible() ) 
 		{
 			m_objectMenu.Show(false);
 		}
@@ -193,9 +221,14 @@ class EditorMenu extends UIScriptedMenu
 		{
 			m_gameMenu.Show(false);
 		}
-		if ( m_objectInfoMenu != focus && m_objectInfoMenu.IsVisible() ) 
+		if ( m_cameraMenu != focus && m_cameraMenu.IsVisible() ) 
+		{
+			m_cameraMenu.Show(false);
+		}
+		if ( m_objectMenu != focus && m_objectInfoMenu != focus && m_objectInfoMenu.IsVisible() ) 
 		{
 			m_objectInfoMenu.Show(false);
+			ObjectEditor.Cast( GetModuleManager().GetModule( ObjectEditor )).ToggleEditor();
 		}
 	}
 

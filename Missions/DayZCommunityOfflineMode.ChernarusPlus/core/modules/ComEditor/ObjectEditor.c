@@ -15,7 +15,6 @@ class ObjectEditor extends Module
 	void ObjectEditor()
 	{
 		MakeDirectory(BASE_SCENE_DIR);
-
 	}
 
 	void ~ObjectEditor()
@@ -82,6 +81,23 @@ class ObjectEditor extends Module
 
 	void SaveScene() 
 	{	
+		string toCopy = "";
+
+		foreach( Object m_object : m_Objects ) 
+		{
+			if ( m_object.GetType() == "Pumpkin" ) //save loot positions
+			{
+				vector modelPos = m_SelectedObject.WorldToModel( m_object.GetPosition() );
+
+				toCopy = toCopy + "{" + modelPos[0] + "," + modelPos[1] + "," + modelPos[2] + "},";
+			}
+		}
+		toCopy = m_SelectedObject.GetType() + "[] = {" + toCopy + "};"
+
+		GetGame().CopyToClipboard( toCopy );
+		m_Objects.Clear();
+
+		/*
 		ref Scene scene = new Scene();
 		scene.name = "latest";
 
@@ -99,10 +115,12 @@ class ObjectEditor extends Module
 
 		GetGame().CopyToClipboard(tocopy);
 		JsonFileLoader< Scene >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
+		*/
 	}
 
 	void LoadScene() 
 	{
+		/*
 		ref Scene scene = new Scene();
 
 		JsonFileLoader<Scene>.JsonLoadFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
@@ -115,6 +133,7 @@ class ObjectEditor extends Module
 
 			m_Objects.Insert( object );
 		}
+		*/
 	}
 
 	void EditorState( bool state ) 
@@ -193,16 +212,17 @@ class ObjectEditor extends Module
 
 			m_SelectedObject.GetCollisionBox( bbox );
 
-			if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, NULL, NULL, NULL, false, true ) )
+			if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, NULL, m_SelectedObject, GetPlayer(), false, false ) )
 			{
-				vector oOrgPos = m_SelectedObject.GetPosition();
-				float fSurfaceHight = GetGame().SurfaceY( oOrgPos [ 0 ], oOrgPos [ 2 ] );
+				//vector oOrgPos = m_SelectedObject.GetPosition();
+				//float fSurfaceHight = GetGame().SurfaceY( oOrgPos [ 0 ], oOrgPos [ 2 ] );
 
-				float nHightOffsetToGround = oOrgPos [ 1 ] - fSurfaceHight;
+				//float nHightOffsetToGround = oOrgPos [ 1 ] - fSurfaceHight; // todo: store offset of existing objects for later use. for snap to ground perhaps?
 
-				contact_pos [ 1 ] = contact_pos [ 1 ] + nHightOffsetToGround;
+				//contact_pos [ 1 ] = contact_pos [ 1 ] + nHightOffsetToGround;
 
 				m_SelectedObject.SetPosition( contact_pos );
+				m_SelectedObject.PlaceOnSurface();
 
 				ForceTargetCollisionUpdate( m_SelectedObject );
 
@@ -279,7 +299,7 @@ class ObjectEditor extends Module
 		vector from = GetGame().GetCurrentCameraPosition();
 		vector to = from + ( dir * 10000 );
 
-		set< Object > objects = GetObjectsAt(from, to, GetGame().GetPlayer() );
+		set< Object > objects = GetObjectsAt(from, to, GetGame().GetPlayer(), 0.0 );
 
 		bool selected = false;
 		
@@ -290,6 +310,10 @@ class ObjectEditor extends Module
 			selected = true;
 			
 			GetPlayer().MessageStatus("Selected object.");
+
+			ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
+			ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
+			ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
 
 			ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
 			ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );

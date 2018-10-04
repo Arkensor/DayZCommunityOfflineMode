@@ -121,6 +121,19 @@ PanelWidgetClass CameraMenu
 					}
 				}
 
+				TextWidgetClass camera_target_txt 
+				{
+					ignorepointer 1
+					color 1 1 1 1
+					position 0.02 0.115
+					size 200 20
+					hexactsize 1
+					vexactsize 1
+					text "Target: "
+					"text halign" left
+					"text valign" center
+				}
+
 				FrameWidgetClass camera_effects_frame 
 				{
 					ignorepointer 1
@@ -1321,6 +1334,35 @@ PanelWidgetClass CameraMenu
 											"exact text size" 14
 											"text halign" center
 										    "text valign" center
+										}
+									}
+								}
+
+								ButtonWidgetClass camera_toggle
+								{
+									visible 1
+									size 150 25
+									color 1 1 1 1
+									position 0.6 0.55
+									valign top_ref
+									halign left_Ref
+									vexactsize 1
+									hexactsize 1
+									hexactpos 0
+									vexactpos 0
+									style Default
+									{
+										TextWidgetClass camera_toggle_text
+										{
+											ignorepointer 1
+											size 1 1
+											position 0 0
+											text "Toggle Camera"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										    "text valign" center
+										    font "gui/fonts/MetronBook-Bold28"
 										}
 									}
 								}

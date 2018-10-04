@@ -107,6 +107,13 @@ class CameraSettings extends PopupMenu
 			GetLayoutRoot().Show( false );
 			OnHide();
 		}
+
+		if ( w.GetName() == "camera_toggle" ) 
+		{
+			ref CameraTool cmt = GetModuleManager().GetModule( CameraTool );
+			GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Call(cmt.ToggleCamera ); // Fix crash
+		}
+
 		Widget effectsFrame = widgetStore.GetWidget( "camera_effects_frame" );
 		Widget settingsFrame = widgetStore.GetWidget( "camera_settings_frame" );
 
@@ -371,6 +378,16 @@ class CameraSettings extends PopupMenu
 
 	void UpdateSliders() 
 	{
+		string cameraTarget = "None";
+
+		Object targetObject = CameraTool.Cast(GetModuleManager().GetModule(CameraTool)).GetTargetObject();
+
+		if ( targetObject ) 
+		{
+			cameraTarget = targetObject.GetType();
+		}
+		widgetStore.GetTextWidget("camera_target_txt").SetText("Target: " + cameraTarget );
+
 		m_TxtCamBlur.SetText(((CameraTool.CAMERA_BLUR / 4.0) * 100.0).ToString() + "%");
 
 		string autoF = "";
