@@ -1,11 +1,19 @@
-class Scene //temp class
+/**
+\brief Represents active loaded scenes in the game	
+
+*/
+class Scene 
 {
-	string name;
+	ref array<Object> s_Objects = new ref array<Object>; // All active spawned objects
+	ref SceneData sceneData;
 
-	ref array<ref Param3<string, vector, vector>> m_SceneObjects; // class name, position, orientation
-
-	void Scene() 
+	void Scene( SceneData data ) 
 	{
-		m_SceneObjects = new array<ref Param3<string, vector, vector>>;
+		sceneData = data;
+	}
+
+	void ~Scene() 
+	{
+
 	}
 }

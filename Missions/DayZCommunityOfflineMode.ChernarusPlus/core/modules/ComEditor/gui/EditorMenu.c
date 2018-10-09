@@ -96,6 +96,7 @@ class EditorMenu extends UIScriptedMenu
 
 	    		Object obj = GetGame().CreateObject( strSelection, GetPointerPos(), true, ai );
 	    		obj.PlaceOnSurface(); // reeeeeeeeeeeee
+	    		ForceTargetCollisionUpdate( obj );
 	    		ObjectEditor.Cast(GetModuleManager().GetModule( ObjectEditor )).SelectObject( obj );
 	    		ObjectEditor.Cast(GetModuleManager().GetModule( ObjectEditor )).addObject( obj );
 	    	}

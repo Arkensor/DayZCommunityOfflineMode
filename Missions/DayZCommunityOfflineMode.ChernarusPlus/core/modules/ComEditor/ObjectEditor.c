@@ -9,16 +9,23 @@ class ObjectEditor extends Module
 
 	// protected ref Scene active_Scene;
 	protected ref array< ref Object> m_Objects = new array< ref Object>;
+
 	string BASE_COM_DIR = "$saves:CommunityOfflineMode";
 	string BASE_SCENE_DIR = BASE_COM_DIR + "\\Scenes";
+
+	ref SceneManager sceneManager;
+	SceneData currentSceneData;
 
 	void ObjectEditor()
 	{
 		MakeDirectory(BASE_SCENE_DIR);
+
+		sceneManager = new SceneManager();
 	}
 
 	void ~ObjectEditor()
 	{
+
 	}
 	
 	void addObject( Object trackedObject ) 
@@ -81,21 +88,59 @@ class ObjectEditor extends Module
 
 	void SaveScene() 
 	{	
+
+		// loot spots
+		// pumpkins = civilian
+		// apple = medical
+		// orange = industral
+		// plum = military
+
+/*
+		SceneInfo sceneData = new SceneInfo("Test");
+		// vector position = GetPlayer().WorldToModel(); // origin point
+
+		foreach( Object m_object : m_Objects ) 
+		{
+			vector pos = GetPlayer().WorldToModel( m_object.GetPosition() );
+
+			if ( m_object.GetType() != "Pumpkin" ) 
+			{
+				sceneData.AddObject( m_object, pos ); // add objects
+			}
+			// then add loot spots
+		}
+
+		foreach( Object m_objectt : m_Objects ) 
+		{
+			vector poss = GetPlayer().WorldToModel( m_object.GetPosition() );
+
+			if ( m_object.GetType() == "Pumpkin" ) 
+			{
+				sceneData.AddObject( m_objectt, poss ); // add objects
+			}
+			// then add loot spots
+		}
+
+		JsonFileLoader< SceneInfo >.JsonSaveFile( SCENE_DATA + "\\" + sceneData.GetName() + ".json", sceneData );
+
+		*/
+		
 		string toCopy = "";
 
 		foreach( Object m_object : m_Objects ) 
 		{
-			if ( m_object.GetType() == "Pumpkin" ) //save loot positions
+			if ( m_object.GetType() == "Pot" ) //save loot positions
 			{
 				vector modelPos = m_SelectedObject.WorldToModel( m_object.GetPosition() );
 
 				toCopy = toCopy + "{" + modelPos[0] + "," + modelPos[1] + "," + modelPos[2] + "},";
 			}
 		}
-		toCopy = m_SelectedObject.GetType() + "[] = {" + toCopy + "};"
+		toCopy = m_SelectedObject.GetType() + "[] = {" + toCopy + "};";
 
 		GetGame().CopyToClipboard( toCopy );
 		m_Objects.Clear();
+		
 
 		/*
 		ref Scene scene = new Scene();
@@ -297,27 +342,29 @@ class ObjectEditor extends Module
 
 		vector dir = GetGame().GetPointerDirection();
 		vector from = GetGame().GetCurrentCameraPosition();
-		vector to = from + ( dir * 10000 );
+		vector to = from + ( dir * 100 );
 
-		set< Object > objects = GetObjectsAt(from, to, GetGame().GetPlayer(), 0.0 );
+		set< Object > objects = GetObjectsAt(from, to, GetGame().GetPlayer(), 0.5 );
 
 		bool selected = false;
 		
 		for ( int nObject = 0; ( ( nObject < objects.Count() ) && !selected ); ++nObject )
 		{
 			Object obj = objects.Get( nObject );
-			SelectObject( obj );
-			selected = true;
-			
-			GetPlayer().MessageStatus("Selected object.");
 
-			ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
-			ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
-			ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
+			if ( obj.GetType() != "" ) 
+			{
+				SelectObject( obj );
+				selected = true;
 
-			ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
-			ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
-			ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
+				ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
+				ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
+				ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
+
+				ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
+				ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
+				ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
+			}
 		}
 	
 		if ( !selected && m_SelectedObject )
@@ -378,7 +425,8 @@ class ObjectEditor extends Module
 
 			m_SelectedObject.SetPosition(pos);
 			*/
-			SnapToGroundNew( m_SelectedObject );
+			//SnapToGroundNew( m_SelectedObject );
+			m_SelectedObject.PlaceOnSurface();
 		}
 	}
 }

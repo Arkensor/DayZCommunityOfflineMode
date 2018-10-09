@@ -55,13 +55,13 @@ class CameraSettings extends PopupMenu
 		m_TxtCamFnear = TextWidget.Cast( layoutRoot.FindAnyWidget("camera_slider_fnear_value") );
 		
 		m_SldCamExp = layoutRoot.FindAnyWidget("camera_slider_exp");
-		m_TxtCamExp = layoutRoot.FindAnyWidget("camera_slider_exp_value")
+		m_TxtCamExp = layoutRoot.FindAnyWidget("camera_slider_exp_value");
 
 		m_btn_rot = ButtonWidget.Cast( layoutRoot.FindAnyWidget("camera_btn_rot"));
 		m_btn_phi = ButtonWidget.Cast( layoutRoot.FindAnyWidget("camera_btn_phi"));
 
 		m_TxtChromX = layoutRoot.FindAnyWidget("camera_slider_chrom_value_x");
-		m_TxtChromY = layoutRoot.FindAnyWidget("camera_slider_chrom_value_y")
+		m_TxtChromY = layoutRoot.FindAnyWidget("camera_slider_chrom_value_y");
 
 		CAMERA_ROT = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraROT.layout" );
 		CAMERA_PHI = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraPHI.layout" );
@@ -146,14 +146,13 @@ class CameraSettings extends PopupMenu
 
 		if ( w.GetName() == "camera_speed_btn_inc" ) 
 		{
-			CameraTool.CAMERA_SPEED += 0.25;
-			CameraTool.CAMERA_MAXSPEED += 0.25;
+			CameraTool.CAMERA_SPEED += 0.5;
 		}
 
 		if ( w.GetName() == "camera_speed_btn_dec" ) 
 		{
-			CameraTool.CAMERA_SPEED -= 0.25;
-			CameraTool.CAMERA_MAXSPEED -= 0.25;
+			CameraTool.CAMERA_SPEED -= 0.5;
+			if ( CameraTool.CAMERA_SPEED < 0 ) CameraTool.CAMERA_SPEED = 0;
 		}
 
 		if ( w.GetName() == "camera_smooth_btn_inc" )
@@ -181,13 +180,13 @@ class CameraSettings extends PopupMenu
 		}
 		if ( w.GetName() == "camera_msmooth_btn_inc" ) 
 		{
-			CameraTool.CAMERA_VELDRAG += 0.015;
-			CameraTool.CAMERA_VELDRAG = Math.Clamp(CameraTool.CAMERA_VELDRAG, 0.0, 1.0);
+			CameraTool.CAMERA_VELDRAG += 0.01; // percent
+			CameraTool.CAMERA_VELDRAG = Math.Clamp(CameraTool.CAMERA_VELDRAG, 0.9, 1.0);
 		}
 		if ( w.GetName() == "camera_msmooth_btn_dec" ) 
 		{
-			CameraTool.CAMERA_VELDRAG -= 0.015;
-			CameraTool.CAMERA_VELDRAG = Math.Clamp(CameraTool.CAMERA_VELDRAG, 0.0, 1.0);
+			CameraTool.CAMERA_VELDRAG -= 0.01;
+			CameraTool.CAMERA_VELDRAG = Math.Clamp(CameraTool.CAMERA_VELDRAG, 0.9, 1.0); // 10 clicks
 		}
 
 		return false;
@@ -354,6 +353,11 @@ class CameraSettings extends PopupMenu
 			CameraTool.CARGB[3] = ((changeSlider.GetCurrent() * 0.05) - 4.0);
 			matColors.SetParam("OverlayFactor", CameraTool.CARGB[3] );
 		}
+		else if ( changeSlider.GetName() == "camera_slider_view" )
+		{
+			CameraTool.VIEWDISTANCE = 100*changeSlider.GetCurrent();
+			GetGame().GetWorld().SetPreferredViewDistance(CameraTool.VIEWDISTANCE);
+		}
 		return false;
 	}
 
@@ -393,7 +397,7 @@ class CameraSettings extends PopupMenu
 		string autoF = "";
 		if ( CameraTool.CAMERA_AFOCUS ) 
 		{
-			autoF = " (AUTO)"
+			autoF = " (AUTO)";
 		}
 		m_TxtCamDist.SetText(CameraTool.CAMERA_FDIST.ToString()+"m" + autoF);
 		m_TxtCamFlen.SetText(CameraTool.CAMERA_FLENGTH.ToString());
@@ -416,6 +420,7 @@ class CameraSettings extends PopupMenu
 		widgetStore.GetTextWidget("camera_slider_color_value_g").SetText( CameraTool.CARGB[1].ToString() );
 		widgetStore.GetTextWidget("camera_slider_color_value_b").SetText( CameraTool.CARGB[2].ToString() );
 		widgetStore.GetTextWidget("camera_slider_color_value_a").SetText( CameraTool.CARGB[3].ToString() );
+		widgetStore.GetTextWidget("camera_slider_view_value").SetText( CameraTool.VIEWDISTANCE.ToString() );
 
 		// get child and update text?
 
@@ -428,6 +433,7 @@ class CameraSettings extends PopupMenu
 		widgetStore.GetSliderWidget("camera_slider_radblur_y").SetCurrent( CameraTool.RADBLURY / 0.01);
 		widgetStore.GetSliderWidget("camera_slider_radblur_offsetx").SetCurrent( CameraTool.RADBLUROFFX / 0.01);
 		widgetStore.GetSliderWidget("camera_slider_radblur_offsety").SetCurrent( CameraTool.RADBLUROFFY / 0.01);
+		widgetStore.GetSliderWidget("camera_slider_view").SetCurrent( CameraTool.VIEWDISTANCE / 100.0);
 
 		// fk me ok im lazy. cbf doing this for all the sliders.
 
@@ -441,6 +447,6 @@ class CameraSettings extends PopupMenu
 		sensTxt.SetText("Cam Sens: " + CameraTool.CAMERA_MSENS );
 
 		TextWidget flySpeed = layoutRoot.FindAnyWidget("camera_msmooth_text");
-		flySpeed.SetText("Fly smooth: " + CameraTool.CAMERA_VELDRAG );
+		flySpeed.SetText("Fly smooth: " + (CameraTool.CAMERA_VELDRAG - 0.9) / 0.1);
 	}	
 }

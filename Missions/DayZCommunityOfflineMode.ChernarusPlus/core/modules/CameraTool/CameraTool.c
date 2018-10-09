@@ -4,6 +4,11 @@ class CameraTool extends Module
 
 	protected ref array<vector> m_cKeyframes = new array<vector>;
 
+	// float velocity = vector magnitutde
+	// float acceleration;
+	// force = input forward/back
+	// resistance
+
 	protected float forwardVelocity;
 	protected float strafeVelocity;
 	protected float altitudeVelocity;
@@ -25,13 +30,12 @@ class CameraTool extends Module
 	static float CAMERA_FOV = 1.0;
 	static float CAMERA_TARGETFOV = 1.0;
 	static float CAMERA_FOV_SPEED_MODIFIER = 5.0;
-	static float CAMERA_SPEED = 2.0;
-	static float CAMERA_MAXSPEED = 2.0;
-	static float CAMERA_VELDRAG = 0.8;
+	static float CAMERA_SPEED = 5.0;
+	static float CAMERA_VELDRAG = 0.9; // 0.9 - 1.0 0.9 == no smoothing
 	static float CAMERA_MSENS = 0.8; // acceleration
 	static float CAMERA_SMOOTH = 0.6; // drag
 
-	static bool  CAMERA_DOF = true;
+	static bool  CAMERA_DOF = false;
 	static bool  CAMERA_AFOCUS = true;
 	static float CAMERA_BLUR = 0.0; // modified via ui
 	static float CAMERA_FLENGTH = 50.0; // modified via ui
@@ -59,6 +63,8 @@ class CameraTool extends Module
 	static float VARGB[4] = { 0, 0, 0, 0 };
 
 	static float CARGB[4] = { 0, 0, 0, 1 }; // color overlay
+
+	static int VIEWDISTANCE = 1600; // move later
 
 	protected vector m_CamOffset;
 	
@@ -280,14 +286,31 @@ class CameraTool extends Module
 			Input input = GetGame().GetInput();
 
 			if ( !m_FreezeCam ) 
-			{
+			{	
+
 				float forward = input.GetAction(UAMoveForward) - input.GetAction(UAMoveBack); // -1, 0, 1
 				float strafe = input.GetAction(UATurnRight) - input.GetAction(UATurnLeft);
-
 				float altitude = input.GetAction(UACarShiftGearUp) - input.GetAction(UACarShiftGearDown);
-				altitudeVelocity = altitudeVelocity + altitude * CAMERA_SPEED * timeslice;
 
-				altitudeVelocity = Math.Clamp( altitudeVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
+				if( input.GetAction(UATurbo) ) 
+				{
+					forward *= 10.0;
+					strafe *= 10.0;
+					altitude *= 10.0;
+				}
+				float cam_speed = CAMERA_SPEED;
+
+				if ( CAMERA_VELDRAG == 0.9 ) 
+				{
+					forwardVelocity = 0;
+					strafeVelocity = 0;
+					altitudeVelocity = 0;
+					cam_speed *= 20.0;
+				}
+
+				altitudeVelocity = altitudeVelocity + altitude * cam_speed * timeslice;
+
+				altitudeVelocity = Math.Clamp( altitudeVelocity, -cam_speed, cam_speed);
 				vector up = vector.Up * altitudeVelocity;
 
 				vector direction = m_oCamera.GetDirection();
@@ -297,11 +320,11 @@ class CameraTool extends Module
 
 				vector oldPos = m_oCamera.GetPosition();
 
-				forwardVelocity = forwardVelocity + forward * CAMERA_SPEED * timeslice;
-				strafeVelocity = strafeVelocity + strafe * CAMERA_SPEED * timeslice;
+				forwardVelocity = forwardVelocity + forward * cam_speed * timeslice;
+				strafeVelocity = strafeVelocity + strafe * cam_speed * timeslice;
 
-				forwardVelocity = Math.Clamp ( forwardVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
-				strafeVelocity = Math.Clamp ( strafeVelocity, -CAMERA_MAXSPEED, CAMERA_MAXSPEED);
+				forwardVelocity = Math.Clamp ( forwardVelocity, -cam_speed, cam_speed);
+				strafeVelocity = Math.Clamp ( strafeVelocity, -cam_speed, cam_speed);
 
 				vector forwardChange = forwardVelocity * direction;
 				vector strafeChange = strafeVelocity * directionAside;

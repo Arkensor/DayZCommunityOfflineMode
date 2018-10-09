@@ -219,7 +219,44 @@ FrameWidgetClass EditorMenu
 						}
 					}
 				}
-
+				PanelWidgetClass sceneManager_button_bkg 
+				{
+					visible 0
+					color 0 0 0 0.25
+					position 0.1 105
+					size 50 50
+					halign left_ref
+					valign bottom_ref
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style rover_sim_colorable
+				    {
+						ButtonWidgetClass sceneManager_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 1 1
+							"no focus" 1
+							{
+								ImageWidgetClass sceneManager_image
+								{
+									ignorepointer 1
+									color 1 1 1 0.65
+									position 0 0
+									size 1 1
+									halign center_ref
+									valign center_ref
+									hexactsize 0
+									vexactsize 0
+									image0 "set:ccgui_enforce image:HudBuild"
+									mode additive
+									"src alpha" 1
+								}
+							}
+						}
+					}
+				}
 				PanelWidgetClass objectEditor_button_bkg 
 				{
 					visible 1

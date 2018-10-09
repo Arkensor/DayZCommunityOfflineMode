@@ -182,7 +182,7 @@ class ObjectInfoMenu extends PopupMenu
 
     override void OnShow() 
     {
-    	GetGame().GetCallQueue( CALL_CATEGORY_GUI ).CallLater( Update, 500, true );
+    	GetGame().GetCallQueue( CALL_CATEGORY_GUI ).CallLater( Update, 100, true );
     }
 
     override void OnHide() 
@@ -193,7 +193,7 @@ class ObjectInfoMenu extends PopupMenu
 	void Update() 
 	{
 		Object selectedObject = GetSelectedObject();
-		string text = "No object selected"
+		string text = "No object Selected";
 		TStringArray paths = new TStringArray;
 
 		bool selected = false;

@@ -145,7 +145,7 @@ class GameMenu extends PopupMenu
 		"HatchbackWheel","HatchbackWheel","HatchbackWheel","HatchbackWheel",
 		"CarBattery","CarRadiator","EngineBelt","SparkPlug","HatchbackHood",
 		"HatchbackTrunk","HatchbackDoors_Driver","HatchbackDoors_CoDriver",
-		}
+		};
 
 		SpawnVehicle( "OffroadHatchback", attArr );
 	}
@@ -157,7 +157,7 @@ class GameMenu extends PopupMenu
 		"CarBattery", "CarRadiator","EngineBelt", "SparkPlug","CivSedanHood",
 		"CivSedanTrunk", "CivSedanDoors_Driver","CivSedanDoors_CoDriver",
 		"CivSedanDoors_BackLeft", "CivSedanDoors_BackRight",
-		}
+		};
 
 		SpawnVehicle( "CivilianSedan", attArr );
 	}
@@ -168,7 +168,7 @@ class GameMenu extends PopupMenu
 		"V3SWheel","V3SWheel", "V3SWheel","V3SWheel", "V3SWheelDouble","V3SWheelDouble", "V3SWheelDouble","V3SWheelDouble",
 		"TruckBattery","TruckRadiator","EngineBelt","GlowPlug","V3SHood",
 		"V3SDoors_Driver_Orange","V3SDoors_CoDriver_Orange",
-		}
+		};
 
 		SpawnVehicle( "V3S_Cargo_Blue", attArr );
 	}
@@ -179,7 +179,7 @@ class GameMenu extends PopupMenu
 		"V3SWheel","V3SWheel", "V3SWheel","V3SWheel", "V3SWheelDouble","V3SWheelDouble", "V3SWheelDouble","V3SWheelDouble",
 		"TruckBattery","TruckRadiator","EngineBelt","GlowPlug","V3SHood",
 		"V3SDoors_Driver_Orange","V3SDoors_CoDriver_Orange",
-		}
+		};
 
 		SpawnVehicle( "V3S_Chassis_Blue", attArr );
 	}
@@ -190,7 +190,7 @@ class GameMenu extends PopupMenu
 		"TransitBusWheel","TransitBusWheel", "TransitBusWheelDouble","TransitBusWheelDouble",
 		"TruckBattery","TruckRadiator","EngineBelt","GlowPlug","BusHood",
 		"BusDoors_Left","BusDoors_Right", "BusDoors_Left","BusDoors_Right", "BusDoors_Left","BusDoors_Right",
-		}
+		};
 
 		SpawnVehicle( "TransitBus", attArr );
 	}
@@ -202,7 +202,7 @@ class GameMenu extends PopupMenu
 			"CarBattery","CarRadiator","EngineBelt","SparkPlug","CivVanTrunk",
 			"CivVanDoors_Driver","CivVanDoors_CoDriver","CivVanDoors_BackRight",
 			"CivVanDoors_TrumpDown", "CivVanDoors_TrumpUp",
-		}
+		};
 
 		SpawnVehicle( "CivilianVan", attArr );
 	}
