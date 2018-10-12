@@ -44,8 +44,8 @@ class PersistencyModule extends Module
 	{
 		super.Init();
 
-		#ifdef MODULE_OVERRIDEMENUS
-		OverrideMenus om = GetModuleManager().GetModuleByName("OverrideMenus");
+		#ifdef MODULE_UIEXTENDER
+		UIExtender om = GetModuleManager().GetModuleByName("UIExtender");
 
 		if ( om )
 		{
@@ -182,7 +182,7 @@ class PersistencyModule extends Module
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
 	}
 	
-	#ifndef MODULE_OVERRIDEMENUS
+	#ifndef MODULE_UIEXTENDER
 	private bool CleanupCharacterSaving()
 	{
 		bool foundWidget = false;

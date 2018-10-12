@@ -29,16 +29,14 @@ class OverrideValid
 	}
 }
 
-class OverrideMenus extends Module
+class UIExtender extends Module
 {
 	protected ref array<ref CustomPauseButton> m_PauseButtons = new array<ref CustomPauseButton>;
 
 	protected ref UIScriptedMenu 		m_CIGM;
 	protected ref InventoryMenuNew 		m_InventoryMenu;
 
-	protected ref COMCustomInventory	m_COMInvMenu;
-
-	void OverrideMenus()
+	void UIExtender()
 	{
 		AddPauseButton( new CustomPauseButton( "#main_menu_continue", IDC_MAIN_CONTINUE, GetModuleType(), "ContinueMission" ));
 		AddPauseButton( new CustomPauseButton( "#main_menu_configure", IDC_MAIN_OPTIONS, GetModuleType(), "OptionsMenu" ));
@@ -47,7 +45,7 @@ class OverrideMenus extends Module
 		AddPauseButton( new CustomPauseButton( "#main_menu_respawn", IDC_INT_RETRY, GetModuleType(), "RespawnPlayer" ), new OverrideValid(true, false));
 	}
 
-	void ~OverrideMenus()
+	void ~UIExtender()
 	{
 	}
 	
@@ -64,39 +62,10 @@ class OverrideMenus extends Module
 				m_CIGM = new CustomInGameMenu( this );
 				menu = m_CIGM;
 				break;
-			#ifdef COM_NEW_INVENTORY
-			case MENU_INVENTORY:
-				m_InventoryMenu = InventoryMenuNew.Cast( menu );
-				m_COMInvMenu = new COMCustomInventory(NULL);
-				m_InventoryMenu.m_Inventory = m_COMInvMenu;
-				m_InventoryMenu.m_Inventory.Reset();
-				m_InventoryMenu.m_Inventory.UpdateInterval();
-				break;
-			#endif
 		}
 
         return menu;
     }
-
-	override void onMouseButtonPress( int button )
-	{
-		#ifdef COM_NEW_INVENTORY
-		if ( m_COMInvMenu && m_InventoryMenu )
-		{
-			m_COMInvMenu.OnMouseButtonDownCenter( button );
-		}
-		#endif
-	}
-
-	override void onMouseButtonRelease( int button )
-	{
-		#ifdef COM_NEW_INVENTORY
-		if ( m_COMInvMenu && m_InventoryMenu )
-		{
-			m_COMInvMenu.OnMouseButtonReleaseCenter( button );
-		}
-		#endif
-	}
 
 	void AddPauseButton( ref CustomPauseButton button )
 	{

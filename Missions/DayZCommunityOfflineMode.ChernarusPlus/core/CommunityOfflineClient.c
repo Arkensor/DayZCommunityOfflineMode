@@ -93,12 +93,12 @@ class CommunityOfflineClient : MissionGameplay
 		GetUIManager().EnterScriptedMenu(MENU_INGAME, NULL);
 	}
 
-	#ifdef MODULE_OVERRIDEMENUS
+	#ifdef MODULE_UIEXTENDER
 	override UIScriptedMenu CreateScriptedMenu( int id )
 	{
 		UIScriptedMenu menu = super.CreateScriptedMenu( id );
 
-		OverrideMenus om = OverrideMenus.Cast(GetModuleManager().GetModuleByName("OverrideMenus"));
+		UIExtender om = UIExtender.Cast(GetModuleManager().GetModuleByName("UIExtender"));
 
 		if ( om )
 		{

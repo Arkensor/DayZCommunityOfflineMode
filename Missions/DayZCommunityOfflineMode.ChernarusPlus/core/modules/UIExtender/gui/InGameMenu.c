@@ -1,12 +1,12 @@
 class CustomInGameMenu extends UIScriptedMenu
 {
-	protected ref OverrideMenus m_OM;
+	protected ref UIExtender m_OM;
 
 	protected ref map< int, ButtonWidget > m_Buttons = new map< int, ButtonWidget >;
 
 	Widget m_RightPanel;
 
-	void CustomInGameMenu( ref OverrideMenus om )
+	void CustomInGameMenu( ref UIExtender om )
 	{
 		m_OM = om;
 	}
@@ -29,7 +29,7 @@ class CustomInGameMenu extends UIScriptedMenu
 
 	override Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets("missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\gui\\layouts\\CustomInGameMenu.layout");
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets("missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\CustomInGameMenu.layout");
 				
 		string version;
 		GetGame().GetVersion(version);
@@ -96,7 +96,7 @@ class CustomInGameMenu extends UIScriptedMenu
 				Print("Found button!");
 				CustomPauseButton data = m_OM.GetPauseButtons().Get( i );
 
-				ButtonWidget button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\OverrideMenus\\gui\\layouts\\PauseButtonTemplate.layout", buttonContainer ) );
+				ButtonWidget button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\PauseButtonTemplate.layout", buttonContainer ) );
 
 				button.SetUserID( data.m_UserID );
 				button.SetText( data.m_Text );
