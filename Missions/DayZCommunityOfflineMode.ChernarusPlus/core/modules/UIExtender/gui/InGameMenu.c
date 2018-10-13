@@ -61,39 +61,45 @@ class CustomInGameMenu extends UIScriptedMenu
 		Widget buttonContainer = layoutRoot.FindAnyWidget( "CampaignMenuWindow" );
 		Widget logo = layoutRoot.FindAnyWidget( "PanelLogo" );
 
-		float baseBCPosY = 0;
-		float baseBCPosX = 0;
+		float temp;
 
-		float oldBCWidth = 0;
-		float oldBCHeight = 0;
-
-		float newBCWidth = 0;
-		float newBCHeight = 0;
+		float bcWidth = 0;
+		float bcHeight = 0;
 
 		float bWidth = 0;
 		float bHeight = 0;
 
-		//float newBPosX = 0;
-		float newBPosY = 0;
+		float yLogoSize = 0;
+		float yLogoOffset = 50;
 
-		float logoOffset = 120;
+		float yPosOffset = 120;
+		float yPos = 0;
 
-		if ( logo )
-		{
-			float ignore;
-			logo.GetScreenSize( ignore, logoOffset );
+		float yPadding = 4;
 
-			// logoOffset = (logoOffset / 2);
-		}
+		float bcYPos = 0;
+		float bcXPos = 0;
 
 		if ( buttonContainer )
 		{
-			buttonContainer.GetPos(baseBCPosX, baseBCPosY);
+			int minIndex = m_OM.GetPauseButtons().Count();
 
-			Print("Found container!");
+			/*
+			if ( minIndex < 5 )
+			{
+				minIndex = 5;
+				
+				yPosOffset += 80;
+				yLogoOffset += 80;
+			}
+			*/
+
+			logo.GetScreenSize( temp, yLogoSize );
+
+			buttonContainer.GetPos( bcXPos, bcYPos );
+
 			for ( int i = 0; i < m_OM.GetPauseButtons().Count(); i++ )
 			{
-				Print("Found button!");
 				CustomPauseButton data = m_OM.GetPauseButtons().Get( i );
 
 				ButtonWidget button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\PauseButtonTemplate.layout", buttonContainer ) );
@@ -101,30 +107,27 @@ class CustomInGameMenu extends UIScriptedMenu
 				button.SetUserID( data.m_UserID );
 				button.SetText( data.m_Text );
 
-				buttonContainer.GetSize(oldBCWidth, oldBCHeight);
-				button.GetSize(bWidth, bHeight);
+				buttonContainer.GetSize( bcWidth, bcHeight );
 
-				newBCWidth = oldBCWidth;
-				newBCHeight = oldBCHeight + bHeight;
+				button.GetSize( bWidth, bHeight );
 
-				newBPosY = newBPosY + bHeight;
+				int reversedIndex = m_OM.GetPauseButtons().Count() - i - 1;
+
+				yPos = ( reversedIndex ) * ( bHeight + yPadding ) + yPosOffset;
+
+				button.SetPos( 0, -yPos );
 				
-				button.SetPos(0, newBPosY);
-				
-				buttonContainer.SetPos(baseBCPosX, baseBCPosY + newBCHeight - logoOffset);
-				buttonContainer.SetSize(newBCWidth, newBCHeight);
-
-				if ( logo )
-				{
-					logo.SetPos(0, newBCHeight + logoOffset);
-				}
+				buttonContainer.SetPos( bcXPos, bcYPos );
+				buttonContainer.SetSize( bcWidth, bcHeight );
 
 				button.SetUserData( data );
 
 				m_Buttons.Set( data.m_UserID, button );
-				
-				Print("Button: " + data.m_Text + " Details: OBCW: " + oldBCWidth + ", OBCH: " + oldBCHeight + ", NBCW: " + newBCWidth + ", NBCW: " + newBCHeight + ", BW: " + bWidth + ", BH: " + bHeight + ", PY: " + newBPosY);
 			}
+
+			float yLogoPos = ( bHeight + yPadding ) * ( minIndex + 1 );
+
+			logo.SetPos( 0, yLogoPos + yLogoOffset );
 		}
 
 		m_RightPanel = layoutRoot.FindAnyWidget( "CampaignMenuRightPanel" );
