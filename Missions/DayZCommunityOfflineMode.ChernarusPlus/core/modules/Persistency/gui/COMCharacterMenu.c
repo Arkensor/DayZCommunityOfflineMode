@@ -471,6 +471,8 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		SetCharacterList();
 		SetSaveList();
+		
+		SetCharacter( 0 );
 
 		if ( m_oPersistencyModule.GetScene() )
 			m_oPersistencyModule.GetScene().SetupScene();

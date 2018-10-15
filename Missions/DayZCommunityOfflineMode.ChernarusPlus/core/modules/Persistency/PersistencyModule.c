@@ -145,6 +145,8 @@ class PersistencyModule extends Module
 			m_CharacterMenu = new COMCharacterMenu( this, true );
 		}
 
+		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
+		
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
 	}
 
