@@ -15,15 +15,15 @@ class PersistencyModule extends Module
 
 	void PersistencyModule()
 	{
-		Print("PersistencyModule::PersistencyModule");
+		Print( "PersistencyModule::PersistencyModule" );
 
-		MakeDirectory(BASE_COM_DIR);
-		MakeDirectory(BASE_PLAYER_SAVE_DIR);
+		MakeDirectory( BASE_COM_DIR );
+		MakeDirectory( BASE_PLAYER_SAVE_DIR );
 	}
 
 	void ~PersistencyModule()
 	{
-		Print("PersistencyModule::~PersistencyModule");
+		Print( "PersistencyModule::~PersistencyModule" );
 
 		CleanupCharacterSaving();
 		CleanupCharacterMenu();
@@ -45,7 +45,7 @@ class PersistencyModule extends Module
 		super.Init();
 
 		#ifdef MODULE_UIEXTENDER
-		UIExtender om = GetModuleManager().GetModuleByName("UIExtender");
+		UIExtender om = GetModuleManager().GetModuleByName( "UIExtender" );
 
 		if ( om )
 		{
@@ -98,27 +98,10 @@ class PersistencyModule extends Module
 	{
 		Print("PersistencyModule::CleanupCharacterMenu");
 
-		if (m_CharacterMenu)
+		if ( m_CharacterMenu )
 		{
-			// GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
-
-			m_CharacterMenu.Close();
-
-			delete m_CharacterMenu;
+			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
 		}
-			
-		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.FixCleanupCharacterMenu, 200, false);
-	}
-
-	private void FixCleanupCharacterMenu()
-	{
-		Print("PersistencyModule::FixCleanupCharacterMenu");
-
-		delete m_CharacterMenu;
-
-		Print( "m_CharacterMenu: " + m_CharacterMenu );
-
-		GetClientMission().SetCanPause( true );
 	}
 	
 	private void SetupCharacterLoading()
@@ -127,8 +110,6 @@ class PersistencyModule extends Module
 		
 		m_CharacterIsLoaded = false;
 		m_CanBeSaved = false;
-
-		GetClientMission().SetCanPause( false );
 
 		if ( GetPlayer() )
 		{
@@ -158,8 +139,11 @@ class PersistencyModule extends Module
 		CleanupScene();
 
 		SetupCharacterLoading();
-		
-		m_CharacterMenu = new COMCharacterMenu( this, true );
+
+		if ( !m_CharacterMenu ) 
+		{		
+			m_CharacterMenu = new COMCharacterMenu( this, true );
+		}
 
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
 	}
@@ -175,9 +159,13 @@ class PersistencyModule extends Module
 			isLoadingSave = m_CharacterMenu.IsLoadingSave();
 		}
 
-		CleanupCharacterMenu();
-
-		m_CharacterMenu = new COMCharacterMenu( this, isLoadingSave );
+		if ( !m_CharacterMenu ) 
+		{
+			m_CharacterMenu = new COMCharacterMenu( this, isLoadingSave );
+		} else 
+		{
+			CleanupCharacterMenu();
+		}
 
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
 	}

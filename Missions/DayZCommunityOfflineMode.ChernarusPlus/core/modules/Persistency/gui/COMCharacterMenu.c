@@ -53,7 +53,6 @@ class COMCharacterMenu extends UIScriptedMenu
 		m_Characters = new TStringAdvanceArray;
 		m_Saves = new TStringAdvanceArray;
 
-
 		m_CharGenderList = new TStringAdvanceArray;
 		m_CharPersonalityMaleList = new TStringAdvanceArray;
 		m_CharPersonalityFemaleList = new TStringAdvanceArray;
@@ -63,15 +62,10 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		m_Saves.Insert("latest");
 
-        m_IsLoadingSave = isLoadSave;
-		m_NoSaves = true;
-		
 		InitCharacterCreationData();
 
-		g_Game.SetKeyboardHandle( this );
-
-		SetCharacterList();
-		SetSaveList();
+        m_IsLoadingSave = isLoadSave;
+		m_NoSaves = true;
 	}
 
     void ~COMCharacterMenu()
@@ -462,6 +456,8 @@ class COMCharacterMenu extends UIScriptedMenu
 	{
 		Print( "COMCharacterMenu::OnShow" );
 
+		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
+
 		super.OnShow();
 
 		if ( GetPlayer() )
@@ -470,6 +466,11 @@ class COMCharacterMenu extends UIScriptedMenu
 
 			GetGame().SelectPlayer( NULL, NULL );
 		}
+
+		g_Game.SetKeyboardHandle( this );
+
+		SetCharacterList();
+		SetSaveList();
 
 		if ( m_oPersistencyModule.GetScene() )
 			m_oPersistencyModule.GetScene().SetupScene();
@@ -480,6 +481,8 @@ class COMCharacterMenu extends UIScriptedMenu
         GetMission().GetHud().Show(false);
 
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.UpdateInterval);
+
+		GetClientMission().SetCanPause( false );
 
 		Print( "Finished COMCharacterMenu::OnShow" );
 	}
@@ -492,6 +495,8 @@ class COMCharacterMenu extends UIScriptedMenu
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
 
 		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
+
+		GetClientMission().SetCanPause( true );
 
 		super.OnHide();
 	}
