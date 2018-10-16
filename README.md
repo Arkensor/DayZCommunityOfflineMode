@@ -1,8 +1,35 @@
-**ATTENTION: THIS IS THE DEVELOPMENT BRANCH. PLEASE REFRAIN FROM DOWNLOADING AND ONLY DOWNLOAD RELEASE VERSIONS LOCATED HERE:
+**ATTENTION: THIS IS THE DEVELOPMENT BRANCH. PLEASE REFRAIN FROM DOWNLOADING UNLESS YOU ARE WILLING TO PARTICIPATE IN EARLY DEVELOPMENT OF THIS BRANCH:
 https://github.com/Arkensor/DayZCommunityOfflineMode/releases**
 
+# DayZCommunityOfflineMode 2.0 WIP
 
-# DayZCommunityOfflineMode
+UPDATE: 10/16/2018 - DannyDog
+
+Still many things completed for our **next big patch (2.0)**. The major changes are as follows:
+
+**Editor Panel**
+
+This will be the new way you access all the tools we provide in our mod/mission. **By pressing the key Y you will have access to all the previous menus that you remember PLUS some more features**. Including object previews in the object spawner menu, new object editing menu for the object editor as well as an additional camera settings menu. This will make remembering keybinds a lot easier :)
+
+**Object Editor**
+
+The improved object editor controls should now allow you to seamlessly manipulate and spawn new objects using both the object spawner and the new camera tool. Simply open the object spawner and object editor menu, select the item from the list of objects and double click anywhere on the terrain with the cursor. Then freely click and drag the object around, **hover and scroll wheel the x,y,z/yaw,pitch,roll values** in the object editor menu for adjustments OR set your own individual values. By holding right click you are able to seamlessly hide/show your cursor or camera look movement. **Additionally I've implemented a simple script to allow you to save your placed objects and export them as code format to use on your servers. Simply place all your objects/move them accordingly and press CTRL+S. This will then export the script directly to your clipboard allowing you to paste it easily in your server mission file.**
+
+
+Example:
+
+https://i.imgur.com/qVwdQFb.png
+
+[Output Code](https://pastebin.com/2gpxfDTq)
+
+**Camera Tool**
+
+I have implemented a new camera movement logic that now **finally has proper smoothing values and fov/roll changes. You can easily adjust these values in the camera menu through the editor panel**. As well as new post processing effects featuring saturation, vignette, chromatic abberation, dof, colour overlays and blurs. Later i will implement a proper keyframe camera system that will allow you to setup camera positions and freely transition between them.
+
+Additionally. We plan to eventually push some of these tools as an all-in-one client mod (or individual mods) for proper server use.
+________________________________________________________________________________________________________________________________________
+
+# DayZCommunityOfflineMode 1.9
 
 **Thank you for over 25.000 downloads!**  
 This project got a lot of support from various community members and continues to grow.
@@ -88,10 +115,10 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * ~~More adjustments to the freecam to feature fov options etc~~ ✓
 
 # Contributors:
+* [DannyDog](https://github.com/DannyDog) - Code snippets, Object Editor, Editor panel, Camera tools
+* [Jacob_Mango](https://github.com/Jacob-Mango) - Added key to toggle "Aimgate", Persistency module
+* [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
 * [Watchman](https://twitter.com/watchman113) - Documentation
-* [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
-* [DannyDog](https://github.com/DannyDog) - Code snippets, Object Editor and Updated camera tools
 * [n8m4re](https://github.com/n8m4re) - Code: SaveManager
 * [wriley](https://github.com/wriley) - Code snippets beards
-* [Jacob_Mango](https://github.com/Jacob-Mango) - Added key to toggle "Aimgate"
