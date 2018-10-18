@@ -215,6 +215,8 @@ class GameMenu extends PopupMenu
 
 		oCar.SetAllowDamage( false );
 		oCar.SwitchLights();
+		
+		oCar.Fill( CarFluid.FUEL, 100 );
 	
 		//Object container = GetGame().CreateObject( "Land_Container_1Aoh", Vector(0, 2.5, -3.2), false, false);
 
