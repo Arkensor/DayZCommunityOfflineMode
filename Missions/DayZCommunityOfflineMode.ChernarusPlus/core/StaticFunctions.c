@@ -261,10 +261,7 @@ static Weapon_Base CreateWeapon( PlayerBase oPlayer )
 static Magazine LoadMag( PlayerBase oPlayer, Weapon_Base oWpn )
 {    
     Magazine oMag = Magazine.Cast(oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" ));
-
-    oWpn.AttachMagazine( oWpn.GetCurrentMuzzle(), oMag );
-
-    // oWpn.NetSyncCurrentStateID(3);
+    oPlayer.GetWeaponManager().AttachMagazine( oMag );
 
     return oMag;
 }
