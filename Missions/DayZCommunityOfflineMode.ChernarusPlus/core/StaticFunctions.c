@@ -264,7 +264,7 @@ static Magazine LoadMag( PlayerBase oPlayer, Weapon_Base oWpn )
 
     oWpn.AttachMagazine( oWpn.GetCurrentMuzzle(), oMag );
 
-    oWpn.NetSyncCurrentStateID(3);
+    // oWpn.NetSyncCurrentStateID(3);
 
     return oMag;
 }

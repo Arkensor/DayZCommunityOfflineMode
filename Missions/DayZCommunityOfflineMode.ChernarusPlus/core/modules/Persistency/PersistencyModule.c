@@ -52,7 +52,7 @@ class PersistencyModule extends Module
 			om.AddPauseButton( new CustomPauseButton( "SAVE CHARACTER", MODULE_PERSISTENCY_WIDGET_SAVE_CHARACTER, GetModuleType(), "OpenCharacterSaving" ), new OverrideValid(true, true), 1 );
 			om.AddPauseButton( new CustomPauseButton( "LOAD CHARACTER", MODULE_PERSISTENCY_WIDGET_LOAD_CHARACTER, GetModuleType(), "OpenCharacterLoading" ), new OverrideValid(true, true), 1 );
 		}
-
+		
 		#endif
 	}
 
@@ -146,7 +146,13 @@ class PersistencyModule extends Module
 		}
 
 		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
-		
+
+		UIExtender om = GetModuleManager().GetModuleByName( "UIExtender" );
+		if ( om )
+		{
+			om.GetPauseMenu().Close();
+		}
+
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );
 	}
 
@@ -167,6 +173,12 @@ class PersistencyModule extends Module
 		} else 
 		{
 			CleanupCharacterMenu();
+		}
+
+		UIExtender om = GetModuleManager().GetModuleByName( "UIExtender" );
+		if ( om )
+		{
+			om.GetPauseMenu().Close();
 		}
 
 		GetGame().GetUIManager().ShowScriptedMenu( m_CharacterMenu , NULL );

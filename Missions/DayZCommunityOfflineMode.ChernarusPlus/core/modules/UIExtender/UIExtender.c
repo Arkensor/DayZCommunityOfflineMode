@@ -67,6 +67,11 @@ class UIExtender extends Module
         return menu;
     }
 
+	UIScriptedMenu GetPauseMenu()
+	{
+		return m_CIGM;
+	}
+
 	void AddPauseButton( ref CustomPauseButton button )
 	{
 		m_PauseButtons.Insert( button );
