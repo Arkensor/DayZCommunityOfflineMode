@@ -213,14 +213,12 @@ class GameMenu extends PopupMenu
 
 		for (int j = 0; j < attachments.Count(); j++) { oCar.GetInventory().CreateAttachment( attachments.Get(j) ); }
 
-		oCar.SetAllowDamage( false );
-		oCar.SwitchLights();
-	
-		//Object container = GetGame().CreateObject( "Land_Container_1Aoh", Vector(0, 2.5, -3.2), false, false);
+		oCar.Fill( CarFluid.FUEL, 100 );
+		oCar.Fill( CarFluid.OIL, 100 );
+		oCar.Fill( CarFluid.BRAKE, 100 );
+		oCar.Fill( CarFluid.COOLANT, 100 );
 
-		//oCar.AddChild( container, 0 );
-		
-		//GetPlayer().SetPosition( Vector(0, 1, 0) );
-		//oCar.AddChild( GetPlayer(), 0);
+		//oCar.EngineStart();
+		oCar.SwitchLights();
 	}
 }
