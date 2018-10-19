@@ -213,10 +213,10 @@ class GameMenu extends PopupMenu
 
 		for (int j = 0; j < attachments.Count(); j++) { oCar.GetInventory().CreateAttachment( attachments.Get(j) ); }
 
-		oCar.Fill( CarFluid.FUEL, 100 );
-		oCar.Fill( CarFluid.OIL, 100 );
-		oCar.Fill( CarFluid.BRAKE, 100 );
-		oCar.Fill( CarFluid.COOLANT, 100 );
+		oCar.Fill( CarFluid.FUEL, 1000 );
+		oCar.Fill( CarFluid.OIL, 1000 );
+		oCar.Fill( CarFluid.BRAKE, 1000 );
+		oCar.Fill( CarFluid.COOLANT, 1000 );
 
 		//oCar.EngineStart();
 		oCar.SwitchLights();
