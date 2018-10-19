@@ -279,15 +279,8 @@ static PlayerBase CreateCustomDefaultCharacter()
     item = oPlayer.GetInventory().CreateInInventory( "Ushanka_Green" );
 
     item = oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" );
-    item = oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" );
-    item = oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" );
-    item = oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" );
-
-    //oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
-    //oPlayer.GetInventory().CreateInInventory( "Mag_STANAGCoupled_30Rnd" );
 
     Weapon_Base oWpn = CreateWeapon(oPlayer);
-    LoadMag( oPlayer, oWpn );
 
     oPlayer.LocalTakeEntityToHands( oWpn );
     oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );
