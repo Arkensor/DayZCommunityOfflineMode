@@ -94,7 +94,7 @@ static set< Object > GetObjectsAt( vector from, vector to, Object ignore = NULL,
     set< Object > view = new set< Object >;
 
     DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, geom, with, ignore, false, false, ObjIntersectGeom, radius );
-    DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, view, with, ignore, false, false, ObjIntersectView, radius )
+    DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, view, with, ignore, false, false, ObjIntersectView, radius );
 
     if ( geom.Count() > 0 ) 
     {

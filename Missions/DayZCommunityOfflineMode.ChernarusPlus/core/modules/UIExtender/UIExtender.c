@@ -34,7 +34,6 @@ class UIExtender extends Module
 	protected ref array<ref CustomPauseButton> m_PauseButtons = new array<ref CustomPauseButton>;
 
 	protected ref UIScriptedMenu 		m_CIGM;
-	protected ref InventoryMenuNew 		m_InventoryMenu;
 
 	void UIExtender()
 	{

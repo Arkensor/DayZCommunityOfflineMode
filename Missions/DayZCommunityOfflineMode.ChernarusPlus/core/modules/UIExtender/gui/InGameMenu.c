@@ -56,81 +56,43 @@ class CustomInGameMenu extends UIScriptedMenu
 				hud.ToggleQuickBar( false, true );
 			}
 		}
-
 		
-		Widget buttonContainer = layoutRoot.FindAnyWidget( "CampaignMenuWindow" );
-		Widget logo = layoutRoot.FindAnyWidget( "PanelLogo" );
+		CustomPauseButton data;
+		ButtonWidget button;
+		
+		Widget topButtonContainer = layoutRoot.FindAnyWidget( "top_buttons" );
+		Widget bottomButtonContainer = layoutRoot.FindAnyWidget( "bottom_buttons" );
 
-		float temp;
-
-		float bcWidth = 0;
-		float bcHeight = 0;
-
-		float bWidth = 0;
-		float bHeight = 0;
-
-		float yLogoSize = 0;
-		float yLogoOffset = 50;
-
-		float yPosOffset = 120;
-		float yPos = 0;
-
-		float yPadding = 4;
-
-		float bcYPos = 0;
-		float bcXPos = 0;
-
-		if ( buttonContainer )
+		if ( bottomButtonContainer )
 		{
-			int minIndex = m_OM.GetPauseButtons().Count();
+			data = m_OM.GetPauseButtons().Get( 0 );
 
-			/*
-			if ( minIndex < 5 )
+			button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\BottomButtonTemplate.layout", bottomButtonContainer ) );
+			
+			button.SetUserID( data.m_UserID );
+			button.SetText( data.m_Text );
+			button.SetUserData( data );
+			
+			m_Buttons.Set( data.m_UserID, button );
+		}
+
+		if ( topButtonContainer )
+		{
+			for ( int i = 1; i < m_OM.GetPauseButtons().Count(); i++ )
 			{
-				minIndex = 5;
-				
-				yPosOffset += 80;
-				yLogoOffset += 80;
-			}
-			*/
+				data = m_OM.GetPauseButtons().Get( i );
 
-			logo.GetScreenSize( temp, yLogoSize );
-
-			buttonContainer.GetPos( bcXPos, bcYPos );
-
-			for ( int i = 0; i < m_OM.GetPauseButtons().Count(); i++ )
-			{
-				CustomPauseButton data = m_OM.GetPauseButtons().Get( i );
-
-				ButtonWidget button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\PauseButtonTemplate.layout", buttonContainer ) );
+				button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\TopButtonTemplate.layout", topButtonContainer ) );
 
 				button.SetUserID( data.m_UserID );
 				button.SetText( data.m_Text );
-
-				buttonContainer.GetSize( bcWidth, bcHeight );
-
-				button.GetSize( bWidth, bHeight );
-
-				int reversedIndex = m_OM.GetPauseButtons().Count() - i - 1;
-
-				yPos = ( reversedIndex ) * ( bHeight + yPadding ) + yPosOffset;
-
-				button.SetPos( 0, -yPos );
-				
-				buttonContainer.SetPos( bcXPos, bcYPos );
-				buttonContainer.SetSize( bcWidth, bcHeight );
-
 				button.SetUserData( data );
 
 				m_Buttons.Set( data.m_UserID, button );
 			}
-
-			float yLogoPos = ( bHeight + yPadding ) * ( minIndex + 1 );
-
-			logo.SetPos( 0, yLogoPos + yLogoOffset );
 		}
 
-		m_RightPanel = layoutRoot.FindAnyWidget( "CampaignMenuRightPanel" );
+		m_RightPanel = layoutRoot.FindAnyWidget( "extra_options_left" );
 
 		return layoutRoot;
 	}
@@ -142,6 +104,8 @@ class CustomInGameMenu extends UIScriptedMenu
 		Mission mission = GetMission();
 
 		ButtonWidget bwButton = m_Buttons.Get( w.GetUserID() );
+
+		Print( "ID: " + w.GetUserID() + " Button: " + bwButton.ToString() );
 
 		if ( bwButton )
 		{

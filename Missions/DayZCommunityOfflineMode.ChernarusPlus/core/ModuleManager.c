@@ -4,7 +4,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\KeyMouseBinding.c"
 
 #ifdef COM_MODULES_OLDLOADING
-//#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\module.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\module.c"
@@ -149,7 +149,7 @@ class ModuleManager
         //m_Modules.Insert( new CustomDebugMonitor );
         #endif
         #ifdef MODULE_UIEXTENDER
-        //m_Modules.Insert( new UIExtender );
+        m_Modules.Insert( new UIExtender );
         #endif
     }
 #endif

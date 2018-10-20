@@ -1,0 +1,22 @@
+ButtonWidgetClass ButtonTemplate {
+    visible 1
+    color 0.0392 0.0392 0.0392 1
+    position 0 0
+    size 1 38
+    halign center_ref
+    valign bottom_ref
+    hexactpos 1
+    vexactpos 1
+    hexactsize 0
+    vexactsize 1
+    style DayZDefaultButtonTop
+    "no focus" 1
+    "next left" ""
+    "next right" ""
+    "next up" ""
+    "next down" ""
+    text ""
+    text_proportion 0.55
+    font "gui/fonts/sdf_MetronLight24"
+    switch normal
+}
