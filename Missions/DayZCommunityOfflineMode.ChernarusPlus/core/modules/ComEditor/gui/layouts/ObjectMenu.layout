@@ -207,8 +207,10 @@ PanelWidgetClass ObjectMenu
 
 		TextWidgetClass search_text
 		{
-			position 5 370
+			position 5 6
 			size 100 18
+			halign left_ref
+			valign bottom_ref
 			hexactpos 1
 			vexactpos 1
 			hexactsize 1
@@ -218,7 +220,7 @@ PanelWidgetClass ObjectMenu
 
 		ButtonWidgetClass btn_spawn_cursorpos
 		{
-			position 315 5
+			position 430 5
 			size 80 20
 			halign right_ref
 			valign bottom_ref
@@ -231,7 +233,7 @@ PanelWidgetClass ObjectMenu
 
 		ButtonWidgetClass btn_spawn_ground
 		{
-			position 230 5
+			position 345 5
 			size 80 20
 			halign right_ref
 			valign bottom_ref
@@ -244,7 +246,7 @@ PanelWidgetClass ObjectMenu
 
         ButtonWidgetClass btn_spawn_inventory
         {
-            position 145 5
+            position 260 5
             size 80 20
             halign right_ref
             valign bottom_ref
@@ -254,5 +256,31 @@ PanelWidgetClass ObjectMenu
             vexactsize 1
             text "Inventory"
         }
+
+		TextWidgetClass quantity_text
+		{
+            position 60 6
+			size 180 18
+            halign right_ref
+            valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Quantity (Number/\"MAX\"):"
+		}
+
+		EditBoxWidgetClass quantity_items
+		{
+            position 10 6
+			size 40 20
+            halign right_ref
+            valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "MAX"
+		}
 	}
 }

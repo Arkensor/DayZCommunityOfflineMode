@@ -6,6 +6,7 @@ class ObjectMenu extends PopupMenu
 	protected ButtonWidget m_btnSpawnCursor;
 	protected ButtonWidget m_btnSpawnInventory;
 	protected ButtonWidget m_btnCancel;
+	protected EditBoxWidget m_QuantityItem;
 
 	private ItemPreviewWidget m_item_widget;
 	protected EntityAI previewItem;
@@ -34,6 +35,8 @@ class ObjectMenu extends PopupMenu
 		m_btnSpawnCursor = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_cursorpos" ) );
 		m_btnSpawnInventory = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_spawn_inventory" ) );
 		m_btnCancel = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_cancel" ) );
+
+		m_QuantityItem = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "quantity_items" ) );
 	}
 
 	override void OnShow()
@@ -83,6 +86,10 @@ class ObjectMenu extends PopupMenu
 	    string strSelection = GetCurrentSelection();
 	    bool ai = false;
 
+		int quantity = 0;
+		string text = "";
+		ItemBase oItem = NULL;
+
         if( strSelection != "" )
         {
         	strSelection.ToLower();
@@ -100,8 +107,22 @@ class ObjectMenu extends PopupMenu
 
                 if ( oCursorObj.IsInherited( ItemBase ) )
                 {
-                    ItemBase oCursorItem = ( ItemBase ) oCursorObj;
-                    SetupSpawnedItem( oCursorItem, oCursorItem.GetMaxHealth(), 1 );
+                    oItem = ( ItemBase ) oCursorObj;
+                    SetupSpawnedItem( oItem, oItem.GetMaxHealth(), 1 );
+
+					quantity = 0;
+					text = m_QuantityItem.GetText();
+					text.ToUpper();
+
+					if (text == "MAX")
+					{
+						quantity = oItem.GetQuantityMax();
+					} else
+					{
+						quantity = text.ToInt();
+					}
+					oItem.SetQuantity(quantity);
+
                     return true;
                 }
                 oCursorObj.PlaceOnSurface();
@@ -113,8 +134,21 @@ class ObjectMenu extends PopupMenu
 
                 if ( oObj.IsInherited( ItemBase ) )
                 {
-                    ItemBase oItem = ( ItemBase ) oObj;
+                    oItem = ( ItemBase ) oObj;
                     SetupSpawnedItem( oItem, oItem.GetMaxHealth(), 1 );
+					
+					quantity = 0;
+					text = m_QuantityItem.GetText();
+					text.ToUpper();
+					
+					if (text == "MAX")
+					{
+						quantity = oItem.GetQuantityMax();
+					} else
+					{
+						quantity = text.ToInt();
+					}
+					oItem.SetQuantity(quantity);
 
                     return true;
                 }
@@ -127,7 +161,25 @@ class ObjectMenu extends PopupMenu
 
                 oInvItem.SetHealth( oInvItem.GetMaxHealth() );
 
-                 return true;
+                if ( oInvItem.IsInherited( ItemBase ) )
+                {
+                    oItem = ( ItemBase ) oObj;
+                    SetupSpawnedItem( oItem, oItem.GetMaxHealth(), 1 );
+
+					quantity = 0;
+					text = m_QuantityItem.GetText();
+					text.ToUpper();
+					
+					if (text == "MAX")
+					{
+						quantity = oItem.GetQuantityMax();
+					} else
+					{
+						quantity = text.ToInt();
+					}
+					oItem.SetQuantity(quantity);
+				}
+                return true;
             }
         }
 
