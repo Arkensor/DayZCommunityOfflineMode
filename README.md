@@ -3,7 +3,21 @@ https://github.com/Arkensor/DayZCommunityOfflineMode/releases**
 
 # DayZCommunityOfflineMode 2.0 WIP
 
-UPDATE: 10/16/2018 - DannyDog
+##UPDATE: 21/10/2018 - Jacob_Mango
+
+Danny, we use the proper time convention here... I fixed your error.
+
+Anyways, here is an update.
+
+**Persitency Module**
+
+This is currently disabled due to Stress Test #50 (yay for the release).
+
+**UIExtender** 
+
+Requires some finalizing of the code and reimplementation of the now left menu panel (was right) and then would be complete.
+
+##UPDATE: 16/10/2018 - DannyDog
 
 Still many things completed for our **next big patch (2.0)**. The major changes are as follows:
 
@@ -116,7 +130,7 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 
 # Contributors:
 * [DannyDog](https://github.com/DannyDog) - Code snippets, Object Editor, Editor panel, Camera tools
-* [Jacob_Mango](https://github.com/Jacob-Mango) - Added key to toggle "Aimgate", Persistency module
+* [Jacob_Mango](https://github.com/Jacob-Mango) - Added key to toggle "Aimgate", Persistency module, UIExtender
 * [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
 * [Watchman](https://twitter.com/watchman113) - Documentation
