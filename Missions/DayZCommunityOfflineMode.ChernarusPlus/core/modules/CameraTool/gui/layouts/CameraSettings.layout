@@ -1015,83 +1015,6 @@ PanelWidgetClass CameraMenu
 							halign left_ref
 							style EditorPanel
 							{
-								TextWidgetClass camera_speed_text
-								{
-									position 0.025 0.125
-									size 1 20
-									valign top_ref
-									halign left_ref
-									vexactsize 1
-									text "Cam Speed:"
-									font "gui/fonts/MetronBook16"
-									"text halign" left
-									"exact text" 1
-									"exact text size" 14
-								}
-								ButtonWidgetClass camera_speed_btn_inc
-								{
-									position 0.375 0.1
-									size 25 25
-									vexactsize 1
-									hexactpos 0
-									hexactsize 1
-									style Default
-									{
-										TextWidgetClass camera_speed_btn_inc_txt
-										{
-											ignorepointer 1
-											position 0 0
-											color 0 1 0 1
-											size 25 25
-											hexactsize 1
-											vexactsize 1
-											hexactpos 1
-											vexactpos 1
-											valign top_ref
-											halign left_ref
-											text "+"
-											font "gui/fonts/Metron-Bold58"
-											"exact text" 1
-											"exact text size" 16
-											"text halign" center
-										   	"text valign" center
-										}
-
-									}
-								}
-
-								ButtonWidgetClass camera_speed_btn_dec
-								{
-									position 0.3 0.1
-									size 25 25
-									vexactsize 1
-									hexactpos 0
-									hexactsize 1
-									style Default
-									{
-										TextWidgetClass camera_speed_btn_dec_txt
-										{
-											ignorepointer 1
-											position 0 0
-											color 1 0 0 1
-											size 25 25
-											hexactsize 1
-											vexactsize 1
-											hexactpos 1
-											vexactpos 1
-											valign top_ref
-											halign left_ref
-											text "-"
-											font "gui/fonts/Metron-Bold58"
-											"exact text" 1
-											"exact text size" 16
-											"text halign" center
-										   	"text valign" center
-										}
-
-									}
-								}
-
 								TextWidgetClass camera_smooth_text
 								{
 									position 0.025 0.35
@@ -1172,7 +1095,7 @@ PanelWidgetClass CameraMenu
 
 								TextWidgetClass camera_msens_text
 								{
-									position 0.5 0.125
+									position 0.025 0.125
 									size 1 20
 									valign top_ref
 									halign left_ref
@@ -1186,7 +1109,7 @@ PanelWidgetClass CameraMenu
 
 								ButtonWidgetClass camera_msens_btn_dec
 								{
-									position 0.75 0.1
+									position 0.3 0.1
 									size 25 25
 									vexactsize 1
 									hexactpos 0
@@ -1218,7 +1141,7 @@ PanelWidgetClass CameraMenu
 
 								ButtonWidgetClass camera_msens_btn_inc
 								{
-									position 0.825 0.1
+									position 0.375 0.1
 									size 25 25
 									vexactsize 1
 									hexactpos 0
@@ -1238,6 +1161,83 @@ PanelWidgetClass CameraMenu
 											valign top_ref
 											halign left_ref
 											text "+"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								TextWidgetClass camera_speed_text
+								{
+									position 0.5 0.125
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Cam Speed:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+								}
+								ButtonWidgetClass camera_speed_btn_inc
+								{
+									position 0.825 0.1
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_speed_btn_inc_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 0 1 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "+"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								ButtonWidgetClass camera_speed_btn_dec
+								{
+									position  0.75 0.1
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_speed_btn_dec_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 1 0 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "-"
 											font "gui/fonts/Metron-Bold58"
 											"exact text" 1
 											"exact text size" 16

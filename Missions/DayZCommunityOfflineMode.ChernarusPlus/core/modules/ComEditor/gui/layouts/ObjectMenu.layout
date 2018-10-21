@@ -3,7 +3,7 @@ PanelWidgetClass ObjectMenu
 	visible 0
 	color 0 0 0 0
 	position 0.0425 0.0425
-	size 600 395
+	size 600 450
 	halign right_ref
 	valign top_ref
 	hexactpos 0
@@ -19,7 +19,7 @@ PanelWidgetClass ObjectMenu
 			visible 1
 			color 0 0 0 0.45
 			position 0 0
-			size 500 395
+			size 500 450
 			hexactpos 1
 			vexactpos 1
 			hexactsize 0
@@ -205,82 +205,106 @@ PanelWidgetClass ObjectMenu
 			style rover_sim_colorable
 		}
 
-		TextWidgetClass search_text
+		PanelWidgetClass buttonframe
 		{
-			position 5 6
-			size 100 18
+			position 0 0.825
+			size 1 1				
 			halign left_ref
-			valign bottom_ref
+			valign top_ref
 			hexactpos 1
-			vexactpos 1
-			hexactsize 1
-			vexactsize 1
-			text "Spawn type:"
-		}
+			vexactpos 0
+			{
+				TextWidgetClass search_text
+				{
+					position 5 6
+					size 100 18
+					halign left_ref
+					valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "Spawn type:"
+				}
 
-		ButtonWidgetClass btn_spawn_cursorpos
-		{
-			position 430 5
-			size 80 20
-			halign right_ref
-			valign bottom_ref
-			hexactpos 1
-			vexactpos 1
-			hexactsize 1
-			vexactsize 1
-			text "Cursor"
-		}
+				ButtonWidgetClass btn_spawn_cursorpos
+				{
+					position 430 5
+					size 80 20
+					halign right_ref
+					valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "Cursor"
+				}
 
-		ButtonWidgetClass btn_spawn_ground
-		{
-			position 345 5
-			size 80 20
-			halign right_ref
-			valign bottom_ref
-			hexactpos 1
-			vexactpos 1
-			hexactsize 1
-			vexactsize 1
-			text "Ground"
-		}
+				ButtonWidgetClass btn_spawn_ground
+				{
+					position 345 5
+					size 80 20
+					halign right_ref
+					valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "Ground"
+				}
 
-        ButtonWidgetClass btn_spawn_inventory
-        {
-            position 260 5
-            size 80 20
-            halign right_ref
-            valign bottom_ref
-            hexactpos 1
-            vexactpos 1
-            hexactsize 1
-            vexactsize 1
-            text "Inventory"
-        }
+		        ButtonWidgetClass btn_spawn_inventory
+		        {
+		            position 260 5
+		            size 80 20
+		            halign right_ref
+		            valign top_ref
+		            hexactpos 1
+		            vexactpos 1
+		            hexactsize 1
+		            vexactsize 1
+		            text "Inventory"
+		        }
 
-		TextWidgetClass quantity_text
-		{
-            position 60 6
-			size 180 18
-            halign right_ref
-            valign bottom_ref
-			hexactpos 1
-			vexactpos 1
-			hexactsize 1
-			vexactsize 1
-			text "Quantity (Number/\"MAX\"):"
-		}
+				TextWidgetClass quantity_text
+				{
+		            position 60 6
+					size 180 18
+		            halign right_ref
+		            valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "Quantity (Number/\"MAX\"):"
+				}
 
-		EditBoxWidgetClass quantity_items
-		{
-            position 10 6
-			size 40 20
-            halign right_ref
-            valign bottom_ref
-			hexactpos 1
-			vexactpos 1
-			hexactsize 1
-			vexactsize 1
-			text "MAX"
+				EditBoxWidgetClass quantity_items
+				{
+		            position 10 6
+					size 40 20
+		            halign right_ref
+		            valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "MAX"
+				}
+
+				ButtonWidgetClass dump_selects
+				{
+					position 5 30
+		           	size 150 20
+		           	halign left_ref
+		           	valign top_ref
+		           	hexactpos 1
+		            vexactpos 1
+		            hexactsize 1
+		            vexactsize 1
+		            text "Export Selections"
+				}
+			}
 		}
 	}
 }

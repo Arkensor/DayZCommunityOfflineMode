@@ -29,7 +29,7 @@ class CameraTool extends Module
 	
 	static float CAMERA_FOV = 1.0;
 	static float CAMERA_TARGETFOV = 1.0;
-	static float CAMERA_FOV_SPEED_MODIFIER = 5.0;
+	static float CAMERA_FOV_SPEED_MODIFIER = 3.0;
 	static float CAMERA_SPEED = 5.0;
 	static float CAMERA_VELDRAG = 0.9; // 0.9 - 1.0 0.9 == no smoothing
 	static float CAMERA_MSENS = 0.8; // acceleration
@@ -104,7 +104,8 @@ class CameraTool extends Module
 		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "[RBracket]"  , "Toggle orbital mode", true );
 		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "[Return]"	 , "Targets objects or positions", true );
 		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "(RMB)+(Drag)", "Zooms camera"	 , true);
-		
+		KeyMouseBinding speedCamera   = new KeyMouseBinding( GetModuleType(), "CameraSpeed"  , "(MouseWheel)", "Change camera speed", true);
+
 		toggleCamera.AddKeyBind( KeyCode.KC_INSERT    , KeyMouseBinding.KB_EVENT_RELEASE );
 		freezeCamera.AddKeyBind( KeyCode.KC_BACKSLASH , KeyMouseBinding.KB_EVENT_RELEASE );
 		freezePlayer.AddKeyBind( KeyCode.KC_CAPITAL   , KeyMouseBinding.KB_EVENT_RELEASE );
@@ -113,9 +114,11 @@ class CameraTool extends Module
 		
 		targetCamera.AddMouseBind( MouseState.MIDDLE , KeyMouseBinding.MB_EVENT_CLICK );
 		
-		//zoomCamera	.AddMouseBind( MouseState.RIGHT  , KeyMouseBinding.MB_EVENT_DRAG  );
-		//zoomCamera  .AddKeyBind( KeyCode.KC_LSHIFT	 , KeyMouseBinding.KB_EVENT_HOLD  );
-		zoomCamera    .AddMouseBind( MouseState.WHEEL, 0 );
+		zoomCamera	.AddMouseBind( MouseState.RIGHT  , KeyMouseBinding.MB_EVENT_DRAG  );
+		zoomCamera  .AddKeyBind( KeyCode.KC_LCONTROL	 , KeyMouseBinding.KB_EVENT_HOLD  );
+			
+		speedCamera .AddMouseBind( MouseState.WHEEL, 0);	
+		//zoomCamera    .AddMouseBind( MouseState.WHEEL, 0 );
 		
 		RegisterKeyMouseBinding( toggleCamera );
 		RegisterKeyMouseBinding( freezeCamera );
@@ -124,6 +127,7 @@ class CameraTool extends Module
 		RegisterKeyMouseBinding( toggleOrbit  );
 		RegisterKeyMouseBinding( targetCamera );
 		RegisterKeyMouseBinding( zoomCamera   );
+		RegisterKeyMouseBinding( speedCamera  );
 	}
 
 	Camera GetCamera()
@@ -275,11 +279,12 @@ class CameraTool extends Module
 				m_CamFOV = Math.Lerp( m_CamFOV, m_TargetFOV, timeslice*CAMERA_FOV_SPEED_MODIFIER );
 				m_oCamera.SetFOV( m_CamFOV );
 			}
+
 			vector oldOrient = m_oCamera.GetOrientation();
 			if ( oldOrient[2] != m_TargetRoll ) 
 			{
-				oldOrient[2] = Math.Lerp( oldOrient[2], m_TargetRoll, timeslice*CAMERA_FOV_SPEED_MODIFIER );
-				m_oCamera.SetOrientation( oldOrient );
+				//oldOrient[2] = Math.Lerp( oldOrient[2], m_TargetRoll, timeslice*CAMERA_FOV_SPEED_MODIFIER );
+				//m_oCamera.SetOrientation( oldOrient );
 			}
 
 			// Camera movement
@@ -288,11 +293,11 @@ class CameraTool extends Module
 			if ( !m_FreezeCam ) 
 			{	
 
-				float forward = input.GetAction(UAMoveForward) - input.GetAction(UAMoveBack); // -1, 0, 1
-				float strafe = input.GetAction(UATurnRight) - input.GetAction(UATurnLeft);
-				float altitude = input.GetAction(UACarShiftGearUp) - input.GetAction(UACarShiftGearDown);
+				float forward = KeyState(KeyCode.KC_W) - KeyState(KeyCode.KC_S); // -1, 0, 1
+				float strafe = KeyState(KeyCode.KC_D) - KeyState(KeyCode.KC_A);
+				float altitude = KeyState(KeyCode.KC_Q) - KeyState(KeyCode.KC_Z); // change to hardcode keys? these actions can be rebinded via vanilla keybind menu
 
-				if( input.GetAction(UATurbo) ) 
+				if( KeyState(KeyCode.KC_LSHIFT) ) 
 				{
 					forward *= 10.0;
 					strafe *= 10.0;
@@ -459,27 +464,60 @@ class CameraTool extends Module
 		}
 	}
 	
-	void ZoomCamera() 
+	void CameraSpeed() 
 	{
-		/* Old mouse Y function
 		if ( m_oCamera ) 
 		{
+			if ( GetGame().GetUIManager().IsCursorVisible() ) 
+			{
+				return;
+			}
+			int i = GetMouseState( MouseState.WHEEL );
+
+			if ( CTRL() ) 
+			{
+				vector ori = m_oCamera.GetOrientation();
+				ori[2] = ori[2] - i*5;
+				m_oCamera.SetOrientation( ori );
+				//m_TargetRoll = ori[2] - i*5; // redo this
+				//Message(m_TargetRoll.ToString());
+			}
+			else 
+			{
+				CAMERA_SPEED += i*0.05;
+				if ( CAMERA_SPEED < 0 ) 
+				{
+					CAMERA_SPEED = 0;
+				}
+			}
+		}
+	}
+
+	void ZoomCamera() 
+	{
+		if ( m_oCamera ) 
+		{
+			if ( GetGame().GetUIManager().IsCursorVisible() ) 
+			{
+				return;
+			}
+
 			int i = GetMouseState(MouseState.Y);
 		
 			if ( i != 0 ) 
 			{
 				SetFreezeMouse(true);
-				m_CamFOV+=i*0.000008; // zoom speed
+				m_TargetFOV+=i*0.000006; // zoom speed
 				
-				if ( m_CamFOV < 0.01 ) 
+				if ( m_TargetFOV < 0.01 ) 
 				{
-					m_CamFOV = 0.01;
+					m_TargetFOV = 0.01;
 				}
-				m_oCamera.SetFOV(m_CamFOV);
+				//m_oCamera.SetFOV(m_CamFOV);
 			}
 		}
-		*/
-
+		
+		/*
 		if ( m_oCamera ) 
 		{
 			if ( GetGame().GetUIManager().IsCursorVisible() ) 
@@ -511,6 +549,7 @@ class CameraTool extends Module
 			}
 			//m_oCamera.SetFOV(m_CamFOV);	
 		}
+		*/
 	}
 	
 	void FreezeCamera() 
@@ -591,6 +630,16 @@ class CameraTool extends Module
 	
 	override void onMouseButtonRelease( int button ) 
 	{
+		if ( m_oCamera ) 
+		{
+			if ( button == MouseState.RIGHT ) 
+			{
+				if ( !m_OrbitalCam ) 
+				{
+					SetFreezeMouse( false );
+				}
+			}
+		}
 	}
 	
 	override void onMouseButtonPress( int button ) 

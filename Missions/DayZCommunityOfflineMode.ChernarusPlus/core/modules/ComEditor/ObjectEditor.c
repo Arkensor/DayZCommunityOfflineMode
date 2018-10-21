@@ -8,7 +8,7 @@ class ObjectEditor extends Module
 	protected ref ObjectMenu m_ObjectMenu;
 
 	// protected ref Scene active_Scene;
-	protected ref array< ref Object> m_Objects = new array< ref Object>;
+	ref array< ref Object> m_Objects = new array< ref Object>;
 
 	string BASE_COM_DIR = "$saves:CommunityOfflineMode";
 	string BASE_SCENE_DIR = BASE_COM_DIR + "\\Scenes";
@@ -62,7 +62,7 @@ class ObjectEditor extends Module
 		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate.", true );
 		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object.", true  );
 		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground.", true  );
-		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "SaveScene"    , "CTRL+S"	       , "Saves current scene of objects", true);
+		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "ExportScene"    , "CTRL+S"	       , "Saves current scene of objects", true);
 
 		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    ); 
 		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
@@ -84,6 +84,19 @@ class ObjectEditor extends Module
 		RegisterKeyMouseBinding( objectGround );
 		RegisterKeyMouseBinding( sceneSave );
 		
+	}
+
+	void ExportScene() 
+	{
+		string toCopy = "Object obj; \n";
+
+		foreach( Object m_object : m_Objects ) 
+		{
+			toCopy = toCopy + "obj = GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + m_object.GetPosition()[0].ToString() + " " + m_object.GetPosition()[1].ToString() + " " + m_object.GetPosition()[2].ToString() + "\");\nobj.SetOrientation(\"" + m_object.GetOrientation()[0].ToString() + " " + m_object.GetOrientation()[1].ToString() + " " + m_object.GetOrientation()[2].ToString() + "\");\n";
+		}
+
+		Message("Copied to clipboard");
+		GetGame().CopyToClipboard( toCopy );
 	}
 
 	void SaveScene() 
@@ -125,6 +138,7 @@ class ObjectEditor extends Module
 
 		*/
 		
+		/*
 		string toCopy = "";
 
 		foreach( Object m_object : m_Objects ) 
@@ -140,35 +154,30 @@ class ObjectEditor extends Module
 
 		GetGame().CopyToClipboard( toCopy );
 		m_Objects.Clear();
+		*/
+
 		
-
-		/*
-		ref Scene scene = new Scene();
+		ref SceneSaveST scene = new SceneSaveST();
 		scene.name = "latest";
-
-		string tocopy = "";
 
 		foreach( Object m_object : m_Objects ) 
 		{
 			ref Param objectParam = new Param3<string, vector, vector>( m_object.GetType(), m_object.GetPosition(), m_object.GetOrientation() );
 			scene.m_SceneObjects.Insert( objectParam );
 
-			tocopy = tocopy + "{\"" + m_object.GetType() + "\"" + "," + m_object.GetPosition()[0] + " " + m_object.GetPosition()[1] + " "  + m_object.GetPosition()[2] + "," + m_object.GetOrientation()[0] + " " + m_object.GetOrientation()[1] + " " + m_object.GetOrientation()[2] + "},";
 		}
-		tocopy = "auto data = { \n" + tocopy;
-		tocopy = tocopy + "\n}; \nforeach( auto x : data ) { auto obj = GetGame().CreateObject( x[0], x[1] ); obj.SetPosition( x[1] ); obj.SetOrientation( x[2] ); }";
 
-		GetGame().CopyToClipboard(tocopy);
-		JsonFileLoader< Scene >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
-		*/
+		Message("Saved objects to latest.json");
+		JsonFileLoader< SceneSaveST >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
+		
 	}
 
 	void LoadScene() 
 	{
-		/*
-		ref Scene scene = new Scene();
+		
+		ref SceneSaveST scene = new SceneSaveST();
 
-		JsonFileLoader<Scene>.JsonLoadFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
+		JsonFileLoader<SceneSaveST>.JsonLoadFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
 
 		foreach( auto param : scene.m_SceneObjects ) 
 		{
@@ -178,7 +187,7 @@ class ObjectEditor extends Module
 
 			m_Objects.Insert( object );
 		}
-		*/
+		
 	}
 
 	void EditorState( bool state ) 
@@ -351,20 +360,17 @@ class ObjectEditor extends Module
 		for ( int nObject = 0; ( ( nObject < objects.Count() ) && !selected ); ++nObject )
 		{
 			Object obj = objects.Get( nObject );
+			
+			SelectObject( obj );
+			selected = true;
 
-			if ( obj.GetType() != "" ) 
-			{
-				SelectObject( obj );
-				selected = true;
+			ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
+			ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
+			ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
 
-				ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
-				ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
-				ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
-
-				ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
-				ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
-				ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
-			}
+			ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
+			ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
+			ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
 		}
 	
 		if ( !selected && m_SelectedObject )
@@ -383,8 +389,12 @@ class ObjectEditor extends Module
 
 		if ( m_SelectedObject )
 		{
+			m_Objects.RemoveItem(m_SelectedObject);
 			m_SelectedObject.SetPosition(vector.Zero); // If object does not physically delete, teleport it to 0 0 0
 			GetGame().ObjectDelete( m_SelectedObject ); 
+
+			ObjectInfoMenu.UpdateObjectList();
+
 			m_SelectedObject = NULL;	
 		}
 	}

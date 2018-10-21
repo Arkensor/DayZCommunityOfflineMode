@@ -9,6 +9,10 @@ class ObjectInfoMenu extends PopupMenu
 	static EditBoxWidget infoPosPitch;
 	static EditBoxWidget infoPosRoll;
 
+	static TextListboxWidget listBox;
+
+	private ref WidgetStore widgetStore;
+
 	void ObjectInfoMenu()
 	{
 
@@ -19,8 +23,37 @@ class ObjectInfoMenu extends PopupMenu
 		GetGame().GetCallQueue( CALL_CATEGORY_GUI ).Remove( Update );
 	}
 
+	static void UpdateObjectList() 
+	{
+		listBox.ClearItems();
+
+		ref array<ref Object> objects = ((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).m_Objects;
+
+		foreach( Object obj : objects ) 
+		{
+			listBox.AddItem(obj.GetType(), obj, 0); // store object ref into list?
+		}
+	}
+
+	Object GetSelectedRowObject()
+	{
+		if ( listBox.GetSelectedRow() != -1 )
+		{
+			Object result;
+			listBox.GetItemData( listBox.GetSelectedRow(), 0, result );
+			return result;
+		}
+
+		return NULL;
+	}
+
 	override void Init( ) 
 	{
+
+		widgetStore = new WidgetStore( layoutRoot );
+
+		listBox = widgetStore.GetListboxWidget("object_editor_info_list");
+
 		infoPosX = layoutRoot.FindAnyWidget( "object_info_pos_x" );
 		infoPosY = layoutRoot.FindAnyWidget( "object_info_pos_y" );
 		infoPosZ = layoutRoot.FindAnyWidget( "object_info_pos_z" );
@@ -29,9 +62,46 @@ class ObjectInfoMenu extends PopupMenu
 		infoPosRoll = layoutRoot.FindAnyWidget( "object_info_roll_input" );
 	}
 
+	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
+	{
+		if ( w.GetName() == "object_editor_info_list") 
+		{
+			Object selected = GetSelectedRowObject();
+			if ( selected ) 
+			{
+				((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).SelectObject( selected );
+			}
+		}
+
+		return false;
+	}
+
+	override bool OnClick( Widget w, int x, int y, int button )
+	{
+		if ( w.GetName() == "object_editor_info_export") 
+		{
+			((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).ExportScene();
+		} 
+		if ( w.GetName() == "object_editor_info_save") 
+		{
+			((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).SaveScene();
+		} 
+		else if ( w.GetName() == "object_editor_info_clear") 
+		{
+			ref array< ref Object> objects = ((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).m_Objects;
+
+			foreach( Object obj : objects ) 
+			{
+				GetGame().ObjectDelete( obj );
+			}
+			objects.Clear();
+			UpdateObjectList();
+		}
+		return false;
+	}
+
 	override bool OnMouseWheel(Widget w, int x, int y, int wheel)
 	{
-
 		if ( !GetSelectedObject() ) 
 		{
 			return false;
@@ -182,6 +252,7 @@ class ObjectInfoMenu extends PopupMenu
 
     override void OnShow() 
     {
+    	UpdateObjectList();
     	GetGame().GetCallQueue( CALL_CATEGORY_GUI ).CallLater( Update, 100, true );
     }
 
@@ -222,7 +293,6 @@ class ObjectInfoMenu extends PopupMenu
 
 		TextWidget selectedObjectWidget = layoutRoot.FindAnyWidget( "object_editor_info_select_input" );
 		selectedObjectWidget.SetText( text );
-
 		// SetFlags(int flags, bool immedUpdate = true);
 	}
 

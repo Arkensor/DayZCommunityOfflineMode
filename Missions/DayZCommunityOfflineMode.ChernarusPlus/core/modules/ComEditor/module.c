@@ -24,6 +24,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\scene\\SceneInfo.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\scene\\ObjectData.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\scene\\LootSpot.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\scene\\SceneSaveST.c"
 #endif
 
 #ifndef COM_MODULES_OLDLOADING

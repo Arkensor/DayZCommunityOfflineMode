@@ -180,6 +180,11 @@ static vector GetCursorPos()
     return hitPos;
 }
 
+static void Message( string txt ) 
+{
+    GetClientMission().OnEvent(ChatMessageEventTypeID, new ChatMessageEventParams(CCDirect, "", txt, ""));
+}
+
 static Weapon GetWeaponInHands()
 {
     Weapon weapon_in_hands;
@@ -248,11 +253,9 @@ static Weapon_Base CreateWeapon( PlayerBase oPlayer )
 
 static Weapon_Base CreateWeapon( PlayerBase oPlayer )
 {
-    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "MP5K" ));
-    oWpn.GetInventory().CreateAttachment( "MP5k_StockBttstck" );
-    oWpn.GetInventory().CreateAttachment( "MP5_RailHndgrd" );
+    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "UMP45" ));
     oWpn.GetInventory().CreateAttachment( "PistolSuppressor" );
-    EntityAI optic = oWpn.GetInventory().CreateAttachment( "M68Optic" );
+    EntityAI optic = oWpn.GetInventory().CreateAttachment( "ReflexOptic" );
     optic.GetInventory().CreateAttachment("Battery9V");
 
     return oWpn;
@@ -260,7 +263,7 @@ static Weapon_Base CreateWeapon( PlayerBase oPlayer )
 
 static Magazine LoadMag( PlayerBase oPlayer, Weapon_Base oWpn )
 {    
-    Magazine oMag = Magazine.Cast(oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" ));
+    Magazine oMag = Magazine.Cast(oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" ));
     oPlayer.GetWeaponManager().AttachMagazine( oMag );
 
     return oMag;
@@ -270,14 +273,24 @@ static PlayerBase CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
 
-    EntityAI item = oPlayer.GetInventory().CreateInInventory( "Jeans_Black" );
-    item = oPlayer.GetInventory().CreateInInventory( "QuiltedJacket_Grey" );
-    item = oPlayer.GetInventory().CreateInInventory( "CombatBoots_Green" );
-    item = oPlayer.GetInventory().CreateInInventory( "Ushanka_Green" );
+    EntityAI item = oPlayer.GetInventory().CreateInInventory( "Breeches_Beetcheck" );
+    item = oPlayer.GetInventory().CreateInInventory( "Shirt_GreenCheck" );
+    item = oPlayer.GetInventory().CreateInInventory( "Ballerinas_White" );
+    item = oPlayer.GetInventory().CreateInInventory( "LeatherBelt_Beige" );
+    item = oPlayer.GetInventory().CreateInInventory( "CowboyHat_Brown" );
+    item = oPlayer.GetInventory().CreateInInventory( "SmershBag" );
 
-    item = oPlayer.GetInventory().CreateInInventory( "Mag_MP5_30Rnd" );
+    item = oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
+
+    item = oPlayer.GetInventory().CreateInInventory( "CZ75" );
+    item = oPlayer.GetInventory().CreateInInventory( "Mag_CZ75_15Rnd" );
+    item = oPlayer.GetInventory().CreateInInventory( "Mag_CZ75_15Rnd" );
+    
+    item = oPlayer.GetInventory().CreateInInventory( "Flashlight" );
+    item = oPlayer.GetInventory().CreateInInventory( "Battery9V" );
 
     Weapon_Base oWpn = CreateWeapon(oPlayer);
+    LoadMag(oPlayer, oWpn);
 
     oPlayer.LocalTakeEntityToHands( oWpn );
     oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );

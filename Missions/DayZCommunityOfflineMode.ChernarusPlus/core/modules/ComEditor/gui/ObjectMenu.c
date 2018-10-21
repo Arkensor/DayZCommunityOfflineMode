@@ -90,6 +90,22 @@ class ObjectMenu extends PopupMenu
 		string text = "";
 		ItemBase oItem = NULL;
 
+		if ( w.GetName() == "dump_selects" ) 
+		{
+			if ( previewItem ) 
+			{
+				string toCopy = "";
+				TStringArray strings = new TStringArray;
+				previewItem.GetSelectionList(strings);
+				foreach(string selection : strings ) 
+				{
+					toCopy = toCopy + selection + "\n";
+				}
+				GetGame().CopyToClipboard( toCopy );
+				Message("Dumped selections to clipboard"); 
+			}
+		}
+
         if( strSelection != "" )
         {
         	strSelection.ToLower();
@@ -126,6 +142,7 @@ class ObjectMenu extends PopupMenu
                     return true;
                 }
                 oCursorObj.PlaceOnSurface();
+                ObjectInfoMenu.listBox.AddItem(oCursorObj.GetType(), oCursorObj, 0);
             }
             else if ( w == m_btnSpawnGround )
             {
@@ -153,6 +170,7 @@ class ObjectMenu extends PopupMenu
                     return true;
                 }
                 oObj.PlaceOnSurface();
+                ObjectInfoMenu.listBox.AddItem(oObj.GetType(), oObj, 0);
 
             }
             else if ( w == m_btnSpawnInventory )

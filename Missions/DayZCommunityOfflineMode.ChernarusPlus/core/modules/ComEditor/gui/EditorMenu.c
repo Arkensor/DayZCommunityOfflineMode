@@ -99,6 +99,8 @@ class EditorMenu extends UIScriptedMenu
 	    		ForceTargetCollisionUpdate( obj );
 	    		ObjectEditor.Cast(GetModuleManager().GetModule( ObjectEditor )).SelectObject( obj );
 	    		ObjectEditor.Cast(GetModuleManager().GetModule( ObjectEditor )).addObject( obj );
+
+	    		ObjectInfoMenu.listBox.AddItem(obj.GetType(), obj, 0);
 	    	}
     	}
 

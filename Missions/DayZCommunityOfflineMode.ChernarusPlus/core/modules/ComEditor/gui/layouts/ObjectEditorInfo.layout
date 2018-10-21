@@ -3,7 +3,7 @@ PanelWidgetClass object_editor_info
 	visible 0
 	color 0 0 0 1
 	position 0.045 0.425
-	size 300 400
+	size 400 400
 	halign right_ref
 	valign top_ref
 	hexactpos 0
@@ -64,11 +64,55 @@ PanelWidgetClass object_editor_info
 					size 0.9 0.055
 					text "No object Selected"
 				}
+				FrameWidgetClass objectInfo_scene
+				{
+					visible 1
+					position 0.65 0
+					size 0.3 1
+					style EditorPanel
+					{
+						TextWidgetClass object_editor_info_objects
+						{
+							color 1 1 1 1
+							position 0 0.05
+							size 1 0.055
+							text "Objects Placed"
+						}
 
+						TextListboxWidgetClass object_editor_info_list
+						{
+							visible 1
+							position 0 0.15
+							size 1 0.6
+							style Editor
+							lines 20
+							font "gui/fonts/Metron14"
+						}
+						ButtonWidgetClass object_editor_info_save
+						{
+							position 0 0.75
+							size 1 0.055
+							text "Save"
+						}
+						ButtonWidgetClass object_editor_info_export
+						{
+							position 0 0.8
+							size 1 0.055
+							text "Export"
+						}
+						ButtonWidgetClass object_editor_info_clear
+						{
+							position 0 0.85
+							size 1 0.055
+							text "Clear"
+						}
+					}
+				}
 				FrameWidgetClass objectInfo 
 				{
 					visible 1
 					position 0 0.1
+					size 0.65 1
 					style EditorPanel
 					{
 						PanelWidgetClass objectInfo_pos_panel 
