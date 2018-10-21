@@ -27,12 +27,12 @@ This will be the new way you access all the tools we provide in our mod/mission.
 
 **Object Editor**
 
-The improved object editor controls should now allow you to seamlessly manipulate and spawn new objects using both the object spawner and the new camera tool. Simply open the object spawner and object editor menu, select the item from the list of objects and double click anywhere on the terrain with the cursor. Then freely click and drag the object around, **hover and scroll wheel the x,y,z/yaw,pitch,roll values** in the object editor menu for adjustments OR set your own individual values. By holding right click you are able to seamlessly hide/show your cursor or camera look movement. **Additionally I've implemented a simple script to allow you to save your placed objects and export them as code format to use on your servers. Simply place all your objects/move them accordingly and press CTRL+S. This will then export the script directly to your clipboard allowing you to paste it easily in your server mission file.**
+The improved object editor controls should now allow you to seamlessly manipulate and spawn new objects using both the object spawner and the new camera tool. Simply open the object spawner and object editor menu, select the item from the list of objects and double click anywhere on the terrain with the cursor. Then freely click and drag the object around, **hover and scroll wheel the x,y,z/yaw,pitch,roll values** in the object editor menu for adjustments OR set your own individual values. By holding right click you are able to seamlessly hide/show your cursor or camera look movement. **Additionally I've implemented a simple script to allow you to save your placed objects and export them as code format to use on your servers. Simply place all your objects/move them accordingly and click the export button in the object editor menu. This will then export the script directly to your clipboard allowing you to paste it easily in your server mission file.**
 
 
 Example:
 
-https://i.imgur.com/qVwdQFb.png
+https://i.imgur.com/oB73kqx.png
 
 [Output Code](https://pastebin.com/2gpxfDTq)
 
