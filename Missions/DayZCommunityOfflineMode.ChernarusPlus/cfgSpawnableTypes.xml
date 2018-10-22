@@ -1067,6 +1067,20 @@
             <item name="Mag_AKM_30Rnd" chance="1.00" />
         </attachments>
     </type>
+    <type name="M4A1">
+        <attachments chance="1.00">
+            <item name="M4_OEBttstck" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="M4_PlasticHndgrd" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="M4_CarryHandleOptic" chance="1.00" />
+        </attachments>
+        <attachments chance="0.30">
+            <item name="Mag_STANAG_30Rnd" chance="1.00" />
+        </attachments>
+    </type>
     <type name="PersonalRadio">
         <attachments chance="0.30">
             <item name="Battery9V" chance="1.00" />

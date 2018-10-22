@@ -39,69 +39,8 @@
     </event>
     <event name="AnimalCow">
         <waves>0</waves>
-        <nominal>5</nominal>
-        <min>5</min>
-        <max>5</max>
-        <lifetime>180</lifetime>
-        <restock>0</restock>
-        <saferadius>200</saferadius>
-        <distanceradius>0</distanceradius>
-        <cleanupradius>0</cleanupradius>
-        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
-        <position>fixed</position>
-        <limit>mixed</limit>
-        <active>1</active>
-        <children>
-            <child lootmax="0" lootmin="0" max="5" min="2" type="Animal_BosTaurusF_Brown"/>
-            <child lootmax="0" lootmin="0" max="5" min="2" type="Animal_BosTaurusF_Spotted"/>
-            <child lootmax="0" lootmin="0" max="5" min="2" type="Animal_BosTaurusF_White"/>
-            <child lootmax="0" lootmin="0" max="2" min="1" type="Animal_BosTaurus_Brown"/>
-            <child lootmax="0" lootmin="0" max="2" min="1" type="Animal_BosTaurus_Spotted"/>
-            <child lootmax="0" lootmin="0" max="2" min="1" type="Animal_BosTaurus_White"/>
-        </children>
-    </event>
-    <event name="AnimalDeer">
-        <waves>0</waves>
-        <nominal>5</nominal>
-        <min>5</min>
-        <max>5</max>
-        <lifetime>180</lifetime>
-        <restock>0</restock>
-        <saferadius>200</saferadius>
-        <distanceradius>0</distanceradius>
-        <cleanupradius>0</cleanupradius>
-        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
-        <position>fixed</position>
-        <limit>child</limit>
-        <active>1</active>
-        <children>
-            <child lootmax="0" lootmin="0" max="1" min="1" type="Animal_CervusElaphus"/>
-            <child lootmax="0" lootmin="0" max="5" min="3" type="Animal_CervusElaphusF"/>
-        </children>
-    </event>
-    <event name="AnimalRoeDeer">
-        <waves>0</waves>
-        <nominal>5</nominal>
-        <min>5</min>
-        <max>5</max>
-        <lifetime>180</lifetime>
-        <restock>0</restock>
-        <saferadius>200</saferadius>
-        <distanceradius>0</distanceradius>
-        <cleanupradius>0</cleanupradius>
-        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
-        <position>fixed</position>
-        <limit>child</limit>
-        <active>1</active>
-        <children>
-            <child lootmax="0" lootmin="0" max="1" min="1" type="Animal_CapreolusCapreolus"/>
-            <child lootmax="0" lootmin="0" max="6" min="4" type="Animal_CapreolusCapreolusF"/>
-        </children>
-    </event>
-    <event name="AnimalWolf">
-        <waves>0</waves>
-        <nominal>8</nominal>
-        <min>8</min>
+        <nominal>4</nominal>
+        <min>6</min>
         <max>8</max>
         <lifetime>180</lifetime>
         <restock>0</restock>
@@ -113,8 +52,145 @@
         <limit>child</limit>
         <active>1</active>
         <children>
-            <child lootmax="0" lootmin="0" max="5" min="2" type="Animal_CanisLupus_Grey"/>
-            <child lootmax="0" lootmin="0" max="5" min="0" type="Animal_CanisLupus_White"/>
+            <child lootmax="0" lootmin="0" max="3" min="0" type="Animal_BosTaurusF_Brown"/>
+            <child lootmax="0" lootmin="0" max="3" min="0" type="Animal_BosTaurusF_Spotted"/>
+            <child lootmax="0" lootmin="0" max="3" min="0" type="Animal_BosTaurusF_White"/>
+            <child lootmax="0" lootmin="0" max="1" min="0" type="Animal_BosTaurus_Brown"/>
+            <child lootmax="0" lootmin="0" max="1" min="0" type="Animal_BosTaurus_Spotted"/>
+            <child lootmax="0" lootmin="0" max="1" min="0" type="Animal_BosTaurus_White"/>
+        </children>
+    </event>
+    <event name="AnimalDeer">
+        <waves>0</waves>
+        <nominal>4</nominal>
+        <min>6</min>
+        <max>8</max>
+        <lifetime>180</lifetime>
+        <restock>0</restock>
+        <saferadius>200</saferadius>
+        <distanceradius>0</distanceradius>
+        <cleanupradius>0</cleanupradius>
+        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
+        <position>fixed</position>
+        <limit>child</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="1" min="1" type="Animal_CervusElaphus"/>
+            <child lootmax="0" lootmin="0" max="4" min="2" type="Animal_CervusElaphusF"/>
+        </children>
+    </event>
+    <event name="AnimalGoat">
+        <waves>0</waves>
+        <nominal>4</nominal>
+        <min>6</min>
+        <max>8</max>
+        <lifetime>180</lifetime>
+        <restock>0</restock>
+        <saferadius>0</saferadius>
+        <distanceradius>0</distanceradius>
+        <cleanupradius>200</cleanupradius>
+        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
+        <position>fixed</position>
+        <limit>child</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="5" min="2" type="Animal_CapraHircusF"/>
+            <child lootmax="0" lootmin="0" max="1" min="0" type="Animal_CapraHircus_Black"/>
+            <child lootmax="0" lootmin="0" max="1" min="0" type="Animal_CapraHircus_Brown"/>
+            <child lootmax="0" lootmin="0" max="1" min="1" type="Animal_CapraHircus_White"/>
+        </children>
+    </event>
+    <event name="AnimalPig">
+        <waves>0</waves>
+        <nominal>2</nominal>
+        <min>6</min>
+        <max>8</max>
+        <lifetime>180</lifetime>
+        <restock>0</restock>
+        <saferadius>200</saferadius>
+        <distanceradius>0</distanceradius>
+        <cleanupradius>0</cleanupradius>
+        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
+        <position>fixed</position>
+        <limit>child</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="2" min="1" type="Animal_SusDomesticus"/>
+        </children>
+    </event>
+    <event name="AnimalRoeDeer">
+        <waves>0</waves>
+        <nominal>4</nominal>
+        <min>6</min>
+        <max>8</max>
+        <lifetime>180</lifetime>
+        <restock>0</restock>
+        <saferadius>200</saferadius>
+        <distanceradius>0</distanceradius>
+        <cleanupradius>0</cleanupradius>
+        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
+        <position>fixed</position>
+        <limit>child</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="1" min="1" type="Animal_CapreolusCapreolus"/>
+            <child lootmax="0" lootmin="0" max="4" min="2" type="Animal_CapreolusCapreolusF"/>
+        </children>
+    </event>
+    <event name="AnimalSheep">
+        <waves>0</waves>
+        <nominal>4</nominal>
+        <min>6</min>
+        <max>8</max>
+        <lifetime>180</lifetime>
+        <restock>0</restock>
+        <saferadius>200</saferadius>
+        <distanceradius>0</distanceradius>
+        <cleanupradius>0</cleanupradius>
+        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
+        <position>fixed</position>
+        <limit>child</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="2" min="1" type="Animal_OvisAries"/>
+            <child lootmax="0" lootmin="0" max="5" min="3" type="Animal_OvisAriesF"/>
+        </children>
+    </event>
+    <event name="AnimalWildBoar">
+        <waves>0</waves>
+        <nominal>4</nominal>
+        <min>4</min>
+        <max>6</max>
+        <lifetime>180</lifetime>
+        <restock>0</restock>
+        <saferadius>200</saferadius>
+        <distanceradius>0</distanceradius>
+        <cleanupradius>0</cleanupradius>
+        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
+        <position>fixed</position>
+        <limit>child</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="6" min="3" type="Animal_SusScrofa"/>
+        </children>
+    </event>
+    <event name="AnimalWolf">
+        <waves>0</waves>
+        <nominal>4</nominal>
+        <min>5</min>
+        <max>8</max>
+        <lifetime>180</lifetime>
+        <restock>0</restock>
+        <saferadius>200</saferadius>
+        <distanceradius>0</distanceradius>
+        <cleanupradius>0</cleanupradius>
+        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
+        <position>fixed</position>
+        <limit>child</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="6" min="2" type="Animal_CanisLupus_Grey"/>
+            <child lootmax="0" lootmin="0" max="4" min="0" type="Animal_CanisLupus_White"/>
         </children>
     </event>
     <event name="InfectedArmy">
@@ -446,83 +522,98 @@
     </event>
     <event name="TrajectoryConiferous">
         <waves>0</waves>
-        <nominal>50</nominal>
-        <min>25</min>
-        <max>25</max>
+        <nominal>140</nominal>
+        <min>2</min>
+        <max>4</max>
         <lifetime>180</lifetime>
         <restock>0</restock>
-        <saferadius>100</saferadius>
-        <distanceradius>50</distanceradius>
-        <cleanupradius>100</cleanupradius>
+        <saferadius>25</saferadius>
+        <distanceradius>100</distanceradius>
+        <cleanupradius>25</cleanupradius>
         <flags deletable="0" init_random="0" remove_damaged="0" sec_spawner="0"/>
         <position>fixed</position>
         <limit>mixed</limit>
-        <active>0</active>
-        <children/>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="AmanitaMushroom"/>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="BoletusMushroom"/>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="MacrolepiotaMushroom"/>
+        </children>
     </event>
     <event name="TrajectoryDeciduous">
         <waves>0</waves>
-        <nominal>50</nominal>
-        <min>25</min>
-        <max>25</max>
+        <nominal>140</nominal>
+        <min>2</min>
+        <max>4</max>
         <lifetime>180</lifetime>
         <restock>0</restock>
-        <saferadius>100</saferadius>
-        <distanceradius>50</distanceradius>
-        <cleanupradius>100</cleanupradius>
+        <saferadius>25</saferadius>
+        <distanceradius>100</distanceradius>
+        <cleanupradius>25</cleanupradius>
         <flags deletable="0" init_random="0" remove_damaged="0" sec_spawner="0"/>
         <position>fixed</position>
         <limit>mixed</limit>
-        <active>0</active>
-        <children/>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="AmanitaMushroom"/>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="LactariusMushroom"/>
+        </children>
     </event>
     <event name="TrajectoryHumus">
         <waves>0</waves>
-        <nominal>50</nominal>
-        <min>25</min>
-        <max>25</max>
+        <nominal>140</nominal>
+        <min>2</min>
+        <max>4</max>
         <lifetime>180</lifetime>
         <restock>0</restock>
-        <saferadius>100</saferadius>
-        <distanceradius>50</distanceradius>
-        <cleanupradius>100</cleanupradius>
+        <saferadius>25</saferadius>
+        <distanceradius>100</distanceradius>
+        <cleanupradius>25</cleanupradius>
         <flags deletable="0" init_random="0" remove_damaged="0" sec_spawner="0"/>
-        <position>fixed</position>
-        <limit>mixed</limit>
-        <active>0</active>
-        <children/>
+        <position>player</position>
+        <limit>parent</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="AgaricusMushroom"/>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="PleurotusMushroom"/>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="PsilocybeMushroom"/>
+        </children>
     </event>
     <event name="TrajectoryPear">
         <waves>0</waves>
-        <nominal>50</nominal>
-        <min>25</min>
-        <max>25</max>
+        <nominal>140</nominal>
+        <min>2</min>
+        <max>4</max>
         <lifetime>180</lifetime>
         <restock>0</restock>
-        <saferadius>100</saferadius>
-        <distanceradius>50</distanceradius>
-        <cleanupradius>100</cleanupradius>
+        <saferadius>25</saferadius>
+        <distanceradius>100</distanceradius>
+        <cleanupradius>25</cleanupradius>
         <flags deletable="0" init_random="0" remove_damaged="0" sec_spawner="0"/>
-        <position>fixed</position>
-        <limit>mixed</limit>
-        <active>0</active>
-        <children/>
+        <position>player</position>
+        <limit>parent</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="Pear"/>
+        </children>
     </event>
     <event name="TrajectoryPlum">
         <waves>0</waves>
-        <nominal>50</nominal>
-        <min>25</min>
-        <max>25</max>
+        <nominal>140</nominal>
+        <min>2</min>
+        <max>4</max>
         <lifetime>180</lifetime>
         <restock>0</restock>
-        <saferadius>100</saferadius>
-        <distanceradius>50</distanceradius>
-        <cleanupradius>100</cleanupradius>
+        <saferadius>25</saferadius>
+        <distanceradius>100</distanceradius>
+        <cleanupradius>25</cleanupradius>
         <flags deletable="0" init_random="0" remove_damaged="0" sec_spawner="0"/>
-        <position>fixed</position>
-        <limit>mixed</limit>
-        <active>0</active>
-        <children/>
+        <position>player</position>
+        <limit>parent</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="0" min="0" type="Plum"/>
+        </children>
     </event>
     <event name="TrajectoryStones">
         <waves>0</waves>
@@ -544,17 +635,17 @@
     </event>
     <event name="TrajectoryStumps">
         <waves>0</waves>
-        <nominal>50</nominal>
-        <min>25</min>
-        <max>25</max>
+        <nominal>140</nominal>
+        <min>2</min>
+        <max>4</max>
         <lifetime>180</lifetime>
         <restock>0</restock>
-        <saferadius>100</saferadius>
-        <distanceradius>50</distanceradius>
-        <cleanupradius>100</cleanupradius>
+        <saferadius>25</saferadius>
+        <distanceradius>100</distanceradius>
+        <cleanupradius>25</cleanupradius>
         <flags deletable="0" init_random="0" remove_damaged="0" sec_spawner="0"/>
-        <position>fixed</position>
-        <limit>mixed</limit>
+        <position>player</position>
+        <limit>parent</limit>
         <active>0</active>
         <children/>
     </event>

@@ -12,4 +12,5 @@
     <var name="ZoneSpawnDist" type="0" value="600"/>
     <var name="RestartSpawn" type="0" value="100"/>
     <var name="CleanupLifetimeRuined" type="0" value="330"/>
+    <var name="AnimalMaxCount" type="0" value="200"/>
 </variables>
