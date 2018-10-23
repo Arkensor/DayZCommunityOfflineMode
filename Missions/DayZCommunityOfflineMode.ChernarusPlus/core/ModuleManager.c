@@ -130,26 +130,31 @@ class ModuleManager
 		}
     }
 #else
+    void RegisterModule( ref Module module )
+    {
+        m_Modules.Insert( module );
+    }
+
     void RegisterModules()
     { 
         Print( "ModuleManager::RegisterModules()" );
         #ifdef MODULE_COM_EDITOR
-        m_Modules.Insert( new ObjectEditor );
+        RegisterModule( new ref ObjectEditor );
         #endif
         #ifdef MODULE_CAMERA_TOOL
-        m_Modules.Insert( new CameraTool );
+        RegisterModule( new ref CameraTool );
         #endif
         #ifdef MODULE_COM_KEYBINDS
-        m_Modules.Insert( new COMKeyBinds );
+        RegisterModule( new ref COMKeyBinds );
         #endif
         #ifdef MODULE_PERSISTENCY
-        //m_Modules.Insert( new PersistencyModule );
+        //RegisterModule( new ref PersistencyModule );
         #endif
         #ifdef MODULE_DEBUG_MONITOR
-        //m_Modules.Insert( new CustomDebugMonitor );
+        //RegisterModule( new ref CustomDebugMonitor );
         #endif
         #ifdef MODULE_UIEXTENDER
-        m_Modules.Insert( new UIExtender );
+        RegisterModule( new ref UIExtender );
         #endif
     }
 #endif

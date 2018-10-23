@@ -38,10 +38,10 @@ class UIExtender extends Module
 	void UIExtender()
 	{
 		AddPauseButton( new CustomPauseButton( "#main_menu_continue", IDC_MAIN_CONTINUE, GetModuleType(), "ContinueMission" ));
-		AddPauseButton( new CustomPauseButton( "#main_menu_configure", IDC_MAIN_OPTIONS, GetModuleType(), "OptionsMenu" ));
 		AddPauseButton( new CustomPauseButton( "#main_menu_exit", IDC_MAIN_QUIT, GetModuleType(), "QuitMission" ));
 		AddPauseButton( new CustomPauseButton( "#main_menu_restart", IDC_INT_RETRY, GetModuleType(), "RetryMission" ), new OverrideValid(false, true));
 		AddPauseButton( new CustomPauseButton( "#main_menu_respawn", IDC_INT_RETRY, GetModuleType(), "RespawnPlayer" ), new OverrideValid(true, false));
+		AddPauseButton( new CustomPauseButton( "#layout_xbox_ingame_menu_options", IDC_MAIN_OPTIONS, GetModuleType(), "OptionsMenu" ));
 	}
 
 	void ~UIExtender()
