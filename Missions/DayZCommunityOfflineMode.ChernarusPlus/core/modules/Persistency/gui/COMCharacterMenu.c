@@ -443,14 +443,12 @@ class COMCharacterMenu extends UIScriptedMenu
     
     void UpdateInterval()
 	{
-		Print( "COMCharacterMenu::UpdateInterval" );
 		if ( m_oPersistencyModule.GetScene() )
 		{
         	m_oPersistencyModule.GetScene().Update();
 		}
 
 		SetOptions();
-		Print( "Finished COMCharacterMenu::UpdateInterval" );
 	}
     
     override void OnShow()
@@ -483,12 +481,20 @@ class COMCharacterMenu extends UIScriptedMenu
 
         GetMission().GetHud().Show(false);
 
+		UpdateInterval();
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.UpdateInterval);
 
 		GetClientMission().SetCanPause( false );
 
 		Print( "Finished COMCharacterMenu::OnShow" );
 	}
+
+	/*
+	override bool CanCloseOnEscape()
+	{
+		return false;
+	}
+	*/
     
     override void OnHide()
 	{
