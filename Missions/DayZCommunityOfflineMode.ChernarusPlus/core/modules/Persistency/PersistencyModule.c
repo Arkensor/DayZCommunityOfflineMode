@@ -123,7 +123,7 @@ class PersistencyModule extends Module
 			}
 		}
 
-		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
+		// GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
 		m_Scene = new COMPersistencyScene;
 	}

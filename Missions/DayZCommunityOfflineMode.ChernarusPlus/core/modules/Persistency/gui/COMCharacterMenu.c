@@ -457,7 +457,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	{
 		Print( "COMCharacterMenu::OnShow" );
 
-		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
+		// GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
 		super.OnShow();
 
@@ -497,7 +497,7 @@ class COMCharacterMenu extends UIScriptedMenu
         
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
 
-		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
+		// GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
 		GetClientMission().SetCanPause( true );
 
