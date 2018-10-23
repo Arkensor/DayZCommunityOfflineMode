@@ -18,6 +18,7 @@ class ObjectEditor extends Module
 
 	void ObjectEditor()
 	{
+		MakeDirectory(BASE_COM_DIR);
 		MakeDirectory(BASE_SCENE_DIR);
 
 		sceneManager = new SceneManager();

@@ -151,6 +151,26 @@ class CommunityOfflineClient : MissionGameplay
 		super.OnKeyPress(key);
 
 		GetModuleManager().OnKeyPress( key );
+		
+		if ( key == KeyCode.KC_PERIOD )
+		{
+			//open gestures menu
+			if ( !GetUIManager().IsMenuOpen( MENU_GESTURES ) )
+			{
+				//TODO reconnect when appropriate
+				GesturesMenu.OpenMenu();
+			}
+		}
+		
+		if ( key == KeyCode.KC_N )
+		{
+			PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+			if (player && player.GetItemInHands() && !GetUIManager().GetMenu())
+			{
+				ActionManagerClient manager = ActionManagerClient.Cast(player.GetActionManager());
+				manager.ActionDropItemStart(player.GetItemInHands(),null);
+			}
+		}
 	}
 
 	override void OnKeyRelease( int key )
@@ -158,6 +178,16 @@ class CommunityOfflineClient : MissionGameplay
 		super.OnKeyRelease( key );
 
 		GetModuleManager().OnKeyRelease( key );
+		
+		if ( key == KeyCode.KC_PERIOD )
+		{
+			//close gestures menu
+			if ( GetUIManager().IsMenuOpen( MENU_GESTURES ) )
+			{
+				//TODO reconnect when appropriate
+				GesturesMenu.CloseMenu();
+			}
+		}
 	}
 
     void SpawnPlayer()

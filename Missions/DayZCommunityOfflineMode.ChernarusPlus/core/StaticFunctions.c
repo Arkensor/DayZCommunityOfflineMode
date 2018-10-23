@@ -1,8 +1,8 @@
-static string GetRandomChildFromBaseClass( string strConfigName, string strBaseClass )
+static TStringArray GetChildrenFromBaseClass( string strConfigName, string strBaseClass )
 {
     string child_name = "";
     int count = GetGame().ConfigGetChildrenCount ( strConfigName );
-    array<string> class_names = new array<string>;
+    TStringArray class_names = new TStringArray;
 
     for (int p = 0; p < count; p++)
     {
@@ -14,7 +14,7 @@ static string GetRandomChildFromBaseClass( string strConfigName, string strBaseC
         }
     }
 
-    return class_names.GetRandomElement();
+    return class_names;
 }
 
 static TVectorArray GetSpawnPoints()
