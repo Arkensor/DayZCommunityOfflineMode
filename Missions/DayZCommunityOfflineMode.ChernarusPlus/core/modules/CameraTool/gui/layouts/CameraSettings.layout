@@ -1171,20 +1171,20 @@ PanelWidgetClass CameraMenu
 									}
 								}
 
-								TextWidgetClass camera_speed_text
+								TextWidgetClass camera_fov_speed_text
 								{
 									position 0.5 0.125
 									size 1 20
 									valign top_ref
 									halign left_ref
 									vexactsize 1
-									text "Cam Speed:"
+									text "FOV Smooth:"
 									font "gui/fonts/MetronBook16"
 									"text halign" left
 									"exact text" 1
 									"exact text size" 14
 								}
-								ButtonWidgetClass camera_speed_btn_inc
+								ButtonWidgetClass camera_fov_speed_btn_inc
 								{
 									position 0.825 0.1
 									size 25 25
@@ -1193,7 +1193,7 @@ PanelWidgetClass CameraMenu
 									hexactsize 1
 									style Default
 									{
-										TextWidgetClass camera_speed_btn_inc_txt
+										TextWidgetClass camera_fov_speed_btn_inc_txt
 										{
 											ignorepointer 1
 											position 0 0
@@ -1216,7 +1216,7 @@ PanelWidgetClass CameraMenu
 									}
 								}
 
-								ButtonWidgetClass camera_speed_btn_dec
+								ButtonWidgetClass camera_fov_speed_btn_dec
 								{
 									position  0.75 0.1
 									size 25 25
@@ -1225,7 +1225,7 @@ PanelWidgetClass CameraMenu
 									hexactsize 1
 									style Default
 									{
-										TextWidgetClass camera_speed_btn_dec_txt
+										TextWidgetClass camera_fov_speed_btn_dec_txt
 										{
 											ignorepointer 1
 											position 0 0

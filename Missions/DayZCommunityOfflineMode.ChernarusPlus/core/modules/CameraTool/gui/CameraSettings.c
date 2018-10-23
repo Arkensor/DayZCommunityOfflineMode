@@ -144,15 +144,15 @@ class CameraSettings extends PopupMenu
 			CAMERA_PHI.Show( !CAMERA_PHI.IsVisible() );
 		}
 
-		if ( w.GetName() == "camera_speed_btn_inc" ) 
+		if ( w.GetName() == "camera_fov_speed_btn_inc" ) 
 		{
-			CameraTool.CAMERA_SPEED += 0.5;
+			CameraTool.CAMERA_FOV_SPEED_MODIFIER += 1;
 		}
 
-		if ( w.GetName() == "camera_speed_btn_dec" ) 
+		if ( w.GetName() == "camera_fov_speed_btn_dec" ) 
 		{
-			CameraTool.CAMERA_SPEED -= 0.5;
-			if ( CameraTool.CAMERA_SPEED < 0 ) CameraTool.CAMERA_SPEED = 0;
+			CameraTool.CAMERA_FOV_SPEED_MODIFIER -= 1;
+			if ( CameraTool.CAMERA_FOV_SPEED_MODIFIER < 0 ) CameraTool.CAMERA_FOV_SPEED_MODIFIER = 0;
 		}
 
 		if ( w.GetName() == "camera_smooth_btn_inc" )
@@ -437,8 +437,8 @@ class CameraSettings extends PopupMenu
 
 		// fk me ok im lazy. cbf doing this for all the sliders.
 
-		TextWidget speedTxt = layoutRoot.FindAnyWidget( "camera_speed_text" );
-		speedTxt.SetText("Cam Speed: " + CameraTool.CAMERA_SPEED );
+		TextWidget speedTxt = layoutRoot.FindAnyWidget( "camera_fov_speed_text" );
+		speedTxt.SetText("FOV Smooth: " + CameraTool.CAMERA_FOV_SPEED_MODIFIER );
 
 		TextWidget smoothTxt = layoutRoot.FindAnyWidget( "camera_smooth_text" );
 		smoothTxt.SetText("Cam Smooth: " + CameraTool.CAMERA_SMOOTH );

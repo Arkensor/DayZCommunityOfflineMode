@@ -29,11 +29,11 @@ class CameraTool extends Module
 	
 	static float CAMERA_FOV = 1.0;
 	static float CAMERA_TARGETFOV = 1.0;
-	static float CAMERA_FOV_SPEED_MODIFIER = 3.0;
+	static float CAMERA_FOV_SPEED_MODIFIER = 5.0;
 	static float CAMERA_SPEED = 5.0;
 	static float CAMERA_VELDRAG = 0.9; // 0.9 - 1.0 0.9 == no smoothing
 	static float CAMERA_MSENS = 0.8; // acceleration
-	static float CAMERA_SMOOTH = 0.6; // drag
+	static float CAMERA_SMOOTH = 0.8; // drag
 
 	static bool  CAMERA_DOF = false;
 	static bool  CAMERA_AFOCUS = true;
@@ -474,7 +474,7 @@ class CameraTool extends Module
 			}
 			int i = GetMouseState( MouseState.WHEEL );
 
-			if ( CTRL() ) 
+			if ( ALT() ) 
 			{
 				vector ori = m_oCamera.GetOrientation();
 				ori[2] = ori[2] - i*5;
