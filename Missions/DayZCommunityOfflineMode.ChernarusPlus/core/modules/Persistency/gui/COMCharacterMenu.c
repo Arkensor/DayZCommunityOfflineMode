@@ -52,15 +52,15 @@ class COMCharacterMenu extends UIScriptedMenu
 		PersistencyPrint("COMCharacterMenu::COMCharacterMenu");
 		m_oPersistencyModule = oPersistencyModule;
 
-		m_Characters = new TStringArray;
-		m_Saves = new TStringArray;
+		m_Characters = new ref TStringArray;
+		m_Saves = new ref TStringArray;
 
-		m_CharGenderList = new TStringArray;
-		m_CharPersonalityMaleList = new TStringArray;
-		m_CharPersonalityFemaleList = new TStringArray;
-		m_CharShirtList = new TStringArray;
-		m_CharPantsList = new TStringArray;
-		m_CharShoesList = new TStringArray;
+		m_CharGenderList = new ref TStringArray;
+		m_CharPersonalityMaleList = new ref TStringArray;
+		m_CharPersonalityFemaleList = new ref TStringArray;
+		m_CharShirtList = new ref TStringArray;
+		m_CharPantsList = new ref TStringArray;
+		m_CharShoesList = new ref TStringArray;
 
 		m_Saves.Insert("N/A");
 
@@ -84,6 +84,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		delete m_Saves;
 		delete m_Characters;
+
 		delete m_SaveSelector;
 		delete m_GenderSelector;
 		delete m_SkinSelector;
@@ -317,7 +318,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		if ( GetPlayer() && !GetGame().IsMultiplayer() )
 		{
-			GetPlayer().Delete();
+			// GetPlayer().Delete();
 		}
 
 		if ( m_IsLoadingSave )
@@ -536,8 +537,6 @@ class COMCharacterMenu extends UIScriptedMenu
         GetGame().GetInput().ResetGameFocus( INPUT_DEVICE_MOUSE );
         
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
-
-		// GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
 		GetClientMission().SetCanPause( true );
 
@@ -926,5 +925,10 @@ class COMCharacterMenu extends UIScriptedMenu
 		}
 
 		m_oPersistencyModule.GetScene().SetAttachment( m_ShoesSelector.GetStringValue(), InventorySlots.FEET );
+	}
+
+	override int GetID()
+	{
+		return MENU_MAIN;
 	}
 }

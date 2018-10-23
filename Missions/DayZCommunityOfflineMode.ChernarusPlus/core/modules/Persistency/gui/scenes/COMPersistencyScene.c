@@ -9,18 +9,6 @@ class COMPersistencyScene: Managed
 	int 										m_LastShavedSeconds;
 	int											m_currentCharacterID;
 	
-	ref TStringArray 							m_CharAllCharacters;
-	ref TStringArray 							m_CharGenderList;
-	ref TStringArray 							m_CharPersonalityMaleList;
-	ref TStringArray 							m_CharPersonalityFemaleList;
-	string										m_CharacterType;
-	ref TStringArray							m_CharShirtList;
-	int 										m_CharShirtIndex;
-	ref TStringArray 							m_CharPantsList;
-	int 										m_CharPantsIndex;
-	ref TStringArray 							m_CharShoesList;
-	int 										m_CharShoesIndex;
-	
 	protected ref EntityAnimEndEventHandler 	m_anim_end_event_handler;
 
 	protected CameraTool 						m_CameraTool;

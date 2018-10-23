@@ -148,7 +148,9 @@ class ModuleManager
         RegisterModule( new ref COMKeyBinds );
         #endif
         #ifdef MODULE_PERSISTENCY
+        #ifndef DISABLE_PERSISTENCY
         RegisterModule( new ref PersistencyModule );
+        #endif
         #endif
         #ifdef MODULE_DEBUG_MONITOR
         //RegisterModule( new ref CustomDebugMonitor );

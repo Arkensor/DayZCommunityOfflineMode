@@ -82,15 +82,18 @@ class CommunityOfflineClient : MissionGameplay
 
 	override void Pause()
 	{
-		if ( IsPaused() || !CanPause() )
+		if ( IsPaused() )
 		{
 			return;
 		} 
-		
-		CloseAllMenus();
-		
-		// open ingame menu
-		GetUIManager().EnterScriptedMenu(MENU_INGAME, NULL);
+
+		if ( CanPause() )
+		{
+			CloseAllMenus();
+			
+			// open ingame menu
+			GetUIManager().EnterScriptedMenu(MENU_INGAME, NULL);
+		}
 	}
 
 	#ifdef MODULE_UIEXTENDER
@@ -193,6 +196,10 @@ class CommunityOfflineClient : MissionGameplay
     void SpawnPlayer()
     {
 		#ifndef MODULE_PERSISTENCY
+		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
+		#endif
+
+		#ifdef DISABLE_PERSISTENCY
 		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
 		#endif
     }

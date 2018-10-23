@@ -102,9 +102,11 @@ class PersistencyModule extends Module
 	{
 		PersistencyPrint("PersistencyModule::CleanupCharacterMenu");
 
-		if ( m_CharacterMenu && m_CharacterMenu.IsVisible() )
+		if ( m_CharacterMenu )
 		{
-			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
+			m_CharacterMenu.Close();
+
+			delete m_CharacterMenu;
 		}
 	}
 	

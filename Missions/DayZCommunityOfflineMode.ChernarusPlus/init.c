@@ -1,3 +1,5 @@
+#define DISABLE_PERSISTENCY
+
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\BaseModuleInclude.c"
   
 Mission CreateCustomMission(string path)

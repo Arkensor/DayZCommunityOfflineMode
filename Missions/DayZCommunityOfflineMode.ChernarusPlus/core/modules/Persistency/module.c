@@ -19,9 +19,12 @@ string BASE_PLAYER_SAVE_DIR = BASE_COM_DIR + "\\PlayerSaves";
     Include of all .c files that belong to this module
 */
 
-void PersistencyPrint( string text )
+void PersistencyPrint( string var )
 {
-    Print( text );
+    if ( true )
+    {
+        Print( var );
+    }
 }
 
 #ifdef COM_MODULES_OLDLOADING
