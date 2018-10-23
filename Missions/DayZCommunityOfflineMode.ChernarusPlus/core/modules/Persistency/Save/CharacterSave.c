@@ -29,7 +29,8 @@ class CharacterSave
         oData.FHealth = oPlayer.GetHealth("","");
         oData.FBlood = oPlayer.GetHealth("GlobalHealth", "Blood");
         oData.IBloodStatType = oPlayer.GetStatBloodType().Get();
-        oData.FTemperature = oPlayer.GetStatTemperature().Get();
+        //oData.FTemperature = oPlayer.GetStatTemperature().Get();
+        //oData.FShock = oPlayer.GetStatShock().Get();
         oData.FEnergy = oPlayer.GetStatEnergy().Get();
         oData.FWater = oPlayer.GetStatWater().Get();
         oData.FStomachWater = oPlayer.GetStatStomachWater().Get();
@@ -81,7 +82,8 @@ class CharacterSave
         oData.FHealth = oPlayer.GetHealth("","");
         oData.FBlood = oPlayer.GetHealth("GlobalHealth", "Blood");
         oData.IBloodStatType = oPlayer.GetStatBloodType().Get();
-        oData.FTemperature = oPlayer.GetStatTemperature().Get();
+        //oData.FTemperature = oPlayer.GetStatTemperature().Get();
+        //oData.FShock = oPlayer.GetStatShock().Get();
         oData.FEnergy = oPlayer.GetStatEnergy().Get();
         oData.FWater = oPlayer.GetStatWater().Get();
         oData.FStomachWater = oPlayer.GetStatStomachWater().Get();

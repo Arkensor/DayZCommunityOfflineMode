@@ -81,7 +81,7 @@ class ItemLoad
                     Weapon_Base oWpn = Weapon_Base.Cast( oParent );
 
                     oWpn.AttachMagazine( oWpn.GetCurrentMuzzle(), oMagazine );
-                    oWpn.NetSyncCurrentStateID( 3 );
+                    // oWpn.NetSyncCurrentStateID( 3 );
                 }
             }
         }

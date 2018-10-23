@@ -29,7 +29,8 @@ class CharacterLoad
 		oPlayer.SetHealth("","", oData.FHealth );
 		oPlayer.SetHealth("GlobalHealth", "Blood", oData.FBlood );
 		oPlayer.GetStatBloodType().Set( oData.IBloodStatType );
-		oPlayer.GetStatTemperature().Set( oData.FTemperature );
+		//oPlayer.GetStatTemperature().Set( oData.FTemperature );
+		//oPlayer.GetStatShock().Set( oData.FShock );
 		oPlayer.GetStatEnergy().Set( oData.FEnergy );
 		oPlayer.GetStatWater().Set( oData.FWater );
 		oPlayer.GetStatStomachWater().Set( oData.FStomachWater );

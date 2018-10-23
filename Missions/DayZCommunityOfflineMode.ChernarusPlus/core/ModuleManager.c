@@ -10,7 +10,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComKeyBinds\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComMenu\\module.c"
-//#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\module.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\module.c"
 //#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\DebugMonitor\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\module.c"
 #endif
@@ -148,7 +148,7 @@ class ModuleManager
         RegisterModule( new ref COMKeyBinds );
         #endif
         #ifdef MODULE_PERSISTENCY
-        //RegisterModule( new ref PersistencyModule );
+        RegisterModule( new ref PersistencyModule );
         #endif
         #ifdef MODULE_DEBUG_MONITOR
         //RegisterModule( new ref CustomDebugMonitor );

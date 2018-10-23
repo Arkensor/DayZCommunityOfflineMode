@@ -10,19 +10,18 @@ class COMPersistencyScene: Managed
 	int											m_currentCharacterID;
 	
 	ref TStringArray 							m_CharAllCharacters;
-	ref TStringAdvanceArray 					m_CharGenderList;
-	ref TStringAdvanceArray 					m_CharPersonalityMaleList;
-	ref TStringAdvanceArray 					m_CharPersonalityFemaleList;
+	ref TStringArray 							m_CharGenderList;
+	ref TStringArray 							m_CharPersonalityMaleList;
+	ref TStringArray 							m_CharPersonalityFemaleList;
 	string										m_CharacterType;
-	ref TStringAdvanceArray						m_CharShirtList;
+	ref TStringArray							m_CharShirtList;
 	int 										m_CharShirtIndex;
-	ref TStringAdvanceArray 					m_CharPantsList;
+	ref TStringArray 							m_CharPantsList;
 	int 										m_CharPantsIndex;
-	ref TStringAdvanceArray 					m_CharShoesList;
+	ref TStringArray 							m_CharShoesList;
 	int 										m_CharShoesIndex;
 	
 	protected ref EntityAnimEndEventHandler 	m_anim_end_event_handler;
-	protected ref PlayerNameHandler 			m_PlayerNameHandler;
 
 	protected CameraTool 						m_CameraTool;
 	protected PlayerBase 						m_DemoUnit;

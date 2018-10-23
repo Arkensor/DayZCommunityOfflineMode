@@ -14,6 +14,7 @@ class CharacterData
     float FTemperature;
     float FEnergy;
     float FWater;
+    float FShock;
 
     float FStomachWater;
     float FStomachEnergy;

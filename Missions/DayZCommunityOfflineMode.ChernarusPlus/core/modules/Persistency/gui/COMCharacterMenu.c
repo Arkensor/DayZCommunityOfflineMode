@@ -1,20 +1,21 @@
 class COMCharacterMenu extends UIScriptedMenu
 {
-	ref TStringAdvanceArray 					m_CharGenderList;
-	ref TStringAdvanceArray 					m_CharPersonalityMaleList;
-	ref TStringAdvanceArray 					m_CharPersonalityFemaleList;
-	ref TStringAdvanceArray						m_CharShirtList;
-	ref TStringAdvanceArray 					m_CharPantsList;
-	ref TStringAdvanceArray 					m_CharShoesList;
+	ref TStringArray						m_CharGenderList;
+	ref TStringArray						m_CharPersonalityMaleList;
+	ref TStringArray						m_CharPersonalityFemaleList;
+	ref TStringArray						m_CharShirtList;
+	ref TStringArray 						m_CharPantsList;
+	ref TStringArray 						m_CharShoesList;
 	
-	ref TStringAdvanceArray 					m_Characters;
-	ref TStringAdvanceArray 					m_Saves;
+	ref TStringArray 						m_Characters;
+	ref TStringArray 						m_Saves;
 
-	CharGender 									m_CharGender;
-	int											m_CharTypeIndex;
-	int 										m_CharShirtIndex;
-	int 										m_CharPantsIndex;
-	int 										m_CharShoesIndex;
+	CharGender 								m_CharGender;
+
+	int										m_CharTypeIndex;
+	int 									m_CharShirtIndex;
+	int 									m_CharPantsIndex;
+	int 									m_CharShoesIndex;
 
 	protected ref PersistencyModule 		m_oPersistencyModule;
 
@@ -50,15 +51,15 @@ class COMCharacterMenu extends UIScriptedMenu
 	{
 		m_oPersistencyModule = oPersistencyModule;
 
-		m_Characters = new TStringAdvanceArray;
-		m_Saves = new TStringAdvanceArray;
+		m_Characters = new TStringArray;
+		m_Saves = new TStringArray;
 
-		m_CharGenderList = new TStringAdvanceArray;
-		m_CharPersonalityMaleList = new TStringAdvanceArray;
-		m_CharPersonalityFemaleList = new TStringAdvanceArray;
-		m_CharShirtList = new TStringAdvanceArray;
-		m_CharPantsList = new TStringAdvanceArray;
-		m_CharShoesList = new TStringAdvanceArray;
+		m_CharGenderList = new TStringArray;
+		m_CharPersonalityMaleList = new TStringArray;
+		m_CharPersonalityFemaleList = new TStringArray;
+		m_CharShirtList = new TStringArray;
+		m_CharPantsList = new TStringArray;
+		m_CharShoesList = new TStringArray;
 
 		m_Saves.Insert("latest");
 
@@ -200,7 +201,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		m_GenderSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_gender_setting_option" ), 0, null, false, m_CharGenderList );
 		m_GenderSelector.SetValue( m_CharGender );
 
-		ref TStringAdvanceArray typeList = NULL;
+		ref TStringArray typeList = NULL;
 		if ( m_CharGender == CharGender.FEMALE )
 		{
 			typeList = m_CharPersonalityFemaleList;
