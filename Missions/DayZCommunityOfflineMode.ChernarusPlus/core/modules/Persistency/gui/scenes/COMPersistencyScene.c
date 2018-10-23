@@ -44,11 +44,13 @@ class COMPersistencyScene: Managed
 
 	void COMPersistencyScene()
 	{		
+		PersistencyPrint("COMPersistencyScene::COMPersistencyScene");
 		SetClickEnable( true );
 	}
 
 	void ~COMPersistencyScene()
 	{
+		PersistencyPrint("COMPersistencyScene::~COMPersistencyScene");
 		if ( m_DemoUnit )
 		{
 			GetGame().ObjectDelete(m_DemoUnit);
@@ -67,6 +69,7 @@ class COMPersistencyScene: Managed
 
 	void SetupScene()
 	{
+		PersistencyPrint("COMPersistencyScene::SetupScene");
 		m_currentCharacterID = -1;
 		m_DemoPos = "0 0 0";
 		m_DemoRot = "0 0 0";
@@ -93,6 +96,7 @@ class COMPersistencyScene: Managed
 
 	void SetupCamera( string root_path, string scene_path )
 	{
+		PersistencyPrint("COMPersistencyScene::SetupCamera");
 		float fov = GetGame().ConfigGetFloat(scene_path + " fov");
 		
 		m_Target = SwapYZ(g_Game.ConfigGetVector(scene_path + " target"));
@@ -103,7 +107,7 @@ class COMPersistencyScene: Managed
 		m_CameraTool = CameraTool.Cast( possibleModule );
 
 		if ( !m_CameraTool ) {
-			Print( "WTF, the camera doesn't exist shitbag! You dun fucked up in here." );
+			PersistencyPrint( "WTF, the camera doesn't exist shitbag! You dun fucked up in here." );
 		}
 
 		m_CameraTool.EnableCamera( true );
@@ -145,6 +149,7 @@ class COMPersistencyScene: Managed
 
 	void SetupWorld( string root_path, string scene_path )
 	{
+		PersistencyPrint("COMPersistencyScene::SetupWorld");
 		TIntArray date = new TIntArray;
 		GetGame().ConfigGetIntArray(scene_path + " date", date);
 
@@ -158,6 +163,7 @@ class COMPersistencyScene: Managed
 
 	void SetupWeather( string root_path, string scene_path )
 	{
+		PersistencyPrint("COMPersistencyScene::SetupWeather");
 		float overcast = GetGame().ConfigGetFloat(scene_path + " overcast");
 		float rain = GetGame().ConfigGetFloat(scene_path + " rain");
 		float fog = GetGame().ConfigGetFloat(scene_path + " fog");
@@ -193,16 +199,19 @@ class COMPersistencyScene: Managed
 	
 	void SetClickEnable( bool enable )
 	{
+		PersistencyPrint("COMPersistencyScene::SetClickEnable");
 		m_EnableClick = enable;
 	}
 	
 	bool IsClickEnabled()
 	{
+		PersistencyPrint("COMPersistencyScene::IsClickEnabled");
 		return m_EnableClick;
 	}
 	
 	void ResetIntroCamera()
 	{
+		PersistencyPrint("COMPersistencyScene::ResetIntroCamera");
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater( this.ResetPosition, 250 );
 
 		if ( m_DemoUnit )
@@ -214,6 +223,7 @@ class COMPersistencyScene: Managed
 	
 	void SetAttachment(string type, int slot)
 	{
+		PersistencyPrint("COMPersistencyScene::SetAttachment");
 		if (!m_DemoUnit) return;
 
 		g_Game.ObjectDelete(m_DemoUnit.GetInventory().FindAttachment(slot));
@@ -227,6 +237,7 @@ class COMPersistencyScene: Managed
 
 	void LoadFromSave(string character, string save)
 	{
+		PersistencyPrint("COMPersistencyScene::LoadFromSave");
 		if ( m_DemoUnit )
 		{
 			GetGame().ObjectDelete(m_DemoUnit);
@@ -247,6 +258,7 @@ class COMPersistencyScene: Managed
 	
 	void SetCharacter(string type)
 	{
+		PersistencyPrint("COMPersistencyScene::SetCharacter");
 		if ( m_DemoUnit )
 		{
 			GetGame().ObjectDelete(m_DemoUnit);
@@ -278,6 +290,7 @@ class COMPersistencyScene: Managed
 	
 	void ResetPosition()
 	{
+		PersistencyPrint("COMPersistencyScene::ResetPosition");
 		if (m_DemoUnit)
 		{
 			m_DemoUnit.SetPosition(m_DemoPos);
@@ -286,12 +299,15 @@ class COMPersistencyScene: Managed
 		SetClickEnable( true );
 	}
 
-	bool IsRotatingCharacter() {
+	bool IsRotatingCharacter()
+	{
+		PersistencyPrint("COMPersistencyScene::IsRotatingCharacter");
 		return m_RotatingCharacter;
 	}
 	
 	void CharacterRotationStart()
 	{
+		PersistencyPrint("COMPersistencyScene::CharacterRotationStart");
 		m_RotatingCharacter = true;
 		g_Game.GetMousePos(m_RotatingCharacterMouseX, m_RotatingCharacterMouseY);
 		if (m_DemoUnit) 
@@ -302,6 +318,7 @@ class COMPersistencyScene: Managed
 	
 	void CharacterRotationStop()
 	{
+		PersistencyPrint("COMPersistencyScene::CharacterRotationStop");
 		if (m_RotatingCharacter)
 		{
 			m_RotatingCharacter = false;
@@ -310,6 +327,7 @@ class COMPersistencyScene: Managed
 	
 	void CharacterRotate()
 	{
+		PersistencyPrint("COMPersistencyScene::CharacterRotate");
 		int actual_mouse_x;
 		int actual_mouse_y;
 		float coef;
@@ -342,6 +360,7 @@ class COMPersistencyScene: Managed
 	
 	vector SwapYZ(vector vec)
 	{
+		PersistencyPrint("COMPersistencyScene::SwapYZ");
 		vector tmp;
 		tmp[0] = vec[0];
 		tmp[1] = vec[2];
@@ -352,6 +371,8 @@ class COMPersistencyScene: Managed
 	
 	vector SnapToGround(vector pos)
 	{
+		PersistencyPrint("COMPersistencyScene::SnapToGround");
+		
 		float pos_x = pos[0];
 		float pos_z = pos[2];
 		float pos_y = GetGame().SurfaceY(pos_x, pos_z);
@@ -363,6 +384,7 @@ class COMPersistencyScene: Managed
 	
 	PlayerBase GetPlayerUnit()
 	{
+		PersistencyPrint("COMPersistencyScene::GetPlayerUnit");
 		return m_DemoUnit;
 	}
 };

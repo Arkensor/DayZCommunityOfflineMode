@@ -49,6 +49,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
     void COMCharacterMenu( ref PersistencyModule oPersistencyModule, bool isLoadSave = true )
 	{
+		PersistencyPrint("COMCharacterMenu::COMCharacterMenu");
 		m_oPersistencyModule = oPersistencyModule;
 
 		m_Characters = new TStringArray;
@@ -61,7 +62,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		m_CharPantsList = new TStringArray;
 		m_CharShoesList = new TStringArray;
 
-		m_Saves.Insert("latest");
+		m_Saves.Insert("N/A");
 
 		InitCharacterCreationData();
 
@@ -71,6 +72,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
     void ~COMCharacterMenu()
     {
+		PersistencyPrint("COMCharacterMenu::~COMCharacterMenu");
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove( this.UpdateInterval );
 
 		delete m_CharGenderList;
@@ -94,6 +96,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	CharGender GenerateRandomGender()
 	{
+		PersistencyPrint("COMCharacterMenu::GenerateRandomGender");
 		int chance = Math.RandomInt(0, 2);
 		if (chance == 0)
 		{
@@ -106,6 +109,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void GenerateRandomCharacterType()
 	{
+		PersistencyPrint("COMCharacterMenu::GenerateRandomCharacterType");
 		if (m_CharGender == CharGender.FEMALE)
 		{
 			m_CharTypeIndex = m_CharPersonalityFemaleList.GetRandomIndex();
@@ -116,6 +120,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	string CharacterTypeIndexToString()
 	{
+		PersistencyPrint("COMCharacterMenu::CharacterTypeIndexToString");
 		if (m_CharGender == CharGender.FEMALE)
 		{
 			return m_CharPersonalityFemaleList.Get( m_CharTypeIndex );
@@ -126,6 +131,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void GenerateRandomCharacter()
 	{		
+		PersistencyPrint("COMCharacterMenu::GenerateRandomCharacter");
 		if ( !m_oPersistencyModule.GetScene() )
 		{
 			return;
@@ -146,6 +152,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	// Need to read from a list later on. 
 	void InitCharacterCreationData()
 	{
+		PersistencyPrint("COMCharacterMenu::InitCharacterCreationData");
 		string character_CfgName;
 		string root_path = "cfgCharacterCreation";
 		
@@ -171,6 +178,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	override Widget Init()
 	{
+		PersistencyPrint("COMCharacterMenu::Init");
 		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\COMCharacterMenu.layout" );
 
 		m_CharacterRotationFrame = layoutRoot.FindAnyWidget( "character_rotation_frame" );
@@ -230,11 +238,13 @@ class COMCharacterMenu extends UIScriptedMenu
 
     bool IsLoadingSave()
     {
+		PersistencyPrint("COMCharacterMenu::IsLoadingSave");
         return m_IsLoadingSave;
     }
 
 	void SetOptions()
 	{
+		PersistencyPrint("COMCharacterMenu::SetOptions");
 		if (m_IsLoadingSave)
 		{	
 			m_ActionTitle.SetText( "SELECT SAVE" );
@@ -303,6 +313,13 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void Apply()
 	{
+		PersistencyPrint("COMCharacterMenu::Apply");
+
+		if ( GetPlayer() && !GetGame().IsMultiplayer() )
+		{
+			GetPlayer().Delete();
+		}
+
 		if ( m_IsLoadingSave )
 		{
 			LoadSave();
@@ -314,6 +331,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void LoadSave()
 	{
+		PersistencyPrint("COMCharacterMenu::LoadSave");
 		string character = GetCharacter();
 		string save = GetSave();
 
@@ -332,6 +350,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void CreateCharacter()
 	{
+		PersistencyPrint("COMCharacterMenu::CreateCharacter");
 		if ( !m_oPersistencyModule.GetScene() )
 		{
 			return;
@@ -362,6 +381,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void NewCharacter()
 	{
+		PersistencyPrint("COMCharacterMenu::NewCharacter");
 		m_IsLoadingSave = !m_IsLoadingSave;
 		
 		SetCharacter(m_Character);
@@ -369,6 +389,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void UpdateCreatorSelectionsFromScene()
 	{
+		PersistencyPrint("COMCharacterMenu::UpdateCreatorSelectionsFromScene");
 		if ( !m_oPersistencyModule.GetScene() )
 		{
 			return;
@@ -384,18 +405,21 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void PreviousCharacter()
 	{
+		PersistencyPrint("COMCharacterMenu::PreviousCharacter");
 		m_Character--;
 		SetCharacter(m_Character);
 	}
 
 	void NextCharacter()
 	{
+		PersistencyPrint("COMCharacterMenu::NextCharacter");
 		m_Character++;
 		SetCharacter(m_Character);
 	}
 
 	void SetCharacter( int index )
 	{
+		PersistencyPrint("COMCharacterMenu::SetCharacter");
 		if ( m_IsLoadingSave )
 		{
 			if ( index < 0 ) index = m_Characters.Count() - 1;
@@ -427,6 +451,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void SetSave()
 	{
+		PersistencyPrint("COMCharacterMenu::SetSave");
 		string character = GetCharacter();
 		string save = GetSave();
 
@@ -440,9 +465,26 @@ class COMCharacterMenu extends UIScriptedMenu
 			GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.GetScene().LoadFromSave, 100, false, character, save );
 		}
 	}
+
+	bool needsFileLoading = true;
     
     void UpdateInterval()
 	{
+		if ( needsFileLoading )
+		{
+			SetCharacterList();
+			SetSaveList();
+			
+			SetCharacter( 0 );
+
+			if ( m_oPersistencyModule.GetScene() )
+			{
+				m_oPersistencyModule.GetScene().SetupScene();
+			}
+
+			needsFileLoading = false;
+		}
+
 		if ( m_oPersistencyModule.GetScene() )
 		{
         	m_oPersistencyModule.GetScene().Update();
@@ -453,40 +495,31 @@ class COMCharacterMenu extends UIScriptedMenu
     
     override void OnShow()
 	{
-		Print( "COMCharacterMenu::OnShow" );
+		PersistencyPrint( "COMCharacterMenu::OnShow" );
 
 		// GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
 		super.OnShow();
 
-		if ( GetPlayer() )
+		if ( GetPlayer() && !GetGame().IsMultiplayer() )
 		{
-			GetPlayer().Delete();
-
 			GetGame().SelectPlayer( NULL, NULL );
 		}
 
 		g_Game.SetKeyboardHandle( this );
 
-		SetCharacterList();
-		SetSaveList();
-		
-		SetCharacter( 0 );
-
-		if ( m_oPersistencyModule.GetScene() )
-			m_oPersistencyModule.GetScene().SetupScene();
+		needsFileLoading = true;
 
         GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
         GetGame().GetUIManager().ShowUICursor( true );
 
         GetMission().GetHud().Show(false);
 
-		UpdateInterval();
-		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.UpdateInterval);
-
 		GetClientMission().SetCanPause( false );
 
-		Print( "Finished COMCharacterMenu::OnShow" );
+		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.UpdateInterval);
+
+		PersistencyPrint( "Finished COMCharacterMenu::OnShow" );
 	}
 
 	/*
@@ -498,6 +531,7 @@ class COMCharacterMenu extends UIScriptedMenu
     
     override void OnHide()
 	{
+		PersistencyPrint("COMCharacterMenu::OnHide");
         GetGame().GetUIManager().ShowUICursor( false );
         GetGame().GetInput().ResetGameFocus( INPUT_DEVICE_MOUSE );
         
@@ -512,14 +546,14 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void TemporaryFix_ReloadCharacterMenu()
 	{
-		Print( "COMCharacterMenu::TemporaryFix_ReloadCharacterMenu" );
+		PersistencyPrint( "COMCharacterMenu::TemporaryFix_ReloadCharacterMenu" );
 		GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).CallLater(m_oPersistencyModule.TemporaryFix_ReloadCharacterMenu, 100, false);
 
 		GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
         GetGame().GetUIManager().ShowUICursor( true );
 
         GetMission().GetHud().Show(false);
-		Print( "Finished COMCharacterMenu::TemporaryFix_ReloadCharacterMenu" );
+		PersistencyPrint( "Finished COMCharacterMenu::TemporaryFix_ReloadCharacterMenu" );
 	}
 
 /*
@@ -543,6 +577,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	override bool OnClick( Widget w, int x, int y, int button )
 	{
+		PersistencyPrint("COMCharacterMenu::OnClick");
 		if( w == m_Apply )
 		{
 			Apply();
@@ -573,6 +608,7 @@ class COMCharacterMenu extends UIScriptedMenu
     
     override bool OnMouseButtonDown( Widget w, int x, int y, int button )
 	{
+		PersistencyPrint("COMCharacterMenu::OnMouseButtonDown");
 		if ( w == m_CharacterRotationFrame )
 		{
 			if ( m_oPersistencyModule.GetScene() )
@@ -584,6 +620,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	override bool OnMouseButtonUp( Widget w, int x, int y, int button )
 	{
+		PersistencyPrint("COMCharacterMenu::OnMouseButtonUp");
 		if ( m_oPersistencyModule.GetScene() )
 			m_oPersistencyModule.GetScene().CharacterRotationStop();
 		return false;
@@ -591,6 +628,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	override bool OnMouseEnter( Widget w, int x, int y )
 	{
+		PersistencyPrint("COMCharacterMenu::OnMouseEnter");
 		if( IsFocusable( w ) )
 		{
 			ColorRed( w );
@@ -601,6 +639,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	override bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
 	{
+		PersistencyPrint("COMCharacterMenu::OnMouseLeave");
 		if( IsFocusable( w ) )
 		{
 			ColorWhite( w, enterW );
@@ -611,6 +650,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	override bool OnFocus( Widget w, int x, int y )
 	{
+		PersistencyPrint("COMCharacterMenu::OnFocus");
 		if( IsFocusable( w ) )
 		{
 			ColorRed( w );
@@ -621,6 +661,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	override bool OnFocusLost( Widget w, int x, int y )
 	{
+		PersistencyPrint("COMCharacterMenu::OnFocusLost");
 		if( IsFocusable( w ) )
 		{
 			ColorWhite( w, null );
@@ -631,12 +672,14 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	bool IsFocusable( Widget w )
 	{
+		PersistencyPrint("COMCharacterMenu::IsFocusable");
 		return ( w == m_Apply || w == m_NewCharacter || w == m_Cancel || w == m_PrevCharacter || w == m_NextCharacter );
 	}
 
 	//Coloring functions (Until WidgetStyles are useful)
 	void ColorRed( Widget w )
 	{
+		PersistencyPrint("COMCharacterMenu::ColorRed");
 		SetFocus( w );
 
 		TextWidget text		= TextWidget.Cast(w.FindWidget( w.GetName() + "_text" ) );
@@ -661,6 +704,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	void ColorWhite( Widget w, Widget enterW )
 	{
+		PersistencyPrint("COMCharacterMenu::ColorWhite");
 		#ifdef PLATFORM_WINDOWS
 		SetFocus( null );
 		#endif
@@ -687,7 +731,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	bool IsValidSave( string name, FileAttr attributes )
     {
-        Print( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + name + " as a " + FileAttributeToString( attributes ) );
+        PersistencyPrint( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + GetCharacter() + "\\" + name + " as a " + FileAttributeToString( attributes ) );
 
 		string extenstion = ".json";
 		int strLength = name.Length();
@@ -698,14 +742,14 @@ class COMCharacterMenu extends UIScriptedMenu
 
         if ( name == "" ) return false;
 
-		Print( "Loaded" );
+		PersistencyPrint( "Loaded" );
 
         return true;
     }
 
 	bool IsValidCharacter( string name, FileAttr attributes )
     {
-        Print( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + name + " as a " + FileAttributeToString( attributes ) );
+        PersistencyPrint( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + name + " as a " + FileAttributeToString( attributes ) );
 
         if ( ! (attributes & FileAttr.DIRECTORY ) ) return false;
 
@@ -716,6 +760,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void SetSaveList()
 	{
+		PersistencyPrint("COMCharacterMenu::SetSaveList");
 		m_Saves.Clear();
 
 		if ( !IsValidCharacter( GetCharacter(), FileAttr.DIRECTORY ) || !m_CanLoadSave ) return;
@@ -733,7 +778,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 			while (FindNextFile(oFileHandle, sName, oFileAttr))
 			{
-				if (  IsValidSave( sName, oFileAttr ))
+				if ( IsValidSave( sName, oFileAttr ))
 				{
 					m_Saves.Insert(sName.Substring(0, sName.Length() - 5));
 				}
@@ -743,6 +788,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void SetCharacterList()
 	{
+		PersistencyPrint("COMCharacterMenu::SetCharacterList");
 		m_Characters.Clear();
 
 		string sName = "";
@@ -780,6 +826,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	string GetCharacter()
 	{
+		PersistencyPrint("COMCharacterMenu::GetCharacter");
 		if ( !m_Characters || m_Characters.Count() == 0 ) return "";
 
 		return m_Characters.Get( m_Character );
@@ -787,6 +834,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	string GetSave()
 	{
+		PersistencyPrint("COMCharacterMenu::GetSave");
 		if ( !m_Saves || m_Saves.Count() == 0 ) return "";
 
 		return m_Saves.Get( m_Save );
@@ -794,6 +842,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void SaveChanged()
 	{
+		PersistencyPrint("COMCharacterMenu::SaveChanged");
 		m_Save = m_SaveSelector.GetValue();
 
 		SetSave();
@@ -801,6 +850,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void SetGender( string gender )
 	{
+		PersistencyPrint("COMCharacterMenu::SetGender");
 		if ( m_oPersistencyModule.GetScene() )
 		{
 			switch ( gender )
@@ -824,11 +874,13 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	void GenderChanged()
 	{
+		PersistencyPrint("COMCharacterMenu::GenderChanged");
 		SetGender( m_GenderSelector.GetStringValue() );
 	}
 	
 	void SkinChanged()
 	{
+		PersistencyPrint("COMCharacterMenu::SkinChanged");
 		if ( !m_oPersistencyModule.GetScene() )
 		{
 			return;
@@ -845,6 +897,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	void TopChanged()
 	{		
+		PersistencyPrint("COMCharacterMenu::TopChanged");
 		if ( !m_oPersistencyModule.GetScene() )
 		{
 			return;
@@ -855,6 +908,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	void BottomChanged()
 	{		
+		PersistencyPrint("COMCharacterMenu::BottomChanged");
 		if ( !m_oPersistencyModule.GetScene() )
 		{
 			return;
@@ -865,6 +919,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	
 	void ShoesChanged()
 	{
+		PersistencyPrint("COMCharacterMenu::ShoesChanged");
 		if ( !m_oPersistencyModule.GetScene() )
 		{
 			return;

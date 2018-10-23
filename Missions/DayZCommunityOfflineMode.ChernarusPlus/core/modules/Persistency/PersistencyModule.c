@@ -15,7 +15,7 @@ class PersistencyModule extends Module
 
 	void PersistencyModule()
 	{
-		Print( "PersistencyModule::PersistencyModule" );
+		PersistencyPrint( "PersistencyModule::PersistencyModule" );
 
 		MakeDirectory( BASE_COM_DIR );
 		MakeDirectory( BASE_PLAYER_SAVE_DIR );
@@ -23,7 +23,7 @@ class PersistencyModule extends Module
 
 	void ~PersistencyModule()
 	{
-		Print( "PersistencyModule::~PersistencyModule" );
+		PersistencyPrint( "PersistencyModule::~PersistencyModule" );
 
 		CleanupCharacterSaving();
 		CleanupCharacterMenu();
@@ -32,11 +32,13 @@ class PersistencyModule extends Module
 
 	string GetLoadedCharacter()
 	{
+		PersistencyPrint("PersistencyModule::GetLoadedCharacter");
 		return m_sCharacter;
 	}
 
 	string GetLoadedSave()
 	{
+		PersistencyPrint("PersistencyModule::GetLoadedSave");
 		return m_sSave;
 	}
 	
@@ -58,7 +60,7 @@ class PersistencyModule extends Module
 
 	override void onMissionLoaded()
 	{
-		Print("PersistencyModule::onMissionLoaded");
+		PersistencyPrint("PersistencyModule::onMissionLoaded");
 
 		m_CanBeSaved = false;
 		m_CharacterIsLoaded = false;
@@ -76,17 +78,19 @@ class PersistencyModule extends Module
 
 	override void onMissionFinish()
 	{
+		PersistencyPrint("PersistencyModule::onMissionFinish");
 		SavePlayer( m_sSave );
 	}
 
 	ref COMPersistencyScene GetScene()
 	{
+		PersistencyPrint("PersistencyModule::GetScene");
 		return m_Scene;
 	}
 
 	void CleanupScene()
 	{
-		Print("PersistencyModule::CleanupScene");
+		PersistencyPrint("PersistencyModule::CleanupScene");
 
 		if ( m_Scene )
 		{
@@ -96,9 +100,9 @@ class PersistencyModule extends Module
 
 	void CleanupCharacterMenu()
 	{
-		Print("PersistencyModule::CleanupCharacterMenu");
+		PersistencyPrint("PersistencyModule::CleanupCharacterMenu");
 
-		if ( m_CharacterMenu )
+		if ( m_CharacterMenu && m_CharacterMenu.IsVisible() )
 		{
 			GetGame().GetUIManager().HideScriptedMenu( m_CharacterMenu );
 		}
@@ -106,7 +110,7 @@ class PersistencyModule extends Module
 	
 	private void SetupCharacterLoading()
 	{
-		Print("PersistencyModule::SetupCharacterLoading");
+		PersistencyPrint("PersistencyModule::SetupCharacterLoading");
 		
 		m_CharacterIsLoaded = false;
 		m_CanBeSaved = false;
@@ -128,7 +132,7 @@ class PersistencyModule extends Module
 
 	void OpenCharacterLoading()
 	{
-		Print("PersistencyModule::OpenCharacterLoading");
+		PersistencyPrint("PersistencyModule::OpenCharacterLoading");
 
 		CleanupCharacterSaving();
 
@@ -154,7 +158,7 @@ class PersistencyModule extends Module
 
 	void TemporaryFix_ReloadCharacterMenu()
 	{
-		Print("PersistencyModule::TemporaryFix_ReloadCharacterMenu");
+		PersistencyPrint("PersistencyModule::TemporaryFix_ReloadCharacterMenu");
 
 		bool isLoadingSave = true;
 
@@ -183,6 +187,7 @@ class PersistencyModule extends Module
 	#ifndef MODULE_UIEXTENDER
 	private bool CleanupCharacterSaving()
 	{
+		PersistencyPrint("PersistencyModule::CleanupCharacterSaving");
 		bool foundWidget = false;
 		
 		m_InGameMenu = GetGame().GetUIManager().FindMenu(MENU_INGAME);
@@ -213,6 +218,7 @@ class PersistencyModule extends Module
 
 	void OpenCharacterSaving()
 	{
+		PersistencyPrint("PersistencyModule::OpenCharacterSaving");
 		bool foundWidget = false;
 
 		m_InGameMenu = GetGame().GetUIManager().FindMenu(MENU_INGAME);
@@ -251,7 +257,7 @@ class PersistencyModule extends Module
 	#else
 	private bool CleanupCharacterSaving()
 	{
-		Print( "PersistencyModule::CleanupCharacterSaving" );
+		PersistencyPrint( "PersistencyModule::CleanupCharacterSaving" );
 		if (m_CharacterSave)
 		{			
 			GetGame().GetUIManager().HideScriptedMenu( m_CharacterSave );
@@ -265,7 +271,7 @@ class PersistencyModule extends Module
 
 	void OpenCharacterSaving()
 	{
-		Print( "PersistencyModule::OpenCharacterSaving" );
+		PersistencyPrint( "PersistencyModule::OpenCharacterSaving" );
 		m_InGameMenu = GetGame().GetUIManager().FindMenu(MENU_INGAME);
 
 		if ( m_CharacterSave ) 
@@ -282,7 +288,7 @@ class PersistencyModule extends Module
 	
 	void SavePlayer(string sSave) 
 	{
-		Print("PersistencyModule::SavePlayer");
+		PersistencyPrint("PersistencyModule::SavePlayer");
 
 		if ( m_CanBeSaved ) {
 			if ( sSave != "latest" )
@@ -295,7 +301,7 @@ class PersistencyModule extends Module
 
 	void CreatePlayer(string sCharacter, PlayerBase oPlayer)
 	{
-		Print("PersistencyModule::CreatePlayer");
+		PersistencyPrint("PersistencyModule::CreatePlayer");
 
 		CameraTool.CAMERA_SMOOTH_BLUR = 1.0;
 
@@ -313,7 +319,7 @@ class PersistencyModule extends Module
 
 	void LoadLast()
 	{
-		Print("PersistencyModule::LoadLast");
+		PersistencyPrint("PersistencyModule::LoadLast");
 
 		CameraTool.CAMERA_SMOOTH_BLUR = 1.0;
 
@@ -324,7 +330,7 @@ class PersistencyModule extends Module
 
 	void LoadPlayer(string sCharacter, string sSave = "latest")
 	{
-		Print("PersistencyModule::LoadPlayer");
+		PersistencyPrint("PersistencyModule::LoadPlayer");
 
 		CameraTool.CAMERA_SMOOTH_BLUR = 1.0;
 
@@ -338,7 +344,7 @@ class PersistencyModule extends Module
 
 	private void CreatePlayerInt()
 	{
-		Print("PersistencyModule::CreatePlayerInt");
+		PersistencyPrint("PersistencyModule::CreatePlayerInt");
 
 		PlayerBase oPlayer;
 
@@ -362,7 +368,7 @@ class PersistencyModule extends Module
 
 	private void FinishLoadingInt()
 	{
-		Print("PersistencyModule::FinishLoadingInt");
+		PersistencyPrint("PersistencyModule::FinishLoadingInt");
 		
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(this.RemoveEffects, 500, false);
 
@@ -385,6 +391,7 @@ class PersistencyModule extends Module
 
 	private void RemoveEffects()
 	{
+		PersistencyPrint("PersistencyModule::RemoveEffects");
 		CloseLoadingText();
 		
         GetMission().GetHud().Show(true);
@@ -396,6 +403,7 @@ class PersistencyModule extends Module
 
 	private void FixEscape()
 	{
+		PersistencyPrint("PersistencyModule::FixEscape");
 		GetClientMission().SetCanPause( true );
 	}
 }

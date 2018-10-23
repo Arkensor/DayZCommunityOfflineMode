@@ -19,6 +19,11 @@ string BASE_PLAYER_SAVE_DIR = BASE_COM_DIR + "\\PlayerSaves";
     Include of all .c files that belong to this module
 */
 
+void PersistencyPrint( string text )
+{
+    Print( text );
+}
+
 #ifdef COM_MODULES_OLDLOADING
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\PersistencyModule.c"
 
