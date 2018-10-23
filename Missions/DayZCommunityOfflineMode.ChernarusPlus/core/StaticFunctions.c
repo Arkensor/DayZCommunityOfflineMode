@@ -251,9 +251,9 @@ static Weapon_Base CreateWeapon( PlayerBase oPlayer )
 }
 */
 
-static Weapon_Base CreateWeapon( PlayerBase oPlayer )
+static Weapon_Base CreateWeapon( PlayerBase oPlayer, string sWeapon )
 {
-    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "UMP45" ));
+    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( sWeapon ));
     oWpn.GetInventory().CreateAttachment( "PistolSuppressor" );
     EntityAI optic = oWpn.GetInventory().CreateAttachment( "ReflexOptic" );
     optic.GetInventory().CreateAttachment("Battery9V");
@@ -273,23 +273,11 @@ static PlayerBase CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
 
-    EntityAI item = oPlayer.GetInventory().CreateInInventory( "Breeches_Beetcheck" );
-    item = oPlayer.GetInventory().CreateInInventory( "Shirt_GreenCheck" );
-    item = oPlayer.GetInventory().CreateInInventory( "Ballerinas_White" );
-    item = oPlayer.GetInventory().CreateInInventory( "LeatherBelt_Beige" );
-    item = oPlayer.GetInventory().CreateInInventory( "CowboyHat_Brown" );
-    item = oPlayer.GetInventory().CreateInInventory( "SmershBag" );
+    EntityAI item = oPlayer.GetInventory().CreateInInventory( "SmershBag" );
 
     item = oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
 
-    item = oPlayer.GetInventory().CreateInInventory( "CZ75" );
-    item = oPlayer.GetInventory().CreateInInventory( "Mag_CZ75_15Rnd" );
-    item = oPlayer.GetInventory().CreateInInventory( "Mag_CZ75_15Rnd" );
-    
-    item = oPlayer.GetInventory().CreateInInventory( "Flashlight" );
-    item = oPlayer.GetInventory().CreateInInventory( "Battery9V" );
-
-    Weapon_Base oWpn = CreateWeapon(oPlayer);
+    Weapon_Base oWpn = CreateWeapon(oPlayer, "UMP45");
     LoadMag(oPlayer, oWpn);
 
     oPlayer.LocalTakeEntityToHands( oWpn );
