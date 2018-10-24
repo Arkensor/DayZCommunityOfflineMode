@@ -9,7 +9,7 @@ class COMPersistencyScene: Managed
 	int 										m_LastShavedSeconds;
 	int											m_currentCharacterID;
 	
-	protected ref EntityAnimEndEventHandler 	m_anim_end_event_handler;
+//	protected ref EntityAnimEndEventHandler 	m_anim_end_event_handler;
 
 	protected CameraTool 						m_CameraTool;
 	protected PlayerBase 						m_DemoUnit;
@@ -262,7 +262,7 @@ class COMPersistencyScene: Managed
 			m_DemoUnit.SetPosition( SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )) );
 			m_DemoUnit.PlaceOnSurface();
 			m_DemoUnit.SetOrientation(m_DemoRot);
-			m_DemoUnit.SetEventHandler(m_anim_end_event_handler);
+//			m_DemoUnit.SetEventHandler(m_anim_end_event_handler);
 			m_DemoUnit.SetLastShavedSeconds(m_LastShavedSeconds);
 
 			string lvalue = "";
