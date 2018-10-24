@@ -165,15 +165,15 @@ class CommunityOfflineClient : MissionGameplay
 			}
 		}
 		
-		if ( key == KeyCode.KC_N )
-		{
-			PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
-			if (player && player.GetItemInHands() && !GetUIManager().GetMenu())
-			{
-				ActionManagerClient manager = ActionManagerClient.Cast(player.GetActionManager());
-				manager.ActionDropItemStart(player.GetItemInHands(),null);
-			}
-		}
+//		if ( key == KeyCode.KC_N )
+//		{
+//			PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+//			if (player && player.GetItemInHands() && !GetUIManager().GetMenu())
+//			{
+//				ActionManagerClient manager = ActionManagerClient.Cast(player.GetActionManager());
+//				manager.ActionDropItemStart(player.GetItemInHands(),null);
+//			}
+//		}
 	}
 
 	override void OnKeyRelease( int key )
