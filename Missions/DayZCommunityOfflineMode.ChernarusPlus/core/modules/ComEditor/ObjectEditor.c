@@ -89,14 +89,16 @@ class ObjectEditor extends Module
 
 	void ExportScene() 
 	{
-		string toCopy = "Object obj; \n";
+		string toCopy; // = "Object obj; \n";
 
 		foreach( Object m_object : m_Objects ) 
 		{
-			toCopy = toCopy + "obj = GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + m_object.GetPosition()[0].ToString() + " " + m_object.GetPosition()[1].ToString() + " " + m_object.GetPosition()[2].ToString() + "\");\nobj.SetOrientation(\"" + m_object.GetOrientation()[0].ToString() + " " + m_object.GetOrientation()[1].ToString() + " " + m_object.GetOrientation()[2].ToString() + "\");\n";
+			//toCopy = toCopy + "obj = GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + m_object.GetPosition()[0].ToString() + " " + m_object.GetPosition()[1].ToString() + " " + m_object.GetPosition()[2].ToString() + "\");\nobj.SetOrientation(\"" + m_object.GetOrientation()[0].ToString() + " " + m_object.GetOrientation()[1].ToString() + " " + m_object.GetOrientation()[2].ToString() + "\");\n";
+			toCopy = toCopy + "GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\").SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\n";
 		}
 
 		Message("Copied to clipboard");
+
 		GetGame().CopyToClipboard( toCopy );
 	}
 

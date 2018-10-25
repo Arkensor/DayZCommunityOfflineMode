@@ -1,3 +1,13 @@
+static string VectorToString( vector vec )
+{
+    string result = vec.ToString();
+    result.Replace( "<", "" );
+    result.Replace( ">", "" );
+    result.Replace( ",", "" );
+
+    return result;
+}
+
 static TStringArray GetChildrenFromBaseClass( string strConfigName, string strBaseClass )
 {
     string child_name = "";
