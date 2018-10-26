@@ -57,13 +57,13 @@ class ObjectEditor extends Module
 	**/
 	override void RegisterKeyMouseBindings() 
 	{
-		KeyMouseBinding toggleEditor  = new KeyMouseBinding( GetModuleType(), "ToggleEditor" , "[Shift]+[End]" , "Toggle object editor."     );
-		KeyMouseBinding objectSelect  = new KeyMouseBinding( GetModuleType(), "ClickObject"  , "(LMB)+(Click)" , "Selects object on cursor.", true );
-		KeyMouseBinding objectDrag    = new KeyMouseBinding( GetModuleType(), "DragObject"   , "(LMB)+(Drag)"  , "Drag objects on cursor.", true   );
-		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate.", true );
-		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object.", true  );
-		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground.", true  );
-		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "ExportScene"    , "CTRL+S"	       , "Saves current scene of objects", true);
+		KeyMouseBinding toggleEditor  = new KeyMouseBinding( GetModuleType(), "ToggleEditor" , "[Shift]+[End]" , "Toggle object editor."            );
+		KeyMouseBinding objectSelect  = new KeyMouseBinding( GetModuleType(), "ClickObject"  , "(LMB)+(Click)" , "Selects object on cursor.", true  );
+		KeyMouseBinding objectDrag    = new KeyMouseBinding( GetModuleType(), "DragObject"   , "(LMB)+(Drag)"  , "Drag objects on cursor.",   true  );
+		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object.",  true  );
+		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground.",  true  );
+		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "ExportScene"  , "CTRL+S"	       , "Saves current scene of objects", true);
+//		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate.", true );
 
 		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    ); 
 		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
@@ -74,32 +74,32 @@ class ObjectEditor extends Module
 
 		objectSelect.AddMouseBind( MouseState.LEFT		, KeyMouseBinding.MB_EVENT_CLICK ); // Left Click
 		objectDrag.  AddMouseBind( MouseState.LEFT 		, KeyMouseBinding.MB_EVENT_DRAG  );
-		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 							 ); // Doesn't matter what event for wheel
 		objectGround.AddMouseBind( MouseState.MIDDLE	, KeyMouseBinding.MB_EVENT_CLICK );
+//		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 							 );
 		
 		RegisterKeyMouseBinding( toggleEditor );
 		RegisterKeyMouseBinding( objectSelect );
 		RegisterKeyMouseBinding( objectDrag   );
-		RegisterKeyMouseBinding( objectScroll );
 		RegisterKeyMouseBinding( objectDelete );
 		RegisterKeyMouseBinding( objectGround );
 		RegisterKeyMouseBinding( sceneSave );
+//		RegisterKeyMouseBinding( objectScroll );
 		
 	}
 
 	void ExportScene() 
 	{
-		string toCopy; // = "Object obj; \n";
+		string toCopy = "Object obj; \n";
 
 		foreach( Object m_object : m_Objects ) 
 		{
-			//toCopy = toCopy + "obj = GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + m_object.GetPosition()[0].ToString() + " " + m_object.GetPosition()[1].ToString() + " " + m_object.GetPosition()[2].ToString() + "\");\nobj.SetOrientation(\"" + m_object.GetOrientation()[0].ToString() + " " + m_object.GetOrientation()[1].ToString() + " " + m_object.GetOrientation()[2].ToString() + "\");\n";
-			toCopy = toCopy + "GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\").SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\n";
+			toCopy = toCopy + "obj = GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\").SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\nobj.SetPosition(\"" + VectorToString( m_object.GetPosition() ) + "\");\n";
+			//toCopy = toCopy + "GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\").SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\n";
 		}
 
-		Message("Copied to clipboard");
-
 		GetGame().CopyToClipboard( toCopy );
+
+		Message( "Copied to clipboard" );
 	}
 
 	void SaveScene() 
@@ -290,54 +290,54 @@ class ObjectEditor extends Module
 		}
 	}
 
-	void ScrollObject( int state ) 
-	{
-		if ( !m_ObjectEditorActive )
-		{
-			return;
-		}
-		/*
-		
-		if ( m_SelectedObject )
-		{
-			vector pos = m_SelectedObject.GetPosition();
-			vector ori = m_SelectedObject.GetOrientation();
-
-			bool up = state < 0;
-			int value = 1;
-			if ( up ) value = -1;
-			
-			if ( SHIFT() )
-			{
-				if ( ori[0] > 0 ) // seemless pitch change
-				{
-					value = -value;
-				}
-				ori[1] = ori[1] + value;
-
-				m_SelectedObject.SetOrientation( ori );
-			}
-			else if ( CTRL() )
-			{
-				ori [ 0 ] = ori [ 0 ] + value;
-
-				m_SelectedObject.SetOrientation( ori );
-			}
-			else if ( ALT() )
-			{
-				ori[ 2 ] = ori[ 2 ] + value;
-
-				m_SelectedObject.SetOrientation( ori );
-			}
-			else 
-			{
-				pos [ 1 ] = pos [ 1 ] + value*0.05;
-
-				m_SelectedObject.SetPosition( pos );
-			}
-		}
-		*/
-	}
+//	void ScrollObject( int state )
+//	{
+//		if ( !m_ObjectEditorActive )
+//		{
+//			return;
+//		}
+//		/*
+//
+//		if ( m_SelectedObject )
+//		{
+//			vector pos = m_SelectedObject.GetPosition();
+//			vector ori = m_SelectedObject.GetOrientation();
+//
+//			bool up = state < 0;
+//			int value = 1;
+//			if ( up ) value = -1;
+//
+//			if ( SHIFT() )
+//			{
+//				if ( ori[0] > 0 ) // seemless pitch change
+//				{
+//					value = -value;
+//				}
+//				ori[1] = ori[1] + value;
+//
+//				m_SelectedObject.SetOrientation( ori );
+//			}
+//			else if ( CTRL() )
+//			{
+//				ori [ 0 ] = ori [ 0 ] + value;
+//
+//				m_SelectedObject.SetOrientation( ori );
+//			}
+//			else if ( ALT() )
+//			{
+//				ori[ 2 ] = ori[ 2 ] + value;
+//
+//				m_SelectedObject.SetOrientation( ori );
+//			}
+//			else
+//			{
+//				pos [ 1 ] = pos [ 1 ] + value*0.05;
+//
+//				m_SelectedObject.SetPosition( pos );
+//			}
+//		}
+//		*/
+//	}
 
 	void ClickObject() 
 	{
