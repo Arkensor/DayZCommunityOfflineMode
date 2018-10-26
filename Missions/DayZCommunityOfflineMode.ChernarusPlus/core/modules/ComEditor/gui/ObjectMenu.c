@@ -337,12 +337,12 @@ class ObjectMenu extends PopupMenu
 
 				g_Game.ConfigGetChildName( strConfigPath, nClass, strName );
 
-				int scope = g_Game.ConfigGetInt( strConfigPath + " " + strName + " scope" );
+//				int scope = g_Game.ConfigGetInt( strConfigPath + " " + strName + " scope" );
 
-				if ( scope == 0 )
-				{
-					continue;
-				}
+//				if ( scope == 0 )
+//				{
+//					continue;
+//				}
 
 				string strNameLower = strName;
 
