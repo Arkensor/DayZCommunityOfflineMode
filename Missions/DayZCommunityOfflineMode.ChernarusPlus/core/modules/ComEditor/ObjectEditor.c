@@ -93,7 +93,7 @@ class ObjectEditor extends Module
 
 		foreach( Object m_object : m_Objects ) 
 		{
-			toCopy = toCopy + "obj = GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\").SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\nobj.SetPosition(\"" + VectorToString( m_object.GetPosition() ) + "\");\n";
+			toCopy = toCopy + "obj = GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\");\nobj.SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\nobj.SetPosition(\"" + VectorToString( m_object.GetPosition() ) + "\");\n";
 			//toCopy = toCopy + "GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\").SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\n";
 		}
 
