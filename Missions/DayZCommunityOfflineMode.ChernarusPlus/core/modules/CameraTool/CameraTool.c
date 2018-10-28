@@ -484,10 +484,16 @@ class CameraTool extends Module
 			}
 			else 
 			{
-				CAMERA_SPEED += i*0.05;
-				if ( CAMERA_SPEED < 0 ) 
+				float value = 1.05;
+				if ( i < 0 ) 
 				{
-					CAMERA_SPEED = 0;
+					value = 0.95;
+				}
+
+				CAMERA_SPEED *= value;
+				if ( CAMERA_SPEED < 0.001 ) 
+				{
+					CAMERA_SPEED = 0.001;
 				}
 			}
 		}

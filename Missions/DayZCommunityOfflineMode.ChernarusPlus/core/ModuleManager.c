@@ -11,7 +11,7 @@
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComKeyBinds\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComMenu\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\module.c"
-//#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\DebugMonitor\\module.c"
+#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\DebugMonitor\\module.c"
 #include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\module.c"
 #endif
 
@@ -153,7 +153,7 @@ class ModuleManager
         #endif
         #endif
         #ifdef MODULE_DEBUG_MONITOR
-        //RegisterModule( new ref CustomDebugMonitor );
+        RegisterModule( new ref CustomDebugMonitor );
         #endif
         #ifdef MODULE_UIEXTENDER
         RegisterModule( new ref UIExtender );

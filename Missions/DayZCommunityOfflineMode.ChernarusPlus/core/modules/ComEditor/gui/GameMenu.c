@@ -118,6 +118,8 @@ class GameMenu extends PopupMenu
 		{
 			int selectRow = m_gameScriptList.GetSelectedRow();
 
+			if ( selectRow == -1 ) return false;
+
 			m_gameScriptList.GetItemData( selectRow, 0, param1 );
 
 			if ( param1 ) 

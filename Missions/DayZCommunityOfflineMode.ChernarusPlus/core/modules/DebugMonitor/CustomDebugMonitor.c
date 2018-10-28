@@ -45,7 +45,7 @@ class CustomDebugMonitor extends Module
                     }
 
                     auto position = player.GetPosition();
-                    auto orientation = player.GetOrientation();
+                    auto orientation = GetGame().GetCurrentCameraDirection().VectorToAngles();
 
                     m_debugMonitor.SetHealth( health );
                     m_debugMonitor.SetBlood( blood );

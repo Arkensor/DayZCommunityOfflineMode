@@ -121,9 +121,9 @@ static Object GetPointerObject( Object ignore = NULL, float radius = 0.5, Object
 {
     vector dir = GetGame().GetPointerDirection();
 
-	vector from = GetGame().GetCurrentCameraPosition();
+    vector from = GetGame().GetCurrentCameraPosition();
 
-	vector to = from + ( dir * 10000 );
+    vector to = from + ( dir * 10000 );
 
     auto objs = GetObjectsAt( from, to, ignore, radius, with );
 
@@ -159,9 +159,9 @@ static vector GetPointerPos()
 
     vector dir = GetGame().GetPointerDirection();
 
-	vector from = GetGame().GetCurrentCameraPosition();
+    vector from = GetGame().GetCurrentCameraPosition();
 
-	vector to = from + ( dir * 10000 );
+    vector to = from + ( dir * 10000 );
 
     vector rayStart = from;
     vector rayEnd = to;
