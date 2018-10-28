@@ -283,7 +283,16 @@ static PlayerBase CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
 
-    EntityAI item = oPlayer.GetInventory().CreateInInventory( "SmershBag" );
+    EntityAI item = NULL;
+    
+    item = m_oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
+    item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
+    item = m_oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
+    item = m_oPlayer.GetInventory().CreateInInventory( "PlateCarrierHolster" );
+    item = m_oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
+    item = m_oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
+    item = m_oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
+    item = m_oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
 
     item = oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
 
