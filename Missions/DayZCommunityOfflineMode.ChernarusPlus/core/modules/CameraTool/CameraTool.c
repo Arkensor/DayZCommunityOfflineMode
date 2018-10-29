@@ -484,10 +484,10 @@ class CameraTool extends Module
 			}
 			else 
 			{
-				float value = 1.05;
+				float value = 1.2;
 				if ( i < 0 ) 
 				{
-					value = 0.95;
+					value = 0.8;
 				}
 
 				CAMERA_SPEED *= value;

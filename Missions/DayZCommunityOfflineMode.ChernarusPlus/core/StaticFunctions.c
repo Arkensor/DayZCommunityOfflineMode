@@ -1,9 +1,34 @@
+static string FormatFloat( float value, int decimals ) 
+{
+    string result = "";
+    array<string> output = new array<string>;
+
+    value.ToString().Split(".", output);
+
+    if ( output.Count() == 0 ) return value.ToString();
+
+    if ( decimals == 0 ) return output.Get(0);
+
+    string right = output.Get(1).Substring(0, decimals);
+    result = output.Get(0) + "." + right;
+
+    return result;
+}
+
 static string VectorToString( vector vec )
 {
     string result = vec.ToString();
     result.Replace( "<", "" );
     result.Replace( ">", "" );
     result.Replace( ",", "" );
+
+    return result;
+}
+
+static string VectorToString( vector vec, int decimals ) 
+{
+    string result = "";
+    result = FormatFloat(vec[0], decimals) + "|" + FormatFloat(vec[1], decimals) + "|" + FormatFloat(vec[2], decimals);
 
     return result;
 }

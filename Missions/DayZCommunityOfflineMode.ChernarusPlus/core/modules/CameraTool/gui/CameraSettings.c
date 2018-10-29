@@ -390,6 +390,13 @@ class CameraSettings extends PopupMenu
 		{
 			cameraTarget = targetObject.GetType();
 		}
+
+		vector targetPos = CameraTool.Cast(GetModuleManager().GetModule(CameraTool)).GetTargetPos();
+		if ( targetPos != vector.Zero ) 
+		{
+			cameraTarget = VectorToString( targetPos, 1 );
+		}
+
 		widgetStore.GetTextWidget("camera_target_txt").SetText("Target: " + cameraTarget );
 
 		m_TxtCamBlur.SetText(((CameraTool.CAMERA_BLUR / 4.0) * 100.0).ToString() + "%");

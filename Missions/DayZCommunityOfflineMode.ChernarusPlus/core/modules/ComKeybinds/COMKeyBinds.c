@@ -166,6 +166,7 @@ class COMKeyBinds extends Module
 
     void HideHud() 
     {
-        GetClientMission().m_HudRootWidget.FindAnyWidget("HudPanel").Show(!GetClientMission().m_HudRootWidget.FindAnyWidget("HudPanel").IsVisible());
+        Widget hudWidget = IngameHud.Cast(GetClientMission().GetHud()).GetHudPanelWidget();
+        hudWidget.Show(!hudWidget.IsVisible());
     }
 }
