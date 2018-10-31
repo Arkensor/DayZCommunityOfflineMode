@@ -83,7 +83,7 @@ You might delete your whole ```Missions``` folder and validate your game files v
 # Controls:
 * X - Toggle Autowalk
 * X + SHIFT - Enable Autorun ( Just X to disable it again )
-* T - Teleport at the position you are looking at
+* H - Teleport at the position you are looking at
 * O - Spawn a random infected (Zombies)
 * O + CTRL - Spawn a doge (Actually a wolf, but you can pet him if you have godmode enabled!)
 * O + SHIFT - Spawn a random animal

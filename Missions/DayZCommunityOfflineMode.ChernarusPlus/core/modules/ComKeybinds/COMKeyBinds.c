@@ -33,7 +33,7 @@ class COMKeyBinds extends Module
             GetPlayer().GetStatStamina().Set(GetPlayer().GetStaminaHandler().GetStaminaCap());
             GetPlayer().GetStatEnergy().Set(1000);
             GetPlayer().GetStatWater().Set(1000);
-            GetPlayer().GetStatStomachSolid().Set(300);     
+            GetPlayer().GetStatStomachVolume().Set(300);     
             GetPlayer().GetStatStomachWater().Set(300);
             GetPlayer().GetStatStomachEnergy().Set(300);
             GetPlayer().GetStatHeatComfort().Set(0);
@@ -64,14 +64,14 @@ class COMKeyBinds extends Module
 	{
 		KeyMouseBinding toggleCursor    = new KeyMouseBinding( GetModuleType() , "ToggleCursor"  , "[U]"    , "Toggles the cursor."   , true );
 		KeyMouseBinding toggleCOMEditor = new KeyMouseBinding( GetModuleType() , "ShowCOMEditor" , "[Y]"    , "Opens the COM Editor."        );
-		KeyMouseBinding teleport	    = new KeyMouseBinding( GetModuleType() , "TeleportCursor", "[T]"    , "Teleport to cursor position." );
+		KeyMouseBinding teleport	    = new KeyMouseBinding( GetModuleType() , "TeleportCursor", "[H]"    , "Teleport to cursor position." );
 		KeyMouseBinding reload          = new KeyMouseBinding( GetModuleType() , "Reload"        , "[R]"    , "Instantly reloads mag."		 );
         KeyMouseBinding spawnZ          = new KeyMouseBinding( GetModuleType() , "SpawnZ"        , "[O]"    , "Spawns infected." );
         KeyMouseBinding hideHud          = new KeyMouseBinding( GetModuleType() , "HideHud"        , "[HOME]"    , "Hides ui completely." );
 
 		toggleCursor   .AddKeyBind( KeyCode.KC_U,    KeyMouseBinding.KB_EVENT_PRESS   );
 		toggleCOMEditor.AddKeyBind( KeyCode.KC_Y,    KeyMouseBinding.KB_EVENT_RELEASE );
-		teleport       .AddKeyBind( KeyCode.KC_T,    KeyMouseBinding.KB_EVENT_PRESS   );
+		teleport       .AddKeyBind( KeyCode.KC_H,    KeyMouseBinding.KB_EVENT_PRESS   );
 		reload         .AddKeyBind( KeyCode.KC_R,    KeyMouseBinding.KB_EVENT_RELEASE );
         spawnZ         .AddKeyBind( KeyCode.KC_O,    KeyMouseBinding.KB_EVENT_RELEASE );
         hideHud        .AddKeyBind( KeyCode.KC_HOME, KeyMouseBinding.KB_EVENT_RELEASE );
