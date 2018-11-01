@@ -60,7 +60,7 @@ class EditorMenu extends UIScriptedMenu
     {
         super.OnShow();
 
-        GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE);
+        GetGame().GetInput().ChangeGameFocus( 1 );
         GetGame().GetUIManager().ShowUICursor( true );
     }
 
@@ -70,8 +70,13 @@ class EditorMenu extends UIScriptedMenu
 
         ObjectEditor.Cast( GetModuleManager().GetModule( ObjectEditor )).EditorState( false );
 
-        GetGame().GetInput().ResetGameFocus( INPUT_DEVICE_MOUSE );
-        GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
+        GetGame().GetInput().ResetGameFocus();
+
+        if ( !CameraTool.Cast(GetModuleManager().GetModule(CameraTool)).IsUsingCamera() ) 
+        {
+			GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
+        }
+        
 
         CameraSettings.CAMERA_ROT.Show( false );
         CameraSettings.CAMERA_PHI.Show( false );
@@ -244,7 +249,7 @@ class EditorMenu extends UIScriptedMenu
 			if ( GetGame().GetUIManager().IsCursorVisible() ) 
 			{
 				GetGame().GetUIManager().ShowUICursor( false );
-				GetGame().GetInput().ResetGameFocus( INPUT_DEVICE_MOUSE );
+				GetGame().GetInput().ResetGameFocus( );
 			}
 		}
 		else
@@ -252,7 +257,7 @@ class EditorMenu extends UIScriptedMenu
 			if ( !GetGame().GetUIManager().IsCursorVisible() ) 
 			{
 				GetGame().GetUIManager().ShowUICursor( true );
-				GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
+				GetGame().GetInput().ChangeGameFocus( 1 );
 			}
 		}
 	}

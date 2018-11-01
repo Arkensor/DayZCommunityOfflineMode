@@ -239,6 +239,8 @@ class ObjectMenu extends PopupMenu
 				GetGame().ObjectDelete( previewItem );
 			}
 
+			if ( strSelection == "Mag_Scout_5Rnd") return false; // fix crash for this dumb item
+
 			previewItem = GetGame().CreateObject( strSelection, vector.Zero, false );
 
 			m_item_widget.SetItem( previewItem );
@@ -343,6 +345,8 @@ class ObjectMenu extends PopupMenu
 				{
 					continue;
 				}
+
+				if ( strName == "Mag_Scout_5Rnd") return continue; // fix crash for this dumb item. dont spawn it
 
 				string strNameLower = strName;
 

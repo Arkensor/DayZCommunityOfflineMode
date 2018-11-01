@@ -402,13 +402,13 @@ static void ToggleCursor()
 {
     if ( GetGame().GetInput().HasGameFocus( INPUT_DEVICE_MOUSE ) )
     {
-        GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
+        GetGame().GetInput().ChangeGameFocus( 1 );
         GetGame().GetUIManager().ShowUICursor( true );
     }
     else
     {
         GetGame().GetUIManager().ShowUICursor( false );
-        GetGame().GetInput().ResetGameFocus( INPUT_DEVICE_MOUSE );
+        GetGame().GetInput().ResetGameFocus();
     }
 }
 
