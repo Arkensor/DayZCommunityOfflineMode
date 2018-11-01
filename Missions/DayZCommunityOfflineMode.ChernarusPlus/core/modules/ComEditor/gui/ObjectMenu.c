@@ -346,7 +346,7 @@ class ObjectMenu extends PopupMenu
 					continue;
 				}
 
-				if ( strName == "Mag_Scout_5Rnd") return continue; // fix crash for this dumb item. dont spawn it
+				if ( strName == "Mag_Scout_5Rnd") continue; // fix crash for this dumb item. dont spawn it
 
 				string strNameLower = strName;
 
