@@ -29,7 +29,7 @@ class CustomInGameMenu extends UIScriptedMenu
 
 	override Widget Init()
 	{
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets("missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\CustomInGameMenu.layout");
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets("$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\CustomInGameMenu.layout");
 				
 		string version;
 		GetGame().GetVersion(version);
@@ -67,7 +67,7 @@ class CustomInGameMenu extends UIScriptedMenu
 		{
 			data = m_OM.GetPauseButtons().Get( 0 );
 
-			button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\BottomButtonTemplate.layout", bottomButtonContainer ) );
+			button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\BottomButtonTemplate.layout", bottomButtonContainer ) );
 			
 			button.SetUserID( data.m_UserID );
 			button.SetText( data.m_Text );
@@ -82,7 +82,7 @@ class CustomInGameMenu extends UIScriptedMenu
 			{
 				data = m_OM.GetPauseButtons().Get( i );
 
-				button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\TopButtonTemplate.layout", topButtonContainer ) );
+				button = ButtonWidget.Cast( GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\gui\\layouts\\TopButtonTemplate.layout", topButtonContainer ) );
 
 				button.SetUserID( data.m_UserID );
 				button.SetText( data.m_Text );

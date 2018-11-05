@@ -6,7 +6,7 @@ class GameMenu extends PopupMenu
 
 	protected ref map< string, string > checkBoxMap = new map< string, string >; // store widget name
 
-	string checkboxLayout = "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\CheckboxTemplate.layout";
+	string checkboxLayout = "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\CheckboxTemplate.layout";
 
 	void GameMenu()
 	{

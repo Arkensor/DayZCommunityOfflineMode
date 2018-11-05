@@ -16,8 +16,7 @@
 #endif
 
 #ifndef COM_MODULES_OLDLOADING
-const string COM_MODULE_DIR = "$currentDir:";
-const string COM_MODULE_FOLDER = "Missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\";
+const string COM_MODULE_FOLDER = "$currentDir:Missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\";
 #endif
 
 class ModuleManager
@@ -52,7 +51,7 @@ class ModuleManager
 #ifndef COM_MODULES_OLDLOADING
     bool IsValidModule( string name, FileAttr attributes )
     {
-        Print( "Found: " + COM_MODULE_DIR + COM_MODULE_FOLDER + name + " as a " + FileAttributeToString( attributes ) );
+        Print( "Found: " + COM_MODULE_FOLDER + name + " as a " + FileAttributeToString( attributes ) );
 
         if ( ! (attributes & FileAttr.DIRECTORY ) ) return false;
 
@@ -109,7 +108,7 @@ class ModuleManager
 		int index = 0;
         string module = "";
 		FileAttr oFileAttr = FileAttr.INVALID;
-		FindFileHandle oFileHandle = FindFile( COM_MODULE_DIR + COM_MODULE_FOLDER + "*", module, oFileAttr, FindFileFlags.DIRECTORIES );
+		FindFileHandle oFileHandle = FindFile( COM_MODULE_FOLDER + "*", module, oFileAttr, FindFileFlags.DIRECTORIES );
 
 		if ( module != "" )
 		{
