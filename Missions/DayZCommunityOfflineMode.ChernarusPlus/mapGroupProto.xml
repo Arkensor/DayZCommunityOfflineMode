@@ -10166,6 +10166,42 @@
 						<point pos="-3.132325 -7.350418 1.095214" range="0.883730" height="2.000473" />
 				</container>
 		</group>
+		<group name="Land_Misc_TrailRoof_Big" lootmax="2">
+				<usage name="Hunting" />
+				<container name="lootFloor">
+						<category name="tools" />
+						<category name="containers" />
+						<category name="clothes" />
+						<category name="food" />
+						<category name="weapons" />
+						<point pos="0.197510 -1.344200 0.828613" range="0.134375" height="0.335938" />
+						<point pos="0.320557 -1.337990 -0.832764" range="0.134375" height="0.335938" />
+						<point pos="-1.375977 -1.791367 -0.255615" range="1.199951" height="2.000000" flags="32" />
+						<point pos="0.782715 -0.884750 0.013428" range="0.478125" height="1.195313" />
+						<point pos="1.380127 -1.344200 0.805420" range="0.168750" height="0.421875" />
+						<point pos="1.946045 -0.884750 0.092041" range="0.409375" height="1.023438" />
+						<point pos="1.093994 -1.791367 1.055176" range="0.417942" height="2.000000" flags="32" />
+						<point pos="-0.244630 -1.791367 1.192138" range="0.591982" height="2.000000" flags="32" />
+				</container>
+		</group>
+		<group name="Land_Misc_TrailRoof_Small" lootmax="2">
+				<usage name="Hunting" />
+				<container name="lootFloor">
+						<category name="tools" />
+						<category name="containers" />
+						<category name="clothes" />
+						<category name="food" />
+						<category name="weapons" />
+						<point pos="0.961670 -0.788895 0.821045" range="0.168750" height="0.421875" />
+						<point pos="-0.989502 -0.788895 0.832031" range="0.134375" height="0.335938" />
+						<point pos="0.422607 -0.329445 0.087891" range="0.409375" height="1.023438" />
+						<point pos="-0.654541 -0.329445 0.083252" range="0.409375" height="1.023438" />
+						<point pos="0.741455 -0.782684 -0.790283" range="0.168750" height="0.421875" />
+						<point pos="-0.452881 -0.782684 -0.812500" range="0.168750" height="0.421875" />
+						<point pos="-0.069581 -1.228294 0.914551" range="0.888434" height="0.245163" flags="32" />
+						<point pos="0.170166 -1.228294 -0.950195" range="0.573214" height="0.260818" flags="32" />
+				</container>
+		</group>		
 		<group name="Land_Misc_DeerStand1" lootmax="2">
 				<usage name="Hunting" />
 				<container name="lootFloor">
