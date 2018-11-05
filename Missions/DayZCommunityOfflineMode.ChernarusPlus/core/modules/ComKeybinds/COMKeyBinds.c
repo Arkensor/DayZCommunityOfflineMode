@@ -33,9 +33,9 @@ class COMKeyBinds extends Module
             GetPlayer().GetStatStamina().Set(GetPlayer().GetStaminaHandler().GetStaminaCap());
             GetPlayer().GetStatEnergy().Set(1000);
             GetPlayer().GetStatWater().Set(1000);
-            GetPlayer().GetStatStomachVolume().Set(300);     
-            GetPlayer().GetStatStomachWater().Set(300);
-            GetPlayer().GetStatStomachEnergy().Set(300);
+//            GetPlayer().GetStatStomachVolume().Set(300);
+//            GetPlayer().GetStatStomachWater().Set(300);
+//            GetPlayer().GetStatStomachEnergy().Set(300);
             GetPlayer().GetStatHeatComfort().Set(0);
             
             

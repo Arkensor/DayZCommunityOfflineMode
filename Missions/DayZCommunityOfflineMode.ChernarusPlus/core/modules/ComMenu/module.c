@@ -6,4 +6,4 @@
 /*
     Include of all .c files that belong to this module
 */
-#include "missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComMenu\\gui\\WelcomeMenu.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComMenu\\gui\\WelcomeMenu.c"
