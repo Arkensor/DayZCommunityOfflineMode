@@ -80,6 +80,7 @@ PanelWidgetClass ObjectMenu
 			vexactpos 1
 			hexactsize 1
 			vexactsize 1
+			style ServerBrowser
 		}
 
 		PanelWidgetClass hr
@@ -216,7 +217,7 @@ PanelWidgetClass ObjectMenu
 			{
 				TextWidgetClass search_text
 				{
-					position 5 6
+					position 5 30
 					size 100 18
 					halign left_ref
 					valign top_ref
@@ -229,7 +230,7 @@ PanelWidgetClass ObjectMenu
 
 				ButtonWidgetClass btn_spawn_cursorpos
 				{
-					position 430 5
+					position 460 30
 					size 80 20
 					halign right_ref
 					valign top_ref
@@ -242,7 +243,7 @@ PanelWidgetClass ObjectMenu
 
 				ButtonWidgetClass btn_spawn_ground
 				{
-					position 345 5
+					position 380 30
 					size 80 20
 					halign right_ref
 					valign top_ref
@@ -255,7 +256,7 @@ PanelWidgetClass ObjectMenu
 
 		        ButtonWidgetClass btn_spawn_inventory
 		        {
-		            position 260 5
+		            position 300 30
 		            size 80 20
 		            halign right_ref
 		            valign top_ref
@@ -268,7 +269,7 @@ PanelWidgetClass ObjectMenu
 
 				TextWidgetClass quantity_text
 				{
-		            position 60 6
+		            position 100 5
 					size 180 18
 		            halign right_ref
 		            valign top_ref
@@ -281,8 +282,8 @@ PanelWidgetClass ObjectMenu
 
 				EditBoxWidgetClass quantity_items
 				{
-		            position 10 6
-					size 40 20
+		            position 30 5
+					size 60 20
 		            halign right_ref
 		            valign top_ref
 					hexactpos 1
@@ -290,11 +291,12 @@ PanelWidgetClass ObjectMenu
 					hexactsize 1
 					vexactsize 1
 					text "MAX"
+					style ServerBrowser
 				}
-
-				ButtonWidgetClass dump_selects
+				
+				TextWidgetClass className_spawner
 				{
-					position 5 30
+					position 5 5
 		           	size 150 20
 		           	halign left_ref
 		           	valign top_ref
@@ -302,7 +304,22 @@ PanelWidgetClass ObjectMenu
 		            vexactpos 1
 		            hexactsize 1
 		            vexactsize 1
-		            text "Export Selections"
+		            text "Class Name:"
+				}
+				
+				EditBoxWidgetClass className_spawner_box
+				{
+					color 1 1 1 1
+		            position 110 5
+					size 240 20
+		            halign left_ref
+		            valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text ""
+					style ServerBrowser
 				}
 			}
 		}

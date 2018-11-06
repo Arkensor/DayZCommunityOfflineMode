@@ -86,7 +86,7 @@ class ObjectInfoMenu extends PopupMenu
 		{
 			((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).SaveScene();
 		} 
-		else if ( w.GetName() == "object_editor_info_clear") 
+		if ( w.GetName() == "object_editor_info_clear") 
 		{
 			ref array< ref Object> objects = ((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).m_Objects;
 
@@ -96,6 +96,26 @@ class ObjectInfoMenu extends PopupMenu
 			}
 			objects.Clear();
 			UpdateObjectList();
+		}
+		if ( w.GetName() == "object_editor_info_dumplods" ) 
+		{
+			string toCopy = "";
+			array<LOD> lods = new array<LOD>;
+			Object object = ((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).m_SelectedObject;
+			object.GetLODS(lods);
+
+			foreach( LOD lod : lods ) 
+			{
+				toCopy = toCopy + object.GetLODName( lod ) + "\n";
+				array<Selection> selections = new array<Selection>;
+				lod.GetSelections( selections );
+				foreach ( Selection selection : selections ) 
+				{
+					toCopy = toCopy + " " + selection.GetName() + "\n";
+				}
+			}
+			GetGame().CopyToClipboard(toCopy);
+			Message("Dumped LODs to clipboard");
 		}
 		return false;
 	}

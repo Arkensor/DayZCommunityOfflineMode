@@ -2,7 +2,7 @@ PanelWidgetClass object_editor_info
 {
 	visible 0
 	color 0 0 0 1
-	position 0.045 0.425
+	position 0.045 0.475
 	size 400 400
 	halign right_ref
 	valign top_ref
@@ -68,7 +68,7 @@ PanelWidgetClass object_editor_info
 				{
 					visible 1
 					position 0.65 0
-					size 0.3 1
+					size 0.3 0.95
 					style EditorPanel
 					{
 						TextWidgetClass object_editor_info_objects
@@ -105,6 +105,12 @@ PanelWidgetClass object_editor_info
 							position 0 0.85
 							size 1 0.055
 							text "Clear"
+						}
+						ButtonWidgetClass object_editor_info_dumplods
+						{
+							position 0 0.9
+							size 1 0.055
+							text "Dump LODS"
 						}
 					}
 				}

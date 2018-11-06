@@ -15,6 +15,8 @@ class ObjectMenu extends PopupMenu
 	private int m_characterScaleDelta;
 	private vector m_characterOrientation;
 
+	protected EditBoxWidget m_editBox;
+	
 	void ObjectMenu()
 	{
 	}
@@ -37,6 +39,8 @@ class ObjectMenu extends PopupMenu
 		m_btnCancel = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_cancel" ) );
 
 		m_QuantityItem = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "quantity_items" ) );
+		
+		m_editBox = layoutRoot.FindAnyWidget("className_spawner_box");
 	}
 
 	override void OnShow()
@@ -90,6 +94,7 @@ class ObjectMenu extends PopupMenu
 		string text = "";
 		ItemBase oItem = NULL;
 
+		/* poof
 		if ( w.GetName() == "dump_selects" ) 
 		{
 			if ( previewItem ) 
@@ -103,7 +108,15 @@ class ObjectMenu extends PopupMenu
 				}
 				GetGame().CopyToClipboard( toCopy );
 				Message("Dumped selections to clipboard"); 
+
+
 			}
+		}
+		*/
+		
+		if ( strSelection == "" ) 
+		{
+			strSelection = GetEditBoxInput();
 		}
 
         if( strSelection != "" )
@@ -380,6 +393,11 @@ class ObjectMenu extends PopupMenu
 		}
 
 		return "";
+	}
+	
+	string GetEditBoxInput() 
+	{
+		return m_editBox.GetText();
 	}
 }
 
