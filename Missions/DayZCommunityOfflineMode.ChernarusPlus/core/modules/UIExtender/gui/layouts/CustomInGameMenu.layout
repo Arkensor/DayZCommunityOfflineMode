@@ -1,0 +1,147 @@
+FrameWidgetClass FrameWidget {
+    size 1 1
+    halign center_ref
+    valign center_ref
+    priority 995
+    {
+        WrapSpacerWidgetClass Licensing {
+         clipchildren 0
+         position 0.05 0.062
+         size 0.45 30
+         valign bottom_ref
+         hexactpos 0
+         vexactpos 0
+         hexactsize 0
+         vexactsize 1
+         priority 5
+         Padding 8
+         Margin 0
+         "Size To Content H" 1
+         "Size To Content V" 1
+         content_valign center
+         {
+              TextWidgetClass version {
+                  visible 1
+                  clipchildren 0
+                  ignorepointer 1
+                  position 80 60
+                  size 1 0.5
+                  valign bottom_ref
+                  hexactpos 1
+                  vexactpos 1
+                  hexactsize 0
+                  vexactsize 0
+                  priority 2
+                  text "#main_menu_version"
+                  font "gui/fonts/sdf_MetronLight24"
+                  "exact text" 0
+                  "text valign" center
+              }
+              TextWidgetClass copyright {
+                  visible 1
+                  clipchildren 0
+                  position 80 40
+                  size 1 0.5
+                  valign bottom_ref
+                  hexactpos 1
+                  vexactpos 1
+                  hexactsize 0
+                  vexactsize 0
+                  priority 2
+                  text "#copyright_disclamer"
+                  font "gui/fonts/sdf_MetronLight24"
+                  "exact text" 0
+                  "text valign" center
+              }
+         }
+        }
+        ImageWidgetClass vignette {
+            visible 1
+            ignorepointer 0
+            color 0 0 0 0.7843
+            position 0 0
+            size 1.6 0.9
+            halign center_ref
+            hexactpos 1
+            vexactpos 1
+            hexactsize 0
+            vexactsize 0
+            fixaspect outside
+            imageTexture "{E6B3EF816E067499}Gui/textures/inventory_bgvignette.edds"
+            mode blend
+            "src alpha" 1
+            "no wrap" 1
+            stretch 1
+            filter 0
+            nocache 1
+        }
+        WrapSpacerWidgetClass play_panel_root {
+            visible 1
+            ignorepointer 1
+            position 0.05 130
+            size 0.2 400
+            halign right_ref
+            valign bottom_ref
+            hexactpos 0
+            vexactpos 1
+            hexactsize 0
+            vexactsize 1
+            priority 3
+            Padding 10
+            Margin 0
+            "Size To Content H" 1
+            content_halign center
+            content_valign bottom
+            {
+                WrapSpacerWidgetClass bottom_buttons {
+                    visible 1
+                    color 0 0 0 0.7843
+                    position 0 0
+                    size 1 84
+                    halign center_ref
+                    valign bottom_ref
+                    hexactpos 1
+                    vexactpos 1
+                    hexactsize 0
+                    vexactsize 1
+                    style DayZDefaultPanel
+                    "no focus" 0
+                    Padding 0
+                    Margin 0
+                    "Size To Content H" 1
+                    "Size To Content V" 1
+                }
+                WrapSpacerWidgetClass top_buttons {
+                    ignorepointer 1
+                    color 0 0 0 0.7843
+                    position 0 0
+                    size 1 48
+                    hexactpos 1
+                    vexactpos 1
+                    hexactsize 0
+                    vexactsize 1
+                    style DayZDefaultPanel
+                    "no focus" 1
+                    Padding 0
+                    Margin 0
+                    "Size To Content V" 1
+                }
+            }
+        }
+        ImageWidgetClass dayz_logo {
+         visible 1
+         ignorepointer 1
+         position 80 80
+         size 400 187.5
+         hexactpos 1
+         vexactpos 1
+         hexactsize 1
+         vexactsize 1
+         priority 2
+         image0 "set:dayz_gui image:DayZLogo"
+         mode additive
+         "src alpha" 1
+         stretch 0
+        }
+    }
+}

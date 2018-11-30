@@ -1,8 +1,13 @@
-#include "$CurrentDir:\\missions\\DayZCommunityOfflineMode.ChernarusPlus\\modules\\CommunityOfflineMode.c"
+#define DISABLE_PERSISTENCY
+
+#include "$CurrentDir:Missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\BaseModuleInclude.c"
   
 Mission CreateCustomMission(string path)
 {	
-    return new CommunityOfflineMode();
+    if ( GetGame().IsServer() && GetGame().IsMultiplayer() )
+        return new CommunityOfflineServer();
+
+    return new CommunityOfflineClient();
 }
 
 void main()
