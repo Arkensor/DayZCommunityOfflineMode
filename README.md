@@ -11,7 +11,7 @@ There is now a wiki page available on how to use the community offline mode to s
 
 # Installation:
 Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v2.0/DayZ.Community.OfflineMode.zip) zip archive.  
-Make sure you are on the latest STABLE version of the game.
+Make sure you are on the latest `STABLE` or `EXPERIMENTAL` version of the game.
 
 Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
 Even though this is not directly bannable by Battleye, just to make sure: Rename your Battleye folder to Battleye.disabled, and rename the DayZ_BE.exe to DayZ_BE.exe.disabled.
