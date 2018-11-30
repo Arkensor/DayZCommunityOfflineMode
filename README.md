@@ -2,7 +2,7 @@
 
 **Thank you for over 31.000 downloads!**  
 
-The DayZ Community Offline Mode offers the ability, to explode the world of DayZ in a singleplayer environment. While this mode does not represent the actual DayZ gameplay it offers other possibilites for developers, content creators and player who do want to experiment around but not loose all their progress from online.
+The DayZ Community Offline Mode offers the ability, to explore the world of DayZ in a singleplayer environment. While this mode does not represent the actual DayZ gameplay it offers other possibilites for developers, content creators and player who do want to experiment around but not loose all their progress from online.
 
 This is UNOFFICIAL, so don't blame the DayZ development team if this is not working at all for you!
 
@@ -17,7 +17,7 @@ Place the ```Missions``` folder inside your DayZ game directory (```For example:
 Even though this is not directly bannable by Battleye, just to make sure: Rename your Battleye folder to Battleye.disabled, and rename the DayZ_BE.exe to DayZ_BE.exe.disabled.
 
 Now you now start the script ```DayZ/Missions/DayZCommunityOfflineMode.ChernarusPlus/DayZCommunityOfflineMode.bat``` to start the game. You will be loaded directly into the offline mode.  
-Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ChernarusPlus```
+Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ChernarusPlus -scrAllowFileWrite```
 
 To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders back to their original name.   
 You might delete your whole ```Missions``` folder and validate your game files via steam to get the original DayZ files back.
