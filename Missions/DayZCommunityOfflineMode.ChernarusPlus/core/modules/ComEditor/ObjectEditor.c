@@ -90,12 +90,26 @@ class ObjectEditor extends Module
 
 	void ExportScene()
 	{
-		string toCopy = "Object obj; \n";
+		string toCopy;
+        toCopy += "//Spawn helper function\n";
+        toCopy += "void SpawnObject( string type, vector position, vector orientation )\n";
+        toCopy += "{\n";
+        toCopy += "    auto obj = GetGame().CreateObject( type, position );\n";
+        toCopy += "    obj.SetPosition( position );\n";
+        toCopy += "    obj.SetOrientation( orientation );\n";
+        toCopy += "    //Force collision update\n";
+        toCopy += "    vector roll = obj.GetOrientation();\n";
+        toCopy += "    roll [ 2 ] = roll [ 2 ] - 1;\n";
+        toCopy += "    obj.SetOrientation( roll );\n";
+        toCopy += "    roll [ 2 ] = roll [ 2 ] + 1;\n";
+        toCopy += "    obj.SetOrientation( roll );\n";
+        toCopy += "}\n";
+        toCopy += "\n";
+        toCopy += "//Your custom spawned objects\n";
 
 		foreach( Object m_object : m_Objects )
 		{
-			toCopy = toCopy + "obj = GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( GetPlayer().WorldToModel( m_object.GetPosition() ) ) + "\");\nobj.SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\nobj.SetPosition(\"" + VectorToString( m_object.GetPosition() ) + "\");\n";
-			//toCopy = toCopy + "GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\").SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\n";
+			toCopy = toCopy + "SpawnObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\", \"" + VectorToString( m_object.GetOrientation() ) + "\");\n";
 		}
 
 		GetGame().CopyToClipboard( toCopy );
