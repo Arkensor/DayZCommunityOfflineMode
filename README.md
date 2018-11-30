@@ -79,8 +79,8 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * Adding a dedicated logfile
 * Adding persitent settings and stats saving
 * Adding a cinematic manager for content creators
-* GUI for the object manager
 * More functions for the object manager
+* ~~GUI for the object manager~~ ✓
 * ~~More adjustments to the freecam to feature fov options etc~~ ✓
 
 # Contributors:
