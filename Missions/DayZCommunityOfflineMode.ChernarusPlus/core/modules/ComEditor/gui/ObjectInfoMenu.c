@@ -129,7 +129,7 @@ class ObjectInfoMenu extends PopupMenu
 		}
 		vector orientation = GetSelectedObject().GetOrientation();
 		vector position = GetSelectedObject().GetPosition();
-		Print (" position = " + position);
+//		Print (" position = " + position);
 
 		bool up = wheel < 0;
 		int value = 1;
@@ -153,13 +153,19 @@ class ObjectInfoMenu extends PopupMenu
 		}
 
 		vector objectPos = building.WorldToModel( GetSelectedObject().GetPosition() );
-		Print (" objectPos = " + objectPos);
+//		Print (" objectPos = " + objectPos);
 
 		if ( GetSelectedObject().IsBuilding() )
 		{
 			if ( w == infoPosYaw )
 			{
 				orientation[0] = orientation[0] + value;
+
+				if( Math.AbsFloat( orientation[0] ) < 0.001 )
+				{
+				    orientation[0] = 0;
+				}
+
 				GetSelectedObject().SetOrientation( orientation );
 				infoPosYaw.SetText( orientation[0].ToString() );
 			}
@@ -169,7 +175,14 @@ class ObjectInfoMenu extends PopupMenu
 				{
 					value = -value;
 				}
+
 				orientation[1] = orientation[1] + value;
+
+                if( Math.AbsFloat( orientation[1] ) < 0.001 )
+                {
+                    orientation[1] = 0;
+                }
+
 				GetSelectedObject().SetOrientation( orientation );
 				infoPosPitch.SetText( orientation[1].ToString() );
 
@@ -177,6 +190,12 @@ class ObjectInfoMenu extends PopupMenu
 			if ( w == infoPosRoll )
 			{
 				orientation[2] = orientation[2] + value;
+
+                if( Math.AbsFloat( orientation[2] ) < 0.001 )
+                {
+                    orientation[2] = 0;
+                }
+
 				GetSelectedObject().SetOrientation( orientation );
 				infoPosRoll.SetText( orientation[2].ToString() );
 			}
@@ -207,6 +226,12 @@ class ObjectInfoMenu extends PopupMenu
 			if ( w == infoPosYaw )
 			{
 				orientation[0] = orientation[0] + value;
+
+                if( Math.AbsFloat( orientation[0] ) < 0.001 )
+                {
+                    orientation[0] = 0;
+                }
+
 				GetSelectedObject().SetOrientation( orientation );
 				infoPosYaw.SetText( orientation[0].ToString() );
 			}
@@ -217,6 +242,12 @@ class ObjectInfoMenu extends PopupMenu
 					value = -value;
 				}
 				orientation[1] = orientation[1] + value;
+
+                if( Math.AbsFloat( orientation[1] ) < 0.001 )
+                {
+                    orientation[1] = 0;
+                }
+
 				GetSelectedObject().SetOrientation( orientation );
 				infoPosPitch.SetText( orientation[1].ToString() );
 
@@ -224,13 +255,19 @@ class ObjectInfoMenu extends PopupMenu
 			if ( w == infoPosRoll )
 			{
 				orientation[2] = orientation[2] + value;
+
+                if( Math.AbsFloat( orientation[2] ) < 0.001 )
+                {
+                    orientation[2] = 0;
+                }
+
 				GetSelectedObject().SetOrientation( orientation );
 				infoPosRoll.SetText( orientation[2].ToString() );
 			}
 
 			if ( w == infoPosY )
 			{
-				Print ("objectPos[1] = " + objectPos[1]);
+//				Print ("objectPos[1] = " + objectPos[1]);
 				objectPos[1] = objectPos[1] + value * 0.05;
 				GetSelectedObject().SetPosition( objectPos );
 				ForceTargetCollisionUpdate( GetSelectedObject() );
@@ -245,13 +282,13 @@ class ObjectInfoMenu extends PopupMenu
 			}
 			if ( w == infoPosZ )
 			{
-				Print ("objectPos[2] = " + objectPos[2]);
+//				Print ("objectPos[2] = " + objectPos[2]);
 				objectPos[2] = objectPos[2] + value * 0.05;
 				GetSelectedObject().SetPosition( objectPos );
 				ForceTargetCollisionUpdate( GetSelectedObject() );
 				infoPosZ.SetText( objectPos[2].ToString() );
 			}
-			Print ("objectPos before Script is ended = " + objectPos);
+//			Print ("objectPos before Script is ended = " + objectPos);
 		}
 		return false;
 	}
