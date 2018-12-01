@@ -271,7 +271,7 @@ class ObjectInfoMenu extends PopupMenu
 
 		float value = text.ToFloat();
 
-		Print("float value = text.ToFloat() = " + value);
+//		Print("float value = text.ToFloat() = " + value);
 
 		if ( editWidget == infoPosYaw )
 		{
@@ -283,7 +283,7 @@ class ObjectInfoMenu extends PopupMenu
 		}
 		if ( editWidget == infoPosRoll )
 		{
-			orientation[1] = value;
+			orientation[2] = value;
 		}
 		if ( editWidget == infoPosX )
 		{
