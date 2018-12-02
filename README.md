@@ -55,9 +55,12 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * Adding persitent settings and stats saving
 * Adding a cinematic manager for content creators
 
+# Developers
+* [Arkensor](https://github.com/Arkensor)
+* [DannyDog](https://github.com/DannyDog)
+* [Jacob_Mango](https://github.com/Jacob-Mango)
+
 # Contributors:
-* [DannyDog](https://github.com/DannyDog) - Code snippets, Object Editor, Editor panel, Camera tools
-* [Jacob_Mango](https://github.com/Jacob-Mango) - Added key to toggle "Aimgate", Persistency module, UIExtender
 * [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
 * [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
 * [Watchman](https://twitter.com/watchman113) - Documentation
