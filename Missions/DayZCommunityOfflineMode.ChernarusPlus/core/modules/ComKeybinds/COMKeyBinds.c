@@ -36,7 +36,7 @@ class COMKeyBinds extends Module
         KeyMouseBinding hideHud         = new KeyMouseBinding( GetModuleType() , "HideHud"       , "[HOME]" , "Hides ui completely."           );
         KeyMouseBinding printPlayer     = new KeyMouseBinding( GetModuleType() , "PrintPlayer"   , "[P]"    , "Print current player position." );
         KeyMouseBinding autoRun         = new KeyMouseBinding( GetModuleType() , "AutoRun"       , "[COMMA]"    , "Toggle autorun." );
-        KeyMouseBinding keyFrame        = new KeyMouseBinding( GetModuleType() , "OpenKeyframe"  , "[=]"    , "Toggle dayz dev cinematic tool." );
+        KeyMouseBinding keyFrame        = new KeyMouseBinding( GetModuleType() , "OpenKeyframe"  , "[PAGEUP]"    , "Toggle dayz dev cinematic tool." );
 
 		toggleCursor   .AddKeyBind( KeyCode.KC_U,    KeyMouseBinding.KB_EVENT_PRESS   );
 		toggleCOMEditor.AddKeyBind( KeyCode.KC_Y,    KeyMouseBinding.KB_EVENT_PRESS );
@@ -46,7 +46,7 @@ class COMKeyBinds extends Module
         hideHud        .AddKeyBind( KeyCode.KC_HOME, KeyMouseBinding.KB_EVENT_PRESS );
         printPlayer    .AddKeyBind( KeyCode.KC_P,    KeyMouseBinding.KB_EVENT_PRESS );
         autoRun        .AddKeyBind( KeyCode.KC_COMMA,    KeyMouseBinding.KB_EVENT_PRESS );
-        keyFrame       .AddKeyBind( KeyCode.KC_EQUALS, KeyMouseBinding.KB_EVENT_PRESS );
+        keyFrame       .AddKeyBind( KeyCode.KC_PRIOR, KeyMouseBinding.KB_EVENT_PRESS );
 
 		RegisterKeyMouseBinding( toggleCursor );
 		RegisterKeyMouseBinding( toggleCOMEditor );
