@@ -202,11 +202,11 @@ class CameraSettings extends PopupMenu
 		SliderWidget changeSlider = widgetStore.GetSliderWidget( w.GetName() );
 		EditBoxWidget editBox = widgetStore.GetEditBoxWidget( w.GetName() );
 
-		string text = editBox.GetText();
-		float value = text.ToFloat();
-
 		if ( editBox ) 
 		{
+			string text = editBox.GetText();
+			float value = text.ToFloat();
+
 			if ( editBox.GetName() == "camera_input_chrom_x" ) 
 			{
 				CameraTool.CHROMABERX = value;
@@ -375,7 +375,7 @@ class CameraSettings extends PopupMenu
 			float current = slider.GetCurrent();
 			slider.SetCurrent( current + value );
 
-			OnChange( w, x, y, false );
+			OnChange( slider, x, y, false );
 		}
 		return false;
 	}

@@ -410,6 +410,11 @@ class ObjectEditor extends Module
 		bool selected = false;
 		//Print ("Building Type = " + building.GetType());
 
+		if ( !objects ) 
+		{
+			return;
+		}
+
 		for ( int newObject = 0; ( ( newObject < objects.Count() ) && !selected ); ++newObject )
 		{
 			Object obj = objects.Get( newObject );
@@ -434,12 +439,21 @@ class ObjectEditor extends Module
 				SelectObject( obj );
 				selected = true;
 				Print ("Object = " + m_SelectedObject.GetType() );
-				vector modelPos = building.WorldToModel( m_SelectedObject.GetPosition() );
-				//PR9INICHEK: I think modelPos need to push to ObjectInfoMenu.c
+				if ( building ) 
+				{
+					vector modelPos = building.WorldToModel( m_SelectedObject.GetPosition() );
+					//PR9INICHEK: I think modelPos need to push to ObjectInfoMenu.c
 
-				ObjectInfoMenu.infoPosX.SetText( modelPos[0].ToString() );
-				ObjectInfoMenu.infoPosY.SetText( modelPos[1].ToString() );
-				ObjectInfoMenu.infoPosZ.SetText( modelPos[2].ToString() );
+					ObjectInfoMenu.infoPosX.SetText( modelPos[0].ToString() );
+					ObjectInfoMenu.infoPosY.SetText( modelPos[1].ToString() );
+					ObjectInfoMenu.infoPosZ.SetText( modelPos[2].ToString() );
+				}
+				else 
+				{
+					ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
+					ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
+					ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
+				}
 
 				ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
 				ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );

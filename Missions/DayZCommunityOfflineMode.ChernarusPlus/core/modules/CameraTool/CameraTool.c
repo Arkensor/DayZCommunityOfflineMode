@@ -93,7 +93,7 @@ class CameraTool extends Module
 		KeyMouseBinding toggleCamera  = new KeyMouseBinding( GetModuleType(), "ToggleCamera" , "[Insert]"    , "Toggle camera."  );
 		KeyMouseBinding freezeCamera  = new KeyMouseBinding( GetModuleType(), "FreezeCamera" , "[BackSlash]" , "Freezes camera." );
 		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "[Capslock]"  , "Freezes player." , true);
-		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "[LBracket]"  , "Follows target." );
+		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "[LBracket]"  , "Follows target.", true );
 		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "[RBracket]"  , "Toggle orbital mode", true );
 		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "[Return]"	 , "Targets objects or positions", true );
 		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "(RMB)+(Drag)", "Zooms camera"	 , true);
@@ -235,18 +235,21 @@ class CameraTool extends Module
 			
 			vector dir = GetGame().GetPointerDirection();
 			vector from = GetGame().GetCurrentCameraPosition();
-			vector to = from + ( dir * 10000 );
+			vector to = from + ( dir * 1000 );
 			
 			set< Object > objects = GetObjectsAt(from, to);
 			
-			if ( objects.Count() > 0) 
+			if ( objects ) 
 			{
-				Object object = objects.Get(0);
-				if ( object.IsInherited( EntityAI ) && !object.IsBuilding() )
+				if ( objects.Count() > 0) 
 				{
-					m_Target = object;
-					return;
-				} 
+					Object object = objects.Get(0);
+					if ( object.IsInherited( EntityAI ) && !object.IsBuilding() )
+					{
+						m_Target = object;
+						return;
+					} 
+				}
 			}
 			m_TargetPos = GetCursorPos();
 		}

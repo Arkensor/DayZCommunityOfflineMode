@@ -1,5 +1,7 @@
 static string FormatFloat( float value, int decimals ) 
 {
+    if ( !value.ToString().Contains(".") ) return value.ToString();
+	
     string result = "";
     array<string> output = new array<string>;
 
@@ -11,7 +13,6 @@ static string FormatFloat( float value, int decimals )
 
     string right = output.Get(1).Substring(0, decimals);
     result = output.Get(0) + "." + right;
-
     return result;
 }
 
