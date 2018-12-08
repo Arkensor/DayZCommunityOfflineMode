@@ -296,14 +296,6 @@ static Weapon_Base CreateWeapon( PlayerBase oPlayer, string sWeapon )
     return oWpn;
 }
 
-static Magazine LoadMag( PlayerBase oPlayer, Weapon_Base oWpn )
-{    
-    Magazine oMag = Magazine.Cast(oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" ));
-    oPlayer.GetWeaponManager().AttachMagazine( oMag );
-
-    return oMag;
-}
-
 static PlayerBase CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
@@ -313,19 +305,20 @@ static PlayerBase CreateCustomDefaultCharacter()
     item = oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
     item = oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
     item = oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
-    item = oPlayer.GetInventory().CreateInInventory( "PlateCarrierHolster" );
     item = oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
     item = oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
     item = oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
     item = oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
+    item = oPlayer.GetInventory().CreateInInventory( "Shovel" );
 
+    Weapon_Base oWpn = CreateWeapon( oPlayer, "UMP45" );
+    Magazine oMag = Magazine.Cast( oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" ) );
+    oPlayer.GetWeaponManager().AttachMagazine( oMag );
     item = oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
-
-    Weapon_Base oWpn = CreateWeapon(oPlayer, "UMP45");
-    LoadMag(oPlayer, oWpn);
 
     oPlayer.LocalTakeEntityToHands( oWpn );
     oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );
+    oPlayer.SetQuickBarEntityShortcut( oMag, 1, true );
 
     return oPlayer;
 }
@@ -431,4 +424,23 @@ static bool CheckStringType( string str, int type )
         if ( result == type ) return true;
     }
     return false;
+}
+
+string GetRandomChildFromBaseClass( string strConfigName, string strBaseClass )
+{
+    string child_name = "";
+    int count = GetGame().ConfigGetChildrenCount ( strConfigName );
+    array<string> class_names = new array<string>;
+
+    for (int p = 0; p < count; p++)
+    {
+        GetGame().ConfigGetChildName ( strConfigName, p, child_name );
+
+        if ( GetGame().IsKindOf(child_name, strBaseClass ) && ( child_name != strBaseClass ) )
+        {
+            class_names.Insert(child_name);
+        }
+    }
+
+    return class_names.GetRandomElement();
 }

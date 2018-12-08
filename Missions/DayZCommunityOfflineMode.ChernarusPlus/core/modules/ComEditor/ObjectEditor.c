@@ -4,6 +4,7 @@ class ObjectEditor extends Module
 	protected bool m_ObjectEditorActive = false;
 	protected bool m_IsDragging;
 	Object m_SelectedObject;
+	Object building;
 
 	protected ref ObjectMenu m_ObjectMenu;
 
@@ -28,13 +29,13 @@ class ObjectEditor extends Module
 	{
 
 	}
-	
-	void addObject( Object trackedObject ) 
+
+	void addObject( Object trackedObject )
 	{
 		m_Objects.Insert( trackedObject );
 	}
 
-	override void Init() 
+	override void Init()
 	{
 		super.Init();
 
@@ -42,59 +43,80 @@ class ObjectEditor extends Module
 	}
 
 	/**
-		
+
 		Works very similar to pluginkeybinding system with extended features such as multiple keybinds (mouse + keyboard) per function
 		Please refrain from assigning same mouse keys to different functions even with more keybinds.
 		ie: shift+click function vs click function will both call when pressing the former.
-		
+
 		WORK AROUND COULD BE TO MAKE PRIORITY TO FUNCTIONS THAT REQUIRE MORE KEYS/MOUSE BINDS
 		IE: SHIFT+END TOGGLEOBJECTEDITOR VS CTRL+SHIFT+END SOMEOTHERFUNCTION
 		THE FUNCTION WITH MORE BINDS SHOULD BE REGISTERED FIRST.
-		
+
 		TODO: MAKE SYSTEM LIKE THAT ^
 		- dannydog
-	
+
 	**/
-	override void RegisterKeyMouseBindings() 
+	override void RegisterKeyMouseBindings()
 	{
-		KeyMouseBinding toggleEditor  = new KeyMouseBinding( GetModuleType(), "ToggleEditor" , "[Shift]+[End]" , "Toggle object editor."            );
+//		KeyMouseBinding toggleEditor  = new KeyMouseBinding( GetModuleType(), "ToggleEditor" , "[Shift]+[End]" , "Toggle object editor."            );
 		KeyMouseBinding objectSelect  = new KeyMouseBinding( GetModuleType(), "ClickObject"  , "(LMB)+(Click)" , "Selects object on cursor.", true  );
 		KeyMouseBinding objectDrag    = new KeyMouseBinding( GetModuleType(), "DragObject"   , "(LMB)+(Drag)"  , "Drag objects on cursor.",   true  );
 		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object.",  true  );
 		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground.",  true  );
 		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "ExportScene"  , "CTRL+S"	       , "Saves current scene of objects", true);
+		KeyMouseBinding tabFix        = new KeyMouseBinding( GetModuleType(), "TabFix"       , "ALT"	       , "Fixes issue with tabbing out of the game", true );
 //		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate.", true );
 
-		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    ); 
-		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
+//		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    );
+//		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
 		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KeyMouseBinding.KB_EVENT_RELEASE ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
 		sceneSave.AddKeyBind( KeyCode.KC_LCONTROL,  KeyMouseBinding.KB_EVENT_HOLD );
 		sceneSave.AddKeyBind( KeyCode.KC_S, 	 KeyMouseBinding.KB_EVENT_RELEASE );
-
+		tabFix.AddKeyBind( KeyCode.KC_LMENU, 	 KeyMouseBinding.KB_EVENT_PRESS );
 
 		objectSelect.AddMouseBind( MouseState.LEFT		, KeyMouseBinding.MB_EVENT_CLICK ); // Left Click
 		objectDrag.  AddMouseBind( MouseState.LEFT 		, KeyMouseBinding.MB_EVENT_DRAG  );
 		objectGround.AddMouseBind( MouseState.MIDDLE	, KeyMouseBinding.MB_EVENT_CLICK );
 //		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 							 );
-		
-		RegisterKeyMouseBinding( toggleEditor );
+
+//		RegisterKeyMouseBinding( toggleEditor );
 		RegisterKeyMouseBinding( objectSelect );
 		RegisterKeyMouseBinding( objectDrag   );
 		RegisterKeyMouseBinding( objectDelete );
 		RegisterKeyMouseBinding( objectGround );
 		RegisterKeyMouseBinding( sceneSave );
+		RegisterKeyMouseBinding( tabFix );
 //		RegisterKeyMouseBinding( objectScroll );
-		
+
 	}
 
-	void ExportScene() 
-	{
-		string toCopy = "Object obj; \n";
+    void TabFix()
+    {
+        m_SelectedObject = NULL;
+    }
 
-		foreach( Object m_object : m_Objects ) 
+	void ExportScene()
+	{
+		string toCopy;
+        toCopy += "//Spawn helper function\n";
+        toCopy += "void SpawnObject( string type, vector position, vector orientation )\n";
+        toCopy += "{\n";
+        toCopy += "    auto obj = GetGame().CreateObject( type, position );\n";
+        toCopy += "    obj.SetPosition( position );\n";
+        toCopy += "    obj.SetOrientation( orientation );\n";
+        toCopy += "    //Force collision update\n";
+        toCopy += "    vector roll = obj.GetOrientation();\n";
+        toCopy += "    roll [ 2 ] = roll [ 2 ] - 1;\n";
+        toCopy += "    obj.SetOrientation( roll );\n";
+        toCopy += "    roll [ 2 ] = roll [ 2 ] + 1;\n";
+        toCopy += "    obj.SetOrientation( roll );\n";
+        toCopy += "}\n";
+        toCopy += "\n";
+        toCopy += "//Your custom spawned objects\n";
+
+		foreach( Object m_object : m_Objects )
 		{
-			toCopy = toCopy + "obj = GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\");\nobj.SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\nobj.SetPosition(\"" + VectorToString( m_object.GetPosition() ) + "\");\n";
-			//toCopy = toCopy + "GetGame().CreateObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\").SetOrientation(\"" + VectorToString( m_object.GetOrientation() ) + "\");\n";
+			toCopy = toCopy + "SpawnObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\", \"" + VectorToString( m_object.GetOrientation() ) + "\");\n";
 		}
 
 		GetGame().CopyToClipboard( toCopy );
@@ -102,8 +124,8 @@ class ObjectEditor extends Module
 		Message( "Copied to clipboard" );
 	}
 
-	void SaveScene() 
-	{	
+	void SaveScene()
+	{
 
 		// loot spots
 		// pumpkins = civilian
@@ -115,22 +137,22 @@ class ObjectEditor extends Module
 		SceneInfo sceneData = new SceneInfo("Test");
 		// vector position = GetPlayer().WorldToModel(); // origin point
 
-		foreach( Object m_object : m_Objects ) 
+		foreach( Object m_object : m_Objects )
 		{
 			vector pos = GetPlayer().WorldToModel( m_object.GetPosition() );
 
-			if ( m_object.GetType() != "Pumpkin" ) 
+			if ( m_object.GetType() != "Pumpkin" )
 			{
 				sceneData.AddObject( m_object, pos ); // add objects
 			}
 			// then add loot spots
 		}
 
-		foreach( Object m_objectt : m_Objects ) 
+		foreach( Object m_objectt : m_Objects )
 		{
 			vector poss = GetPlayer().WorldToModel( m_object.GetPosition() );
 
-			if ( m_object.GetType() == "Pumpkin" ) 
+			if ( m_object.GetType() == "Pumpkin" )
 			{
 				sceneData.AddObject( m_objectt, poss ); // add objects
 			}
@@ -140,11 +162,11 @@ class ObjectEditor extends Module
 		JsonFileLoader< SceneInfo >.JsonSaveFile( SCENE_DATA + "\\" + sceneData.GetName() + ".json", sceneData );
 
 		*/
-		
+
 		/*
 		string toCopy = "";
 
-		foreach( Object m_object : m_Objects ) 
+		foreach( Object m_object : m_Objects )
 		{
 			if ( m_object.GetType() == "Pot" ) //save loot positions
 			{
@@ -159,11 +181,11 @@ class ObjectEditor extends Module
 		m_Objects.Clear();
 		*/
 
-		
+
 		ref SceneSaveST scene = new SceneSaveST();
 		scene.name = "latest";
 
-		foreach( Object m_object : m_Objects ) 
+		foreach( Object m_object : m_Objects )
 		{
 			ref Param objectParam = new Param3<string, vector, vector>( m_object.GetType(), m_object.GetPosition(), m_object.GetOrientation() );
 			scene.m_SceneObjects.Insert( objectParam );
@@ -172,17 +194,17 @@ class ObjectEditor extends Module
 
 		Message("Saved objects to latest.json");
 		JsonFileLoader< SceneSaveST >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
-		
+
 	}
 
-	void LoadScene() 
+	void LoadScene()
 	{
-		
+
 		ref SceneSaveST scene = new SceneSaveST();
 
 		JsonFileLoader<SceneSaveST>.JsonLoadFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
 
-		foreach( auto param : scene.m_SceneObjects ) 
+		foreach( auto param : scene.m_SceneObjects )
 		{
 
 			Object object = GetGame().CreateObject( param.param1, param.param2, false, false );
@@ -190,43 +212,43 @@ class ObjectEditor extends Module
 
 			m_Objects.Insert( object );
 		}
-		
+
 	}
 
-	void EditorState( bool state ) 
+	void EditorState( bool state )
 	{
-		if ( m_ObjectEditorActive == state ) 
+		if ( m_ObjectEditorActive == state )
 		{
 			return;
 		}
 
 		m_ObjectEditorActive = state;
 
-		if ( m_ObjectEditorActive ) 
-		{	
-			GetPlayer().MessageStatus("Object Editor Enabled");
-		} 
-		else 
+		if ( m_ObjectEditorActive )
 		{
-			GetPlayer().MessageStatus("Object Editor Disabled");
-		}
-	}
-	
-	void ToggleEditor()
-	{
-		m_ObjectEditorActive = !m_ObjectEditorActive;
-		
-		if ( m_ObjectEditorActive ) 
-		{	
 			GetPlayer().MessageStatus("Object Editor Enabled");
-		} 
-		else 
+		}
+		else
 		{
 			GetPlayer().MessageStatus("Object Editor Disabled");
 		}
 	}
 
-	bool IsEditing() 
+	void ToggleEditor()
+	{
+		m_ObjectEditorActive = !m_ObjectEditorActive;
+
+		if ( m_ObjectEditorActive )
+		{
+			GetPlayer().MessageStatus("Object Editor Enabled");
+		}
+		else
+		{
+			GetPlayer().MessageStatus("Object Editor Disabled");
+		}
+	}
+
+	bool IsEditing()
 	{
 		return m_ObjectEditorActive;
 	}
@@ -237,16 +259,16 @@ class ObjectEditor extends Module
 		{
 			return;
 		}
-		
+
 		m_SelectedObject = object;
 	}
 
-	void DeselectObject() 
+	void DeselectObject()
 	{
 		m_SelectedObject = NULL;
 	}
-	
-	void DragObject() 
+
+	void DragObject()
 	{
 		if ( !m_ObjectEditorActive )
 		{
@@ -339,7 +361,7 @@ class ObjectEditor extends Module
 //		*/
 //	}
 
-	void ClickObject() 
+	void ClickObject()
 	{
 		if ( !m_ObjectEditorActive )
 		{
@@ -347,7 +369,7 @@ class ObjectEditor extends Module
 		}
 		Widget widgetCursor = GetGame().GetUIManager().GetWidgetUnderCursor();
 
-		if ( widgetCursor && widgetCursor.GetName() != "EditorMenu" ) 
+		if ( widgetCursor && widgetCursor.GetName() != "EditorMenu" )
 		{
 			return;
 		}
@@ -357,33 +379,55 @@ class ObjectEditor extends Module
 		vector to = from + ( dir * 100 );
 
 		set< Object > objects = GetObjectsAt(from, to, GetGame().GetPlayer(), 0.5 );
-
 		bool selected = false;
-		
-		for ( int nObject = 0; ( ( nObject < objects.Count() ) && !selected ); ++nObject )
+		//Print ("Building Type = " + building.GetType());
+
+		for ( int newObject = 0; ( ( newObject < objects.Count() ) && !selected ); ++newObject )
 		{
-			Object obj = objects.Get( nObject );
-			
-			SelectObject( obj );
-			selected = true;
+			Object obj = objects.Get( newObject );
 
-			ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
-			ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
-			ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
+			if( obj.IsBuilding() )
+			{
+				building = obj;
 
-			ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
-			ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
-			ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
+				SelectObject( obj );
+				selected = true;
+
+				ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
+				ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
+				ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
+
+				ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
+				ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
+				ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
+			}
+			else
+			{
+				SelectObject( obj );
+				selected = true;
+				Print ("Object = " + m_SelectedObject.GetType() );
+				vector modelPos = building.WorldToModel( m_SelectedObject.GetPosition() );
+				//PR9INICHEK: I think modelPos need to push to ObjectInfoMenu.c
+
+				ObjectInfoMenu.infoPosX.SetText( modelPos[0].ToString() );
+				ObjectInfoMenu.infoPosY.SetText( modelPos[1].ToString() );
+				ObjectInfoMenu.infoPosZ.SetText( modelPos[2].ToString() );
+
+				ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
+				ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
+				ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
+			}
+
 		}
-	
+
 		if ( !selected && m_SelectedObject )
 		{
 			GetPlayer().MessageStatus("Current object deselected.");
 			DeselectObject();
 		}
 	}
-	
-	void DeleteObject() 
+
+	void DeleteObject()
 	{
 		if ( !m_ObjectEditorActive )
 		{
@@ -394,15 +438,15 @@ class ObjectEditor extends Module
 		{
 			m_Objects.RemoveItem(m_SelectedObject);
 			m_SelectedObject.SetPosition(vector.Zero); // If object does not physically delete, teleport it to 0 0 0
-			GetGame().ObjectDelete( m_SelectedObject ); 
+			GetGame().ObjectDelete( m_SelectedObject );
 
 			ObjectInfoMenu.UpdateObjectList();
 
-			m_SelectedObject = NULL;	
+			m_SelectedObject = NULL;
 		}
 	}
-	
-	void GroundObject() 
+
+	void GroundObject()
 	{
 		if ( !m_ObjectEditorActive )
 		{
@@ -415,7 +459,7 @@ class ObjectEditor extends Module
 			TStringArray sArray = new TStringArray;
 			m_SelectedObject.GetSelectionList( sArray );
 
-			foreach( string s : sArray ) 
+			foreach( string s : sArray )
 			{
 				Print( s );
 				//GetPlayer().MessageStatus( s);
@@ -425,13 +469,13 @@ class ObjectEditor extends Module
 
 			vector pos = m_SelectedObject.GetPosition();
 			pos[1] = GetGame().SurfaceY(pos[0], pos[2]);
-			
+
 			vector clippingInfo[2];
 			vector objectBBOX[2];
-			
+
 			m_SelectedObject.GetCollisionBox( objectBBOX );
 			m_SelectedObject.ClippingInfo( clippingInfo );
-		
+
 			//float clipY = objectBBOX[1][1] / 2.0//- clippingInfo[0][1];
 			//pos[1] = pos[1] + objectBBOX[1][1] - clipY;
 			pos[1] = pos[1] + clippingInfo[1][1] / 2.0;//objectBBOX[0][1] - clipY
