@@ -288,6 +288,26 @@ class ObjectEditor extends Module
 			return;
 		}
 
+		if ( CTRL() ) 
+		{
+			vector modelPos = m_SelectedObject.WorldToModel( object.GetPosition() );
+
+			ObjectInfoMenu.infoPosX.SetText( modelPos[0].ToString() );
+			ObjectInfoMenu.infoPosY.SetText( modelPos[1].ToString() );
+			ObjectInfoMenu.infoPosZ.SetText( modelPos[2].ToString() );
+
+		}
+		else 
+		{
+			ObjectInfoMenu.infoPosX.SetText( object.GetPosition()[0].ToString() );
+			ObjectInfoMenu.infoPosY.SetText( object.GetPosition()[1].ToString() );
+			ObjectInfoMenu.infoPosZ.SetText( object.GetPosition()[2].ToString() );
+
+			ObjectInfoMenu.infoPosYaw.SetText( object.GetOrientation()[0].ToString() );
+			ObjectInfoMenu.infoPosPitch.SetText( object.GetOrientation()[1].ToString() );
+			ObjectInfoMenu.infoPosRoll.SetText( object.GetOrientation()[2].ToString() );
+		}
+
 		m_SelectedObject = object;
 	}
 
@@ -410,39 +430,16 @@ class ObjectEditor extends Module
 		bool selected = false;
 		//Print ("Building Type = " + building.GetType());
 
-		if ( !objects ) 
+		if ( objects ) 
 		{
-			return;
-		}
-
-		for ( int newObject = 0; ( ( newObject < objects.Count() ) && !selected ); ++newObject )
-		{
-			Object obj = objects.Get( newObject );
-
-			if( obj.IsBuilding() )
+			for ( int newObject = 0; ( ( newObject < objects.Count() ) && !selected ); ++newObject )
 			{
-				building = obj;
+				Object obj = objects.Get( newObject );
 
-				SelectObject( obj );
-				selected = true;
-
-				ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
-				ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
-				ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
-
-				ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
-				ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
-				ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
-			}
-			else
-			{
-				SelectObject( obj );
-				selected = true;
-				Print ("Object = " + m_SelectedObject.GetType() );
-				if ( building ) 
+				if ( CTRL() ) 
 				{
-					vector modelPos = building.WorldToModel( m_SelectedObject.GetPosition() );
-					//PR9INICHEK: I think modelPos need to push to ObjectInfoMenu.c
+
+					vector modelPos = obj.WorldToModel( m_SelectedObject.GetPosition() );
 
 					ObjectInfoMenu.infoPosX.SetText( modelPos[0].ToString() );
 					ObjectInfoMenu.infoPosY.SetText( modelPos[1].ToString() );
@@ -450,16 +447,18 @@ class ObjectEditor extends Module
 				}
 				else 
 				{
+					SelectObject( obj );
+					selected = true;
+
 					ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
 					ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
 					ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
+
+					ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
+					ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
+					ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
 				}
-
-				ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
-				ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
-				ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
 			}
-
 		}
 
 		if ( !selected && m_SelectedObject )

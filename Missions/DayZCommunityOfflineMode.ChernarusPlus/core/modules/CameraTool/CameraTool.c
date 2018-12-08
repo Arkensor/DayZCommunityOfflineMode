@@ -147,7 +147,6 @@ class CameraTool extends Module
 
 		if ( !staticCam ) 
 		{
-			m_FreezePlayer = true;
 			SetFreezePlayer(true);
 		}
 		
@@ -158,7 +157,6 @@ class CameraTool extends Module
 	{
 		if ( m_oCamera )
 		{
-			m_FreezePlayer = false;
 			SetFreezePlayer(false);
 			SetFreezeMouse(false);
 
@@ -572,8 +570,7 @@ class CameraTool extends Module
 	{
 		if ( m_oCamera )
 		{
-			m_FreezePlayer = !m_FreezePlayer;
-			SetFreezePlayer( m_FreezePlayer );
+			SetFreezePlayer( !m_FreezePlayer );
 		}	
 	}
 	
@@ -677,6 +674,7 @@ class CameraTool extends Module
 	
 	void SetFreezePlayer( bool freeze ) 
 	{
+		m_FreezePlayer = freeze;
 		GetPlayer().GetInputController().OverrideMovementSpeed( freeze, 0 );
 		GetPlayer().GetInputController().OverrideAimChangeX( freeze, 0 );
         GetPlayer().GetInputController().OverrideAimChangeY( freeze, 0 );

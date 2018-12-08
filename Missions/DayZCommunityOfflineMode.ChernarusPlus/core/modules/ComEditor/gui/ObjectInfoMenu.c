@@ -1,7 +1,5 @@
 class ObjectInfoMenu extends PopupMenu
 {
-	Object building;
-
 	static EditBoxWidget infoPosX;
 	static EditBoxWidget infoPosY;
 	static EditBoxWidget infoPosZ;
@@ -129,166 +127,74 @@ class ObjectInfoMenu extends PopupMenu
 		}
 		vector orientation = GetSelectedObject().GetOrientation();
 		vector position = GetSelectedObject().GetPosition();
-//		Print (" position = " + position);
 
 		bool up = wheel < 0;
 		int value = 1;
 
 		if ( up ) value = -1;
 
-		vector dir = GetGame().GetPointerDirection();
-		vector from = GetGame().GetCurrentCameraPosition();
-		vector to = from + ( dir * 100 );
-
-		set< Object > bObjects = GetObjectsAt(from, to, GetGame().GetPlayer(), 0.5 );
-		bool selected = false;
-
-		for ( int newObject = 0; ( ( newObject < bObjects.Count() ) && !selected ); ++newObject )
+		if ( w == infoPosYaw )
 		{
-			Object bObj = bObjects.Get( newObject );
-			if( bObj.IsBuilding() )
+			orientation[0] = orientation[0] + value;
+
+			if( Math.AbsFloat( orientation[0] ) < 0.001 )
 			{
-				building = bObj;
+			    orientation[0] = 0;
 			}
+
+			GetSelectedObject().SetOrientation( orientation );
+			infoPosYaw.SetText( orientation[0].ToString() );
 		}
-
-		vector objectPos = building.WorldToModel( GetSelectedObject().GetPosition() );
-//		Print (" objectPos = " + objectPos);
-
-		if ( GetSelectedObject().IsBuilding() )
+		if ( w == infoPosPitch )
 		{
-			if ( w == infoPosYaw )
+			if ( orientation[0] > 0 ) // seemless pitch change
 			{
-				orientation[0] = orientation[0] + value;
-
-				if( Math.AbsFloat( orientation[0] ) < 0.001 )
-				{
-				    orientation[0] = 0;
-				}
-
-				GetSelectedObject().SetOrientation( orientation );
-				infoPosYaw.SetText( orientation[0].ToString() );
+				value = -value;
 			}
-			if ( w == infoPosPitch )
-			{
-				if ( orientation[0] > 0 ) // seemless pitch change
-				{
-					value = -value;
-				}
 
-				orientation[1] = orientation[1] + value;
+			orientation[1] = orientation[1] + value;
 
-                if( Math.AbsFloat( orientation[1] ) < 0.001 )
-                {
-                    orientation[1] = 0;
-                }
+            if( Math.AbsFloat( orientation[1] ) < 0.001 )
+            {
+                orientation[1] = 0;
+            }
 
-				GetSelectedObject().SetOrientation( orientation );
-				infoPosPitch.SetText( orientation[1].ToString() );
+			GetSelectedObject().SetOrientation( orientation );
+			infoPosPitch.SetText( orientation[1].ToString() );
 
-			}
-			if ( w == infoPosRoll )
-			{
-				orientation[2] = orientation[2] + value;
-
-                if( Math.AbsFloat( orientation[2] ) < 0.001 )
-                {
-                    orientation[2] = 0;
-                }
-
-				GetSelectedObject().SetOrientation( orientation );
-				infoPosRoll.SetText( orientation[2].ToString() );
-			}
-			if ( w == infoPosY )
-			{
-				position[1] = position[1] + value * 0.05;
-				GetSelectedObject().SetPosition( position );
-				ForceTargetCollisionUpdate( GetSelectedObject() );
-				infoPosY.SetText( position[1].ToString() );
-			}
-			if ( w == infoPosX )
-			{
-				position[0] = position[0] + value * 0.05;
-				GetSelectedObject().SetPosition( position );
-				ForceTargetCollisionUpdate( GetSelectedObject() );
-				infoPosX.SetText( position[0].ToString() );
-			}
-			if ( w == infoPosZ )
-			{
-				position[2] = position[2] + value * 0.05;
-				GetSelectedObject().SetPosition( position );
-				ForceTargetCollisionUpdate( GetSelectedObject() );
-				infoPosZ.SetText( position[2].ToString() );
-			}
 		}
-		else
+		if ( w == infoPosRoll )
 		{
-			if ( w == infoPosYaw )
-			{
-				orientation[0] = orientation[0] + value;
+			orientation[2] = orientation[2] + value;
 
-                if( Math.AbsFloat( orientation[0] ) < 0.001 )
-                {
-                    orientation[0] = 0;
-                }
+            if( Math.AbsFloat( orientation[2] ) < 0.001 )
+            {
+                orientation[2] = 0;
+            }
 
-				GetSelectedObject().SetOrientation( orientation );
-				infoPosYaw.SetText( orientation[0].ToString() );
-			}
-			if ( w == infoPosPitch )
-			{
-				if ( orientation[0] > 0 ) // seemless pitch change
-				{
-					value = -value;
-				}
-				orientation[1] = orientation[1] + value;
-
-                if( Math.AbsFloat( orientation[1] ) < 0.001 )
-                {
-                    orientation[1] = 0;
-                }
-
-				GetSelectedObject().SetOrientation( orientation );
-				infoPosPitch.SetText( orientation[1].ToString() );
-
-			}
-			if ( w == infoPosRoll )
-			{
-				orientation[2] = orientation[2] + value;
-
-                if( Math.AbsFloat( orientation[2] ) < 0.001 )
-                {
-                    orientation[2] = 0;
-                }
-
-				GetSelectedObject().SetOrientation( orientation );
-				infoPosRoll.SetText( orientation[2].ToString() );
-			}
-
-			if ( w == infoPosY )
-			{
-//				Print ("objectPos[1] = " + objectPos[1]);
-				objectPos[1] = objectPos[1] + value * 0.05;
-				GetSelectedObject().SetPosition( objectPos );
-				ForceTargetCollisionUpdate( GetSelectedObject() );
-				infoPosY.SetText( objectPos[1].ToString() );
-			}
-			if ( w == infoPosX )
-			{
-				objectPos[0] = objectPos[0] + value * 0.05;
-				GetSelectedObject().SetPosition( objectPos );
-				ForceTargetCollisionUpdate( GetSelectedObject() );
-				infoPosX.SetText( objectPos[0].ToString() );
-			}
-			if ( w == infoPosZ )
-			{
-//				Print ("objectPos[2] = " + objectPos[2]);
-				objectPos[2] = objectPos[2] + value * 0.05;
-				GetSelectedObject().SetPosition( objectPos );
-				ForceTargetCollisionUpdate( GetSelectedObject() );
-				infoPosZ.SetText( objectPos[2].ToString() );
-			}
-//			Print ("objectPos before Script is ended = " + objectPos);
+			GetSelectedObject().SetOrientation( orientation );
+			infoPosRoll.SetText( orientation[2].ToString() );
+		}
+		if ( w == infoPosY )
+		{
+			position[1] = position[1] + value * 0.05;
+			GetSelectedObject().SetPosition( position );
+			ForceTargetCollisionUpdate( GetSelectedObject() );
+			infoPosY.SetText( position[1].ToString() );
+		}
+		if ( w == infoPosX )
+		{
+			position[0] = position[0] + (value * 0.05);
+			GetSelectedObject().SetPosition( position );
+			ForceTargetCollisionUpdate( GetSelectedObject() );
+			infoPosX.SetText( position[0].ToString() );
+		}
+		if ( w == infoPosZ )
+		{
+			position[2] = position[2] + value * 0.05;
+			GetSelectedObject().SetPosition( position );
+			ForceTargetCollisionUpdate( GetSelectedObject() );
+			infoPosZ.SetText( position[2].ToString() );
 		}
 		return false;
 	}
