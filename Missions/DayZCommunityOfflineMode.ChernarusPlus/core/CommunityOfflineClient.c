@@ -163,7 +163,7 @@ class CommunityOfflineClient : MissionGameplay
 
 			dBodyDestroy( physicsObj );
 
-			autoptr PhysicsGeomDef geoms[] = {PhysicsGeomDef("", dGeomCreateBox( "1 1 1" ), "material/default", 0xffffffff)};
+			autoptr PhysicsGeomDef geoms[] = {PhysicsGeomDef("", dGeomCreateSphere( 0.1 ), "material/default", 0xffffffff)};
 			dBodyCreateDynamicEx( physicsObj , "0 0 0", 1.0, geoms );
 		}
 		
