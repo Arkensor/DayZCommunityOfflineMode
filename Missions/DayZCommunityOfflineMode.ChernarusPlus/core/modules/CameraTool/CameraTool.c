@@ -4,14 +4,7 @@ class CameraTool extends Module
 
 	protected ref array<vector> m_cKeyframes = new array<vector>;
 
-	// float velocity = vector magnitutde
-	// float acceleration;
-	// force = input forward/back
-	// resistance
-
-	protected float forwardVelocity;
-	protected float strafeVelocity;
-	protected float altitudeVelocity;
+	protected vector velocity; // canera velocity
 
 	protected float yawVelocity;
 	protected float pitchVelocity;
@@ -106,11 +99,11 @@ class CameraTool extends Module
 		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "(RMB)+(Drag)", "Zooms camera"	 , true);
 		KeyMouseBinding speedCamera   = new KeyMouseBinding( GetModuleType(), "CameraSpeed"  , "(MouseWheel)", "Change camera speed", true);
 
-		toggleCamera.AddKeyBind( KeyCode.KC_INSERT    , KeyMouseBinding.KB_EVENT_RELEASE );
-		freezeCamera.AddKeyBind( KeyCode.KC_BACKSLASH , KeyMouseBinding.KB_EVENT_RELEASE );
-		freezePlayer.AddKeyBind( KeyCode.KC_CAPITAL   , KeyMouseBinding.KB_EVENT_RELEASE );
-		followTarget.AddKeyBind( KeyCode.KC_LBRACKET  , KeyMouseBinding.KB_EVENT_RELEASE );
-		toggleOrbit .AddKeyBind( KeyCode.KC_RBRACKET  , KeyMouseBinding.KB_EVENT_RELEASE );
+		toggleCamera.AddKeyBind( KeyCode.KC_INSERT    , KeyMouseBinding.KB_EVENT_PRESS );
+		freezeCamera.AddKeyBind( KeyCode.KC_BACKSLASH , KeyMouseBinding.KB_EVENT_PRESS );
+		freezePlayer.AddKeyBind( KeyCode.KC_CAPITAL   , KeyMouseBinding.KB_EVENT_PRESS );
+		followTarget.AddKeyBind( KeyCode.KC_LBRACKET  , KeyMouseBinding.KB_EVENT_PRESS );
+		toggleOrbit .AddKeyBind( KeyCode.KC_RBRACKET  , KeyMouseBinding.KB_EVENT_PRESS );
 		
 		targetCamera.AddMouseBind( MouseState.MIDDLE , KeyMouseBinding.MB_EVENT_CLICK );
 		
@@ -154,6 +147,7 @@ class CameraTool extends Module
 
 		if ( !staticCam ) 
 		{
+			m_FreezePlayer = true;
 			SetFreezePlayer(true);
 		}
 		
@@ -164,6 +158,7 @@ class CameraTool extends Module
 	{
 		if ( m_oCamera )
 		{
+			m_FreezePlayer = false;
 			SetFreezePlayer(false);
 			SetFreezeMouse(false);
 
@@ -291,7 +286,7 @@ class CameraTool extends Module
 			Input input = GetGame().GetInput();
 
 			if ( !m_FreezeCam ) 
-			{	
+			{
 
 				float forward = KeyState(KeyCode.KC_W) - KeyState(KeyCode.KC_S); // -1, 0, 1
 				float strafe = KeyState(KeyCode.KC_D) - KeyState(KeyCode.KC_A);
@@ -304,40 +299,27 @@ class CameraTool extends Module
 					altitude *= 10.0;
 				}
 				float cam_speed = CAMERA_SPEED;
+				float drag = CAMERA_VELDRAG;
 
 				if ( CAMERA_VELDRAG == 0.9 ) 
 				{
-					forwardVelocity = 0;
-					strafeVelocity = 0;
-					altitudeVelocity = 0;
-					cam_speed *= 20.0;
+					cam_speed *= 15.0;
+					drag = 0;
 				}
 
-				altitudeVelocity = altitudeVelocity + altitude * cam_speed * timeslice;
-
-				altitudeVelocity = Math.Clamp( altitudeVelocity, -cam_speed, cam_speed);
-				vector up = vector.Up * altitudeVelocity;
-
+				vector up = vector.Up;
 				vector direction = m_oCamera.GetDirection();
 				vector directionAside = vector.Up * direction;
 
-				altitudeVelocity *= CAMERA_VELDRAG;
+				up = up * altitude * cam_speed * timeslice;
+				direction = direction * forward * cam_speed * timeslice;
+				directionAside = directionAside * strafe * cam_speed * timeslice;
+
+				velocity = velocity * drag;
+				velocity = ( velocity + direction + directionAside + up );
 
 				vector oldPos = m_oCamera.GetPosition();
-
-				forwardVelocity = forwardVelocity + forward * cam_speed * timeslice;
-				strafeVelocity = strafeVelocity + strafe * cam_speed * timeslice;
-
-				forwardVelocity = Math.Clamp ( forwardVelocity, -cam_speed, cam_speed);
-				strafeVelocity = Math.Clamp ( strafeVelocity, -cam_speed, cam_speed);
-
-				vector forwardChange = forwardVelocity * direction;
-				vector strafeChange = strafeVelocity * directionAside;
-
-				forwardVelocity *= CAMERA_VELDRAG;
-				strafeVelocity *= CAMERA_VELDRAG;
-
-				vector newPos = oldPos + forwardChange + strafeChange + up;
+				vector newPos = oldPos + velocity;
 
 				float surfaceY = GetGame().SurfaceY( newPos[0], newPos[2] ) + 0.25;
 				if ( newPos[1] < surfaceY ) 
@@ -358,9 +340,6 @@ class CameraTool extends Module
 
 				vector newOrient = oldOrient;
 
-				//yawVelocity = Math.Clamp ( yawVelocity, -1.5, 1.5);
-				//pitchVelocity = Math.Clamp ( pitchVelocity, -1.5, 1.5);
-
 				newOrient[0] = oldOrient[0] - Math.RAD2DEG * yawVelocity * timeslice;
 				newOrient[1] = oldOrient[1] - Math.RAD2DEG * pitchVelocity * timeslice;
 
@@ -374,7 +353,6 @@ class CameraTool extends Module
 
 				m_oCamera.SetOrientation( newOrient );
 			}
-
 
 			// Camera targetting
 			float dist = 0.0;
@@ -459,7 +437,9 @@ class CameraTool extends Module
 				}
 				if ( dist > 0 ) CAMERA_FDIST = dist;
 				
-				PPEffects.OverrideDOF(true, CAMERA_FDIST, CAMERA_FLENGTH, CAMERA_FNEAR, CAMERA_BLUR, CAMERA_DOFFSET);
+				m_oCamera.SetFocus(CAMERA_FDIST, CAMERA_BLUR);
+				//m_oCamera.SetNearPlane(CAMERA_FNEAR);
+				// PPEffects.OverrideDOF(true, CAMERA_FDIST, CAMERA_FLENGTH, CAMERA_FNEAR, CAMERA_BLUR, CAMERA_DOFFSET); broken :(
 			}
 		}
 	}

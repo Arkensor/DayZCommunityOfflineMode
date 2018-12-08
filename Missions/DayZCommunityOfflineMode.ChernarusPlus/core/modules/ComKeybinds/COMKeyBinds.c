@@ -35,16 +35,18 @@ class COMKeyBinds extends Module
         KeyMouseBinding spawnZ          = new KeyMouseBinding( GetModuleType() , "SpawnZ"        , "[O]"    , "Spawns infected."               );
         KeyMouseBinding hideHud         = new KeyMouseBinding( GetModuleType() , "HideHud"       , "[HOME]" , "Hides ui completely."           );
         KeyMouseBinding printPlayer     = new KeyMouseBinding( GetModuleType() , "PrintPlayer"   , "[P]"    , "Print current player position." );
-        KeyMouseBinding autoRun         = new KeyMouseBinding( GetModuleType() , "AutoRun"   , "[X]"    , "Toggle autorun." );
+        KeyMouseBinding autoRun         = new KeyMouseBinding( GetModuleType() , "AutoRun"       , "[X]"    , "Toggle autorun." );
+        KeyMouseBinding keyFrame        = new KeyMouseBinding( GetModuleType() , "OpenKeyframe"  , "[=]"    , "Toggle dayz dev cinematic tool." );
 
 		toggleCursor   .AddKeyBind( KeyCode.KC_U,    KeyMouseBinding.KB_EVENT_PRESS   );
-		toggleCOMEditor.AddKeyBind( KeyCode.KC_Y,    KeyMouseBinding.KB_EVENT_RELEASE );
+		toggleCOMEditor.AddKeyBind( KeyCode.KC_Y,    KeyMouseBinding.KB_EVENT_PRESS );
 		teleport       .AddKeyBind( KeyCode.KC_END,  KeyMouseBinding.KB_EVENT_PRESS   );
-		reload         .AddKeyBind( KeyCode.KC_R,    KeyMouseBinding.KB_EVENT_RELEASE );
-        spawnZ         .AddKeyBind( KeyCode.KC_O,    KeyMouseBinding.KB_EVENT_RELEASE );
-        hideHud        .AddKeyBind( KeyCode.KC_HOME, KeyMouseBinding.KB_EVENT_RELEASE );
-        printPlayer    .AddKeyBind( KeyCode.KC_P,    KeyMouseBinding.KB_EVENT_RELEASE );
-        autoRun        .AddKeyBind( KeyCode.KC_X,    KeyMouseBinding.KB_EVENT_RELEASE );
+		reload         .AddKeyBind( KeyCode.KC_R,    KeyMouseBinding.KB_EVENT_PRESS );
+        spawnZ         .AddKeyBind( KeyCode.KC_O,    KeyMouseBinding.KB_EVENT_PRESS );
+        hideHud        .AddKeyBind( KeyCode.KC_HOME, KeyMouseBinding.KB_EVENT_PRESS );
+        printPlayer    .AddKeyBind( KeyCode.KC_P,    KeyMouseBinding.KB_EVENT_PRESS );
+        autoRun        .AddKeyBind( KeyCode.KC_X,    KeyMouseBinding.KB_EVENT_PRESS );
+        keyFrame       .AddKeyBind( KeyCode.KC_EQUALS, KeyMouseBinding.KB_EVENT_PRESS );
 
 		RegisterKeyMouseBinding( toggleCursor );
 		RegisterKeyMouseBinding( toggleCOMEditor );
@@ -54,7 +56,13 @@ class COMKeyBinds extends Module
         RegisterKeyMouseBinding( hideHud );
         RegisterKeyMouseBinding( printPlayer );
         RegisterKeyMouseBinding( autoRun );
+        RegisterKeyMouseBinding( keyFrame );
 	}
+
+    void OpenKeyframe() 
+    {
+        GetGame().GetUIManager().ShowScriptedMenu( GetMission().CreateScriptedMenu(MENU_CAMERA_TOOLS) , NULL );
+    }
 
     void ToggleCursor()
     {
@@ -62,12 +70,15 @@ class COMKeyBinds extends Module
         {
             GetGame().GetInput().ChangeGameFocus( 1 );
             GetGame().GetUIManager().ShowUICursor( true );
+            FreeDebugCamera.GetInstance().SetFreezed(true);
         }
         else
         {
             GetGame().GetUIManager().ShowUICursor( false );
             GetGame().GetInput().ResetGameFocus();
+            FreeDebugCamera.GetInstance().SetFreezed(false);
         }
+         Message(GetDayZGame().GetMissionFolderPath());
     }
 
     void ShowCOMEditor()

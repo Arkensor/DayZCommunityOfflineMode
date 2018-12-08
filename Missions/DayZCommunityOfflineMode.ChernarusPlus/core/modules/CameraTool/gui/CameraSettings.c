@@ -229,7 +229,7 @@ class CameraSettings extends PopupMenu
 
 		if ( w == m_SldCamBlur ) 
 		{
-			CameraTool.CAMERA_BLUR = 4.0 * (m_SldCamBlur.GetCurrent() * 0.01); // percent
+			CameraTool.CAMERA_BLUR = m_SldCamBlur.GetCurrent() * 0.01; // percent
 			
 			if ( m_SldCamBlur.GetCurrent() == 0 ) 
 			{
@@ -399,7 +399,7 @@ class CameraSettings extends PopupMenu
 
 		widgetStore.GetTextWidget("camera_target_txt").SetText("Target: " + cameraTarget );
 
-		m_TxtCamBlur.SetText(((CameraTool.CAMERA_BLUR / 4.0) * 100.0).ToString() + "%");
+		m_TxtCamBlur.SetText((CameraTool.CAMERA_BLUR * 100.0).ToString() + "%");
 
 		string autoF = "";
 		if ( CameraTool.CAMERA_AFOCUS ) 

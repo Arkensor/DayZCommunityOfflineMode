@@ -36,6 +36,8 @@ class CommunityOfflineClient : MissionGameplay
         DayZPlayerCameras.RegisterTransitionTime(DayZPlayerCameras.DAYZCAMERA_1ST, DayZPlayerCameras.DAYZCAMERA_OPTICS, DayZPlayerCameras.TIME_CAMERACHANGE_015, true);
 
 		GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\layouts\\BarrelCrosshair.layout" );
+	
+		GetDayZGame().SetMissionPath("$saves:CommunityOfflineMode\\"); // CameraToolsMenu
 	}
 
 	override void OnMissionStart()

@@ -40,6 +40,7 @@ class ObjectEditor extends Module
 		super.Init();
 
 		LoadScene();
+		ExportObjectLoad();
 	}
 
 	/**
@@ -69,9 +70,9 @@ class ObjectEditor extends Module
 
 //		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    );
 //		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
-		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KeyMouseBinding.KB_EVENT_RELEASE ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
+		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KeyMouseBinding.KB_EVENT_PRESS ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
 		sceneSave.AddKeyBind( KeyCode.KC_LCONTROL,  KeyMouseBinding.KB_EVENT_HOLD );
-		sceneSave.AddKeyBind( KeyCode.KC_S, 	 KeyMouseBinding.KB_EVENT_RELEASE );
+		sceneSave.AddKeyBind( KeyCode.KC_S, 	 KeyMouseBinding.KB_EVENT_PRESS );
 		tabFix.AddKeyBind( KeyCode.KC_LMENU, 	 KeyMouseBinding.KB_EVENT_PRESS );
 
 		objectSelect.AddMouseBind( MouseState.LEFT		, KeyMouseBinding.MB_EVENT_CLICK ); // Left Click
@@ -213,6 +214,33 @@ class ObjectEditor extends Module
 			m_Objects.Insert( object );
 		}
 
+	}
+
+// requested by robotstar78
+	void ExportObjectLoad() 
+	{
+		// Copy paste your exported objects in here to make it look like the example below:
+		/*
+		SpawnObject("Land_CementWorks_Hall2_Brick", "12941.188477 60.166824 5238.811523", "0.000000 0.000000 0.000000");
+		SpawnObject("Land_CementWorks_Hall2_Brick", "12961.633789 54.630013 5247.288086", "0.000000 0.000000 0.000000");
+		SpawnObject("Land_CementWorks_MillA", "12965.892578 70.050812 5223.445313", "0.000000 0.000000 0.000000");
+		SpawnObject("Land_CementWorks_RotFurnace", "12957.807617 69.867195 5234.208984", "0.000000 0.000000 0.000000");
+		*/
+	}
+
+	void SpawnObject( string type, vector position, vector orientation )
+	{
+	    auto obj = GetGame().CreateObject( type, position );
+	    obj.SetPosition( position );
+	    obj.SetOrientation( orientation );
+	    //Force collision update
+	    vector roll = obj.GetOrientation();
+	    roll [ 2 ] = roll [ 2 ] - 1;
+	    obj.SetOrientation( roll );
+	    roll [ 2 ] = roll [ 2 ] + 1;
+	    obj.SetOrientation( roll );
+
+	    m_Objects.Insert( obj );
 	}
 
 	void EditorState( bool state )

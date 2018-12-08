@@ -217,7 +217,7 @@ static vector GetCursorPos()
 
 static void Message( string txt ) 
 {
-    GetClientMission().OnEvent(ChatMessageEventTypeID, new ChatMessageEventParams(CCDirect, "", txt, ""));
+    GetMission().OnEvent(ChatMessageEventTypeID, new ChatMessageEventParams(CCDirect, "", txt, ""));
 }
 
 static Weapon GetWeaponInHands()
