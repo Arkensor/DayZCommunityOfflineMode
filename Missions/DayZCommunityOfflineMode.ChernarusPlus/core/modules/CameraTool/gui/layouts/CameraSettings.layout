@@ -874,6 +874,7 @@ PanelWidgetClass CameraMenu
 								
 								TextWidgetClass camera_slider_flen_text
 								{
+									visible 0
 									position 0.025 0.45
 									size 1 20
 									valign top_ref
@@ -918,6 +919,7 @@ PanelWidgetClass CameraMenu
 								
 								TextWidgetClass camera_slider_fnear_text
 								{
+									visible 0
 									position 0.025 0.65
 									size 1 20
 									valign top_ref
@@ -962,7 +964,7 @@ PanelWidgetClass CameraMenu
 
 								TextWidgetClass camera_slider_exp_txt
 								{
-									position 0.025 0.85
+									position 0.025 0.45
 									size 1 20
 									valign top_ref
 									halign left_ref
