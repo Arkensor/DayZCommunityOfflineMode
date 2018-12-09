@@ -13,7 +13,7 @@ class CommunityOfflineClient : MissionGameplay
 	    Print( "CommunityOfflineClient::CommunityOfflineClient()" );
 	    m_bLoaded = false;
 
-		GetModuleManager();
+		NewModuleManager();
 	}
 
 	void ~CommunityOfflineClient()
@@ -31,8 +31,6 @@ class CommunityOfflineClient : MissionGameplay
 
 		SpawnPlayer();
 
-        GetModuleManager().OnInit();
-
         DayZPlayerCameras.RegisterTransitionTime(DayZPlayerCameras.DAYZCAMERA_1ST, DayZPlayerCameras.DAYZCAMERA_OPTICS, DayZPlayerCameras.TIME_CAMERACHANGE_015, true);
 
 		GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\layouts\\BarrelCrosshair.layout" );
@@ -44,7 +42,9 @@ class CommunityOfflineClient : MissionGameplay
 	{
 		super.OnMissionStart();
 	
-        GetModuleManager().OnMissionStart();
+        GetModuleManager().RegisterModules();
+        GetModuleManager().OnInit();
+		GetModuleManager().OnMissionStart();
 		
 		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 	}
@@ -141,21 +141,21 @@ class CommunityOfflineClient : MissionGameplay
 	{
 		super.OnMouseButtonRelease( button );
 
-		GetModuleManager().OnMouseButtonRelease( button );
+		//GetModuleManager().OnMouseButtonRelease( button );
 	}
 
 	override void OnMouseButtonPress( int button )
 	{
 		super.OnMouseButtonPress( button );
 
-		GetModuleManager().OnMouseButtonPress( button );
+		//GetModuleManager().OnMouseButtonPress( button );
 	}
 
 	override void OnKeyPress( int key )
 	{
 		super.OnKeyPress(key);
 
-		GetModuleManager().OnKeyPress( key );
+		//GetModuleManager().OnKeyPress( key );
 		
 		if ( key == KeyCode.KC_M )
 		{ 
@@ -184,7 +184,7 @@ class CommunityOfflineClient : MissionGameplay
 	{
 		super.OnKeyRelease( key );
 
-		GetModuleManager().OnKeyRelease( key );
+		//GetModuleManager().OnKeyRelease( key );
 		
 		if ( key == KeyCode.KC_PERIOD )
 		{

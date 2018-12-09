@@ -60,35 +60,32 @@ class ObjectEditor extends Module
 	override void RegisterKeyMouseBindings()
 	{
 //		KeyMouseBinding toggleEditor  = new KeyMouseBinding( GetModuleType(), "ToggleEditor" , "[Shift]+[End]" , "Toggle object editor."            );
-		KeyMouseBinding objectSelect  = new KeyMouseBinding( GetModuleType(), "ClickObject"  , "(LMB)+(Click)" , "Selects object on cursor.", true  );
-		KeyMouseBinding objectDrag    = new KeyMouseBinding( GetModuleType(), "DragObject"   , "(LMB)+(Drag)"  , "Drag objects on cursor.",   true  );
-		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "[Delete]"	   , "Deletes selected object.",  true  );
-		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "(Middle Mouse)", "Snaps objects to ground.",  true  );
-		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "ExportScene"  , "CTRL+S"	       , "Saves current scene of objects", true);
-		KeyMouseBinding tabFix        = new KeyMouseBinding( GetModuleType(), "TabFix"       , "ALT"	       , "Fixes issue with tabbing out of the game", true );
+		KeyMouseBinding objectSelect  = new KeyMouseBinding( GetModuleType(), "ClickObject"  , "Selects object on cursor.", true  );
+		KeyMouseBinding objectDrag    = new KeyMouseBinding( GetModuleType(), "DragObject"   , "Drag objects on cursor.",   true  );
+		KeyMouseBinding objectDelete  = new KeyMouseBinding( GetModuleType(), "DeleteObject" , "Deletes selected object.",  true  );
+		KeyMouseBinding objectGround  = new KeyMouseBinding( GetModuleType(), "GroundObject" , "Snaps objects to ground.",  true  );
+		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "ExportScene"  , "Saves current scene of objects", true);
+		KeyMouseBinding tabFix        = new KeyMouseBinding( GetModuleType(), "TabFix"       , "Fixes issue with tabbing out of the game", true );
 //		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate.", true );
 
-//		toggleEditor.AddKeyBind( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    );
-//		toggleEditor.AddKeyBind( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
-		objectDelete.AddKeyBind( KeyCode.KC_DELETE, KeyMouseBinding.KB_EVENT_PRESS ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
-		sceneSave.AddKeyBind( KeyCode.KC_LCONTROL,  KeyMouseBinding.KB_EVENT_HOLD );
-		sceneSave.AddKeyBind( KeyCode.KC_S, 	 KeyMouseBinding.KB_EVENT_PRESS );
-		tabFix.AddKeyBind( KeyCode.KC_LMENU, 	 KeyMouseBinding.KB_EVENT_PRESS );
+//		toggleEditor.AddBinding( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    );
+//		toggleEditor.AddBinding( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
+		objectDelete.AddBinding( "kDelete" ); // Pretty much making KB_EVENT_PRESS useless since you can just use KB_EVENT_HOLD instead.
+		sceneSave.AddBinding( "kLControl" );
+		sceneSave.AddBinding( "kS" );
+		tabFix.AddBinding( "kLMenu" );
 
-		objectSelect.AddMouseBind( MouseState.LEFT		, KeyMouseBinding.MB_EVENT_CLICK ); // Left Click
-		objectDrag.  AddMouseBind( MouseState.LEFT 		, KeyMouseBinding.MB_EVENT_DRAG  );
-		objectGround.AddMouseBind( MouseState.MIDDLE	, KeyMouseBinding.MB_EVENT_CLICK );
-//		objectScroll.AddMouseBind( MouseState.WHEEL		, 0 							 );
+		objectSelect.AddBinding( "mBLeft" ); // Left Click
+		objectDrag.AddBinding( "mBLeft" );
+		objectDrag.SetActionType( KeyMouseActionType.HOLD );
+		objectGround.AddBinding( "mBMiddle" );
 
-//		RegisterKeyMouseBinding( toggleEditor );
 		RegisterKeyMouseBinding( objectSelect );
 		RegisterKeyMouseBinding( objectDrag   );
 		RegisterKeyMouseBinding( objectDelete );
 		RegisterKeyMouseBinding( objectGround );
 		RegisterKeyMouseBinding( sceneSave );
 		RegisterKeyMouseBinding( tabFix );
-//		RegisterKeyMouseBinding( objectScroll );
-
 	}
 
     void TabFix()

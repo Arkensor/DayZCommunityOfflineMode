@@ -90,28 +90,29 @@ class CameraTool extends Module
 	
 	override void RegisterKeyMouseBindings() 
 	{
-		KeyMouseBinding toggleCamera  = new KeyMouseBinding( GetModuleType(), "ToggleCamera" , "[Insert]"    , "Toggle camera."  );
-		KeyMouseBinding freezeCamera  = new KeyMouseBinding( GetModuleType(), "FreezeCamera" , "[BackSlash]" , "Freezes camera." );
-		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "[Capslock]"  , "Freezes player." , true);
-		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "[LBracket]"  , "Follows target.", true );
-		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "[RBracket]"  , "Toggle orbital mode", true );
-		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "[Return]"	 , "Targets objects or positions", true );
-		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "(RMB)+(Drag)", "Zooms camera"	 , true);
-		KeyMouseBinding speedCamera   = new KeyMouseBinding( GetModuleType(), "CameraSpeed"  , "(MouseWheel)", "Change camera speed", true);
+		KeyMouseBinding toggleCamera  = new KeyMouseBinding( GetModuleType(), "ToggleCamera" , "Toggle camera."  );
+		KeyMouseBinding freezeCamera  = new KeyMouseBinding( GetModuleType(), "FreezeCamera" , "Freezes camera." );
+		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "Freezes player." , true);
+		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "Follows target.", true );
+		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "Toggle orbital mode", true );
+		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "Targets objects or positions", true );
+		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "Zooms camera"	 , true);
+		KeyMouseBinding speedCamera   = new KeyMouseBinding( GetModuleType(), "CameraSpeed"  , "Change camera speed", true);
 
-		toggleCamera.AddKeyBind( KeyCode.KC_INSERT    , KeyMouseBinding.KB_EVENT_PRESS );
-		freezeCamera.AddKeyBind( KeyCode.KC_BACKSLASH , KeyMouseBinding.KB_EVENT_PRESS );
-		freezePlayer.AddKeyBind( KeyCode.KC_CAPITAL   , KeyMouseBinding.KB_EVENT_PRESS );
-		followTarget.AddKeyBind( KeyCode.KC_LBRACKET  , KeyMouseBinding.KB_EVENT_PRESS );
-		toggleOrbit .AddKeyBind( KeyCode.KC_RBRACKET  , KeyMouseBinding.KB_EVENT_PRESS );
+		toggleCamera.AddBinding( "kInsert" );
+		freezeCamera.AddBinding( "kBackslash" );
+		freezePlayer.AddBinding( "kCapital" );
+		followTarget.AddBinding( "kLBracket" );
+		toggleOrbit .AddBinding( "kRBracket" );
 		
-		targetCamera.AddMouseBind( MouseState.MIDDLE , KeyMouseBinding.MB_EVENT_CLICK );
+		targetCamera.AddBinding( "mBMiddle" );
 		
-		zoomCamera	.AddMouseBind( MouseState.RIGHT  , KeyMouseBinding.MB_EVENT_DRAG  );
-		zoomCamera  .AddKeyBind( KeyCode.KC_LCONTROL	 , KeyMouseBinding.KB_EVENT_HOLD  );
+		zoomCamera	.AddBinding( "mBRight"  );
+		zoomCamera  .AddBinding( "kLControl"  );
 			
-		speedCamera .AddMouseBind( MouseState.WHEEL, 0);	
-		//zoomCamera    .AddMouseBind( MouseState.WHEEL, 0 );
+		speedCamera.AddBinding( "mWheelUp" );
+
+		//zoomCamera    .AddBinding( MouseState.WHEEL, 0 );
 		
 		RegisterKeyMouseBinding( toggleCamera );
 		RegisterKeyMouseBinding( freezeCamera );

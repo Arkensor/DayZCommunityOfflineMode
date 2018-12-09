@@ -64,28 +64,28 @@ class CommunityOfflineServer : MissionServer
 	{
 		super.OnMouseButtonRelease( button );
 
-		GetModuleManager().OnMouseButtonRelease( button );
+		//GetModuleManager().OnMouseButtonRelease( button );
 	}
 
 	override void OnMouseButtonPress( int button )
 	{
 		super.OnMouseButtonPress( button );
 
-		GetModuleManager().OnMouseButtonPress( button );
+		//GetModuleManager().OnMouseButtonPress( button );
 	}
 
 	override void OnKeyPress( int key )
 	{
 		super.OnKeyPress(key);
 
-		GetModuleManager().OnKeyPress( key );
+		//GetModuleManager().OnKeyPress( key );
     }
 
     override void OnKeyRelease( int key )
 	{
 		super.OnKeyRelease( key );
 
-		GetModuleManager().OnKeyRelease( key );
+		//GetModuleManager().OnKeyRelease( key );
 	}
 
     static void SetupWeather()
