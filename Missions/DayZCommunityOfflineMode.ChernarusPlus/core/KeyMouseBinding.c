@@ -31,9 +31,10 @@ class KeyMouseBinding
         return m_CanBeUsedInMenu;
     }
     
-    void AddBinding( string key ) 
+    void AddBinding( string key, int action = 1)
     {
         m_KeyBinds.Insert( key );
+        m_ActionType = action;
     }
     
     ref array< string > GetBindings() 

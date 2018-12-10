@@ -97,7 +97,10 @@ class CameraTool extends Module
 		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "Toggle orbital mode", true );
 		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "Targets objects or positions", true );
 		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "Zooms camera"	 , true);
-		KeyMouseBinding speedCamera   = new KeyMouseBinding( GetModuleType(), "CameraSpeed"  , "Change camera speed", true);
+		KeyMouseBinding incCamSpeed   = new KeyMouseBinding( GetModuleType(), "IncCamSpeed"  , "Increase camera speed", true);
+		KeyMouseBinding decCamSpeed   = new KeyMouseBinding( GetModuleType(), "DecCamSpeed"  , "Decrease camera speed", true);
+
+		KeyMouseBinding release       = new KeyMouseBinding( GetModuleType(), "Release"		 , "Release mouse", true);
 
 		toggleCamera.AddBinding( "kInsert" );
 		freezeCamera.AddBinding( "kBackslash" );
@@ -107,10 +110,13 @@ class CameraTool extends Module
 		
 		targetCamera.AddBinding( "mBMiddle" );
 		
-		zoomCamera	.AddBinding( "mBRight"  );
-		zoomCamera  .AddBinding( "kLControl"  );
+		zoomCamera	.AddBinding( "mBRight", KeyMouseActionType.HOLD  );
+		zoomCamera  .AddBinding( "kLControl", KeyMouseActionType.HOLD  );
 			
-		speedCamera.AddBinding( "mWheelUp" );
+		incCamSpeed.AddBinding( "mWheelUp" );
+		decCamSpeed.AddBinding( "mWheelDown" );
+
+		release.AddBinding( "mBRight", KeyMouseActionType.RELEASE );
 
 		//zoomCamera    .AddBinding( MouseState.WHEEL, 0 );
 		
@@ -121,7 +127,9 @@ class CameraTool extends Module
 		RegisterKeyMouseBinding( toggleOrbit  );
 		RegisterKeyMouseBinding( targetCamera );
 		RegisterKeyMouseBinding( zoomCamera   );
-		RegisterKeyMouseBinding( speedCamera  );
+		RegisterKeyMouseBinding( incCamSpeed  );
+		RegisterKeyMouseBinding( decCamSpeed  );
+		RegisterKeyMouseBinding( release );
 	}
 
 	Camera GetCamera()
@@ -446,6 +454,35 @@ class CameraTool extends Module
 		}
 	}
 	
+	void IncCamSpeed() 
+	{
+		if ( m_oCamera ) 
+		{
+			if ( GetGame().GetUIManager().IsCursorVisible() ) 
+			{
+				return;
+			}
+			CAMERA_SPEED *= 1.2;
+		}
+	}
+	
+	void DecCamSpeed() 
+	{
+		if ( m_oCamera ) 
+		{
+			if ( GetGame().GetUIManager().IsCursorVisible() ) 
+			{
+				return;
+			}
+			
+			CAMERA_SPEED *= 0.8;
+			if ( CAMERA_SPEED < 0.001 ) 
+			{
+				CAMERA_SPEED = 0.001;
+			}
+		}
+	}
+
 	void CameraSpeed() 
 	{
 		if ( m_oCamera ) 
@@ -477,6 +514,17 @@ class CameraTool extends Module
 				{
 					CAMERA_SPEED = 0.001;
 				}
+			}
+		}
+	}
+
+	void Release() 
+	{
+		if ( m_oCamera ) 
+		{
+			if ( !m_OrbitalCam ) 
+			{
+				SetFreezeMouse( false );
 			}
 		}
 	}

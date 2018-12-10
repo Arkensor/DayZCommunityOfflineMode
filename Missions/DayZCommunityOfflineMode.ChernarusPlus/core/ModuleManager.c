@@ -21,6 +21,7 @@ class KeyMouseActionType
     static int RELEASE = 2;
     static int HOLD = 4;
     static int DOUBLECLICK = 8;
+    static int VALUE = 16;
 }
 
 class ModuleManager
@@ -141,10 +142,10 @@ class ModuleManager
                 {
                     KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
 
-                    //if ( !k_m_Binding.CanBeUsedInMenu() )
-                    //{
-                    //    continue;
-                    //}
+                    if ( !k_m_Binding.CanBeUsedInMenu() && GetGame().GetUIManager().GetMenu())
+                    {
+                        continue;
+                    }
 
                     UAInput input = GetUApi().GetInputByName( k_m_Binding.GetUAInputName() );
 
@@ -169,9 +170,13 @@ class ModuleManager
                     {
                         GetGame().GameScript.CallFunction( GetModule( k_m_Binding.GetObject() ), k_m_Binding.GetCallBackFunction(), NULL, 0 );
                     }
+
+                    if ( action & KeyMouseActionType.VALUE && input.LocalValue() != 0 ) 
+                    {
+                        GetGame().GameScript.CallFunction( GetModule( k_m_Binding.GetObject() ), k_m_Binding.GetCallBackFunction(), NULL, input.LocalValue() );
+                    }
                 }
             }
-            
             module.onUpdate( timeslice );
         }
     }
