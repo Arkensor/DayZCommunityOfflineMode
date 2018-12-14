@@ -157,17 +157,28 @@ class CommunityOfflineClient : MissionGameplay
 
 		//GetModuleManager().OnKeyPress( key );
 		
-		//if ( key == KeyCode.KC_M )
-		//{ 
-		//	Object physicsObj = GetGame().CreateObject( "Apple", GetPlayer().GetPosition() + "0 4 0" );
-//
-		//	if ( physicsObj == NULL ) return;
-//
-		//	dBodyDestroy( physicsObj );
-//
-		//	autoptr PhysicsGeomDef geoms[] = {PhysicsGeomDef("", dGeomCreateSphere( 0.1 ), "material/default", 0xffffffff)};
-		//	dBodyCreateDynamicEx( physicsObj , "0 0 0", 1.0, geoms );
-		//}
+		if ( key == KeyCode.KC_M )
+		{ 
+			Object physicsObj = GetGame().CreateObject( "Apple", GetCursorPos() + "0 5 0" );
+
+			if ( physicsObj == NULL ) return;
+
+			vector m_MinMax[2];
+			vector m_Size;
+			
+			physicsObj.GetCollisionBox(m_MinMax);
+			m_Size[0] = m_MinMax[1][0] - m_MinMax[0][0];
+			m_Size[2] = m_MinMax[1][2] - m_MinMax[0][2];
+			m_Size[1] = m_MinMax[1][1] - m_MinMax[0][1];
+			
+			dBodyDestroy( physicsObj );
+
+			autoptr PhysicsGeomDef geoms[] = {PhysicsGeomDef("", dGeomCreateBox(m_Size), "material/default", 0xffffffff)};
+			dBodyCollisionBlock(physicsObj, GetGame().GetWorld());
+			dBodyCreateDynamicEx( physicsObj , "0 0 0", 1.0, geoms );
+			
+			SetVelocity(physicsObj, "0 -1 0");	
+		}
 		
 //		if ( key == KeyCode.KC_N )
 //		{
