@@ -174,8 +174,8 @@ class CommunityOfflineClient : MissionGameplay
 			dBodyDestroy( physicsObj );
 
 			autoptr PhysicsGeomDef geoms[] = {PhysicsGeomDef("", dGeomCreateBox(m_Size), "material/default", 0xffffffff)};
-			dBodyCollisionBlock(physicsObj, GetGame().GetWorld());
 			dBodyCreateDynamicEx( physicsObj , "0 0 0", 1.0, geoms );
+			dBodyCollisionBlock(physicsObj, GetGame().GetWorld());
 			
 			SetVelocity(physicsObj, "0 -1 0");	
 		}
