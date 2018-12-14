@@ -157,17 +157,17 @@ class CommunityOfflineClient : MissionGameplay
 
 		//GetModuleManager().OnKeyPress( key );
 		
-		if ( key == KeyCode.KC_M )
-		{ 
-			Object physicsObj = GetGame().CreateObject( "Apple", GetPlayer().GetPosition() + "0 4 0" );
-
-			if ( physicsObj == NULL ) return;
-
-			dBodyDestroy( physicsObj );
-
-			autoptr PhysicsGeomDef geoms[] = {PhysicsGeomDef("", dGeomCreateSphere( 0.1 ), "material/default", 0xffffffff)};
-			dBodyCreateDynamicEx( physicsObj , "0 0 0", 1.0, geoms );
-		}
+		//if ( key == KeyCode.KC_M )
+		//{ 
+		//	Object physicsObj = GetGame().CreateObject( "Apple", GetPlayer().GetPosition() + "0 4 0" );
+//
+		//	if ( physicsObj == NULL ) return;
+//
+		//	dBodyDestroy( physicsObj );
+//
+		//	autoptr PhysicsGeomDef geoms[] = {PhysicsGeomDef("", dGeomCreateSphere( 0.1 ), "material/default", 0xffffffff)};
+		//	dBodyCreateDynamicEx( physicsObj , "0 0 0", 1.0, geoms );
+		//}
 		
 //		if ( key == KeyCode.KC_N )
 //		{
