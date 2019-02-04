@@ -25,7 +25,7 @@ class CommunityOfflineClient : MissionGameplay
 	{
 		super.OnInit();
 
-        InitHive();
+        //InitHive();
 
         SetupWeather();
 
