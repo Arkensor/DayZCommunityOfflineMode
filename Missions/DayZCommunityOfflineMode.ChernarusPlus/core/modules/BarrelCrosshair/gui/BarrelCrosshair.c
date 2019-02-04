@@ -84,8 +84,8 @@ class BarrelCrosshair extends ScriptedWidgetEventHandler
 		{
 			if( Class.CastTo(m_Weapon, itemInHands) )
 			{
-				vector usti_hlavne_position = m_Weapon.GetSelectionPosition( "usti hlavne" );
-				vector konec_hlavne_position = m_Weapon.GetSelectionPosition( "konec hlavne" );
+				vector usti_hlavne_position = GetGame().ObjectGetSelectionPosition( m_Weapon, "usti hlavne" );
+				vector konec_hlavne_position = GetGame().ObjectGetSelectionPosition( m_Weapon, "konec hlavne" );
 				
 				vector end_point = m_Weapon.ModelToWorld(usti_hlavne_position);
 				vector begin_point = m_Weapon.ModelToWorld(konec_hlavne_position);
