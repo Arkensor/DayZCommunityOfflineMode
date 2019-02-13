@@ -17,6 +17,7 @@ class EditorMenu extends UIScriptedMenu
 
 	void EditorMenu()
 	{
+	    SetID( 133742 );
 	}
 	
 	void ~EditorMenu()

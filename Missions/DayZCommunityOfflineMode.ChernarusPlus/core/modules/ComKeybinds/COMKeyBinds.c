@@ -28,15 +28,16 @@ class COMKeyBinds extends Module
 	
 	override void RegisterKeyMouseBindings() 
 	{
-		KeyMouseBinding toggleCursor    = new KeyMouseBinding( GetModuleType() , "ToggleCursor"  , "Toggles the cursor."   , true   );
-		KeyMouseBinding toggleCOMEditor = new KeyMouseBinding( GetModuleType() , "ShowCOMEditor" ,  "Opens the COM Editor."          );
-		KeyMouseBinding teleport	    = new KeyMouseBinding( GetModuleType() , "TeleportCursor",  "Teleport to cursor position."   );
-		KeyMouseBinding reload          = new KeyMouseBinding( GetModuleType() , "Reload"        ,  "Instantly reloads mag."		   );
-        KeyMouseBinding spawnZ          = new KeyMouseBinding( GetModuleType() , "SpawnZ"        ,  "Spawns infected."               );
-        KeyMouseBinding hideHud         = new KeyMouseBinding( GetModuleType() , "HideHud"       ,  "Hides ui completely."           );
-        KeyMouseBinding printPlayer     = new KeyMouseBinding( GetModuleType() , "PrintPlayer"   ,"Print current player position." );
-        KeyMouseBinding autoRun         = new KeyMouseBinding( GetModuleType() , "AutoRun"       ,  "Toggle autorun." );
+		KeyMouseBinding toggleCursor    = new KeyMouseBinding( GetModuleType() , "ToggleCursor"  , "Toggles the cursor."   , true     );
+		KeyMouseBinding toggleCOMEditor = new KeyMouseBinding( GetModuleType() , "ShowCOMEditor" ,  "Opens the COM Editor."           );
+		KeyMouseBinding teleport	    = new KeyMouseBinding( GetModuleType() , "TeleportCursor",  "Teleport to cursor position."    );
+		KeyMouseBinding reload          = new KeyMouseBinding( GetModuleType() , "Reload"        ,  "Instantly reloads mag."		  );
+        KeyMouseBinding spawnZ          = new KeyMouseBinding( GetModuleType() , "SpawnZ"        ,  "Spawns infected."                );
+        KeyMouseBinding hideHud         = new KeyMouseBinding( GetModuleType() , "HideHud"       ,  "Hides ui completely."            );
+        KeyMouseBinding printPlayer     = new KeyMouseBinding( GetModuleType() , "PrintPlayer"   ,"Print current player position."    );
+        KeyMouseBinding autoRun         = new KeyMouseBinding( GetModuleType() , "AutoRun"       ,  "Toggle autorun."                 );
         KeyMouseBinding keyFrame        = new KeyMouseBinding( GetModuleType() , "OpenKeyframe"  ,  "Toggle dayz dev cinematic tool." );
+        KeyMouseBinding closeMenu       = new KeyMouseBinding( GetModuleType() , "CloseOpenMenu" ,  "Close the menu on esc.", true    );
 
 		toggleCursor   .AddBinding( "kU" );
 		toggleCOMEditor.AddBinding( "kY" );
@@ -47,6 +48,7 @@ class COMKeyBinds extends Module
         printPlayer    .AddBinding( "kP" );
         autoRun        .AddBinding( "kComma" );
         keyFrame       .AddBinding( "kPrior" );
+        closeMenu      .AddBinding( "kEscape" );
 
 		RegisterKeyMouseBinding( toggleCursor );
 		RegisterKeyMouseBinding( toggleCOMEditor );
@@ -57,6 +59,7 @@ class COMKeyBinds extends Module
         RegisterKeyMouseBinding( printPlayer );
         RegisterKeyMouseBinding( autoRun );
         RegisterKeyMouseBinding( keyFrame );
+        RegisterKeyMouseBinding( closeMenu );
 	}
 
     void OpenKeyframe() 
@@ -79,6 +82,14 @@ class COMKeyBinds extends Module
             FreeDebugCamera.GetInstance().SetFreezed(false);
         }
          Message(GetDayZGame().GetMissionFolderPath());
+    }
+
+    void CloseOpenMenu()
+    {
+        if( GetGame().GetUIManager().GetMenu() && ( GetGame().GetUIManager().GetMenu().GetID() == 133742 ) )
+        {
+            GetGame().GetUIManager().Back();
+        }
     }
 
     void ShowCOMEditor()
