@@ -6,4 +6,4 @@ RD /s /q "storage_-1" > nul 2>&1
 
 cd ../../
 
-start DayZDiag_x64.exe -mission=.\Missions\DayZCommunityOfflineMode.ChernarusPlus -scrAllowFileWrite -nosplash -noPause -noBenchmark -scriptDebug=true -filePatching -doLogs
+start DayZ_x64.exe -mission=.\Missions\DayZCommunityOfflineMode.ChernarusPlus -scrAllowFileWrite -nosplash -noPause -noBenchmark -scriptDebug=true -filePatching -doLogs
