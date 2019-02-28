@@ -31,6 +31,8 @@ class ModuleManager
     void ModuleManager()
     {
         Print( "ModuleManager::ModuleManager()" );
+
+        RegisterModules();
     }
 
     void ~ModuleManager()
@@ -45,8 +47,6 @@ class ModuleManager
     void RegisterModule( ref Module module )
     {
         m_Modules.Insert( module );
-
-        Print( "Registered module " + module );
     }
 
     void RegisterModules()

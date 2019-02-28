@@ -41,8 +41,7 @@ class CommunityOfflineClient : MissionGameplay
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
-	
-        GetModuleManager().RegisterModules();
+
         GetModuleManager().OnInit();
 		GetModuleManager().OnMissionStart();
 		
