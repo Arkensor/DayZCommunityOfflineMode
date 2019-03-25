@@ -62,7 +62,7 @@ class Module
 	{
         m_KeyBindings.Insert( binding );
 
-        UAInput input = GetUApi().RegisterInput( binding.GetUAInputName(), binding.GetDescription(), "infantry" );
+        UAInput input = GetUApi().RegisterInput( binding.GetUAInputName(), binding.GetDescription(), "core" );
 
         if ( input == NULL ) return;
 

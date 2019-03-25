@@ -22,30 +22,28 @@ class GameMenu extends PopupMenu
 		m_gameScriptList = TextListboxWidget.Cast(layoutRoot.FindAnyWidget("game_list_box"));
 		m_gameScriptButton = ButtonWidget.Cast(layoutRoot.FindAnyWidget("game_script_button"));
 
-		m_gameScriptList.AddItem("Spawn Hatchback", new Param1<string>("SpawnHatchback"), 0);
-
-		//Commented out for the time they do not fully work in 0.63
-//		m_gameScriptList.AddItem("Spawn Sedan", 	new Param1<string>("SpawnSedan"), 	  0);
-        m_gameScriptList.AddItem("Spawn V3S",		new Param1<string>("SpawnV3S"), 	  0);
-		m_gameScriptList.AddItem("Spawn V3S_Cargo", new Param1<string>("SpawnV3SCargo"),  0);
-//		m_gameScriptList.AddItem("Spawn Bus", 		new Param1<string>("SpawnBus"), 	  0);
-//		m_gameScriptList.AddItem("Spawn Van",	    new Param1<string>("SpawnVan"), 	  0);
+		m_gameScriptList.AddItem( "Spawn Hatchback", new Param1<string>("SpawnHatchback"), 0 );
+		m_gameScriptList.AddItem( "Spawn Sedan", 	 new Param1<string>("SpawnSedan"), 	   0 );
+        m_gameScriptList.AddItem( "Spawn V3S",		 new Param1<string>("SpawnV3S"), 	   0 );
+//		m_gameScriptList.AddItem( "Spawn V3S_Cargo", new Param1<string>("SpawnV3SCargo"),  0 );
+//		m_gameScriptList.AddItem( "Spawn Bus", 		 new Param1<string>("SpawnBus"), 	   0 );
+//		m_gameScriptList.AddItem( "Spawn Van",	     new Param1<string>("SpawnVan"), 	   0 );
 
 		CheckBoxWidget checkBoxGodmode = CheckBoxWidget.Cast(GetGame().GetWorkspace().CreateWidgets( checkboxLayout, m_checkboxPanel ));
-		checkBoxGodmode.SetName("Godmode");
-		checkBoxGodmode.SetText("Godmode");
+		checkBoxGodmode.SetName( "Godmode" );
+		checkBoxGodmode.SetText( "Godmode" );
 
-		CheckBoxWidget checkBoxAiming = CheckBoxWidget.Cast(GetGame().GetWorkspace().CreateWidgets( checkboxLayout, m_checkboxPanel ));
-		checkBoxAiming.SetName("OldAiming");
-		checkBoxAiming.SetText("Old Aiming");
-
-		CheckBoxWidget checkBoxLaser = CheckBoxWidget.Cast(GetGame().GetWorkspace().CreateWidgets( checkboxLayout, m_checkboxPanel ));
-		checkBoxLaser.SetName("LaserPointer");
-		checkBoxLaser.SetText("Laser Pointer");
+//		CheckBoxWidget checkBoxAiming = CheckBoxWidget.Cast(GetGame().GetWorkspace().CreateWidgets( checkboxLayout, m_checkboxPanel ));
+//		checkBoxAiming.SetName("OldAiming");
+//		checkBoxAiming.SetText("Old Aiming");
+//
+//		CheckBoxWidget checkBoxLaser = CheckBoxWidget.Cast(GetGame().GetWorkspace().CreateWidgets( checkboxLayout, m_checkboxPanel ));
+//		checkBoxLaser.SetName("LaserPointer");
+//		checkBoxLaser.SetText("Laser Pointer");
 
 		checkBoxMap.Insert( checkBoxGodmode.GetName(), "ToggleGodMode" );
-		checkBoxMap.Insert( checkBoxAiming.GetName(), "ToggleOldAiming" );
-		checkBoxMap.Insert( checkBoxLaser.GetName(), "ToggleLaser" );
+//		checkBoxMap.Insert( checkBoxAiming.GetName(), "ToggleOldAiming" );
+//		checkBoxMap.Insert( checkBoxLaser.GetName(), "ToggleLaser" );
 	}
 
 	override void OnShow()

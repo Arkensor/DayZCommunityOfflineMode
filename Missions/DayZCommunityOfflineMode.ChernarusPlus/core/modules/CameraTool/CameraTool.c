@@ -342,8 +342,8 @@ class CameraTool extends Module
 
 			if ( !m_FreezeMouse ) 
 			{
-				float yawDiff = input.GetAction("UAAimLeft") - input.GetAction("UAAimRight");
-				float pitchDiff = input.GetAction("UAAimDown") - input.GetAction("UAAimUp");
+				float yawDiff = input.LocalValue("UAAimLeft") - input.LocalValue("UAAimRight");
+				float pitchDiff = input.LocalValue("UAAimDown") - input.LocalValue("UAAimUp");
 
 				yawVelocity = yawVelocity + yawDiff * CAMERA_MSENS;
 				pitchVelocity = pitchVelocity + pitchDiff * CAMERA_MSENS; // 0.8

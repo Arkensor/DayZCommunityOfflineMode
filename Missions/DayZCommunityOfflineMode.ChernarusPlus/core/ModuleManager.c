@@ -138,9 +138,11 @@ class ModuleManager
 
             if ( !module.IsPreventingInput() )
             {
-                for ( int kb = 0; kb < module.GetBindings().Count(); ++kb )
+                auto bindings = module.GetBindings();
+
+                for ( int nBinding = 0; nBinding < bindings.Count(); ++nBinding )
                 {
-                    KeyMouseBinding k_m_Binding = module.GetBindings().Get(kb);
+                    auto k_m_Binding = bindings[ nBinding ];
 
                     if ( !k_m_Binding.CanBeUsedInMenu() && GetGame().GetUIManager().GetMenu())
                     {
@@ -177,6 +179,7 @@ class ModuleManager
                     }
                 }
             }
+
             module.onUpdate( timeslice );
         }
     }
