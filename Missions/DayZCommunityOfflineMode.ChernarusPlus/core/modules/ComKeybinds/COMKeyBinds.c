@@ -46,7 +46,7 @@ class COMKeyBinds extends Module
         spawnZ         .AddBinding( "kO" );
         hideHud        .AddBinding( "kHome" );
         printPlayer    .AddBinding( "kP" );
-        autoRun        .AddBinding( "kComma" );
+        autoRun        .AddBinding( "kX" );
         keyFrame       .AddBinding( "kPrior" );
         closeMenu      .AddBinding( "kEscape" );
 
