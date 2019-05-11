@@ -45,7 +45,7 @@ You might delete your whole ```Missions``` folder and validate your game files v
 * You can either enter values on the onject editor gui or hover above the value with your mouse and use the scroll wheel to in-/decrease them.
 
 # Loot and infected spawn
-By default the "Hive" that is repsonsible for spawning loot and infected is **enabled**. If you want to prevent loot and infected from spawning you need to follow this guide: [Toggle loot and infected spawn](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Toggle-loot-and-infected-spawn)
+By default the "Hive" that is repsonsible for spawning loot and infected is **enabled**. If you want to prevent loot and infected from spawning you need to follow this guide: [Toggle loot and infected spawn](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Toggle-loot-and-infected-spawn)  
 Disabling the hive increases the game performace.
 
 # Logfiles:
