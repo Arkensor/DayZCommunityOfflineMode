@@ -10,7 +10,7 @@ FrameWidgetClass HudDebugFrameWidget {
   WindowWidgetClass StatusWindowWidget {
    visible 1
    position 0.01 0.01
-   size 309 160
+   size 310 165
    halign right_ref
    hexactpos 0
    vexactpos 0
@@ -43,7 +43,7 @@ FrameWidgetClass HudDebugFrameWidget {
      disabled 1
      clipchildren 0
      position 35 36.7
-     size 79 100
+     size 79 125
      hexactpos 1
      vexactpos 1
      hexactsize 1
@@ -60,7 +60,7 @@ FrameWidgetClass HudDebugFrameWidget {
      disabled 1
      clipchildren 0
      position 125 36.7
-     size 170 100
+     size 170 125
      hexactpos 1
      vexactpos 1
      hexactsize 1
