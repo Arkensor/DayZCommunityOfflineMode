@@ -46,7 +46,7 @@ You might delete your whole ```Missions``` folder and validate your game files v
 
 # Loot and infected spawn
 By default the "Hive" that is repsonsible for spawning loot and infected is **enabled**. If you want to prevent loot and infected from spawning you need to follow this guide: [Toggle loot and infected spawn](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Toggle-loot-and-infected-spawn)  
-Disabling the hive increases the game performace.
+> Disabling the hive increases the game performace.
 
 # Logfiles:
 In case you want to report errors to us or the offical dayz dev team, you might need logfile info.
