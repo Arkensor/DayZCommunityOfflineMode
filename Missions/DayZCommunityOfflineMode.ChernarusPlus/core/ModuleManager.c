@@ -162,9 +162,9 @@ class ModuleManager
 
                     UAInput input = GetUApi().GetInputByName( k_m_Binding.GetUAInputName() );
 
-                    Message( k_m_Binding.GetUAInputName() + " -> " + input.LocalPress() );
+                    //Message( k_m_Binding.GetUAInputName() + " -> " + input.LocalPress() );
 
-                    input.ForceEnable( true );
+                    //input.ForceEnable( true );
 
                     int action = k_m_Binding.GetActionType();
 
