@@ -1,6 +1,6 @@
-# DayZCommunityOfflineMode 2.3
+# DayZCommunityOfflineMode 2.5
 
-**Thank you for over 38.000 downloads!**  
+**Thank you for over 40.000 downloads!**  
 
 The DayZ Community Offline Mode offers the ability, to explore the world of DayZ in a singleplayer environment. While this mode does not represent the actual DayZ gameplay it offers other possibilites for developers, content creators and player who do want to experiment around but not loose all their progress from online.
 
@@ -10,7 +10,7 @@ This is UNOFFICIAL, so don't blame the DayZ development team if this is not work
 There is now a wiki page available on how to use the community offline mode to spawn map objects on your server or mission you are working on: [Add custom objects to your server or mission](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Add-custom-objects-to-your-server-or-mission)
 
 # Installation:
-Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v2.4/DayZ.Community.OfflineMode.zip) zip archive.  
+Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v2.5/DayZ.Community.OfflineMode.zip) zip archive.  
 Make sure you are on the latest `STABLE` or `EXPERIMENTAL` version of the game.
 
 Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
@@ -24,11 +24,12 @@ You might delete your whole ```Missions``` folder and validate your game files v
 
 # Controls:
 * Y (Z for QWERTZ-Keyboard) - Open the COM toolbar menu.
-* X - Toggle Autowalk
-* X + SHIFT - Enable Autorun ( Just X to disable it again )
+* X - Toggle Autojog/walk/run
+* X + SHIFT - Enable Autorun (Just X to disable it again)
+* X + CTRL - Enable Autowalk (Just X to disable it again)
 * END - Teleport at the position you are looking at
 * O - Spawn a random infected (Zombies)
-* O + CTRL - Spawn a doge (Actually a wolf, but you can try and pet him if you have godmode enabled)
+* O + CTRL - Spawn a wolf (Agressive and will fight both players and infected)
 * O + SHIFT - Spawn a random animal
 * R - Reload the weapon and refill the ammo (Infinite ammo)
 * P - Display your current position in the chat and print it to your logfiles (See logfiles section for their location)
