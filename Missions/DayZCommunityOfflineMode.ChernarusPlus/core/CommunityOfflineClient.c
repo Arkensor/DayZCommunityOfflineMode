@@ -1,6 +1,6 @@
 class CommunityOfflineClient : MissionGameplay
 {
-	protected bool HIVE_ENABLED = true; //Local Hive / Economy / Infected spawn
+	protected bool HIVE_ENABLED = false; //Local Hive / Economy / Infected spawn
 
     protected bool m_bLoaded;
 
