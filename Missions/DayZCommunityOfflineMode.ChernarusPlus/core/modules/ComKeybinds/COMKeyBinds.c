@@ -185,7 +185,7 @@ class COMKeyBinds extends Module
 
     void AutoRun()
     {
-        if( m_nAutoWalkMode && !SHIFT() )
+        if( m_nAutoWalkMode && !SHIFT() && !CTRL() )
         {
             m_nAutoWalkMode = 0;
             GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
@@ -195,24 +195,32 @@ class COMKeyBinds extends Module
         {
             if( SHIFT() )
             {
-                m_nAutoWalkMode = 2;
+                m_nAutoWalkMode = 3;
+            }
+            else if( CTRL() )
+            {
+                m_nAutoWalkMode = 1; //CTRL == slow mode
             }
             else
             {
-                m_nAutoWalkMode = 1;
+                m_nAutoWalkMode = 2;
             }
         }
     }
 
     void UpdateAutoWalk()
     {
-        if( m_nAutoWalkMode )
+        if( m_nAutoWalkMode > 0 )
         {
-            if( ( GetPlayer().GetInputController().LimitsIsSprintDisabled() ) || ( m_nAutoWalkMode == 1 ) )
+            if( m_nAutoWalkMode == 1 )
+            {
+                GetPlayer().GetInputController().OverrideMovementSpeed( true, 1 );
+            }
+            else if( ( GetPlayer().GetInputController().LimitsIsSprintDisabled() ) || ( m_nAutoWalkMode == 2 ) )
             {
                 GetPlayer().GetInputController().OverrideMovementSpeed( true, 2 );
             }
-            else
+            else if( m_nAutoWalkMode == 3 )
             {
                 GetPlayer().GetInputController().OverrideMovementSpeed( true, 3 );
             }
