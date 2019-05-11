@@ -1,22 +1,14 @@
-class CommunityOfflineClient : MissionGameplay
+class CommunityOfflineClient extends MissionGameplay
 {
-	protected bool HIVE_ENABLED = false; //Local Hive / Economy / Infected spawn
+	protected bool HIVE_ENABLED = true; //Local Hive / Economy / Infected spawn
 
     protected bool m_bLoaded;
 
-	protected bool m_IsOpenPauseMenu = false;
-
 	void CommunityOfflineClient()
 	{
-	    Print( "CommunityOfflineClient::CommunityOfflineClient()" );
 	    m_bLoaded = false;
 
 		NewModuleManager();
-	}
-
-	void ~CommunityOfflineClient()
-	{
-	    Print( "CommunityOfflineClient::~CommunityOfflineClient()" );
 	}
 
 	override void OnInit()
@@ -29,11 +21,7 @@ class CommunityOfflineClient : MissionGameplay
 
 		SpawnPlayer();
 
-        DayZPlayerCameras.RegisterTransitionTime(DayZPlayerCameras.DAYZCAMERA_1ST, DayZPlayerCameras.DAYZCAMERA_OPTICS, DayZPlayerCameras.TIME_CAMERACHANGE_02, true);
-
-		GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\layouts\\BarrelCrosshair.layout" );
-	
-		GetDayZGame().SetMissionPath("$saves:CommunityOfflineMode\\"); // CameraToolsMenu
+		GetDayZGame().SetMissionPath( "$saves:CommunityOfflineMode\\" ); // CameraToolsMenu
 	}
 
 	override void OnMissionStart()
@@ -42,19 +30,15 @@ class CommunityOfflineClient : MissionGameplay
 
         GetModuleManager().OnInit();
 		GetModuleManager().OnMissionStart();
-		
-		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 	}
 
 	override void OnMissionFinish()
 	{
         GetModuleManager().OnMissionFinish();
-		
+
 		CloseAllMenus();
 
 		DestroyAllMenus();
-
-		GetGame().GetUIManager().CloseMenu( MENU_INGAME );
 
 		if( GetHive() )
 		{
@@ -65,35 +49,9 @@ class CommunityOfflineClient : MissionGameplay
 	}
 
     void OnMissionLoaded()
-    {		
+    {
 		GetModuleManager().OnMissionLoaded();
     }
-
-	#ifdef MODULE_UIEXTENDER
-	override UIScriptedMenu CreateScriptedMenu( int id )
-	{
-		UIScriptedMenu menu = super.CreateScriptedMenu( id );
-
-		UIExtender om = UIExtender.Cast(GetModuleManager().GetModuleByName("UIExtender"));
-
-		if ( om )
-		{
-			UIScriptedMenu tempMenu = om.CreateScriptedMenu( id, menu );
-
-			if ( tempMenu )
-			{
-				menu = tempMenu;
-			}
-		}
-
-		if ( menu )
-		{
-			menu.SetID( id );
-		}
-
-		return menu;
-	}
-	#endif
 
 	override void OnUpdate( float timeslice )
 	{
@@ -108,75 +66,15 @@ class CommunityOfflineClient : MissionGameplay
         }
 	}
 
-	override void OnMouseButtonRelease( int button )
-	{
-		super.OnMouseButtonRelease( button );
-
-		//GetModuleManager().OnMouseButtonRelease( button );
-	}
-
-	override void OnMouseButtonPress( int button )
-	{
-		super.OnMouseButtonPress( button );
-
-		//GetModuleManager().OnMouseButtonPress( button );
-	}
-
-	override void OnKeyPress( int key )
-	{
-		super.OnKeyPress(key);
-
-		//GetModuleManager().OnKeyPress( key );
-		
-		//if ( key == KeyCode.KC_M )
-		//{ 
-		//	Object physicsObj = GetGame().CreateObject( "Apple", GetPlayer().GetPosition() + "0 4 0" );
-//
-		//	if ( physicsObj == NULL ) return;
-//
-		//	dBodyDestroy( physicsObj );
-//
-		//	autoptr PhysicsGeomDef geoms[] = {PhysicsGeomDef("", dGeomCreateSphere( 0.1 ), "material/default", 0xffffffff)};
-		//	dBodyCreateDynamicEx( physicsObj , "0 0 0", 1.0, geoms );
-		//}
-		
-//		if ( key == KeyCode.KC_N )
-//		{
-//			PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
-//			if (player && player.GetItemInHands() && !GetUIManager().GetMenu())
-//			{
-//				ActionManagerClient manager = ActionManagerClient.Cast(player.GetActionManager());
-//				manager.ActionDropItemStart(player.GetItemInHands(),null);
-//			}
-//		}
-	}
-
-	override void OnKeyRelease( int key )
-	{
-		super.OnKeyRelease( key );
-
-		//GetModuleManager().OnKeyRelease( key );
-		
-		if ( key == KeyCode.KC_PERIOD )
-		{
-			//close gestures menu
-			if ( GetUIManager().IsMenuOpen( MENU_GESTURES ) )
-			{
-				//TODO reconnect when appropriate
-				GesturesMenu.CloseMenu();
-			}
-		}
-	}
-
     void SpawnPlayer()
     {
-		#ifndef MODULE_PERSISTENCY
-		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
-		#endif
+//		#ifndef MODULE_PERSISTENCY
+//		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
+//		#endif
 
-		#ifdef DISABLE_PERSISTENCY
+//		#ifdef DISABLE_PERSISTENCY
 		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
-		#endif
+//		#endif
     }
 
 	void InitHive()
@@ -225,4 +123,4 @@ class CommunityOfflineClient : MissionGameplay
         weather.SetWindMaximumSpeed( 50 );
         weather.SetWindFunctionParams( 0, 0, 1 );
     }
-}
+};

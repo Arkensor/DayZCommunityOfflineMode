@@ -19,15 +19,29 @@ class ObjectEditor extends Module
 
 	void ObjectEditor()
 	{
-		MakeDirectory(BASE_COM_DIR);
-		MakeDirectory(BASE_SCENE_DIR);
+//		MakeDirectory( BASE_COM_DIR );
+//		MakeDirectory( BASE_SCENE_DIR );
 
 		sceneManager = new SceneManager();
 	}
 
-	void ~ObjectEditor()
+	void ExportObjectLoad() // requested by robotstar78
 	{
+		// Copy paste your exported objects in here to make it look like the example below:
+		/*
+		SpawnObject( "Land_CementWorks_Hall2_Brick", "12941.188477 60.166824 5238.811523", "0.000000 0.000000 0.000000" );
+		SpawnObject( "Land_CementWorks_Hall2_Brick", "12961.633789 54.630013 5247.288086", "0.000000 0.000000 0.000000" );
+		SpawnObject( "Land_CementWorks_MillA", "12965.892578 70.050812 5223.445313", "0.000000 0.000000 0.000000" );
+		SpawnObject( "Land_CementWorks_RotFurnace", "12957.807617 69.867195 5234.208984", "0.000000 0.000000 0.000000" );
+		*/
+	}
 
+	void SpawnObject( string type, vector position, vector orientation )
+	{
+	    auto obj = GetGame().CreateObject( type, position );
+	    obj.SetPosition( position );
+	    obj.SetOrientation( obj.GetOrientation() );
+	    m_Objects.Insert( obj );
 	}
 
 	void addObject( Object trackedObject )
@@ -101,20 +115,14 @@ class ObjectEditor extends Module
         toCopy += "{\n";
         toCopy += "    auto obj = GetGame().CreateObject( type, position );\n";
         toCopy += "    obj.SetPosition( position );\n";
-        toCopy += "    obj.SetOrientation( orientation );\n";
-        toCopy += "    //Force collision update\n";
-        toCopy += "    vector roll = obj.GetOrientation();\n";
-        toCopy += "    roll [ 2 ] = roll [ 2 ] - 1;\n";
-        toCopy += "    obj.SetOrientation( roll );\n";
-        toCopy += "    roll [ 2 ] = roll [ 2 ] + 1;\n";
-        toCopy += "    obj.SetOrientation( roll );\n";
+        toCopy += "    obj.SetOrientation( obj.GetOrientation() ); //Collision fix\n";
         toCopy += "}\n";
         toCopy += "\n";
         toCopy += "//Your custom spawned objects\n";
 
 		foreach( Object m_object : m_Objects )
 		{
-			toCopy = toCopy + "SpawnObject(\"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\", \"" + VectorToString( m_object.GetOrientation() ) + "\");\n";
+			toCopy = toCopy + "SpawnObject( \"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\", \"" + VectorToString( m_object.GetOrientation() ) + "\" );\n";
 		}
 
 		GetGame().CopyToClipboard( toCopy );
@@ -190,54 +198,26 @@ class ObjectEditor extends Module
 
 		}
 
-		Message("Saved objects to latest.json");
-		JsonFileLoader< SceneSaveST >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
+		Message( "Saved objects to latest.json" );
+//		JsonFileLoader< SceneSaveST >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
+		JsonFileLoader< SceneSaveST >.JsonSaveFile( "$saves:COMObjectEditorSave.json", scene );
 
 	}
 
 	void LoadScene()
 	{
-
 		ref SceneSaveST scene = new SceneSaveST();
 
-		JsonFileLoader<SceneSaveST>.JsonLoadFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
+//		JsonFileLoader<SceneSaveST>.JsonLoadFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
+		JsonFileLoader<SceneSaveST>.JsonLoadFile( "$saves:COMObjectEditorSave.json", scene );
 
 		foreach( auto param : scene.m_SceneObjects )
 		{
-
 			Object object = GetGame().CreateObject( param.param1, param.param2, false, false );
 			object.SetOrientation( param.param3 );
 
 			m_Objects.Insert( object );
 		}
-
-	}
-
-// requested by robotstar78
-	void ExportObjectLoad() 
-	{
-		// Copy paste your exported objects in here to make it look like the example below:
-		/*
-		SpawnObject("Land_CementWorks_Hall2_Brick", "12941.188477 60.166824 5238.811523", "0.000000 0.000000 0.000000");
-		SpawnObject("Land_CementWorks_Hall2_Brick", "12961.633789 54.630013 5247.288086", "0.000000 0.000000 0.000000");
-		SpawnObject("Land_CementWorks_MillA", "12965.892578 70.050812 5223.445313", "0.000000 0.000000 0.000000");
-		SpawnObject("Land_CementWorks_RotFurnace", "12957.807617 69.867195 5234.208984", "0.000000 0.000000 0.000000");
-		*/
-	}
-
-	void SpawnObject( string type, vector position, vector orientation )
-	{
-	    auto obj = GetGame().CreateObject( type, position );
-	    obj.SetPosition( position );
-	    obj.SetOrientation( orientation );
-	    //Force collision update
-	    vector roll = obj.GetOrientation();
-	    roll [ 2 ] = roll [ 2 ] - 1;
-	    obj.SetOrientation( roll );
-	    roll [ 2 ] = roll [ 2 ] + 1;
-	    obj.SetOrientation( roll );
-
-	    m_Objects.Insert( obj );
 	}
 
 	void EditorState( bool state )

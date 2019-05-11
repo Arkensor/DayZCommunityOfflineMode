@@ -29,15 +29,11 @@ class ModuleManager
 
     void ModuleManager()
     {
-        Print( "ModuleManager::ModuleManager()" );
-
         RegisterModules();
     }
 
     void ~ModuleManager()
     {
-        Print( "ModuleManager::~ModuleManager()" );
-
         m_Modules.Clear();
 
         delete m_Modules;
@@ -50,8 +46,6 @@ class ModuleManager
 
     void RegisterModules()
     {
-        Print( "ModuleManager::RegisterModules()" );
-
         m_Modules = new ref array< ref Module >;
 
         #ifdef MODULE_COM_EDITOR
@@ -86,8 +80,6 @@ class ModuleManager
 
     void OnInit()
     {
-        Print( "ModuleManager::OnInit()" );
-
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).Init();
@@ -98,8 +90,6 @@ class ModuleManager
 
     void OnMissionStart()
     {
-        Print( "ModuleManager::OnMissionStart()" );
-
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).onMissionStart();
@@ -108,8 +98,6 @@ class ModuleManager
 
     void OnMissionFinish()
     {
-        Print( "ModuleManager::OnMissionFinish()" );
-
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).onMissionFinish();
@@ -118,8 +106,6 @@ class ModuleManager
 
     void OnMissionLoaded()
     {
-        Print( "ModuleManager::OnMissionLoaded()" );
-
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
             m_Modules.Get(i).onMissionLoaded();
@@ -133,7 +119,7 @@ class ModuleManager
 		bool inputIsFocused = false;
 
 		ref Widget focusedWidget = GetFocus();
-		if ( focusedWidget && focusedWidget.ClassName().Contains("EditBoxWidget") )
+		if ( focusedWidget && focusedWidget.ClassName().Contains( "EditBoxWidget" ) )
 		{
 			inputIsFocused = true;
 		}

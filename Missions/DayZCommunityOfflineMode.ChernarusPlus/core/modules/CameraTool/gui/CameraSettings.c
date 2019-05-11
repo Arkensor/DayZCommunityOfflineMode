@@ -111,7 +111,7 @@ class CameraSettings extends PopupMenu
 		if ( w.GetName() == "camera_toggle" ) 
 		{
 			ref CameraTool cmt = GetModuleManager().GetModule( CameraTool );
-			GetGame().GetCallQueue(CALL_CATEGORY_GAMEPLAY).Call(cmt.ToggleCamera ); // Fix crash
+			GetGame().GetCallQueue( CALL_CATEGORY_GAMEPLAY ).Call( cmt.ToggleCamera ); // Fix crash
 		}
 
 		Widget effectsFrame = widgetStore.GetWidget( "camera_effects_frame" );

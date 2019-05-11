@@ -94,7 +94,7 @@ class COMKeyBinds extends Module
 
     void ShowCOMEditor()
     {
-        GetGame().GetUIManager().ShowScriptedMenu( new EditorMenu() , NULL );
+        GetGame().GetUIManager().ShowScriptedMenu( new EditorMenu(), NULL );
     }
 
     void TeleportCursor()
@@ -181,6 +181,8 @@ class COMKeyBinds extends Module
         Print( "Orientation" + GetPlayer().GetOrientation().ToString() );
         Message( "POS X:" + GetPlayer().GetPosition()[0] + " Y:" + GetPlayer().GetPosition()[2] + " Z:" + GetPlayer().GetPosition()[1] );
         Message( "Player position and orientation vector were written to the game logs too." );
+
+        GetTesting().ExportProxyData( "7500 0 7500", 10000 );
     }
 
     void AutoRun()
@@ -234,8 +236,6 @@ class COMKeyBinds extends Module
         // just putting this here for now
         if ( m_GodMode ) // located in staticfunctions
         {
-            GetPlayer().SetAllowDamage( false );
-
             GetPlayer().SetHealth( GetPlayer().GetMaxHealth( "", "" ) );
             GetPlayer().SetHealth( "","Blood", GetPlayer().GetMaxHealth( "", "Blood" ) );
             GetPlayer().SetHealth( "","Shock", GetPlayer().GetMaxHealth( "", "Shock" ) );

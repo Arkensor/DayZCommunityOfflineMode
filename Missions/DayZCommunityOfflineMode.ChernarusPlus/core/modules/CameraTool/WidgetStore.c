@@ -32,7 +32,7 @@ class WidgetStore
 	{
 		SearchChildren( layoutRoot ); //recursion
 
-		Print("WidgetStore Init - Testing widget loading count: " + allWidgets.Count() );
+		Print( "WidgetStore Init - Testing widget loading count: " + allWidgets.Count() );
 	}
 
 	void SearchChildren( Widget widget ) 

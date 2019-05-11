@@ -137,7 +137,7 @@ class CameraTool extends Module
 		return m_oCamera;
 	}
 
-	void EnableCamera(bool staticCam = false)
+	void EnableCamera( bool staticCam = false )
 	{
 		if ( m_oCamera )
 		{
@@ -145,10 +145,11 @@ class CameraTool extends Module
 		}
 
 		vector position = "0 0 0";
+
 		if ( GetPlayer() )
 		{
 			position = GetPlayer().GetPosition();
-			position[1] = position[1] + 2;
+			position[ 1 ] = position[ 1 ] + 2;
 		}
 
 		m_oCamera = g_Game.CreateObject( "staticcamera", position, false );
@@ -156,7 +157,7 @@ class CameraTool extends Module
 
 		if ( !staticCam ) 
 		{
-			SetFreezePlayer(true);
+			SetFreezePlayer( true );
 		}
 		
 		m_DistanceToObject = 0.0;
@@ -166,22 +167,28 @@ class CameraTool extends Module
 	{
 		if ( m_oCamera )
 		{
-			SetFreezePlayer(false);
-			SetFreezeMouse(false);
+		    //Close menu to give back control to player
+            if( GetGame().GetUIManager().GetMenu() && ( GetGame().GetUIManager().GetMenu().GetID() == 133742 ) )
+            {
+                GetGame().GetUIManager().Back();
+            }
 
-			vector position = "0 0 0";
+			SetFreezePlayer( false );
+			SetFreezeMouse( false );
+
+			vector position;
 
 			if( CTRL() || SHIFT() ) // Extra
 			{
 				position = m_oCamera.GetPosition();
-				position[1] = GetGame().SurfaceY( position[0], position[2] );
+				position[ 1 ] = GetGame().SurfaceY( position[ 0 ], position[ 2 ] );
 			}
 			else
 			{
 				position = GetCursorPos();
 			}
 
-			if ( GetPlayer() ) 
+			if ( GetPlayer() )
 			{
 				GetPlayer().SetPosition( position );
 			}
@@ -193,17 +200,17 @@ class CameraTool extends Module
 			GetGame().ObjectDelete( m_oCamera );
 
 			m_oCamera = NULL;
-			
+
 			m_CamFOV = 1.0;
 			m_TargetFOV = 1.0;
 			m_TargetRoll = 0;
-			
+
 			m_FollowTarget = false;
 			m_OrbitalCam = false;
-			
+
 			m_Target = NULL;
 			m_TargetPos = vector.Zero;
-			
+
 			PPEffects.ResetDOFOverride();
 		}
 	}
@@ -738,4 +745,4 @@ class CameraTool extends Module
 	{
 		m_FreezeMouse = freeze;
 	}
-}
+};
