@@ -44,6 +44,9 @@ You might delete your whole ```Missions``` folder and validate your game files v
 * Spawn in new items using the object spawner menu that can be found in the toolbar.
 * You can either enter values on the onject editor gui or hover above the value with your mouse and use the scroll wheel to in-/decrease them.
 
+# Loot and infected spawn
+By default the "Hive" that is repsonsible for spawning loot and infected is **enabled**. If you want to prevent loot and infected from spawning you need to follow this guide: [Toggle loot and infected spawn](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Toggle-loot-and-infected-spawn)
+
 # Logfiles:
 In case you want to report errors to us or the offical dayz dev team, you might need logfile info.
 We also save the positions you printed ingame in it so that you might revisit them later on by saving them in some textfile.
