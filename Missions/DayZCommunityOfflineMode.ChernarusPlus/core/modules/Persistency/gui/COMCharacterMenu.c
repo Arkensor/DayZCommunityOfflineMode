@@ -516,8 +516,6 @@ class COMCharacterMenu extends UIScriptedMenu
 
         GetMission().GetHud().Show(false);
 
-		GetClientMission().SetCanPause( false );
-
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.UpdateInterval);
 
 		PersistencyPrint( "Finished COMCharacterMenu::OnShow" );
@@ -538,7 +536,6 @@ class COMCharacterMenu extends UIScriptedMenu
         
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Remove(this.UpdateInterval);
 
-		GetClientMission().SetCanPause( true );
 
 		super.OnHide();
 	}

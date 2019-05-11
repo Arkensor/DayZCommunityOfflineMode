@@ -406,6 +406,5 @@ class PersistencyModule extends Module
 	private void FixEscape()
 	{
 		PersistencyPrint("PersistencyModule::FixEscape");
-		GetClientMission().SetCanPause( true );
 	}
 }

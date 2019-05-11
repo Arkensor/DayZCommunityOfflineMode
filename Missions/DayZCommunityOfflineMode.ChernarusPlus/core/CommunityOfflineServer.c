@@ -43,9 +43,6 @@ class CommunityOfflineServer : MissionServer
 		GetModuleManager().OnMissionLoaded();
     }
 
-	void SetCanPause( bool can )
-	{
-	}
 
 	override void OnUpdate( float timeslice )
 	{

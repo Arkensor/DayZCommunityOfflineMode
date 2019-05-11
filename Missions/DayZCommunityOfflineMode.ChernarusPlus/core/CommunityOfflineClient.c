@@ -4,8 +4,6 @@ class CommunityOfflineClient : MissionGameplay
 
     protected bool m_bLoaded;
 
-	protected bool m_CanPause = true;
-
 	protected bool m_IsOpenPauseMenu = false;
 
 	void CommunityOfflineClient()
@@ -70,32 +68,6 @@ class CommunityOfflineClient : MissionGameplay
     {		
 		GetModuleManager().OnMissionLoaded();
     }
-
-	void SetCanPause( bool can )
-	{
-		m_CanPause = can;
-	}
-	
-	bool CanPause()
-	{
-		return m_CanPause;
-	}
-
-	override void Pause()
-	{
-		if ( IsPaused() )
-		{
-			return;
-		} 
-
-		if ( CanPause() )
-		{
-			CloseAllMenus();
-			
-			// open ingame menu
-			GetUIManager().EnterScriptedMenu(MENU_INGAME, NULL);
-		}
-	}
 
 	#ifdef MODULE_UIEXTENDER
 	override UIScriptedMenu CreateScriptedMenu( int id )
