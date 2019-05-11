@@ -359,7 +359,13 @@ class ObjectMenu extends PopupMenu
 					continue;
 				}
 
-				if ( strName == "Mag_Scout_5Rnd") continue; // fix crash for this dumb item. dont spawn it
+				if( strName == "Mag_Scout_5Rnd") continue; // fix crash
+
+				if( strName == "ThingEffect") continue; // fix crash
+
+				if( strName == "ItemOptics") continue; // fix crash
+
+                if( ( strName.Length() > 1 ) && ( ( strName.Substring( 0, 2 ) == "Fx" ) || ( strName.Substring( 0, 2 ) == "FX" ) ) ) continue; // fix crash
 
 				string strNameLower = strName;
 
@@ -370,11 +376,6 @@ class ObjectMenu extends PopupMenu
 					if ( (strSearch != "" && (!strNameLower.Contains( strSearch ))) ) 
 					{
 						continue;
-					}
-
-					if ( strName == "ItemOptics" ) 
-					{
-						continue; // Fix crash
 					}
 
 					m_classList.AddItem( strName, NULL, 0 );

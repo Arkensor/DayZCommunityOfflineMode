@@ -165,7 +165,7 @@ class COMKeyBinds extends Module
         }
         else
         {
-            GetGame().CreateObject( WorkingZombieClasses().GetRandomElement(), GetCursorPos(), false, true );
+            GetGame().CreateObject( GetRandomChildFromBaseClass( "cfgVehicles", "ZombieBase", 2 ), GetCursorPos(), false, true );
         }
     }
 
