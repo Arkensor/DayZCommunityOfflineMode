@@ -4,7 +4,6 @@
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\KeyMouseBinding.c"
 
 #ifdef COM_MODULES_OLDLOADING
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\UIExtender\\module.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\module.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\module.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\module.c"
@@ -70,9 +69,6 @@ class ModuleManager
         #ifdef MODULE_DEBUG_MONITOR
         RegisterModule( new ref CustomDebugMonitor );
         #endif
-        #ifdef MODULE_UIEXTENDER
-        RegisterModule( new ref UIExtender );
-        #endif
     }
 
     void ReloadSettings()
@@ -96,6 +92,8 @@ class ModuleManager
         {
             m_Modules.Get(i).Init();
         }
+
+        GetUApi().UpdateControls();
     }
 
     void OnMissionStart()
@@ -130,7 +128,15 @@ class ModuleManager
 
     void OnUpdate( float timeslice )
     {
-        if ( GetGame().IsServer() && GetGame().IsMultiplayer() ) return; 
+        //if ( GetGame().IsServer() && GetGame().IsMultiplayer() ) return;
+
+		bool inputIsFocused = false;
+
+		ref Widget focusedWidget = GetFocus();
+		if ( focusedWidget && focusedWidget.ClassName().Contains("EditBoxWidget") )
+		{
+			inputIsFocused = true;
+		}
 
         for ( int i = 0; i < m_Modules.Count(); ++i)
         {
@@ -149,7 +155,16 @@ class ModuleManager
                         continue;
                     }
 
+                    if ( inputIsFocused )
+                    {
+                        continue;
+                    }
+
                     UAInput input = GetUApi().GetInputByName( k_m_Binding.GetUAInputName() );
+
+                    Message( k_m_Binding.GetUAInputName() + " -> " + input.LocalPress() );
+
+                    input.ForceEnable( true );
 
                     int action = k_m_Binding.GetActionType();
 
