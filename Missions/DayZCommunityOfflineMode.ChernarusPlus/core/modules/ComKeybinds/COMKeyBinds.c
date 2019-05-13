@@ -133,22 +133,32 @@ class COMKeyBinds extends Module
 
     void Reload()
     {
-        EntityAI oWeapon = GetPlayer().GetHumanInventory().GetEntityInHands();
+        auto wpn = GetPlayer().GetHumanInventory().GetEntityInHands();
 
-        if( oWeapon )
+        if( wpn )
         {
-            Magazine oMag = ( Magazine ) oWeapon.GetAttachmentByConfigTypeName( "DefaultMagazine" );
+            auto magAtt = wpn.GetAttachmentByConfigTypeName( "DefaultMagazine" );
 
-            if( oMag && oMag.IsMagazine() )
+            if( magAtt )
             {
-                oMag.LocalSetAmmoMax();
+                auto mag = Magazine.Cast( magAtt );
+
+                if( mag && mag.IsMagazine() )
+                {
+                    mag.LocalSetAmmoMax();
+                }
             }
 
-            Object oSupressor = ( Object ) oWeapon.GetAttachmentByConfigTypeName( "SuppressorBase" );
+            auto suppAtt = wpn.GetAttachmentByConfigTypeName( "ItemSuppressor" );
 
-            if( oSupressor )
+            if( suppAtt )
             {
-                oSupressor.SetHealth( oSupressor.GetMaxHealth( "", "" ) );
+                auto supp = Object.Cast( suppAtt );
+
+                if( supp )
+                {
+                    supp.SetHealth( supp.GetMaxHealth( "", "" ) );
+                }
             }
         }
     }
