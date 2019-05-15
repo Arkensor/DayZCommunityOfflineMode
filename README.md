@@ -1,4 +1,4 @@
-# DayZCommunityOfflineMode 2.5
+# DayZCommunityOfflineMode 2.6
 
 **Thank you for over 40.000 downloads!**  
 
@@ -10,7 +10,7 @@ This is UNOFFICIAL, so don't blame the DayZ development team if this is not work
 There is now a wiki page available on how to use the community offline mode to spawn map objects on your server or mission you are working on: [Add custom objects to your server or mission](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Add-custom-objects-to-your-server-or-mission)
 
 # Installation:
-Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v2.5/DayZ.Community.OfflineMode.zip) zip archive.  
+Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v2.6/DayZ.Community.OfflineMode.zip) zip archive.  
 Make sure you are on the latest `STABLE` or `EXPERIMENTAL` version of the game.
 
 Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
@@ -56,6 +56,7 @@ Locations are stored inside the script.log for now.
 You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/DayZ -> Hit enter```. 
 
 # Future:
+* Adding configurable keybinds
 * Adding a dedicated logfile
 * Adding persitent settings and stats saving
 * Adding a cinematic manager for content creators
