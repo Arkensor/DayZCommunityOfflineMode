@@ -40,7 +40,9 @@ class ObjectEditor extends Module
 	{
 	    auto obj = GetGame().CreateObject( type, position );
 	    obj.SetPosition( position );
+	    obj.SetOrientation( orientation );
 	    obj.SetOrientation( obj.GetOrientation() );
+	    obj.Update();
 	    m_Objects.Insert( obj );
 	}
 
