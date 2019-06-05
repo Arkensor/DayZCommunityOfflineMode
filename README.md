@@ -1,6 +1,6 @@
 # DayZCommunityOfflineMode 2.6
 
-**Thank you for over 40.000 downloads!**  
+**Thank you for over 41.000 downloads!**  
 
 The DayZ Community Offline Mode offers the ability, to explore the world of DayZ in a singleplayer environment. While this mode does not represent the actual DayZ gameplay it offers other possibilites for developers, content creators and player who do want to experiment around but not loose all their progress from online.
 
