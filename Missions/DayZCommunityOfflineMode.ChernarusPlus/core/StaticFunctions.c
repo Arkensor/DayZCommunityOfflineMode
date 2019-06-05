@@ -261,7 +261,7 @@ static PlayerBase CreateCustomDefaultCharacter()
 
     Weapon_Base oWpn = CreateWeapon( oPlayer, "UMP45" );
     Magazine oMag = Magazine.Cast( oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" ) );
-    oPlayer.GetWeaponManager().AttachMagazine( oMag );
+    oPlayer.GetDayZPlayerInventory().PostWeaponEvent( new WeaponEventAttachMagazine( oPlayer, oMag ) );
     item = oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
 
     oPlayer.LocalTakeEntityToHands( oWpn );
