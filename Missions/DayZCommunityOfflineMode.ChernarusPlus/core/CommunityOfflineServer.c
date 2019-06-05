@@ -1,11 +1,11 @@
 class CommunityOfflineServer : MissionServer
 {
-    protected bool m_bLoaded;
+    protected bool m_loaded;
 
 	void CommunityOfflineServer()
 	{
 	    Print( "CommunityOfflineServer::CommunityOfflineServer()" );
-	    m_bLoaded = false;
+	    m_loaded = false;
 
 		GetModuleManager();
 	}
@@ -50,9 +50,9 @@ class CommunityOfflineServer : MissionServer
 
         GetModuleManager().OnUpdate( timeslice );
 
-        if( !m_bLoaded && !GetDayZGame().IsLoading() )
+        if( !m_loaded && !GetDayZGame().IsLoading() )
         {
-            m_bLoaded = true;
+            m_loaded = true;
             OnMissionLoaded();
         }
 	}
