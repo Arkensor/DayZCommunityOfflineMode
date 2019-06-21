@@ -248,7 +248,7 @@ class COMKeyBinds extends Module
             GetPlayer().SetHealth( "","Blood", GetPlayer().GetMaxHealth( "", "Blood" ) );
             GetPlayer().SetHealth( "","Shock", GetPlayer().GetMaxHealth( "", "Shock" ) );
 
-            GetPlayer().GetStaminaHandler().SyncStamina(1000, 1000);
+            //GetPlayer().GetStaminaHandler().SyncStamina(1000, 1000);
             GetPlayer().GetStatStamina().Set(GetPlayer().GetStaminaHandler().GetStaminaCap());
             GetPlayer().GetStatEnergy().Set(1000);
             GetPlayer().GetStatWater().Set(1000);

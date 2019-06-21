@@ -221,6 +221,6 @@ class GameMenu extends PopupMenu
 		oCar.Fill( CarFluid.COOLANT, 1000 );
 
 		//oCar.EngineStart();
-		oCar.SwitchLights();
+		//oCar.SwitchLights();
 	}
 }
