@@ -254,57 +254,84 @@ PanelWidgetClass ObjectMenu
 					text "Ground"
 				}
 
-		        ButtonWidgetClass btn_spawn_inventory
-		        {
-		            position 300 30
-		            size 80 20
-		            halign right_ref
-		            valign top_ref
-		            hexactpos 1
-		            vexactpos 1
-		            hexactsize 1
-		            vexactsize 1
-		            text "Inventory"
-		        }
-
-				TextWidgetClass quantity_text
+        ButtonWidgetClass btn_spawn_inventory
+        {
+          position 300 30
+          size 80 20
+          halign right_ref
+          valign top_ref
+          hexactpos 1
+          vexactpos 1
+          hexactsize 1
+          vexactsize 1
+          text "Inventory"
+        }
+        
+				TextWidgetClass state_text
 				{
-		            position 100 5
-					size 180 18
-		            halign right_ref
-		            valign top_ref
+          position 100 5
+          size 180 18
+          halign right_ref
+          valign top_ref
 					hexactpos 1
 					vexactpos 1
 					hexactsize 1
 					vexactsize 1
-					text "Quantity (Number/\"MAX\"):"
+					text "State:"
+				}
+
+				EditBoxWidgetClass state_items
+				{
+          position 175 5
+					size 60 16
+          halign right_ref
+          valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+          text "100"
+					style ServerBrowser
+				}
+
+				TextWidgetClass quantity_text
+				{
+          position 100 30
+          size 180 18
+          halign right_ref
+          valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "Quantity:"
 				}
 
 				EditBoxWidgetClass quantity_items
 				{
-		            position 30 5
-					size 60 20
-		            halign right_ref
-		            valign top_ref
+          position 145 30
+          size 70 16
+          halign right_ref
+          valign top_ref
 					hexactpos 1
 					vexactpos 1
 					hexactsize 1
 					vexactsize 1
-					text "MAX"
+          text ""
 					style ServerBrowser
 				}
 				
 				TextWidgetClass className_spawner
 				{
 					position 5 5
-		           	size 150 20
-		           	halign left_ref
-		           	valign top_ref
-		           	hexactpos 1
-		            vexactpos 1
-		            hexactsize 1
-		            vexactsize 1
-		            text "Class Name:"
+          size 150 20
+          halign left_ref
+          valign top_ref
+          hexactpos 1
+          vexactpos 1
+          hexactsize 1
+          vexactsize 1
+          text "Class Name:"
 				}
 				
 				EditBoxWidgetClass className_spawner_box
