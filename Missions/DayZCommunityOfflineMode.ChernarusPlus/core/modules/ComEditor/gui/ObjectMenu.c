@@ -132,6 +132,7 @@ class ObjectMenu extends PopupMenu
             if( w == m_btnSpawnCursor )
             {
                 EntityAI oCursorObj = g_Game.CreateObject( strSelection, GetCursorPos(), true, ai );
+                ForceTargetCollisionUpdate( oCursorObj );
                 obEditor.addObject( oCursorObj );
                 ObjectInfoMenu.listBox.AddItem(oCursorObj.GetType(), oCursorObj, 0);
 
@@ -160,6 +161,7 @@ class ObjectMenu extends PopupMenu
             else if ( w == m_btnSpawnGround )
             {
                 EntityAI oObj = g_Game.CreateObject( strSelection, GetGame().GetPlayer().GetPosition(), false, ai );
+                ForceTargetCollisionUpdate( oCursorObj );
  				obEditor.addObject( oObj );
 			 	ObjectInfoMenu.listBox.AddItem(oObj.GetType(), oObj, 0);
 

@@ -197,7 +197,6 @@ class ObjectEditor extends Module
 		{
 			ref Param objectParam = new Param3<string, vector, vector>( m_object.GetType(), m_object.GetPosition(), m_object.GetOrientation() );
 			scene.m_SceneObjects.Insert( objectParam );
-
 		}
 
 		Message( "Saved objects to latest.json" );
@@ -217,6 +216,7 @@ class ObjectEditor extends Module
 		{
 			Object object = GetGame().CreateObject( param.param1, param.param2, false, false );
 			object.SetOrientation( param.param3 );
+			ForceTargetCollisionUpdate( object );
 
 			m_Objects.Insert( object );
 		}
