@@ -7,6 +7,7 @@ class ObjectMenu extends PopupMenu
 	protected ButtonWidget m_btnSpawnInventory;
 	protected ButtonWidget m_btnCancel;
 	protected EditBoxWidget m_QuantityItem;
+	protected EditBoxWidget m_StateItem;
 
 	private ItemPreviewWidget m_item_widget;
 	protected EntityAI previewItem;
@@ -39,6 +40,7 @@ class ObjectMenu extends PopupMenu
 		m_btnCancel = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_cancel" ) );
 
 		m_QuantityItem = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "quantity_items" ) );
+		m_StateItem = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "state_items" ) );
 		
 		m_editBox = layoutRoot.FindAnyWidget("className_spawner_box");
 	}
@@ -57,40 +59,43 @@ class ObjectMenu extends PopupMenu
 	}
 
 	override bool OnChange( Widget w, int x, int y, bool finished )
-	{
-        if ( w == m_SearchBox )
-        {
-            UpdateList( "All" );
-            return true;
-        }
-
-        return false;
-    }
-
-    bool OnMouseEnter( Widget w , int x, int y ) 
+  {
+    if ( w == m_SearchBox )
     {
-    	if ( w == m_SearchBox ) 
-    	{
-    		GetPlayer().GetInputController().OverrideMovementSpeed( true, 0 );
-    	}
-    	return false;
+      UpdateList( "All" );
+      return true;
     }
 
-    bool OnMouseLeave( Widget w, Widget enterW, int x, int y ) 
+    return false;
+  }
+
+  bool OnMouseEnter( Widget w , int x, int y ) 
+  {
+    if ( w == m_SearchBox ) 
     {
-    	if ( w == m_SearchBox ) 
-    	{
-    		GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
-    	}
-    	return false;
+      GetPlayer().GetInputController().OverrideMovementSpeed( true, 0 );
     }
+    return false;
+  }
+
+  bool OnMouseLeave( Widget w, Widget enterW, int x, int y ) 
+  {
+    if ( w == m_SearchBox ) 
+    {
+      GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
+    }
+    return false;
+  }
 
 	override bool OnClick( Widget w, int x, int y, int button )
 	{
-	    string strSelection = GetCurrentSelection();
-	    bool ai = false;
+    string strSelection = GetCurrentSelection();
+    bool ai = false;
 
 		int quantity = 0;
+    float itemHealth = 0.0;
+    float itemQuantity = 0.0;
+
 		string text = "";
 		ItemBase oItem = NULL;
 
@@ -119,121 +124,97 @@ class ObjectMenu extends PopupMenu
 			strSelection = GetEditBoxInput();
 		}
 
-        if( strSelection != "" )
+    if( strSelection != "" )
+    {
+      strSelection.ToLower();
+      ObjectEditor obEditor = GetModuleManager().GetModule( ObjectEditor );
+
+      if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) ) 
+      {
+        ai = true;
+      }
+
+      if( w == m_btnSpawnCursor )
+      {
+        EntityAI oCursorObj = g_Game.CreateObject( strSelection, GetCursorPos(), true, ai );
+        obEditor.addObject( oCursorObj );
+        ObjectInfoMenu.listBox.AddItem(oCursorObj.GetType(), oCursorObj, 0);
+
+        if ( oCursorObj.IsInherited( ItemBase ) )
         {
-        	strSelection.ToLower();
-        	ObjectEditor obEditor = GetModuleManager().GetModule( ObjectEditor );
+          oItem = ( ItemBase ) oCursorObj;
+          
+          itemHealth = m_StateItem.GetText().ToFloat();
+          itemQuantity = oItem.SetQuantity(m_QuantityItem.GetText().ToFloat());
 
-        	if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) ) 
-        	{
-        		ai = true;
-        	}
+          // void SetupSpawnedItem (ItemBase item, float health, float quantity)
+          SetupSpawnedItem( oItem, itemHealth, itemQuantity);
 
-            if( w == m_btnSpawnCursor )
-            {
-                EntityAI oCursorObj = g_Game.CreateObject( strSelection, GetCursorPos(), true, ai );
-                obEditor.addObject( oCursorObj );
-
-                if ( oCursorObj.IsInherited( ItemBase ) )
-                {
-                    oItem = ( ItemBase ) oCursorObj;
-                    SetupSpawnedItem( oItem, oItem.GetMaxHealth(), 1 );
-
-					quantity = 0;
-					text = m_QuantityItem.GetText();
-					text.ToUpper();
-
-					if (text == "MAX")
-					{
-						quantity = oItem.GetQuantityMax();
-					} else
-					{
-						quantity = text.ToInt();
-					}
-					oItem.SetQuantity(quantity);
-
-                    return true;
-                }
-                oCursorObj.PlaceOnSurface();
-                ObjectInfoMenu.listBox.AddItem(oCursorObj.GetType(), oCursorObj, 0);
-            }
-            else if ( w == m_btnSpawnGround )
-            {
-                EntityAI oObj = g_Game.CreateObject( strSelection, GetGame().GetPlayer().GetPosition(), false, ai );
- 				obEditor.addObject( oObj );
-
-                if ( oObj.IsInherited( ItemBase ) )
-                {
-                    oItem = ( ItemBase ) oObj;
-                    SetupSpawnedItem( oItem, oItem.GetMaxHealth(), 1 );
-					
-					quantity = 0;
-					text = m_QuantityItem.GetText();
-					text.ToUpper();
-					
-					if (text == "MAX")
-					{
-						quantity = oItem.GetQuantityMax();
-					} else
-					{
-						quantity = text.ToInt();
-					}
-					oItem.SetQuantity(quantity);
-
-                    return true;
-                }
-                oObj.PlaceOnSurface();
-                ObjectInfoMenu.listBox.AddItem(oObj.GetType(), oObj, 0);
-
-            }
-            else if ( w == m_btnSpawnInventory )
-            {
-                EntityAI oInvItem = g_Game.GetPlayer().GetInventory().CreateInInventory( strSelection );
-
-                oInvItem.SetHealth( oInvItem.GetMaxHealth() );
-
-                if ( oInvItem.IsInherited( ItemBase ) )
-                {
-                    oItem = ( ItemBase ) oObj;
-                    SetupSpawnedItem( oItem, oItem.GetMaxHealth(), 1 );
-
-					quantity = 0;
-					text = m_QuantityItem.GetText();
-					text.ToUpper();
-					
-					if (text == "MAX")
-					{
-						quantity = oItem.GetQuantityMax();
-					} else
-					{
-						quantity = text.ToInt();
-					}
-					oItem.SetQuantity(quantity);
-				}
-                return true;
-            }
+          return true;
         }
+        oCursorObj.PlaceOnSurface();
+      }
+      else if ( w == m_btnSpawnGround )
+      {
+        EntityAI oObj = g_Game.CreateObject( strSelection, GetGame().GetPlayer().GetPosition(), false, ai );
+        obEditor.addObject( oObj );
+        ObjectInfoMenu.listBox.AddItem(oObj.GetType(), oObj, 0);
 
-        if ( w.GetName().Contains( "btn_filter" ) ) 
+        if ( oObj.IsInherited( ItemBase ) )
         {
-        	string buttonName = w.GetName();
-        	buttonName.Replace("btn_filter_", "");
-        	UpdateList( buttonName );
+          oItem = ( ItemBase ) oObj;
+          
+          itemHealth = m_StateItem.GetText().ToFloat();
+          itemQuantity = oItem.SetQuantity(m_QuantityItem.GetText().ToFloat());
 
-        	return true;
+          // void SetupSpawnedItem (ItemBase item, float health, float quantity)
+          SetupSpawnedItem( oItem, itemHealth, itemQuantity);
+
+          return true;
         }
+        oObj.PlaceOnSurface();
 
-        return false;
+      }
+      else if ( w == m_btnSpawnInventory )
+      {
+        EntityAI oInvItem = g_Game.GetPlayer().GetInventory().CreateInInventory( strSelection );
+
+        oInvItem.SetHealth( oInvItem.GetMaxHealth() );
+
+        if ( oInvItem.IsInherited( ItemBase ) )
+        {
+          oItem = ( ItemBase ) oInvItem;
+          
+          itemHealth = m_StateItem.GetText().ToFloat();
+          itemQuantity = oItem.SetQuantity(m_QuantityItem.GetText().ToFloat());
+
+          // void SetupSpawnedItem (ItemBase item, float health, float quantity)
+          SetupSpawnedItem( oItem, itemHealth, itemQuantity);
+        }
+        return true;
+      }
+    }
+
+    if ( w.GetName().Contains( "btn_filter" ) ) 
+    {
+      string buttonName = w.GetName();
+      buttonName.Replace("btn_filter_", "");
+      UpdateList( buttonName );
+
+      return true;
+    }
+
+    return false;
 	}
 
 	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
 	{
-        if ( w == m_classList ) 
-        {
-        	string strSelection = GetCurrentSelection();
-        	m_characterOrientation = vector.Zero;
+    if ( w == m_classList ) 
+    {
+      string strSelection = GetCurrentSelection();
+      m_characterOrientation = vector.Zero;
 
-        	if ( !m_item_widget )
+      if ( !m_item_widget )
 			{
 				Widget preview_panel = layoutRoot.FindAnyWidget("preview_pnl");
 
@@ -267,7 +248,10 @@ class ObjectMenu extends PopupMenu
 
 			// align to center 
 			m_item_widget.SetPos( -0.225, -0.225 );
-        }
+
+      // Calculate and Set QuantityMax on text box in quantity_items
+      m_QuantityItem.SetText((previewItem.ConfigGetInt( "varQuantityMax" )).ToString());
+    }
 
 		return true;
 	}
@@ -359,7 +343,13 @@ class ObjectMenu extends PopupMenu
 					continue;
 				}
 
-				if ( strName == "Mag_Scout_5Rnd") continue; // fix crash for this dumb item. dont spawn it
+				if( strName == "Mag_Scout_5Rnd") continue; // fix crash
+
+				if( strName == "ThingEffect") continue; // fix crash
+
+				if( strName == "ItemOptics") continue; // fix crash
+
+                if( ( strName.Length() > 1 ) && ( ( strName.Substring( 0, 2 ) == "Fx" ) || ( strName.Substring( 0, 2 ) == "FX" ) ) ) continue; // fix crash
 
 				string strNameLower = strName;
 
@@ -370,11 +360,6 @@ class ObjectMenu extends PopupMenu
 					if ( (strSearch != "" && (!strNameLower.Contains( strSearch ))) ) 
 					{
 						continue;
-					}
-
-					if ( strName == "ItemOptics" ) 
-					{
-						continue; // Fix crash
 					}
 
 					m_classList.AddItem( strName, NULL, 0 );
