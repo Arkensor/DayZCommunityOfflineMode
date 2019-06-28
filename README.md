@@ -72,3 +72,4 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * [Watchman](https://twitter.com/watchman113) - Documentation
 * [n8m4re](https://github.com/n8m4re) - Code: SaveManager
 * [wriley](https://github.com/wriley) - Code snippets beards
+* [PR9INICHEK](https://github.com/PR9INICHEK) - Object spawner additions
