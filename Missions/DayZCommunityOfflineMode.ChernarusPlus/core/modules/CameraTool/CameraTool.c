@@ -92,13 +92,13 @@ class CameraTool extends Module
 	{
 		KeyMouseBinding toggleCamera  = new KeyMouseBinding( GetModuleType(), "ToggleCamera" , "Toggle camera."  );
 		KeyMouseBinding freezeCamera  = new KeyMouseBinding( GetModuleType(), "FreezeCamera" , "Freezes camera." );
-		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "Freezes player." , true);
+		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "Freezes player.", true);
 		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "Follows target.", true );
 		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "Toggle orbital mode", true );
 		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "Targets objects or positions", true );
-		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "Zooms camera"	 , true);
-		KeyMouseBinding incCamSpeed   = new KeyMouseBinding( GetModuleType(), "IncCamSpeed"  , "Increase camera speed", true);
-		KeyMouseBinding decCamSpeed   = new KeyMouseBinding( GetModuleType(), "DecCamSpeed"  , "Decrease camera speed", true);
+		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "Zooms camera" );
+		KeyMouseBinding incCamSpeed   = new KeyMouseBinding( GetModuleType(), "IncCamSpeed"  , "Increase camera speed" );
+		KeyMouseBinding decCamSpeed   = new KeyMouseBinding( GetModuleType(), "DecCamSpeed"  , "Decrease camera speed" );
 
 		KeyMouseBinding release       = new KeyMouseBinding( GetModuleType(), "Release"		 , "Release mouse", true);
 
@@ -110,15 +110,15 @@ class CameraTool extends Module
 		
 		targetCamera.AddBinding( "mBMiddle" );
 		
-		zoomCamera	.AddBinding( "mBRight", KeyMouseActionType.HOLD  );
-		zoomCamera  .AddBinding( "kLControl", KeyMouseActionType.HOLD  );
-			
+		zoomCamera.AddBinding( "mBRight", KeyMouseActionType.HOLD );
+		zoomCamera.AddBinding( "kLControl", KeyMouseActionType.HOLD );
+
 		incCamSpeed.AddBinding( "mWheelUp" );
 		decCamSpeed.AddBinding( "mWheelDown" );
 
 		release.AddBinding( "mBRight", KeyMouseActionType.RELEASE );
 
-		//zoomCamera    .AddBinding( MouseState.WHEEL, 0 );
+//		zoomCamera    .AddBinding( MouseState.WHEEL, 0 );
 		
 		RegisterKeyMouseBinding( toggleCamera );
 		RegisterKeyMouseBinding( freezeCamera );
