@@ -43,6 +43,9 @@ class ObjectEditor extends Module
 	    obj.SetOrientation( orientation );
 	    obj.SetOrientation( obj.GetOrientation() );
 	    obj.Update();
+	    obj.SetAffectPathgraph( true, false );
+        GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( GetGame().UpdatePathgraphRegionByObject, 100, false, obj );
+
 	    m_Objects.Insert( obj );
 	}
 
@@ -120,6 +123,8 @@ class ObjectEditor extends Module
         toCopy += "    obj.SetOrientation( orientation );\n";
         toCopy += "    obj.SetOrientation( obj.GetOrientation() ); //Collision fix\n";
         toCopy += "    obj.Update();\n";
+        toCopy += "    obj.SetAffectPathgraph( true, false );\n";
+        toCopy += "    if( obj.CanAffectPathgraph() ) GetGame().GetCallQueue( CALL_CATEGORY_SYSTEM ).CallLater( GetGame().UpdatePathgraphRegionByObject, 100, false, obj );\n";
         toCopy += "}\n";
         toCopy += "\n";
         toCopy += "//Your custom spawned objects\n";
