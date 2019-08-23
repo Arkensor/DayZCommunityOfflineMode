@@ -25,6 +25,7 @@ class GameMenu extends PopupMenu
 		m_gameScriptList.AddItem( "Spawn Hatchback", new Param1< string >( "SpawnHatchback" ), 0 );
 		m_gameScriptList.AddItem( "Spawn Sedan", 	 new Param1< string >( "SpawnSedan" ), 	   0 );
         m_gameScriptList.AddItem( "Spawn Gunter 2",  new Param1< string >( "SpawnGunter" ),    0 );
+        m_gameScriptList.AddItem( "Spawn S120",  new Param1< string >( "SpawnS120" ),    0 );
 //      m_gameScriptList.AddItem( "Spawn V3S",		 new Param1< string >( "SpawnV3S" ), 	   0 );
 //		m_gameScriptList.AddItem( "Spawn V3S_Cargo", new Param1< string >( "SpawnV3SCargo" ),  0 );
 //		m_gameScriptList.AddItem( "Spawn Bus", 		 new Param1< string >( "SpawnBus" ), 	   0 );
@@ -177,6 +178,18 @@ class GameMenu extends PopupMenu
 		};
 
 		SpawnVehicle( "Hatchback_02", attArr );
+	}
+
+	void SpawnS120()
+	{
+		TStringArray attArr = {
+		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug", "Sedan_02_Door_1_1",
+		"Sedan_02_Door_1_2", "Sedan_02_Door_2_1","Sedan_02_Door_2_2",
+		"Sedan_02_Trunk", "Sedan_02_Hood", "Sedan_02_Wheel", "Sedan_02_Wheel",
+		"Sedan_02_Wheel", "Sedan_02_Wheel",
+		};
+
+		SpawnVehicle( "Sedan_02", attArr );
 	}
 
 	void SpawnV3SCargo() 
