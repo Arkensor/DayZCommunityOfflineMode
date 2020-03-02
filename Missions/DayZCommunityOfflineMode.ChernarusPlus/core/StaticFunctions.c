@@ -293,16 +293,14 @@ static PlayerBase CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), GetSpawnPoints().GetRandomElement(), 0, "NONE") );
 
-    EntityAI item = NULL;
-
-    item = oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
-    item = oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
-    item = oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
-    item = oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
-    item = oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
-    item = oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
-    item = oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
-    item = oPlayer.GetInventory().CreateInInventory( "Shovel" );
+    oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
+    oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
+    oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
+    oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
+    oPlayer.GetInventory().CreateInInventory( "HunterPants_Autumn" );
+    oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
+    oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
+    oPlayer.GetInventory().CreateInInventory( "Shovel" );
 
 	InventoryLocation wpn_il = new InventoryLocation;
 	wpn_il.SetHands( oPlayer, NULL );
