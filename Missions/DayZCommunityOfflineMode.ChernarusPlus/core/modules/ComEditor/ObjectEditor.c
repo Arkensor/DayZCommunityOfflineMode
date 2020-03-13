@@ -196,7 +196,7 @@ class ObjectEditor extends Module
 		m_Objects.Clear();
 		*/
 
-
+        /*
 		ref SceneSaveST scene = new SceneSaveST();
 		scene.name = "latest";
 
@@ -205,11 +205,35 @@ class ObjectEditor extends Module
 			ref Param objectParam = new Param3<string, vector, vector>( m_object.GetType(), m_object.GetPosition(), m_object.GetOrientation() );
 			scene.m_SceneObjects.Insert( objectParam );
 		}
+		*/
 
-		Message( "Saved objects to latest.json" );
+		auto exportFile = OpenFile( "$saves:COMObjectEditorSave.json", FileMode.WRITE );
+
+        if( !exportFile )
+        {
+            Message( "Error writing COMObjectEditorSave.json. Current changes could not NOT be saved!!!" );
+            return;
+        }
+
+        FPrint( exportFile, "{\"name\":\"latest\",\"m_SceneObjects\":[" );
+
+        auto serial = new JsonSerializer;
+        string file_content;
+        foreach(int nObject, Object object : m_Objects )
+        {
+            auto objectParam = new Param3<string, vector, vector>( object.GetType(), object.GetPosition(), object.GetOrientation() );
+            serial.WriteToString( objectParam, false, file_content );
+            FPrint( exportFile, file_content );
+            if( nObject < m_Objects.Count() - 1 ) FPrint( exportFile, "," );
+        }
+
+        FPrint( exportFile, "]}" );
+
+        CloseFile( exportFile )
+
+		Message( "Saved objects to COMObjectEditorSave.json (User/Documents/DayZ)." );
 //		JsonFileLoader< SceneSaveST >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
-		JsonFileLoader< SceneSaveST >.JsonSaveFile( "$saves:COMObjectEditorSave.json", scene );
-
+//		JsonFileLoader< SceneSaveST >.JsonSaveFile( "$saves:COMObjectEditorSave.json", scene );
 	}
 
 	void LoadScene()
