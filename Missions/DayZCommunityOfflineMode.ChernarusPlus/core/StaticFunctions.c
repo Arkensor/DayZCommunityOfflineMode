@@ -234,52 +234,13 @@ static Weapon_Base CreateWeapon( PlayerBase oPlayer )
 }
 */
 
-static Weapon_Base CreateWeaponWithMagazine( string sWeapon, string sMagazine, InventoryLocation wpn_il )
+static Weapon_Base CreateWeapon( PlayerBase oPlayer, string sWeapon )
 {
-    Weapon_Base oWpn = Weapon_Base.Cast( SpawnEntity( sWeapon, wpn_il, ECE_IN_INVENTORY, RF_DEFAULT ) );
+    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( sWeapon ));
+    oWpn.GetInventory().CreateAttachment( "PistolSuppressor" );
+    EntityAI optic = oWpn.GetInventory().CreateAttachment( "ReflexOptic" );
+    optic.GetInventory().CreateAttachment("Battery9V");
 
-    if ( !oWpn )
-        return NULL;
-    
-	int stateId = -1;
-
-	if ( oWpn.IsInherited( SKS_Base ) )
-		return oWpn;
-	else if ( oWpn.IsInherited( BoltActionRifle_InnerMagazine_Base ) )
-		return oWpn;
-	else if ( oWpn.IsInherited( DoubleBarrel_Base ) )
-		return oWpn;
-	else if ( oWpn.IsInherited( Pistol_Base ) )
-		stateId = PistolStableStateID.CLO_DIS_BU0_MA1;
-	else if ( oWpn.IsInherited( CZ527_Base ) )
-		stateId = CZ527StableStateID.CZ527_CLO_BU0_MA1;
-	else if ( oWpn.IsInherited( Repeater_Base ) )
-		return oWpn;
-	else if ( oWpn.IsInherited( RifleBoltFree_Base ) )
-		stateId = RBFStableStateID.RBF_CLO_BU0_MA1;
-	else if ( oWpn.IsInherited( RifleBoltLock_Base ) )
-		stateId = RBLStableStateID.RBL_OPN_BU0_MA1;
-	else if ( oWpn.IsInherited( Mp133Shotgun_Base ) )
-		return oWpn;
-
-	InventoryLocation mag_il = new InventoryLocation;
-	mag_il.SetAttachment( oWpn, NULL, InventorySlots.MAGAZINE );
-	Magazine oMag = Magazine.Cast( SpawnEntity( sMagazine, mag_il, ECE_IN_INVENTORY, RF_DEFAULT ) );
-    if ( !oMag )
-        return oWpn;
-
-    oWpn.Update();
-    oMag.Update();
-
-	pushToChamberFromAttachedMagazine( oWpn, oWpn.GetCurrentMuzzle() );
-
-	ScriptReadWriteContext ctx = new ScriptReadWriteContext;
-	ctx.GetWriteContext().Write( stateId );
-	oWpn.LoadCurrentFSMState( ctx.GetReadContext(), GetGame().SaveVersion() );
-
-    oWpn.Update();
-    oMag.Update();
-    
     return oWpn;
 }
 
@@ -296,16 +257,16 @@ static PlayerBase CreateCustomDefaultCharacter()
     oPlayer.GetInventory().CreateInInventory( "AliceBag_Camo" );
     oPlayer.GetInventory().CreateInInventory( "Shovel" );
 
-	InventoryLocation wpn_il = new InventoryLocation;
-	wpn_il.SetHands( oPlayer, NULL );
-    Weapon_Base ump = CreateWeaponWithMagazine( "UMP45", "Mag_UMP_25Rnd", wpn_il );
-    ump.GetInventory().CreateAttachment( "PistolSuppressor" );
-    ump.GetInventory().CreateAttachment( "ReflexOptic" ).GetInventory().CreateAttachment( "Battery9V" );
+    Weapon_Base oWpn = CreateWeapon( oPlayer, "UMP45" );
+    oPlayer.PredictiveTakeEntityToHands( oWpn );
 
-    oPlayer.SetQuickBarEntityShortcut( ump, 0, true );
-    oPlayer.SetQuickBarEntityShortcut( oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" ), 1, true );
-    oPlayer.SetQuickBarEntityShortcut( oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" ), 2, true );
-    oPlayer.SetQuickBarEntityShortcut( oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" ), 3, true );
+    Magazine oMag = Magazine.Cast( oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" ) );
+    oPlayer.GetDayZPlayerInventory().PostWeaponEvent( new WeaponEventAttachMagazine( oPlayer, oMag ) );
+
+    oPlayer.GetInventory().CreateInInventory( "Mag_UMP_25Rnd" );
+
+    oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );
+    oPlayer.SetQuickBarEntityShortcut( oMag, 1, true );
 
     return oPlayer;
 }
