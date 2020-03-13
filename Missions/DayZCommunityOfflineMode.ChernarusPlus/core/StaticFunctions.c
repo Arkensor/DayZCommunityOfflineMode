@@ -268,11 +268,8 @@ static Weapon_Base CreateWeaponWithMagazine( string sWeapon, string sMagazine, I
     if ( !oMag )
         return oWpn;
 
-    if ( GetGame().IsMultiplayer() )
-    {
-		GetGame().RemoteObjectDelete( oWpn );
-		GetGame().RemoteObjectDelete( oMag );
-    }
+    oWpn.Update();
+    oMag.Update();
 
 	pushToChamberFromAttachedMagazine( oWpn, oWpn.GetCurrentMuzzle() );
 
@@ -280,12 +277,9 @@ static Weapon_Base CreateWeaponWithMagazine( string sWeapon, string sMagazine, I
 	ctx.GetWriteContext().Write( stateId );
 	oWpn.LoadCurrentFSMState( ctx.GetReadContext(), GetGame().SaveVersion() );
 
-    if ( GetGame().IsMultiplayer() )
-    {
-		GetGame().RemoteObjectCreate( oWpn );
-		GetGame().RemoteObjectCreate( oMag );
-    }
-
+    oWpn.Update();
+    oMag.Update();
+    
     return oWpn;
 }
 
