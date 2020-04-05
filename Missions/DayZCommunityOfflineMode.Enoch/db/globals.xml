@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<variables>
+    <var name="CleanupAvoidance" type="0" value="50"/>
+    <var name="CleanupLifetimeLimit" type="0" value="50"/>
+    <var name="QueueTimeSameServer" type="0" value="15"/>
+    <var name="RespawnAttempt" type="0" value="2"/>
+    <var name="RespawnLimit" type="0" value="20"/>
+    <var name="RespawnTypes" type="0" value="12"/>
+    <var name="SpawnInitial" type="0" value="1200"/>
+    <var name="ZombieMaxCount" type="0" value="1000"/>
+    <var name="CleanupLifetimeDefault" type="0" value="45"/>
+    <var name="ZoneSpawnDist" type="0" value="600"/>
+    <var name="RestartSpawn" type="0" value="100"/>
+    <var name="CleanupLifetimeRuined" type="0" value="330"/>
+    <var name="AnimalMaxCount" type="0" value="200"/>
+</variables>
