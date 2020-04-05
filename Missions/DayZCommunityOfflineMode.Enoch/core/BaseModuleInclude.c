@@ -1,5 +1,5 @@
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\ModuleManager.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\StaticFunctions.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\ModuleManager.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\StaticFunctions.c"
 
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineClient.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\CommunityOfflineServer.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\CommunityOfflineClient.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\CommunityOfflineServer.c"
