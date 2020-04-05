@@ -13,6 +13,7 @@
     <tags>
         <tag name="floor"/>
         <tag name="shelves"/>
+        <tag name="ground"/>
     </tags>
     <usageflags>
         <usage name="Military"/>
@@ -33,6 +34,5 @@
         <value name="Tier1"/>
         <value name="Tier2"/>
         <value name="Tier3"/>
-        <value name="Tier4"/>
     </valueflags>
 </lists>
