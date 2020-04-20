@@ -29,6 +29,7 @@ class ObjectMenu extends PopupMenu
 	    "Red9",
 	    "ItemOptics",
 	    "ThingEffect",
+	    "QuickieBow",
     };
 
 	void ~ObjectMenu()
