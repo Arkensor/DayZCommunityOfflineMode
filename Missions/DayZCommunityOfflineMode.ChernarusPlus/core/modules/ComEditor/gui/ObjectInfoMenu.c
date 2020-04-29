@@ -116,6 +116,18 @@ class ObjectInfoMenu extends PopupMenu
 			GetGame().CopyToClipboard(toCopy);
 			Message("Dumped LODs to clipboard");
 		}
+		if ( w.GetName() == "object_editor_info_load")
+		{
+			objects = ((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).m_Objects;
+
+			foreach( Object obj2 : objects )
+			{
+				GetGame().ObjectDelete( obj2 );
+			}
+			objects.Clear();
+			((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).LoadScene();
+			UpdateObjectList();
+		}
 		return false;
 	}
 
