@@ -118,7 +118,8 @@ class ObjectEditor extends Module
         toCopy += "//Spawn helper function\n";
         toCopy += "void SpawnObject( string type, vector position, vector orientation )\n";
         toCopy += "{\n";
-        toCopy += "    auto obj = GetGame().CreateObject( type, position );\n";
+        toCopy += "    auto obj = GetGame().CreateObject_WIP( type, position, ECE_CREATEPHYSICS );\n";
+        toCopy += "    obj.SetFlags( EntityFlags.STATIC, false );\n";
         toCopy += "    obj.SetPosition( position );\n";
         toCopy += "    obj.SetOrientation( orientation );\n";
         toCopy += "    obj.SetOrientation( obj.GetOrientation() ); //Collision fix\n";
