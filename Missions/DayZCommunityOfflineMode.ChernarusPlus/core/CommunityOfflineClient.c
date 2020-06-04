@@ -69,11 +69,11 @@ class CommunityOfflineClient extends MissionGameplay
     void SpawnPlayer()
     {
 //		#ifndef MODULE_PERSISTENCY
-//		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
+//		GetGame().SelectPlayer( NULL, COM_CreateCustomDefaultCharacter() );
 //		#endif
 
 //		#ifdef DISABLE_PERSISTENCY
-		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
+		GetGame().SelectPlayer( NULL, COM_CreateCustomDefaultCharacter() );
 //		#endif
     }
 

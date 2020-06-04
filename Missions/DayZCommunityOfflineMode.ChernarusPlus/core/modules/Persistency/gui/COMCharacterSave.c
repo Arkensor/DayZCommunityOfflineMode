@@ -115,7 +115,7 @@ class COMCharacterSave extends UIScriptedMenu
 		if ( canSave )
 		{
 			m_oPersistencyModule.SavePlayer(saveName);
-			GetMission().Continue();
+			COM_GetMission().Continue();
 		}
 	}
 
@@ -126,7 +126,7 @@ class COMCharacterSave extends UIScriptedMenu
 		if ( code == 10 && result == DBB_YES )
 		{
 			m_oPersistencyModule.SavePlayer(m_SaveText.GetText());
-			GetMission().Continue();
+			COM_GetMission().Continue();
 			return true;
 		}
 

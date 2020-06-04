@@ -114,7 +114,7 @@ class ObjectInfoMenu extends PopupMenu
 				}
 			}
 			GetGame().CopyToClipboard(toCopy);
-			Message("Dumped LODs to clipboard");
+			COM_Message("Dumped LODs to clipboard");
 		}
 		return false;
 	}
@@ -179,21 +179,21 @@ class ObjectInfoMenu extends PopupMenu
 		{
 			position[1] = position[1] + value * 0.05;
 			GetSelectedObject().SetPosition( position );
-			ForceTargetCollisionUpdate( GetSelectedObject() );
+			COM_ForceTargetCollisionUpdate( GetSelectedObject() );
 			infoPosY.SetText( position[1].ToString() );
 		}
 		if ( w == infoPosX )
 		{
 			position[0] = position[0] + (value * 0.05);
 			GetSelectedObject().SetPosition( position );
-			ForceTargetCollisionUpdate( GetSelectedObject() );
+			COM_ForceTargetCollisionUpdate( GetSelectedObject() );
 			infoPosX.SetText( position[0].ToString() );
 		}
 		if ( w == infoPosZ )
 		{
 			position[2] = position[2] + value * 0.05;
 			GetSelectedObject().SetPosition( position );
-			ForceTargetCollisionUpdate( GetSelectedObject() );
+			COM_ForceTargetCollisionUpdate( GetSelectedObject() );
 			infoPosZ.SetText( position[2].ToString() );
 		}
 		return false;

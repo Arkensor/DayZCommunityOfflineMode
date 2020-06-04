@@ -83,31 +83,31 @@ class GameMenu extends PopupMenu
 	{
 		if ( widget ) // Temp work around. I'm lazy xd
 		{
-			m_OldAiming = !m_OldAiming;
+			m_COM_OldAiming = !m_COM_OldAiming;
 
-			GetPlayer().OverrideShootFromCamera( !m_OldAiming );
+			COM_GetPB().OverrideShootFromCamera( !m_COM_OldAiming );
 		}
-		return m_OldAiming;
+		return m_COM_OldAiming;
 	}
 
 	bool ToggleGodMode( CheckBoxWidget widget ) 
 	{
 		if ( widget ) 
 		{
-			m_GodMode = !m_GodMode;
+			m_COM_GodMode = !m_COM_GodMode;
 
-			GetPlayer().SetAllowDamage( !m_GodMode );
+			COM_GetPB().SetAllowDamage( !m_COM_GodMode );
 		}
-		return m_GodMode;
+		return m_COM_GodMode;
 	}
 
 	bool ToggleLaser( CheckBoxWidget widget ) 
 	{
 		if ( widget ) 
 		{
-			bc_Visible = !bc_Visible;
+			COM_bc_Visible = !COM_bc_Visible;
 		}
-		return bc_Visible;
+		return COM_bc_Visible;
 	}
 
 	override bool OnClick( Widget w, int x, int y, int button )
@@ -239,7 +239,7 @@ class GameMenu extends PopupMenu
 
 	void SpawnVehicle( string vehicle, TStringArray attachments) 
 	{
-		Car oCar = Car.Cast( GetGame().CreateObject( vehicle, GetCursorPos(), false, false ) );
+		Car oCar = Car.Cast( GetGame().CreateObject( vehicle, COM_GetCursorPos(), false, false ) );
 
 		for (int j = 0; j < attachments.Count(); j++) { oCar.GetInventory().CreateAttachment( attachments.Get(j) ); }
 

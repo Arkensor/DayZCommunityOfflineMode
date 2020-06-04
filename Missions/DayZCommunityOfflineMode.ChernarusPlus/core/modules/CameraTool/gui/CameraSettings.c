@@ -394,7 +394,7 @@ class CameraSettings extends PopupMenu
 		vector targetPos = CameraTool.Cast(COM_GetModuleManager().GetModule(CameraTool)).GetTargetPos();
 		if ( targetPos != vector.Zero ) 
 		{
-			cameraTarget = VectorToString( targetPos, 1 );
+			cameraTarget = COM_VectorToString( targetPos, 1 );
 		}
 
 		widgetStore.GetTextWidget("camera_target_txt").SetText("Target: " + cameraTarget );

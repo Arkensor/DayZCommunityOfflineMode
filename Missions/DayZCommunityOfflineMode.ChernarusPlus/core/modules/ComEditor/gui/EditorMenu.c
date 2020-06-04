@@ -75,7 +75,7 @@ class EditorMenu extends UIScriptedMenu
 
         if ( !CameraTool.Cast(COM_GetModuleManager().GetModule(CameraTool)).IsUsingCamera() ) 
         {
-			GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
+			COM_GetPB().GetInputController().OverrideMovementSpeed( false, 0 );
         }
         
 
@@ -100,9 +100,9 @@ class EditorMenu extends UIScriptedMenu
 	        		ai = true;
 	        	}
 
-	    		Object obj = GetGame().CreateObject( strSelection, GetPointerPos(), true, ai );
+	    		Object obj = GetGame().CreateObject( strSelection, COM_GetPointerPos(), true, ai );
 	    		obj.PlaceOnSurface(); // reeeeeeeeeeeee
-	    		ForceTargetCollisionUpdate( obj );
+	    		COM_ForceTargetCollisionUpdate( obj );
 	    		ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor )).SelectObject( obj );
 	    		ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor )).addObject( obj );
 

@@ -132,12 +132,12 @@ class ObjectEditor extends Module
 
 		foreach( Object m_object : m_Objects )
 		{
-			toCopy = toCopy + "SpawnObject( \"" + m_object.GetType() + "\", \"" + VectorToString( m_object.GetPosition() ) + "\", \"" + VectorToString( m_object.GetOrientation() ) + "\" );\n";
+			toCopy = toCopy + "SpawnObject( \"" + m_object.GetType() + "\", \"" + COM_VectorToString( m_object.GetPosition() ) + "\", \"" + COM_VectorToString( m_object.GetOrientation() ) + "\" );\n";
 		}
 
 		GetGame().CopyToClipboard( toCopy );
 
-		Message( "Copied to clipboard" );
+		COM_Message( "Copied to clipboard" );
 	}
 
 	void SaveScene()
@@ -151,11 +151,11 @@ class ObjectEditor extends Module
 
 /*
 		SceneInfo sceneData = new SceneInfo("Test");
-		// vector position = GetPlayer().WorldToModel(); // origin point
+		// vector position = COM_GetPB().WorldToModel(); // origin point
 
 		foreach( Object m_object : m_Objects )
 		{
-			vector pos = GetPlayer().WorldToModel( m_object.GetPosition() );
+			vector pos = COM_GetPB().WorldToModel( m_object.GetPosition() );
 
 			if ( m_object.GetType() != "Pumpkin" )
 			{
@@ -166,7 +166,7 @@ class ObjectEditor extends Module
 
 		foreach( Object m_objectt : m_Objects )
 		{
-			vector poss = GetPlayer().WorldToModel( m_object.GetPosition() );
+			vector poss = COM_GetPB().WorldToModel( m_object.GetPosition() );
 
 			if ( m_object.GetType() == "Pumpkin" )
 			{
@@ -212,7 +212,7 @@ class ObjectEditor extends Module
 
         if( !exportFile )
         {
-            Message( "Error writing COMObjectEditorSave.json. Current changes could not NOT be saved!!!" );
+            COM_Message( "Error writing COMObjectEditorSave.json. Current changes could not NOT be saved!!!" );
             return;
         }
 
@@ -232,7 +232,7 @@ class ObjectEditor extends Module
 
         CloseFile( exportFile )
 
-		Message( "Saved objects to COMObjectEditorSave.json (User/Documents/DayZ)." );
+		COM_Message( "Saved objects to COMObjectEditorSave.json (User/Documents/DayZ)." );
 //		JsonFileLoader< SceneSaveST >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
 //		JsonFileLoader< SceneSaveST >.JsonSaveFile( "$saves:COMObjectEditorSave.json", scene );
 	}
@@ -248,7 +248,7 @@ class ObjectEditor extends Module
 		{
 			Object object = GetGame().CreateObject( param.param1, param.param2, false, false );
 			object.SetOrientation( param.param3 );
-			ForceTargetCollisionUpdate( object );
+			COM_ForceTargetCollisionUpdate( object );
 
 			m_Objects.Insert( object );
 		}
@@ -265,11 +265,11 @@ class ObjectEditor extends Module
 
 		if ( m_ObjectEditorActive )
 		{
-			GetPlayer().MessageStatus("Object Editor Enabled");
+			COM_GetPB().MessageStatus("Object Editor Enabled");
 		}
 		else
 		{
-			GetPlayer().MessageStatus("Object Editor Disabled");
+			COM_GetPB().MessageStatus("Object Editor Disabled");
 		}
 	}
 
@@ -279,11 +279,11 @@ class ObjectEditor extends Module
 
 		if ( m_ObjectEditorActive )
 		{
-			GetPlayer().MessageStatus("Object Editor Enabled");
+			COM_GetPB().MessageStatus("Object Editor Enabled");
 		}
 		else
 		{
-			GetPlayer().MessageStatus("Object Editor Disabled");
+			COM_GetPB().MessageStatus("Object Editor Disabled");
 		}
 	}
 
@@ -299,7 +299,7 @@ class ObjectEditor extends Module
 			return;
 		}
 
-		if ( CTRL() ) 
+		if ( COM_CTRL() ) 
 		{
 			vector modelPos = m_SelectedObject.WorldToModel( object.GetPosition() );
 
@@ -350,7 +350,7 @@ class ObjectEditor extends Module
 
 			m_SelectedObject.GetCollisionBox( bbox );
 
-			if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, NULL, m_SelectedObject, GetPlayer(), false, false ) )
+			if ( DayZPhysics.RaycastRV( from, to, contact_pos, contact_dir, contact_component, NULL, m_SelectedObject, COM_GetPB(), false, false ) )
 			{
 				//vector oOrgPos = m_SelectedObject.GetPosition();
 				//float fSurfaceHight = GetGame().SurfaceY( oOrgPos [ 0 ], oOrgPos [ 2 ] );
@@ -362,7 +362,7 @@ class ObjectEditor extends Module
 				m_SelectedObject.SetPosition( contact_pos );
 				m_SelectedObject.PlaceOnSurface();
 
-				ForceTargetCollisionUpdate( m_SelectedObject );
+				COM_ForceTargetCollisionUpdate( m_SelectedObject );
 
 				ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
 				ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
@@ -388,7 +388,7 @@ class ObjectEditor extends Module
 //			int value = 1;
 //			if ( up ) value = -1;
 //
-//			if ( SHIFT() )
+//			if ( COM_SHIFT() )
 //			{
 //				if ( ori[0] > 0 ) // seemless pitch change
 //				{
@@ -398,13 +398,13 @@ class ObjectEditor extends Module
 //
 //				m_SelectedObject.SetOrientation( ori );
 //			}
-//			else if ( CTRL() )
+//			else if ( COM_CTRL() )
 //			{
 //				ori [ 0 ] = ori [ 0 ] + value;
 //
 //				m_SelectedObject.SetOrientation( ori );
 //			}
-//			else if ( ALT() )
+//			else if ( COM_ALT() )
 //			{
 //				ori[ 2 ] = ori[ 2 ] + value;
 //
@@ -437,7 +437,7 @@ class ObjectEditor extends Module
 		vector from = GetGame().GetCurrentCameraPosition();
 		vector to = from + ( dir * 100 );
 
-		set< Object > objects = GetObjectsAt(from, to, GetGame().GetPlayer(), 0.5 );
+		set< Object > objects = COM_GetObjectsAt(from, to, COM_GetPB(), 0.5 );
 		bool selected = false;
 		//Print ("Building Type = " + building.GetType());
 
@@ -447,7 +447,7 @@ class ObjectEditor extends Module
 			{
 				Object obj = objects.Get( newObject );
 
-				if ( CTRL() ) 
+				if ( COM_CTRL() ) 
 				{
 
 					vector modelPos = obj.WorldToModel( m_SelectedObject.GetPosition() );
@@ -474,7 +474,7 @@ class ObjectEditor extends Module
 
 		if ( !selected && m_SelectedObject )
 		{
-			GetPlayer().MessageStatus("Current object deselected.");
+			COM_GetPB().MessageStatus("Current object deselected.");
 			DeselectObject();
 		}
 	}
@@ -534,7 +534,7 @@ class ObjectEditor extends Module
 
 			m_SelectedObject.SetPosition(pos);
 			*/
-			//SnapToGroundNew( m_SelectedObject );
+			//COM_SnapToGroundNew( m_SelectedObject );
 			m_SelectedObject.PlaceOnSurface();
 		}
 	}

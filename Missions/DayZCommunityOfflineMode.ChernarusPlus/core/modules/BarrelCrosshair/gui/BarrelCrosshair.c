@@ -30,9 +30,9 @@ class BarrelCrosshair extends ScriptedWidgetEventHandler
 	
 	private void Update()
 	{
-		if(!m_Player) Class.CastTo(m_Player, GetGame().GetPlayer());
+		if(!m_Player) Class.CastTo(m_Player, COM_GetPB());
 		
-		if ( bc_Visible ) 
+		if ( COM_bc_Visible ) 
 		{
 			if( m_Player && m_Player.IsPlayerSelected() && !m_Player.IsInIronsights() && !GetGame().IsInventoryOpen() )
 			{
@@ -67,10 +67,10 @@ class BarrelCrosshair extends ScriptedWidgetEventHandler
 		}
 	}
 	
-	Weapon GetWeaponInHands()
+	Weapon COM_GetWeaponInHands()
 	{
 		Weapon weapon_in_hands;
-		PlayerBase player = PlayerBase.Cast(GetGame().GetPlayer());
+		PlayerBase player = PlayerBase.Cast(COM_GetPB());
 		if( player && player.GetItemInHands() ) Class.CastTo(weapon_in_hands,  player.GetItemInHands());
 		
 		return weapon_in_hands;
