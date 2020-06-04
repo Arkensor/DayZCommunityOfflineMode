@@ -19,6 +19,6 @@
 #ifndef COM_MODULES_OLDLOADING
 void RegisterModule()
 {
-    GetModuleManager().RegisterModule( new CameraTool );
+    COM_GetModuleManager().RegisterModule( new CameraTool );
 }
 #endif

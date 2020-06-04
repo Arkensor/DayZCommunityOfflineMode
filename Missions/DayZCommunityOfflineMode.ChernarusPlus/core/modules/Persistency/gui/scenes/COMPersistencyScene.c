@@ -44,7 +44,7 @@ class COMPersistencyScene: Managed
 			GetGame().ObjectDelete(m_DemoUnit);
 		}
 
-		ref CameraTool ct = GetModuleManager().GetModuleByName("CameraTool");
+		ref CameraTool ct = COM_GetModuleManager().GetModuleByName("CameraTool");
 
 		if ( ct )
 		{
@@ -90,7 +90,7 @@ class COMPersistencyScene: Managed
 		m_Target = SwapYZ(g_Game.ConfigGetVector(scene_path + " target"));
 		vector position = SwapYZ(g_Game.ConfigGetVector(scene_path + " position"));
 
-		Module possibleModule = GetModuleManager().GetModuleByName("CameraTool");
+		Module possibleModule = COM_GetModuleManager().GetModuleByName("CameraTool");
 
 		m_CameraTool = CameraTool.Cast( possibleModule );
 

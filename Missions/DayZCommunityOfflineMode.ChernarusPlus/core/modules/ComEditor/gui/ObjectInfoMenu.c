@@ -26,7 +26,7 @@ class ObjectInfoMenu extends PopupMenu
 	{
 		listBox.ClearItems();
 
-		ref array<ref Object> objects = ((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).m_Objects;
+		ref array<ref Object> objects = ((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).m_Objects;
 
 		foreach( Object obj : objects )
 		{
@@ -68,7 +68,7 @@ class ObjectInfoMenu extends PopupMenu
 			Object selected = GetSelectedRowObject();
 			if ( selected )
 			{
-				((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).SelectObject( selected );
+				((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).SelectObject( selected );
 			}
 		}
 
@@ -79,15 +79,15 @@ class ObjectInfoMenu extends PopupMenu
 	{
 		if ( w.GetName() == "object_editor_info_export")
 		{
-			((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).ExportScene();
+			((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).ExportScene();
 		}
 		if ( w.GetName() == "object_editor_info_save")
 		{
-			((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).SaveScene();
+			((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).SaveScene();
 		}
 		if ( w.GetName() == "object_editor_info_clear")
 		{
-			ref array< ref Object> objects = ((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).m_Objects;
+			ref array< ref Object> objects = ((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).m_Objects;
 
 			foreach( Object obj : objects )
 			{
@@ -100,7 +100,7 @@ class ObjectInfoMenu extends PopupMenu
 		{
 			string toCopy = "";
 			array<LOD> lods = new array<LOD>;
-			Object object = ((ObjectEditor) GetModuleManager().GetModule(ObjectEditor)).m_SelectedObject;
+			Object object = ((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).m_SelectedObject;
 			object.GetLODS(lods);
 
 			foreach( LOD lod : lods )
@@ -337,6 +337,6 @@ class ObjectInfoMenu extends PopupMenu
 
 	Object GetSelectedObject()
 	{
-		return ObjectEditor.Cast(GetModuleManager().GetModule( ObjectEditor )).m_SelectedObject;
+		return ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor )).m_SelectedObject;
 	}
 }

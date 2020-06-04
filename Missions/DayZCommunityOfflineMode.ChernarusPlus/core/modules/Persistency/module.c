@@ -55,6 +55,6 @@ void PersistencyPrint( string var )
 #ifndef COM_MODULES_OLDLOADING
 void RegisterModule()
 {
-    GetModuleManager().RegisterModule( new PersistencyModule );
+    COM_GetModuleManager().RegisterModule( new PersistencyModule );
 }
 #endif

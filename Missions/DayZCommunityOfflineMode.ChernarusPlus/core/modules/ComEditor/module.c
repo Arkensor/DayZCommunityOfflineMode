@@ -30,6 +30,6 @@
 #ifndef COM_MODULES_OLDLOADING
 void RegisterModule()
 {
-    GetModuleManager().RegisterModule( new ObjectEditor );
+    COM_GetModuleManager().RegisterModule( new ObjectEditor );
 }
 #endif

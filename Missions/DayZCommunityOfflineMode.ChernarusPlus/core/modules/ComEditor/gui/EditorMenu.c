@@ -69,11 +69,11 @@ class EditorMenu extends UIScriptedMenu
     {
         super.OnHide();
 
-        ObjectEditor.Cast( GetModuleManager().GetModule( ObjectEditor )).EditorState( false );
+        ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).EditorState( false );
 
         GetGame().GetInput().ResetGameFocus();
 
-        if ( !CameraTool.Cast(GetModuleManager().GetModule(CameraTool)).IsUsingCamera() ) 
+        if ( !CameraTool.Cast(COM_GetModuleManager().GetModule(CameraTool)).IsUsingCamera() ) 
         {
 			GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
         }
@@ -103,8 +103,8 @@ class EditorMenu extends UIScriptedMenu
 	    		Object obj = GetGame().CreateObject( strSelection, GetPointerPos(), true, ai );
 	    		obj.PlaceOnSurface(); // reeeeeeeeeeeee
 	    		ForceTargetCollisionUpdate( obj );
-	    		ObjectEditor.Cast(GetModuleManager().GetModule( ObjectEditor )).SelectObject( obj );
-	    		ObjectEditor.Cast(GetModuleManager().GetModule( ObjectEditor )).addObject( obj );
+	    		ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor )).SelectObject( obj );
+	    		ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor )).addObject( obj );
 
 	    		ObjectInfoMenu.listBox.AddItem(obj.GetType(), obj, 0);
 	    	}
@@ -139,7 +139,7 @@ class EditorMenu extends UIScriptedMenu
 		{
 			m_objectInfoMenu.GetScript( popMenu );
 
-			ObjectEditor.Cast( GetModuleManager().GetModule( ObjectEditor )).ToggleEditor();
+			ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).ToggleEditor();
 		}
 
 		if ( w == m_CameraButton ) 
@@ -237,7 +237,7 @@ class EditorMenu extends UIScriptedMenu
 		if ( m_objectMenu != focus && m_objectInfoMenu != focus && m_objectInfoMenu.IsVisible() ) 
 		{
 			m_objectInfoMenu.Show(false);
-			ObjectEditor.Cast( GetModuleManager().GetModule( ObjectEditor )).ToggleEditor();
+			ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).ToggleEditor();
 		}
 	}
 

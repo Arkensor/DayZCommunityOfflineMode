@@ -139,7 +139,7 @@ class ObjectMenu extends PopupMenu
             if( m_excludeBroken.Find( strSelection ) != -1 ) return false;
 
           strSelection.ToLower();
-          ObjectEditor obEditor = GetModuleManager().GetModule( ObjectEditor );
+          ObjectEditor obEditor = COM_GetModuleManager().GetModule( ObjectEditor );
 
           if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) )
           {

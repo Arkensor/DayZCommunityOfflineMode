@@ -218,7 +218,7 @@ class ModuleManager
 
 ref ModuleManager g_com_ModuleManager;
 
-ref ModuleManager GetModuleManager()
+ref ModuleManager COM_GetModuleManager()
 {
     if( !g_com_ModuleManager )
     {

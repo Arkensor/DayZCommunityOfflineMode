@@ -570,7 +570,7 @@ class CameraTool extends Module
 
 			int i = GetMouseState( MouseState.WHEEL );
 
-			ObjectEditor objEditor = GetModuleManager().GetModule( ObjectEditor );
+			ObjectEditor objEditor = COM_GetModuleManager().GetModule( ObjectEditor );
 
 			if ( objEditor.m_SelectedObject ) 
 			{	

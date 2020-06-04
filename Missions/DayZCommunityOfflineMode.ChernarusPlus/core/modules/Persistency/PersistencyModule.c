@@ -47,7 +47,7 @@ class PersistencyModule extends Module
 		super.Init();
 
 		#ifdef MODULE_UIEXTENDER
-		UIExtender om = GetModuleManager().GetModuleByName( "UIExtender" );
+		UIExtender om = COM_GetModuleManager().GetModuleByName( "UIExtender" );
 
 		if ( om )
 		{
@@ -149,7 +149,7 @@ class PersistencyModule extends Module
 			m_CharacterMenu = new COMCharacterMenu( this, true );
 		}
 
-		UIExtender om = GetModuleManager().GetModuleByName( "UIExtender" );
+		UIExtender om = COM_GetModuleManager().GetModuleByName( "UIExtender" );
 		if ( om )
 		{
 			om.GetPauseMenu().Close();
@@ -177,7 +177,7 @@ class PersistencyModule extends Module
 			CleanupCharacterMenu();
 		}
 
-		UIExtender om = GetModuleManager().GetModuleByName( "UIExtender" );
+		UIExtender om = COM_GetModuleManager().GetModuleByName( "UIExtender" );
 		if ( om )
 		{
 			om.GetPauseMenu().Close();
