@@ -198,7 +198,7 @@ static CommunityOfflineServer COM_GetServerMission()
 
 static PlayerBase COM_GetPB()
 {
-    return PlayerBase.Cast( COM_GetPB() );
+    return PlayerBase.Cast( GetGame().GetPlayer() );
 }
 
 static bool COM_SHIFT()
