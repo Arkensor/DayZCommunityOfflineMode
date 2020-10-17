@@ -44,7 +44,7 @@ class COMPersistencyScene: Managed
 			GetGame().ObjectDelete(m_DemoUnit);
 		}
 
-		ref CameraTool ct = GetModuleManager().GetModuleByName("CameraTool");
+		ref CameraTool ct = COM_GetModuleManager().GetModuleByName("CameraTool");
 
 		if ( ct )
 		{
@@ -90,7 +90,7 @@ class COMPersistencyScene: Managed
 		m_Target = SwapYZ(g_Game.ConfigGetVector(scene_path + " target"));
 		vector position = SwapYZ(g_Game.ConfigGetVector(scene_path + " position"));
 
-		Module possibleModule = GetModuleManager().GetModuleByName("CameraTool");
+		Module possibleModule = COM_GetModuleManager().GetModuleByName("CameraTool");
 
 		m_CameraTool = CameraTool.Cast( possibleModule );
 
@@ -100,7 +100,7 @@ class COMPersistencyScene: Managed
 
 		m_CameraTool.EnableCamera( true );
 
-		m_CameraTool.GetCamera().SetPosition( SnapToGround( position ) );
+		m_CameraTool.GetCamera().SetPosition( COM_SnapToGround( position ) );
 
 		Math3D.MatrixIdentity4( m_CameraTrans );
 		
@@ -112,7 +112,7 @@ class COMPersistencyScene: Managed
 			
 			m_CameraTool.GetCamera().SetActive(true);
 			
-			Math3D.DirectionAndUpMatrix( m_Target - SnapToGround(position), "0 1 0", m_CameraTrans );
+			Math3D.DirectionAndUpMatrix( m_Target - COM_SnapToGround(position), "0 1 0", m_CameraTrans );
 
 			m_CameraTrans[3] = m_CameraTool.GetCamera().GetPosition();
 
@@ -236,7 +236,7 @@ class COMPersistencyScene: Managed
 		
 		if (m_DemoUnit)
 		{
-			m_DemoUnit.SetPosition( SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )) );
+			m_DemoUnit.SetPosition( COM_SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )) );
 			m_DemoUnit.PlaceOnSurface();
 			m_DemoUnit.SetOrientation(m_DemoRot);
 		}
@@ -259,7 +259,7 @@ class COMPersistencyScene: Managed
 		
 		if (m_DemoUnit)
 		{
-			m_DemoUnit.SetPosition( SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )) );
+			m_DemoUnit.SetPosition( COM_SnapToGround( Vector( m_DemoPos[0], m_DemoPos[1], m_DemoPos[2] )) );
 			m_DemoUnit.PlaceOnSurface();
 			m_DemoUnit.SetOrientation(m_DemoRot);
 //			m_DemoUnit.SetEventHandler(m_anim_end_event_handler);
@@ -357,7 +357,7 @@ class COMPersistencyScene: Managed
 		return tmp;
 	}
 	
-	vector SnapToGround(vector pos)
+	vector COM_SnapToGround(vector pos)
 	{
 		PersistencyPrint("COMPersistencyScene::SnapToGround");
 		

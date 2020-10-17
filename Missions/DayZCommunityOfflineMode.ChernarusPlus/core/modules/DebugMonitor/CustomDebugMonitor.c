@@ -27,7 +27,7 @@ class CustomDebugMonitor extends Module
 	{
         if( m_IsVisible )
         {
-            PlayerBase player = PlayerBase.Cast( GetGame().GetPlayer() );
+            PlayerBase player = PlayerBase.Cast( COM_GetPB() );
 
             if ( player )
             {

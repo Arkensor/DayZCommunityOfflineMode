@@ -64,10 +64,10 @@ class COMKeyBinds extends Module
 
 //    void OpenKeyframe()
 //    {
-//        GetGame().GetUIManager().ShowScriptedMenu( GetMission().CreateScriptedMenu(MENU_CAMERA_TOOLS) , NULL );
+//        GetGame().GetUIManager().ShowScriptedMenu( COM_GetMission().CreateScriptedMenu(MENU_CAMERA_TOOLS) , NULL );
 //    }
 
-    void ToggleCursor()
+    void COM_ToggleCursor()
     {
         if ( GetGame().GetInput().HasGameFocus( INPUT_DEVICE_MOUSE ) )
         {
@@ -81,7 +81,7 @@ class COMKeyBinds extends Module
             GetGame().GetInput().ResetGameFocus();
             FreeDebugCamera.GetInstance().SetFreezed(false);
         }
-         Message(GetDayZGame().GetMissionFolderPath());
+         COM_Message(GetDayZGame().GetMissionFolderPath());
     }
 
     void CloseOpenMenu()
@@ -103,37 +103,37 @@ class COMKeyBinds extends Module
 
 //		if ( CameraTool.Cast( m_Mission.GetModule( CameraTool ) ).IsUsingCamera() ) //Todo renable after module manager is done
 //		{
-//			GetPlayer().MessageStatus( "You can not teleport while you are inside the freecam!" );
+//			COM_GetPB().MessageStatus( "You can not teleport while you are inside the freecam!" );
 //			return;
 //		}
 		
-        vector hitPos = GetCursorPos();
+        vector hitPos = COM_GetCursorPos();
 
-        float distance = vector.Distance( GetPlayer().GetPosition(), hitPos );
+        float distance = vector.Distance( COM_GetPB().GetPosition(), hitPos );
 
         if ( distance < 5000 )
         {
-            EntityAI oVehicle = GetPlayer().GetDrivingVehicle();
+            EntityAI oVehicle = COM_GetPB().GetDrivingVehicle();
 
             if( oVehicle )
             {
-                GetPlayer().MessageStatus( "Get out of the vehicle first!" );
+                COM_GetPB().MessageStatus( "Get out of the vehicle first!" );
             }
             else
             {
-                GetPlayer().SetPosition( hitPos );
-                GetPlayer().MessageStatus( "Teleported!" );
+                COM_GetPB().SetPosition( hitPos );
+                COM_GetPB().MessageStatus( "Teleported!" );
             }
         }
         else
         {
-            GetPlayer().MessageStatus( "Distance for teleportation is too far!" );
+            COM_GetPB().MessageStatus( "Distance for teleportation is too far!" );
         }
     }
 
     void Reload()
     {
-        auto wpn = GetPlayer().GetHumanInventory().GetEntityInHands();
+        auto wpn = COM_GetPB().GetHumanInventory().GetEntityInHands();
 
         if( wpn )
         {
@@ -165,49 +165,49 @@ class COMKeyBinds extends Module
 
     void SpawnZ() 
     {
-        if( CTRL() )
+        if( COM_CTRL() )
         {
-            GetGame().CreateObject( "Animal_CanisLupus_Grey", GetCursorPos(), false, true );
+            GetGame().CreateObject( "Animal_CanisLupus_Grey", COM_GetCursorPos(), false, true );
         }
-        else if( SHIFT() )
+        else if( COM_SHIFT() )
         {
-            GetGame().CreateObject( GetRandomChildFromBaseClass( "cfgVehicles", "AnimalBase" ), GetCursorPos(), false, true );
+            GetGame().CreateObject( COM_GetRandomChildFromBaseClass( "cfgVehicles", "AnimalBase" ), COM_GetCursorPos(), false, true );
         }
         else
         {
-            GetGame().CreateObject( GetRandomChildFromBaseClass( "cfgVehicles", "ZombieBase", 2 ), GetCursorPos(), false, true );
+            GetGame().CreateObject( COM_GetRandomChildFromBaseClass( "cfgVehicles", "ZombieBase", 2 ), COM_GetCursorPos(), false, true );
         }
     }
 
     void HideHud() 
     {
-        Widget hudWidget = IngameHud.Cast(GetClientMission().GetHud()).GetHudPanelWidget();
+        Widget hudWidget = IngameHud.Cast(COM_GetClientMission().GetHud()).GetHudPanelWidget();
         hudWidget.Show(!hudWidget.IsVisible());
     }
 
     void PrintPlayer()
     {
-        Print( "Position:" + GetPlayer().GetPosition().ToString() );
-        Print( "Orientation" + GetPlayer().GetOrientation().ToString() );
-        Message( "POS X:" + GetPlayer().GetPosition()[0] + " Y:" + GetPlayer().GetPosition()[2] + " Z:" + GetPlayer().GetPosition()[1] );
-        Message( "Player position and orientation vector were written to the game logs too." );
+        Print( "Position:" + COM_GetPB().GetPosition().ToString() );
+        Print( "Orientation" + COM_GetPB().GetOrientation().ToString() );
+        COM_Message( "POS X:" + COM_GetPB().GetPosition()[0] + " Y:" + COM_GetPB().GetPosition()[2] + " Z:" + COM_GetPB().GetPosition()[1] );
+        COM_Message( "Player position and orientation vector were written to the game logs too." );
     }
 
     void AutoRun()
     {
-        if( m_nAutoWalkMode && !SHIFT() && !CTRL() )
+        if( m_nAutoWalkMode && !COM_SHIFT() && !COM_CTRL() )
         {
             m_nAutoWalkMode = 0;
-            GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
-            GetPlayer().GetInputController().OverrideMovementAngle( false, 0 );
+            COM_GetPB().GetInputController().OverrideMovementSpeed( false, 0 );
+            COM_GetPB().GetInputController().OverrideMovementAngle( false, 0 );
         }
         else
         {
-            if( SHIFT() )
+            if( COM_SHIFT() )
             {
                 m_nAutoWalkMode = 3;
             }
-            else if( CTRL() )
+            else if( COM_CTRL() )
             {
                 m_nAutoWalkMode = 1; //CTRL == slow mode
             }
@@ -224,40 +224,40 @@ class COMKeyBinds extends Module
         {
             if( m_nAutoWalkMode == 1 )
             {
-                GetPlayer().GetInputController().OverrideMovementSpeed( true, 1 );
+                COM_GetPB().GetInputController().OverrideMovementSpeed( true, 1 );
             }
-            else if( ( GetPlayer().GetInputController().LimitsIsSprintDisabled() ) || ( m_nAutoWalkMode == 2 ) )
+            else if( ( COM_GetPB().GetInputController().LimitsIsSprintDisabled() ) || ( m_nAutoWalkMode == 2 ) )
             {
-                GetPlayer().GetInputController().OverrideMovementSpeed( true, 2 );
+                COM_GetPB().GetInputController().OverrideMovementSpeed( true, 2 );
             }
             else if( m_nAutoWalkMode == 3 )
             {
-                GetPlayer().GetInputController().OverrideMovementSpeed( true, 3 );
+                COM_GetPB().GetInputController().OverrideMovementSpeed( true, 3 );
             }
 
-            GetPlayer().GetInputController().OverrideMovementAngle( true, 1 );
+            COM_GetPB().GetInputController().OverrideMovementAngle( true, 1 );
         }
     }
 
     void UpdateGodMode()
     {
         // just putting this here for now
-        if ( m_GodMode ) // located in staticfunctions
+        if ( m_COM_GodMode ) // located in staticfunctions
         {
-            GetPlayer().SetHealth( GetPlayer().GetMaxHealth( "", "" ) );
-            GetPlayer().SetHealth( "","Blood", GetPlayer().GetMaxHealth( "", "Blood" ) );
-            GetPlayer().SetHealth( "","Shock", GetPlayer().GetMaxHealth( "", "Shock" ) );
+            COM_GetPB().SetHealth( COM_GetPB().GetMaxHealth( "", "" ) );
+            COM_GetPB().SetHealth( "","Blood", COM_GetPB().GetMaxHealth( "", "Blood" ) );
+            COM_GetPB().SetHealth( "","Shock", COM_GetPB().GetMaxHealth( "", "Shock" ) );
 
             //GetPlayer().GetStaminaHandler().SyncStamina(1000, 1000);
-            GetPlayer().GetStatStamina().Set(GetPlayer().GetStaminaHandler().GetStaminaCap());
-            GetPlayer().GetStatEnergy().Set(1000);
-            GetPlayer().GetStatWater().Set(1000);
-//            GetPlayer().GetStatStomachVolume().Set(300);
-//            GetPlayer().GetStatStomachWater().Set(300);
-//            GetPlayer().GetStatStomachEnergy().Set(300);
-            GetPlayer().GetStatHeatComfort().Set(0);
+            COM_GetPB().GetStatStamina().Set(COM_GetPB().GetStaminaHandler().GetStaminaCap());
+            COM_GetPB().GetStatEnergy().Set(1000);
+            COM_GetPB().GetStatWater().Set(1000);
+//            COM_GetPB().GetStatStomachVolume().Set(300);
+//            COM_GetPB().GetStatStomachWater().Set(300);
+//            COM_GetPB().GetStatStomachEnergy().Set(300);
+            COM_GetPB().GetStatHeatComfort().Set(0);
 
-            EntityAI oWeapon = GetPlayer().GetHumanInventory().GetEntityInHands();
+            EntityAI oWeapon = COM_GetPB().GetHumanInventory().GetEntityInHands();
 
             if( oWeapon )
             {

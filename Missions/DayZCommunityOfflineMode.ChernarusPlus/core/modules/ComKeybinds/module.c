@@ -16,6 +16,6 @@
 #ifndef COM_MODULES_OLDLOADING
 void RegisterModule()
 {
-    GetModuleManager().RegisterModule( new COMKeyBinds );
+    COM_GetModuleManager().RegisterModule( new COMKeyBinds );
 }
 #endif

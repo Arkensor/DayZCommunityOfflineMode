@@ -17,6 +17,6 @@
 #ifndef COM_MODULES_OLDLOADING
 void RegisterModule()
 {
-    GetModuleManager().RegisterModule( new CustomDebugMonitor );
+    COM_GetModuleManager().RegisterModule( new CustomDebugMonitor );
 }
 #endif

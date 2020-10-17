@@ -7,7 +7,7 @@ class CommunityOfflineServer : MissionServer
 	    Print( "CommunityOfflineServer::CommunityOfflineServer()" );
 	    m_loaded = false;
 
-		GetModuleManager();
+		COM_GetModuleManager();
 	}
 
 	void ~CommunityOfflineServer()
@@ -21,26 +21,26 @@ class CommunityOfflineServer : MissionServer
 
         SetupWeather();
 
-        GetModuleManager().OnInit();
+        COM_GetModuleManager().OnInit();
 	}
 
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
 	
-        GetModuleManager().OnMissionStart();
+        COM_GetModuleManager().OnMissionStart();
 	}
 
 	override void OnMissionFinish()
 	{
-        GetModuleManager().OnMissionFinish();
+        COM_GetModuleManager().OnMissionFinish();
 
 		super.OnMissionFinish();
 	}
 
     void OnMissionLoaded()
     {
-		GetModuleManager().OnMissionLoaded();
+		COM_GetModuleManager().OnMissionLoaded();
     }
 
 
@@ -48,7 +48,7 @@ class CommunityOfflineServer : MissionServer
 	{
 	    super.OnUpdate( timeslice );
 
-        GetModuleManager().OnUpdate( timeslice );
+        COM_GetModuleManager().OnUpdate( timeslice );
 
         if( !m_loaded && !GetDayZGame().IsLoading() )
         {
@@ -61,28 +61,28 @@ class CommunityOfflineServer : MissionServer
 	{
 		super.OnMouseButtonRelease( button );
 
-		//GetModuleManager().OnMouseButtonRelease( button );
+		//COM_GetModuleManager().OnMouseButtonRelease( button );
 	}
 
 	override void OnMouseButtonPress( int button )
 	{
 		super.OnMouseButtonPress( button );
 
-		//GetModuleManager().OnMouseButtonPress( button );
+		//COM_GetModuleManager().OnMouseButtonPress( button );
 	}
 
 	override void OnKeyPress( int key )
 	{
 		super.OnKeyPress(key);
 
-		//GetModuleManager().OnKeyPress( key );
+		//COM_GetModuleManager().OnKeyPress( key );
     }
 
     override void OnKeyRelease( int key )
 	{
 		super.OnKeyRelease( key );
 
-		//GetModuleManager().OnKeyRelease( key );
+		//COM_GetModuleManager().OnKeyRelease( key );
 	}
 
     static void SetupWeather()

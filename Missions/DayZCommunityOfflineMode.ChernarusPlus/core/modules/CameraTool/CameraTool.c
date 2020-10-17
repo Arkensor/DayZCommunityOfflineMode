@@ -146,9 +146,9 @@ class CameraTool extends Module
 
 		vector position = "0 0 0";
 
-		if ( GetPlayer() )
+		if ( COM_GetPB() )
 		{
-			position = GetPlayer().GetPosition();
+			position = COM_GetPB().GetPosition();
 			position[ 1 ] = position[ 1 ] + 2;
 		}
 
@@ -178,24 +178,24 @@ class CameraTool extends Module
 
 			vector position;
 
-			if( CTRL() || SHIFT() ) // Extra
+			if( COM_CTRL() || COM_SHIFT() ) // Extra
 			{
 				position = m_oCamera.GetPosition();
 				position[ 1 ] = GetGame().SurfaceY( position[ 0 ], position[ 2 ] );
 			}
 			else
 			{
-				position = GetCursorPos();
+				position = COM_GetCursorPos();
 			}
 
-			if ( GetPlayer() )
+			if ( COM_GetPB() )
 			{
-				GetPlayer().SetPosition( position );
+				COM_GetPB().SetPosition( position );
 			}
 
 			m_oCamera.SetActive( false );
 
-			GetGame().SelectPlayer( NULL, GetPlayer() );
+			GetGame().SelectPlayer( NULL, COM_GetPB() );
 
 			GetGame().ObjectDelete( m_oCamera );
 
@@ -251,7 +251,7 @@ class CameraTool extends Module
 			vector from = GetGame().GetCurrentCameraPosition();
 			vector to = from + ( dir * 1000 );
 			
-			set< Object > objects = GetObjectsAt(from, to);
+			set< Object > objects = COM_GetObjectsAt(from, to);
 			
 			if ( objects ) 
 			{
@@ -265,7 +265,7 @@ class CameraTool extends Module
 					} 
 				}
 			}
-			m_TargetPos = GetCursorPos();
+			m_TargetPos = COM_GetCursorPos();
 		}
 	}
 
@@ -500,13 +500,13 @@ class CameraTool extends Module
 			}
 			int i = GetMouseState( MouseState.WHEEL );
 
-			if ( ALT() ) 
+			if ( COM_ALT() ) 
 			{
 				vector ori = m_oCamera.GetOrientation();
 				ori[2] = ori[2] - i*5;
 				m_oCamera.SetOrientation( ori );
 				//m_TargetRoll = ori[2] - i*5; // redo this
-				//Message(m_TargetRoll.ToString());
+				//COM_Message(m_TargetRoll.ToString());
 			}
 			else 
 			{
@@ -570,14 +570,14 @@ class CameraTool extends Module
 
 			int i = GetMouseState( MouseState.WHEEL );
 
-			ObjectEditor objEditor = GetModuleManager().GetModule( ObjectEditor );
+			ObjectEditor objEditor = COM_GetModuleManager().GetModule( ObjectEditor );
 
 			if ( objEditor.m_SelectedObject ) 
 			{	
 				return;
 			}
 
-			if ( CTRL() ) 
+			if ( COM_CTRL() ) 
 			{
 				vector ori = m_oCamera.GetOrientation();
 				m_TargetRoll = ori[2] - Math.RAD2DEG * i*0.09;
@@ -731,9 +731,9 @@ class CameraTool extends Module
 	void SetFreezePlayer( bool freeze ) 
 	{
 		m_FreezePlayer = freeze;
-		GetPlayer().GetInputController().OverrideMovementSpeed( freeze, 0 );
-		GetPlayer().GetInputController().OverrideAimChangeX( freeze, 0 );
-        GetPlayer().GetInputController().OverrideAimChangeY( freeze, 0 );
+		COM_GetPB().GetInputController().OverrideMovementSpeed( freeze, 0 );
+		COM_GetPB().GetInputController().OverrideAimChangeX( freeze, 0 );
+        COM_GetPB().GetInputController().OverrideAimChangeY( freeze, 0 );
 	}
 	
 	void SetFreezeCam( bool freeze ) 

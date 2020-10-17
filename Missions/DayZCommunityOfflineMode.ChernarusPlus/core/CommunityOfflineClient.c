@@ -28,13 +28,13 @@ class CommunityOfflineClient extends MissionGameplay
 	{
 		super.OnMissionStart();
 
-        GetModuleManager().OnInit();
-		GetModuleManager().OnMissionStart();
+        COM_GetModuleManager().OnInit();
+		COM_GetModuleManager().OnMissionStart();
 	}
 
 	override void OnMissionFinish()
 	{
-        GetModuleManager().OnMissionFinish();
+        COM_GetModuleManager().OnMissionFinish();
 
 		CloseAllMenus();
 
@@ -50,14 +50,14 @@ class CommunityOfflineClient extends MissionGameplay
 
     void OnMissionLoaded()
     {
-		GetModuleManager().OnMissionLoaded();
+		COM_GetModuleManager().OnMissionLoaded();
     }
 
 	override void OnUpdate( float timeslice )
 	{
 	    super.OnUpdate( timeslice );
 
-        GetModuleManager().OnUpdate( timeslice );
+        COM_GetModuleManager().OnUpdate( timeslice );
 
         if( !m_loaded && !GetDayZGame().IsLoading() )
         {
@@ -69,11 +69,11 @@ class CommunityOfflineClient extends MissionGameplay
     void SpawnPlayer()
     {
 //		#ifndef MODULE_PERSISTENCY
-//		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
+//		GetGame().SelectPlayer( NULL, COM_CreateCustomDefaultCharacter() );
 //		#endif
 
 //		#ifdef DISABLE_PERSISTENCY
-		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
+		GetGame().SelectPlayer( NULL, COM_CreateCustomDefaultCharacter() );
 //		#endif
     }
 

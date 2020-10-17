@@ -29,6 +29,7 @@ class ObjectMenu extends PopupMenu
 	    "Red9",
 	    "ItemOptics",
 	    "ThingEffect",
+	    "QuickieBow",
     };
 
 	void ~ObjectMenu()
@@ -82,7 +83,7 @@ class ObjectMenu extends PopupMenu
     {
         if ( w == m_SearchBox )
         {
-            GetPlayer().GetInputController().OverrideMovementSpeed( true, 0 );
+            COM_GetPB().GetInputController().OverrideMovementSpeed( true, 0 );
         }
         return false;
     }
@@ -91,7 +92,7 @@ class ObjectMenu extends PopupMenu
     {
         if ( w == m_SearchBox )
         {
-            GetPlayer().GetInputController().OverrideMovementSpeed( false, 0 );
+            COM_GetPB().GetInputController().OverrideMovementSpeed( false, 0 );
         }
         return false;
     }
@@ -121,7 +122,7 @@ class ObjectMenu extends PopupMenu
                         toCopy = toCopy + selection + "\n";
                     }
                     GetGame().CopyToClipboard( toCopy );
-                    Message("Dumped selections to clipboard");
+                    COM_Message("Dumped selections to clipboard");
 
 
                 }
@@ -138,7 +139,7 @@ class ObjectMenu extends PopupMenu
             if( m_excludeBroken.Find( strSelection ) != -1 ) return false;
 
           strSelection.ToLower();
-          ObjectEditor obEditor = GetModuleManager().GetModule( ObjectEditor );
+          ObjectEditor obEditor = COM_GetModuleManager().GetModule( ObjectEditor );
 
           if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) )
           {
@@ -147,9 +148,9 @@ class ObjectMenu extends PopupMenu
 
           if( w == m_btnSpawnCursor )
           {
-            EntityAI oCursorObj = g_Game.CreateObject( strSelection, GetCursorPos(), true, ai );
+            EntityAI oCursorObj = g_Game.CreateObject( strSelection, COM_GetCursorPos(), true, ai );
             obEditor.addObject( oCursorObj );
-            ForceTargetCollisionUpdate( oCursorObj );
+            COM_ForceTargetCollisionUpdate( oCursorObj );
             ObjectInfoMenu.listBox.AddItem(oCursorObj.GetType(), oCursorObj, 0);
 
             if ( oCursorObj.IsInherited( Magazine ) )
@@ -179,9 +180,9 @@ class ObjectMenu extends PopupMenu
           }
           else if ( w == m_btnSpawnGround )
           {
-            EntityAI oObj = g_Game.CreateObject( strSelection, GetGame().GetPlayer().GetPosition(), false, ai );
+            EntityAI oObj = g_Game.CreateObject( strSelection, COM_GetPB().GetPosition(), false, ai );
             obEditor.addObject( oObj );
-            ForceTargetCollisionUpdate( oObj );
+            COM_ForceTargetCollisionUpdate( oObj );
             ObjectInfoMenu.listBox.AddItem(oObj.GetType(), oObj, 0);
 
             if ( oObj.IsInherited( Magazine ) )

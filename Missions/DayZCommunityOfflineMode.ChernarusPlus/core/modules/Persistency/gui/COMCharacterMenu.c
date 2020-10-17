@@ -316,9 +316,9 @@ class COMCharacterMenu extends UIScriptedMenu
 	{
 		PersistencyPrint("COMCharacterMenu::Apply");
 
-		if ( GetPlayer() && !GetGame().IsMultiplayer() )
+		if ( COM_GetPB() && !GetGame().IsMultiplayer() )
 		{
-			// GetPlayer().Delete();
+			// COM_GetPB().Delete();
 		}
 
 		if ( m_IsLoadingSave )
@@ -375,7 +375,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		SetLoadingText("Creating Character");
 
-		m_oPersistencyModule.GetScene().GetPlayerUnit().SetPosition( GetSpawnPoints().GetRandomElement() );
+		m_oPersistencyModule.GetScene().GetPlayerUnit().SetPosition( COM_GetSpawnPoints().GetRandomElement() );
 
 		GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(m_oPersistencyModule.CreatePlayer, 200, false, characterName, m_oPersistencyModule.GetScene().GetPlayerUnit());
 	}
@@ -502,7 +502,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 		super.OnShow();
 
-		if ( GetPlayer() && !GetGame().IsMultiplayer() )
+		if ( COM_GetPB() && !GetGame().IsMultiplayer() )
 		{
 			GetGame().SelectPlayer( NULL, NULL );
 		}
@@ -514,7 +514,7 @@ class COMCharacterMenu extends UIScriptedMenu
         GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
         GetGame().GetUIManager().ShowUICursor( true );
 
-        GetMission().GetHud().Show(false);
+        COM_GetMission().GetHud().Show(false);
 
 		GetGame().GetUpdateQueue(CALL_CATEGORY_SYSTEM).Insert(this.UpdateInterval);
 
@@ -548,7 +548,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		GetGame().GetInput().ChangeGameFocus( 1, INPUT_DEVICE_MOUSE );
         GetGame().GetUIManager().ShowUICursor( true );
 
-        GetMission().GetHud().Show(false);
+        COM_GetMission().GetHud().Show(false);
 		PersistencyPrint( "Finished COMCharacterMenu::TemporaryFix_ReloadCharacterMenu" );
 	}
 
@@ -727,7 +727,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	bool IsValidSave( string name, FileAttr attributes )
     {
-        PersistencyPrint( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + GetCharacter() + "\\" + name + " as a " + FileAttributeToString( attributes ) );
+        PersistencyPrint( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + GetCharacter() + "\\" + name + " as a " + COM_FileAttributeToString( attributes ) );
 
 		string extenstion = ".json";
 		int strLength = name.Length();
@@ -745,7 +745,7 @@ class COMCharacterMenu extends UIScriptedMenu
 
 	bool IsValidCharacter( string name, FileAttr attributes )
     {
-        PersistencyPrint( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + name + " as a " + FileAttributeToString( attributes ) );
+        PersistencyPrint( "Found: " + BASE_PLAYER_SAVE_DIR  + "\\" + name + " as a " + COM_FileAttributeToString( attributes ) );
 
         if ( ! (attributes & FileAttr.DIRECTORY ) ) return false;
 

@@ -47,7 +47,7 @@ class PersistencyModule extends Module
 		super.Init();
 
 		#ifdef MODULE_UIEXTENDER
-		UIExtender om = GetModuleManager().GetModuleByName( "UIExtender" );
+		UIExtender om = COM_GetModuleManager().GetModuleByName( "UIExtender" );
 
 		if ( om )
 		{
@@ -66,7 +66,7 @@ class PersistencyModule extends Module
 		m_CharacterIsLoaded = false;
 
 		#ifdef MODULE_PERSISTENCY_IGNORE_LOADING
-		GetGame().SelectPlayer( NULL, CreateCustomDefaultCharacter() );
+		GetGame().SelectPlayer( NULL, COM_CreateCustomDefaultCharacter() );
 		#else
 		OpenCharacterLoading();
 		#endif
@@ -117,15 +117,15 @@ class PersistencyModule extends Module
 		m_CharacterIsLoaded = false;
 		m_CanBeSaved = false;
 
-		if ( GetPlayer() )
+		if ( COM_GetPB() )
 		{
-			GetPlayer().SimulateDeath( false );
+			COM_GetPB().SimulateDeath( false );
 
 			if ( m_sCharacter != "" && m_sSave != "" )
 			{
 				GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).Remove( this.SavePlayer );
 				
-				CharacterSave.SavePlayer( m_sCharacter, m_sSave, GetPlayer() );
+				CharacterSave.SavePlayer( m_sCharacter, m_sSave, COM_GetPB() );
 			}
 		}
 
@@ -149,7 +149,7 @@ class PersistencyModule extends Module
 			m_CharacterMenu = new COMCharacterMenu( this, true );
 		}
 
-		UIExtender om = GetModuleManager().GetModuleByName( "UIExtender" );
+		UIExtender om = COM_GetModuleManager().GetModuleByName( "UIExtender" );
 		if ( om )
 		{
 			om.GetPauseMenu().Close();
@@ -177,7 +177,7 @@ class PersistencyModule extends Module
 			CleanupCharacterMenu();
 		}
 
-		UIExtender om = GetModuleManager().GetModuleByName( "UIExtender" );
+		UIExtender om = COM_GetModuleManager().GetModuleByName( "UIExtender" );
 		if ( om )
 		{
 			om.GetPauseMenu().Close();
@@ -297,7 +297,7 @@ class PersistencyModule extends Module
 			{
 				m_sSave = sSave;
 			}
-			CharacterSave.SavePlayer( m_sCharacter, m_sSave, GetPlayer() );
+			CharacterSave.SavePlayer( m_sCharacter, m_sSave, COM_GetPB() );
 		}
 	}
 
@@ -352,7 +352,7 @@ class PersistencyModule extends Module
 
 		if ( m_sCharacter == "" )
 		{
-			oPlayer = CreateCustomDefaultCharacter();
+			oPlayer = COM_CreateCustomDefaultCharacter();
 		} else 
 		{
 			if ( m_sSave == "" )
@@ -378,7 +378,7 @@ class PersistencyModule extends Module
 
 		if ( m_sCharacter != "" && m_sSave != "" )
 		{
-			GetPlayer().MessageStatus("Loaded character \'" + m_sCharacter + "\' with save \'" + m_sSave + "\'");
+			COM_GetPB().MessageStatus("Loaded character \'" + m_sCharacter + "\' with save \'" + m_sSave + "\'");
 		}
 		
 		m_CanBeSaved = true;
@@ -396,7 +396,7 @@ class PersistencyModule extends Module
 		PersistencyPrint("PersistencyModule::RemoveEffects");
 		CloseLoadingText();
 		
-        GetMission().GetHud().Show(true);
+        COM_GetMission().GetHud().Show(true);
 
 		CameraTool.CAMERA_SMOOTH_BLUR = 0.0;
 

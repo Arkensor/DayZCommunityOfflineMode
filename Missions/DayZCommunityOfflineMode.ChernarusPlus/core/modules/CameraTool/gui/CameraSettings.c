@@ -110,7 +110,7 @@ class CameraSettings extends PopupMenu
 
 		if ( w.GetName() == "camera_toggle" ) 
 		{
-			ref CameraTool cmt = GetModuleManager().GetModule( CameraTool );
+			ref CameraTool cmt = COM_GetModuleManager().GetModule( CameraTool );
 			GetGame().GetCallQueue( CALL_CATEGORY_GAMEPLAY ).Call( cmt.ToggleCamera ); // Fix crash
 		}
 
@@ -384,17 +384,17 @@ class CameraSettings extends PopupMenu
 	{
 		string cameraTarget = "None";
 
-		Object targetObject = CameraTool.Cast(GetModuleManager().GetModule(CameraTool)).GetTargetObject();
+		Object targetObject = CameraTool.Cast(COM_GetModuleManager().GetModule(CameraTool)).GetTargetObject();
 
 		if ( targetObject ) 
 		{
 			cameraTarget = targetObject.GetType();
 		}
 
-		vector targetPos = CameraTool.Cast(GetModuleManager().GetModule(CameraTool)).GetTargetPos();
+		vector targetPos = CameraTool.Cast(COM_GetModuleManager().GetModule(CameraTool)).GetTargetPos();
 		if ( targetPos != vector.Zero ) 
 		{
-			cameraTarget = VectorToString( targetPos, 1 );
+			cameraTarget = COM_VectorToString( targetPos, 1 );
 		}
 
 		widgetStore.GetTextWidget("camera_target_txt").SetText("Target: " + cameraTarget );
