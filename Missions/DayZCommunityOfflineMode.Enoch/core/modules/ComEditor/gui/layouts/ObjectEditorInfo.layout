@@ -1,0 +1,283 @@
+PanelWidgetClass object_editor_info 
+{
+	visible 0
+	color 0 0 0 1
+	position 0.045 0.475
+	size 400 400
+	halign right_ref
+	valign top_ref
+	hexactpos 0
+	vexactpos 0
+	hexactsize 1
+	vexactsize 1
+	scriptclass "ObjectInfoMenu"
+	style EditorPanel
+	{
+		PanelWidgetClass title_wrapper
+		{
+			visible 1
+			color 0 0 0 0.92
+			position 0 0
+			size 1 25
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+			{
+				TextWidgetClass title_text
+				{
+					position 0 0
+					size 1 0.6
+					halign center_ref
+					valign center_ref
+					hexactpos 0
+					vexactpos 0
+					hexactsize 0
+					vexactsize 0
+					style Normal
+					text "Object Info"
+					font "gui/fonts/Metron-Bold58"
+                    "exact text" 1
+                    "exact text size" 20
+                    "text halign" center
+                    "text valign" center
+				}
+			}
+		}
+
+		PanelWidgetClass object_editor_info_bkg
+		{
+			visible 1
+			color 0 0 0 0.75
+			position 0 25
+			size 1 1
+			hexactsize 0
+			vexactsize 0
+			vexactpos 1
+			style rover_sim_colorable
+			{
+				TextWidgetClass object_editor_info_select_input
+				{
+					color 1 1 1 1
+					position 0.05 0.05
+					size 0.9 0.055
+					text "No object Selected"
+				}
+				FrameWidgetClass objectInfo_scene
+				{
+					visible 1
+					position 0.65 0
+					size 0.3 0.95
+					style EditorPanel
+					{
+						TextWidgetClass object_editor_info_objects
+						{
+							color 1 1 1 1
+							position 0 0.05
+							size 1 0.055
+							text "Objects Placed"
+						}
+
+						TextListboxWidgetClass object_editor_info_list
+						{
+							visible 1
+							position 0 0.15
+							size 1 0.6
+							style Editor
+							lines 20
+							font "gui/fonts/Metron14"
+						}
+						ButtonWidgetClass object_editor_info_save
+						{
+							position 0 0.75
+							size 1 0.055
+							text "Save"
+						}
+						ButtonWidgetClass object_editor_info_export
+						{
+							position 0 0.8
+							size 1 0.055
+							text "Export"
+						}
+						ButtonWidgetClass object_editor_info_clear
+						{
+							position 0 0.85
+							size 1 0.055
+							text "Clear"
+						}
+						ButtonWidgetClass object_editor_info_dumplods
+						{
+							position 0 0.9
+							size 1 0.055
+							text "Dump LODS"
+						}
+					}
+				}
+				FrameWidgetClass objectInfo 
+				{
+					visible 1
+					position 0 0.1
+					size 0.65 1
+					style EditorPanel
+					{
+						PanelWidgetClass objectInfo_pos_panel 
+						{
+							position 0.05 0.05
+							color 0 0 0 1
+							size 0.9 0.35
+							halign left_ref
+							hexactsize 0
+							vexactsize 0
+							style EditorPanel
+							{
+								TextWidgetClass object_info_x 
+								{
+									visible 1
+									color 1 1 1 1
+									size 0.5 0.33
+									position 0 0
+									text "Pos X"
+									"exact text" 1
+									"text halign" center
+									"text valign" center
+								}
+								TextWidgetClass object_info_y
+								{
+									visible 1
+									color 1 1 1 1
+									size 0.5 0.33
+									position 0 0.33
+									text "Pos Y"
+									"exact text" 1
+									"text halign" center
+									"text valign" center
+								}
+								TextWidgetClass object_info_z
+								{
+									visible 1
+									color 1 1 1 1
+									size 0.5 0.33
+									position 0 0.66
+									text "Pos Z"
+									"exact text" 1
+									"text halign" center
+									"text valign" center
+								}
+
+								EditBoxWidgetClass object_info_pos_x 
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.5 0
+									size 0.5 0.33
+									text "0.0"
+									style Default
+									"exact text" 1
+								}
+								EditBoxWidgetClass object_info_pos_y 
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.5 0.33
+									size 0.5 0.33
+									text "0.0"
+									style Default
+									"exact text" 1
+								}
+								EditBoxWidgetClass object_info_pos_z
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.5 0.66
+									size 0.5 0.33
+									text "0.0"
+									style Default
+									"exact text" 1
+								}
+							}
+						}
+						PanelWidgetClass objectInfo_orientation_panel 
+						{
+							visible 1
+							color 0 0 0 1
+							position 0.05 0.45
+							size 0.9 0.35
+							halign left_ref
+							hexactsize 0
+							vexactsize 0
+							style EditorPanel
+							{
+								TextWidgetClass object_info_yaw
+								{
+									visible 1
+									color 1 1 1 1
+									size 0.5 0.33
+									position 0 0
+									text "Yaw"
+									"exact text" 1
+									"text halign" center
+									"text valign" center
+								}
+								TextWidgetClass object_info_pitch
+								{
+									visible 1
+									color 1 1 1 1
+									size 0.5 0.33
+									position 0 0.33
+									text "Pitch"
+									"exact text" 1
+									"text halign" center
+									"text valign" center
+								}
+								TextWidgetClass object_info_roll
+								{
+									visible 1
+									color 1 1 1 1
+									size 0.5 0.33
+									position 0 0.66
+									text "Roll"
+									"exact text" 1
+									"text halign" center
+									"text valign" center
+								}
+								EditBoxWidgetClass object_info_yaw_input
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.5 0
+									size 0.5 0.33
+									text "0.0"
+									style Default
+									"exact text" 1
+								}
+								EditBoxWidgetClass object_info_pitch_input
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.5 0.33
+									size 0.5 0.33
+									text "0.0"
+									style Default
+									"exact text" 1
+								}
+								EditBoxWidgetClass object_info_roll_input
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.5 0.66
+									size 0.5 0.33
+									text "0.0"
+									style Default
+									"exact text" 1
+								}
+							}
+						}
+						
+						
+					}
+				}
+			}
+		}
+	}
+}
