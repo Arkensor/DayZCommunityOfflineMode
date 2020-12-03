@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playerspawnpoints>
+    <fresh>
+        <spawn_params>
+            <min_dist_infected>30.0</min_dist_infected>
+            <max_dist_infected>70.0</max_dist_infected>
+            <min_dist_player>25.0</min_dist_player>
+            <max_dist_player>70.0</max_dist_player>
+            <min_dist_static>0.5</min_dist_static>
+            <max_dist_static>2.0</max_dist_static>
+        </spawn_params>
+
+        <generator_params>
+            <grid_density>8</grid_density>
+            <grid_width>40.0</grid_width>
+            <grid_height>40.0</grid_height>
+            <min_dist_static>0.5</min_dist_static>
+            <max_dist_static>2.0</max_dist_static>
+            <min_steepness>-45</min_steepness>
+            <max_steepness>45</max_steepness>
+        </generator_params>
+
+        <generator_posbubbles>
+            <pos x="5102.774414" z="11307.583008" />
+            <pos x="4990.819336" z="11358.180664" />
+            <pos x="4776.312988" z="11213.697266" />
+            <pos x="4186.65332" z="10754.750977" />
+            <pos x="4563.571289" z="10352.198242" />
+            <pos x="4363.229004" z="10578.99707" />
+            <pos x="4182.806152" z="11026.34375" />
+            <pos x="6191.775879" z="11905.884766" />
+            <pos x="6065.633301" z="11802.081055" />
+            <pos x="6669.195801" z="11923.223633" />
+            <pos x="6551.474609" z="12022.769531" />
+            <pos x="6806.222656" z="11952.764648" />
+            <pos x="6905.869629" z="11937.016601" />
+            <pos x="7021.543457" z="11899.945312" />
+            <pos x="7133.588379" z="11879.276367" />
+            <pos x="6989.501953" z="11853.699219" />
+            <pos x="7195.662109" z="11889.191406" />
+            <pos x="6441.571289" z="11943.69043" />
+            <pos x="5893.664063" z="11701.487305" />
+            <pos x="6363.358887" z="11921.189453" />
+            <pos x="6571.212891" z="11968.970703" />
+            <pos x="6753.234375" z="11867.739258" />
+            <pos x="7350.411133" z="11869.258789" />
+            <pos x="5008.67627" z="11099.361328" />
+            <pos x="7569.946777" z="11759.802734" />
+            <pos x="7685.681641" z="11798.021484" />
+            <pos x="7299.811035" z="11844.148437" />
+            <pos x="7434.306152" z="11829.203125" />
+            <pos x="7873.843262" z="11650.453125" />
+            <pos x="7085.195313" z="11819.078125" />
+            <pos x="8683.462891" z="10903.001953" />
+            <pos x="8635.306641" z="11129.913086" />
+            <pos x="8049.722656" z="11559.525391" />
+            <pos x="8243.633789" z="11459.449219" />
+            <pos x="8884.483398" z="10614.400391" />
+            <pos x="8443.777344" z="11350.495117" />
+            <pos x="7579.916504" z="9994.131836" />
+            <pos x="7920.567871" z="10107.776367" />
+            <pos x="8205.793945" z="10027.53125" />
+            <pos x="8446.169922" z="10026.167969" />
+            <pos x="8667.195313" z="9835.807617" />
+            <pos x="9059.648438" z="10387.413086" />
+            <pos x="8949.00293" z="9876.775391" />
+        </generator_posbubbles>
+    </fresh>
+</playerspawnpoints>
