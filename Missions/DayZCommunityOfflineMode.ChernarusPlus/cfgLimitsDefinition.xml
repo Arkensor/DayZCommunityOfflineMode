@@ -13,6 +13,7 @@
     <tags>
         <tag name="floor"/>
         <tag name="shelves"/>
+        <tag name="ground"/>
     </tags>
     <usageflags>
         <usage name="Military"/>
@@ -28,6 +29,7 @@
         <usage name="Office"/>
         <usage name="School"/>
         <usage name="Prison"/>
+        <usage name="Lunapark"/>
     </usageflags>
     <valueflags>
         <value name="Tier1"/>
