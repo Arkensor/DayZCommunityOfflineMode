@@ -88,10 +88,16 @@ PanelWidgetClass object_editor_info
 							lines 20
 							font "gui/fonts/Metron14"
 						}
-						ButtonWidgetClass object_editor_info_save
+						ButtonWidgetClass object_editor_info_load
 						{
 							position 0 0.75
-							size 1 0.055
+							size 0.5 0.055
+							text "Load"
+						}
+						ButtonWidgetClass object_editor_info_save
+						{
+							position 0.5 0.75
+							size 0.5 0.055
 							text "Save"
 						}
 						ButtonWidgetClass object_editor_info_export
