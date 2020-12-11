@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<prototype>
+		<clusters>
+			<!-- grav road -->
+			<export name="StoneLoc01" shape="nst\ns\roads\namgrav_0 2000.p3d" />
+			<export name="StoneLoc02" shape="nst\ns\roads\namgrav_1 1000.p3d" />
+			<export name="StoneLoc03" shape="nst\ns\roads\namgrav_6.p3d" />
+			<export name="StoneLoc04" shape="nst\ns\roads\namgrav_6konec.p3d" />
+			<export name="StoneLoc05" shape="nst\ns\roads\namgrav_7 100.p3d" />
+			<export name="StoneLoc06" shape="nst\ns\roads\namgrav_10 25.p3d" />
+			<export name="StoneLoc07" shape="nst\ns\roads\namgrav_10 50.p3d" />
+			<export name="StoneLoc08" shape="nst\ns\roads\namgrav_10 75.p3d" />
+			<export name="StoneLoc09" shape="nst\ns\roads\namgrav_10 100.p3d" />
+			<export name="StoneLoc10" shape="nst\ns\roads\namgrav_12.p3d" />
+			<export name="StoneLoc11" shape="nst\ns\roads\namgrav_15 75.p3d" />
+			<export name="StoneLoc12" shape="nst\ns\roads\namgrav_22 50.p3d" />
+			<export name="StoneLoc13" shape="nst\ns\roads\namgrav_25.p3d" />
+			<export name="StoneLoc14" shape="nst\ns\roads\namgrav_30 25.p3d" />
+			<export name="StoneLoc15" shape="nst\ns\roads\namgrav_60 10.p3d" />
+
+			<!-- mud road -->
+			<export name="StoneLoc16" shape="nst\ns\roads\nammud_0 2000.p3d" />
+			<export name="StoneLoc17" shape="nst\ns\roads\nammud_1 1000.p3d" />
+			<export name="StoneLoc18" shape="nst\ns\roads\nammud_6.p3d" />
+			<export name="StoneLoc19" shape="nst\ns\roads\nammud_6konec.p3d" />
+			<export name="StoneLoc20" shape="nst\ns\roads\nammud_7 100.p3d" />
+			<export name="StoneLoc21" shape="nst\ns\roads\nammud_10 25.p3d" />
+			<export name="StoneLoc22" shape="nst\ns\roads\nammud_10 50.p3d" />
+			<export name="StoneLoc23" shape="nst\ns\roads\nammud_10 75.p3d" />
+			<export name="StoneLoc24" shape="nst\ns\roads\nammud_10 100.p3d" />
+			<export name="StoneLoc25" shape="nst\ns\roads\nammud_12.p3d" />
+			<export name="StoneLoc26" shape="nst\ns\roads\nammud_15 75.p3d" />
+			<export name="StoneLoc27" shape="nst\ns\roads\nammud_22 50.p3d" />
+			<export name="StoneLoc28" shape="nst\ns\roads\nammud_25.p3d" />
+			<export name="StoneLoc29" shape="nst\ns\roads\nammud_30 25.p3d" />
+			<export name="StoneLoc30" shape="nst\ns\roads\nammud_60 10.p3d" />
+
+			<!-- railway -->
+			<export name="StoneLoc31" shape="nst\ns2\build\railway\railsN_25.p3d" />
+			<export name="StoneLoc32" shape="nst\ns2\build\railway\railsN_40.p3d" />
+			<export name="StoneLoc33" shape="nst\ns2\build\railway\railsN_curve_L25_5.p3d" />
+			<export name="StoneLoc34" shape="nst\ns2\build\railway\railsN_curve_L25_10.p3d" />
+			<export name="StoneLoc35" shape="nst\ns2\build\railway\railsN_curve_L30_20.p3d" />
+			<export name="StoneLoc36" shape="nst\ns2\build\railway\railsN_curve_R25_5.p3d" />
+			<export name="StoneLoc37" shape="nst\ns2\build\railway\railsN_curve_R25_10.p3d" />
+			<export name="StoneLoc38" shape="nst\ns2\build\railway\railsN_curve_R30_20.p3d" />
+		</clusters>
+
+		<cluster name="StoneLoc01" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc02" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc03" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc04" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc05" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc06" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc07" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc08" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc09" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc10" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc11" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc12" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc13" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc14" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc15" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc16" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc17" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc18" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc19" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc20" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc21" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc22" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc23" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc24" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc25" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc26" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc27" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc28" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc29" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc30" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="0.0 0.0 0.1" range="0.50" height="1.00" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc31" lootmax="3" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="3">
+				<point pos="-1.09 0.70 0.12" range="0.50" height="1.50" /> 
+				<point pos="2.17 0.70 0.20" range="0.50" height="1.50" /> 
+				<point pos="6.22 0.70 0.32" range="0.50" height="1.50" /> 
+				<point pos="-5.83 0.70 0.01" range="0.50" height="1.50" />
+			</container>
+		</cluster>
+		<cluster name="StoneLoc32" lootmax="5" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="5">
+				<point pos="-9.82 0.70 -0.05" range="0.50" height="1.50" /> 
+				<point pos="-6.27 0.70 -0.15" range="0.50" height="1.50" /> 
+				<point pos="-3.02 0.70 -0.01" range="0.50" height="1.50" /> 
+				<point pos="-0.31 0.70 0.04" range="0.50" height="1.50" /> 
+				<point pos="2.94 0.70 0.15" range="0.50" height="1.50" /> 
+				<point pos="5.54 0.70 0.27" range="0.50" height="1.50" /> 
+				<point pos="9.00 0.70 0.33" range="0.50" height="1.50" /> 
+				<point pos="12.59 0.70 0.34" range="0.50" height="1.50" /> 
+				<point pos="-12.35 0.70 -0.20" range="0.50" height="1.50" /> 
+			</container>
+		</cluster>
+		<cluster name="StoneLoc33" lootmax="2" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="2">
+				<point pos="2.34 0.70 -0.03" range="0.50" height="1.50" /> 
+				<point pos="-2.26 0.70 -0.13" range="0.50" height="1.50" /> 
+				<point pos="-5.98 0.70 -0.19" range="0.50" height="1.50" /> 
+				<point pos="6.61 0.70 0.10" range="0.50" height="1.50" /> 
+			</container>
+		</cluster>
+		<cluster name="StoneLoc36" lootmax="2" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="2">
+				<point pos="-6.27 0.70 -0.150061" range="0.50" height="1.50" /> 
+				<point pos="-1.77 0.70 -0.058546" range="0.50" height="1.50" /> 
+				<point pos="1.76 0.70 0.019553" range="0.50" height="1.50" /> 
+				<point pos="5.25 0.70 0.021179" range="0.50" height="1.50" /> 
+			</container>
+		</cluster>
+		<cluster name="StoneLoc34" lootmax="2" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="2">
+				<point pos="-2.82 0.70 -0.23" range="0.50" height="1.50" /> 
+				<point pos="0.60 0.70 -0.20" range="0.50" height="1.50" /> 
+				<point pos="4.60 0.70 -0.02" range="0.50" height="1.50" /> 
+				<point pos="8.46 0.70 0.11" range="0.50" height="1.50" /> 
+				<point pos="-7.62 0.70 -0.22" range="0.50" height="1.50" /> 
+			</container>
+		</cluster>
+		<cluster name="StoneLoc37" lootmax="2" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="2">
+				<point pos="-5.83 0.70 0.01" range="0.50" height="1.50" /> 
+				<point pos="-0.87 0.70 0.28" range="0.50" height="1.50" /> 
+				<point pos="1.63 0.70 0.33" range="0.50" height="1.50" /> 
+				<point pos="6.21 0.70 0.31" range="0.50" height="1.50" /> 
+			</container>
+		</cluster>
+		<cluster name="StoneLoc35" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="5.46 0.70 0.15" range="0.50" height="1.50" /> 
+				<point pos="1.05 0.70 -0.11" range="0.50" height="1.50" /> 
+				<point pos="-4.30 0.70 -0.21" range="0.50" height="1.50" /> 
+			</container>
+		</cluster>
+		<cluster name="StoneLoc38" lootmax="1" maxinstances="150">
+			<de name="TrajectoryStones" />
+			<container name="stones" lootmax="1">
+				<point pos="2.64 0.70 0.23" range="0.50" height="1.50" /> 
+				<point pos="-1.27 0.70 0.07" range="0.50" height="1.50" /> 
+				<point pos="-4.46 0.70 0.11" range="0.50" height="1.50" /> 
+			</container>
+		</cluster>
+</prototype>

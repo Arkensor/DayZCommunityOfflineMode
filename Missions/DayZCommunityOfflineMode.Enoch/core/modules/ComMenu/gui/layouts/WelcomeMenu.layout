@@ -1,0 +1,92 @@
+FrameWidgetClass WelcomeMenu
+{
+	visible 0
+	color 0 0 0 0
+	position 0 0
+	size 650 395
+	halign center_ref
+	valign center_ref
+	hexactpos 0
+	vexactpos 0
+	hexactsize 1
+	vexactsize 1
+	style EditorPanel
+
+	{
+        PanelWidgetClass Background
+        {
+			visible 1
+			color 0 0 0 0.45
+			position 0 0
+			size 650 395
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+        }
+
+		PanelWidgetClass title_wrapper
+		{
+			visible 1
+			color 0 0 0 0.7843
+			position 0 0
+			size 1 25
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+
+			{
+				TextWidgetClass title_text
+				{
+					position 0 0
+					size 1 0.6
+					halign center_ref
+					valign center_ref
+					hexactpos 0
+					vexactpos 0
+					hexactsize 0
+					vexactsize 0
+					style Normal
+					text "DayZ Community Offline Mode"
+					font "gui/fonts/Metron-Bold58"
+                    "exact text" 1
+                    "exact text size" 20
+                    "text halign" center
+                    "text valign" center
+				}
+			}
+		}
+
+		MultilineTextWidgetClass infotext
+		{
+			position 5 35
+			size 640 320
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+            text "Lloyd!"
+            font "gui/fonts/sdf_MetronBook24"
+            "exact text" 0
+            "text halign" center
+            "text valign" center
+            wrap 1
+		}
+
+        ButtonWidgetClass btn_ok
+        {
+            position 5 5
+            size 80 20
+            halign right_ref
+            valign bottom_ref
+            hexactpos 1
+            vexactpos 1
+            hexactsize 1
+            vexactsize 1
+            text "Ok"
+        }
+	}
+}

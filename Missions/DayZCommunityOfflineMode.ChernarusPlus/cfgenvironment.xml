@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<env>
+
+	<!-- GENERAL Territories Section -->
+	<territories>
+
+		<file path="env/cattle_territories.xml" />
+		<file path="env/sheep_goat_territories.xml" />
+		<file path="env/red_deer_territories.xml" />
+		<file path="env/roe_deer_territories.xml" />
+		<file path="env/wild_boar_territories.xml" />
+		<file path="env/pig_territories.xml" />
+		<file path="env/hen_territories.xml" />
+		<file path="env/wolf_territories.xml" />
+		<file path="env/hare_territories.xml" />
+		<file path="env/zombie_territories.xml" />
+		<file path="env/bear_territories.xml" />
+
+		<territory type="Herd" name="Deer" behavior="DZDeerGroupBeh">
+			<file usable="red_deer_territories" />
+		</territory>
+		<territory type="Herd" name="Cow" behavior="DZdomesticGroupBeh">
+			<file usable="cattle_territories" />
+		</territory>
+		<territory type="Herd" name="Goat" behavior="DZSheepGroupBeh">
+			<file usable="sheep_goat_territories" />
+		</territory>
+		<territory type="Herd" name="Sheep" behavior="DZSheepGroupBeh">
+			<file usable="sheep_goat_territories" />
+		</territory>
+		<territory type="Herd" name="RoeDeer" behavior="DZDeerGroupBeh">
+			<file usable="roe_deer_territories" />
+		</territory>
+		<territory type="Herd" name="Wolf" behavior="DZWolfGroupBeh">
+			<file usable="wolf_territories" />
+		</territory>
+		<territory type="Herd" name="WildBoar" behavior="DZDeerGroupBeh">
+			<file usable="wild_boar_territories" />
+		</territory>
+		<territory type="Herd" name="Pig" behavior="DZSheepGroupBeh">
+			<file usable="pig_territories" />
+		</territory>
+		<territory type="Herd" name="Bear" behavior="BlissBearGroupBeh">
+			<file usable="bear_territories"/>
+		</territory>
+
+		<!-- HEN -->
+		<territory type="Ambient" name="AmbientHen" behavior="DZAmbientLifeGroupBeh">
+			<file usable="hen_territories" />
+			<!-- different agent types - class has to begin with AgentType:w -->
+			<agent type="Male" chance="1">
+				<spawn configName="Animal_GallusGallusDomesticus" chance="1" />
+			</agent>
+			<agent type="Female" chance="3">
+				<spawn configName="Animal_GallusGallusDomesticusF_Brown" chance="1" />
+				<spawn configName="Animal_GallusGallusDomesticusF_Spotted" chance="10" />
+				<spawn configName="Animal_GallusGallusDomesticusF_White" chance="20" />
+			</agent>
+
+			<item name="globalCountMax" val="50" />
+			<item name="zoneCountMin" val="1" />
+			<item name="zoneCountMax" val="1" />
+			<item name="playerSpawnRadiusNear" val="25" />
+			<item name="playerSpawnRadiusFar" val="75" />
+		</territory>
+
+		<!-- HARE -->
+		<territory type="Ambient" name="AmbientHare" behavior="DZAmbientLifeGroupBeh">
+			<file usable="hare_territories" />
+			<!-- different agent types - class has to begin with AgentType:w -->
+			<agent type="Male" chance="1">
+				<spawn configName="Animal_LepusEuropaeus" chance="1" />
+			</agent>
+			<agent type="Female" chance="3">
+				<spawn configName="Animal_LepusEuropaeus" chance="1" />
+			</agent>
+
+			<item name="globalCountMax" val="0" />
+			<item name="zoneCountMin" val="3" />
+			<item name="zoneCountMax" val="5" />
+			<item name="playerSpawnRadiusNear" val="15" />
+			<item name="playerSpawnRadiusFar" val="200" />
+		</territory>
+		
+		<!-- INFECTED -->
+		<territory type="Herd" name="ZombieTest" behavior="DZdomesticGroupBeh">
+			<file usable="zombie_territories" />
+			<!-- different agent types - class has to begin with AgentType:w -->
+			<agent type="Male">
+				<spawn configName="ZombieMale3_NewAI" />
+				<item name="countMin" val="0" />
+				<item name="countMax" val="0" />
+			</agent>
+			<agent type="Female">
+				<spawn configName="ZombieFemale3_NewAI" />
+				<item name="countMin" val="0" />
+				<item name="countMax" val="0" />
+			</agent>
+			
+			<!-- count of herds of this type in the map -->
+			<item name="herdsCount" val="0" />
+		</territory>
+
+	</territories>
+</env>
