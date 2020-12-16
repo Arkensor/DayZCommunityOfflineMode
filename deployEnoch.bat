@@ -30,6 +30,8 @@ xcopy /s/e /y /i "%cd%\Missions\DayZCommunityOfflineMode.Enoch" "%ClientDirector
 
 chdir /d "%ClientDirectory%\Missions\DayZCommunityOfflineMode.Enoch"
 
+setlocal DisableDelayedExpansion
+
 CALL "DayZCommunityOfflineMode.bat"
 
 endlocal

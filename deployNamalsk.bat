@@ -30,6 +30,8 @@ xcopy /s/e /y /i "%cd%\Missions\DayZCommunityOfflineMode.Namalsk" "%ClientDirect
 
 chdir /d "%ClientDirectory%\Missions\DayZCommunityOfflineMode.Namalsk"
 
+setlocal DisableDelayedExpansion
+
 CALL "DayZCommunityOfflineMode.bat"
 
 endlocal

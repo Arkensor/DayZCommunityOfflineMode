@@ -30,6 +30,8 @@ xcopy /s/e /y /i "%cd%\Missions\DayZCommunityOfflineMode.ChernarusPlus" "%Client
 
 chdir /d "%ClientDirectory%\Missions\DayZCommunityOfflineMode.ChernarusPlus"
 
+setlocal DisableDelayedExpansion
+
 CALL "DayZCommunityOfflineMode.bat"
 
 endlocal
