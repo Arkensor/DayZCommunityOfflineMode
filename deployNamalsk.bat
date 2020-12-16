@@ -26,7 +26,7 @@ if %failed%==1 (
 set "ClientDirectory=%_DAYZPATH%"
 
 RD /s /q "%ClientDirectory%\Missions\DayZCommunityOfflineMode.Namalsk" > NUL
-xcopy /s /e /y /i "%cd%\Missions\DayZCommunityOfflineMode.Namalsk" "%ClientDirectory%\Missions\DayZCommunityOfflineMode.Namalsk" > NUL
+xcopy /s/e /y /i "%cd%\Missions\DayZCommunityOfflineMode.Namalsk" "%ClientDirectory%\Missions\DayZCommunityOfflineMode.Namalsk" > NUL
 
 chdir /d "%ClientDirectory%\Missions\DayZCommunityOfflineMode.Namalsk"
 

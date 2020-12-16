@@ -71,3 +71,5 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * [wriley](https://github.com/wriley) - Code snippets beards
 * [PR9INICHEK](https://github.com/PR9INICHEK) - Object spawner additions
 * [LiPeK](https://github.com/LiPeK) - Object editor additions
+* [Cypher](https://github.com/CypherMediaGIT) - Livonia positions
+* [BigBenREDUX](https://twitter.com/BigBenREDUX) - Namalsk positions
