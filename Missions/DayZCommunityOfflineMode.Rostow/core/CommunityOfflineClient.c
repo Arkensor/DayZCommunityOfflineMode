@@ -104,23 +104,20 @@ class CommunityOfflineClient extends MissionGameplay
     {
         Weather weather = g_Game.GetWeather();
 
-        weather.GetOvercast().SetLimits( 0.0 , 2.0 );
-        weather.GetRain().SetLimits( 0.0 , 2.0 );
-        weather.GetFog().SetLimits( 0.0 , 2.0 );
+		weather.MissionWeather(false);    // false = use weather controller from Weather.c
 
-        weather.GetOvercast().SetForecastChangeLimits( 0.0, 0.0 );
-        weather.GetRain().SetForecastChangeLimits( 0.0, 0.0 );
-        weather.GetFog().SetForecastChangeLimits( 0.0, 0.0 );
+		weather.GetOvercast().Set( Math.RandomFloatInclusive(0.02, 0.1), 1, 0);
+		weather.GetRain().Set( 0, 1, 0);
+		weather.GetFog().Set( 0, 1, 0);
 
-        weather.GetOvercast().SetForecastTimeLimits( 1800 , 1800 );
-        weather.GetRain().SetForecastTimeLimits( 600 , 600 );
-        weather.GetFog().SetForecastTimeLimits( 600 , 600 );
+		//Rostow specific date
+		int year, month, day, hour, minute;
+		int reset_month = 8, reset_day = 10;
+		GetGame().GetWorld().GetDate(year, month, day, hour, minute);
 
-        weather.GetOvercast().Set( 0.0, 0, 0 );
-        weather.GetRain().Set( 0.0, 0, 0 );
-        weather.GetFog().Set( 0.0, 0, 0 );
-
-        weather.SetWindMaximumSpeed( 50 );
-        weather.SetWindFunctionParams( 0, 0, 1 );
+		if (month != reset_month)
+		{
+			GetGame().GetWorld().SetDate(year, reset_month, reset_day, hour, minute);
+		}
     }
 };
