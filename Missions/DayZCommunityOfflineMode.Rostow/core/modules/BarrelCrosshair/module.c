@@ -8,6 +8,6 @@
 */
 
 #ifdef COM_MODULES_OLDLOADING
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\BarrelCrosshair\\gui\\BarrelCrosshair.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Rostow\\core\\modules\\BarrelCrosshair\\gui\\BarrelCrosshair.c"
 #endif
 

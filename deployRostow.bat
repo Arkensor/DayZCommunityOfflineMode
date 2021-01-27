@@ -25,10 +25,10 @@ if %failed%==1 (
 
 set "ClientDirectory=%_DAYZPATH%"
 
-RD /s /q "%ClientDirectory%\Missions\DayZCommunityOfflineMode.ChernarusPlus" > NUL
-xcopy /s/e /y /i "%cd%\Missions\DayZCommunityOfflineMode.ChernarusPlus" "%ClientDirectory%\Missions\DayZCommunityOfflineMode.ChernarusPlus" > NUL
+RD /s /q "%ClientDirectory%\Missions\DayZCommunityOfflineMode.Rostow" > NUL
+xcopy /s/e /y /i "%cd%\Missions\DayZCommunityOfflineMode.Rostow" "%ClientDirectory%\Missions\DayZCommunityOfflineMode.Rostow" > NUL
 
-chdir /d "%ClientDirectory%\Missions\DayZCommunityOfflineMode.ChernarusPlus"
+chdir /d "%ClientDirectory%\Missions\DayZCommunityOfflineMode.Rostow"
 
 setlocal DisableDelayedExpansion
 

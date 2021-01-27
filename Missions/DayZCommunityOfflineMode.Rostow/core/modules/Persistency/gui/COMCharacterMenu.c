@@ -180,7 +180,7 @@ class COMCharacterMenu extends UIScriptedMenu
 	override Widget Init()
 	{
 		PersistencyPrint("COMCharacterMenu::Init");
-		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\COMCharacterMenu.layout" );
+		layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Rostow\\core\\modules\\Persistency\\gui\\layouts\\COMCharacterMenu.layout" );
 
 		m_CharacterRotationFrame = layoutRoot.FindAnyWidget( "character_rotation_frame" );
 

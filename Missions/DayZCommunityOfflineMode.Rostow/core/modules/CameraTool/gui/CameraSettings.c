@@ -63,8 +63,8 @@ class CameraSettings extends PopupMenu
 		m_TxtChromX = layoutRoot.FindAnyWidget("camera_slider_chrom_value_x");
 		m_TxtChromY = layoutRoot.FindAnyWidget("camera_slider_chrom_value_y");
 
-		CAMERA_ROT = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraROT.layout" );
-		CAMERA_PHI = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraPHI.layout" );
+		CAMERA_ROT = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Rostow\\core\\modules\\CameraTool\\gui\\layouts\\CameraROT.layout" );
+		CAMERA_PHI = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Rostow\\core\\modules\\CameraTool\\gui\\layouts\\CameraPHI.layout" );
 	}
 	
 	
