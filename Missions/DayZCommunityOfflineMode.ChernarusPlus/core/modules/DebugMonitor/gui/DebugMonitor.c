@@ -34,8 +34,8 @@ class ArkDebugMonitor
 		m_pNamesListboxWidget.AddItem("AIR t°:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
-		m_pNamesListboxWidget.AddItem("LAST DAMAGE:", NULL, 0);
-		m_pValuesListboxWidget.AddItem("", NULL, 0);
+		/*m_pNamesListboxWidget.AddItem("LAST DAMAGE:", NULL, 0);
+		m_pValuesListboxWidget.AddItem("", NULL, 0);*/
 
 		m_pNamesListboxWidget.AddItem("POSITION:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
@@ -43,14 +43,14 @@ class ArkDebugMonitor
 		m_pNamesListboxWidget.AddItem("ORIENTATION:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
-		m_pNamesListboxWidget.AddItem("DATETIME:", NULL, 0);
+		m_pNamesListboxWidget.AddItem("TIME:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
         string version;
         GetGame().GetVersion(version);
 
 		m_pNamesListboxWidget.AddItem("VERSION:", NULL, 0);
-		m_pValuesListboxWidget.AddItem( " " + version, NULL, 0);
+		m_pValuesListboxWidget.AddItem("" + version, NULL, 0);
 
 		/*m_pNamesListboxWidget.AddItem("MODIFIERS:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);*/
@@ -91,28 +91,28 @@ class ArkDebugMonitor
 		m_pValuesListboxWidget.SetItem(3, airTemp, NULL, 0);
 	}
 
-	void SetLastDamage(string value)
+	/*void SetLastDamage(string value)
 	{
 		string lastDamage = string.Format(" %1", value);
 		m_pValuesListboxWidget.SetItem(4, lastDamage, NULL, 0);
-	}
+	}*/
 
 	void SetPosition(vector value)
 	{
 		string position = string.Format(" %1 %2 %3", value[0].ToString(), value[1].ToString(), value[2].ToString());
-		m_pValuesListboxWidget.SetItem(5, position, NULL, 0);
+		m_pValuesListboxWidget.SetItem(4, position, NULL, 0);
 	}
 
 	void SetOrientation(vector value)
 	{
 		string orientation = string.Format(" %1 %2 %3", value[0].ToString(), value[1].ToString(), value[2].ToString());
-		m_pValuesListboxWidget.SetItem(6, orientation, NULL, 0);
+		m_pValuesListboxWidget.SetItem(5, orientation, NULL, 0);
 	}
 
 	void SetDateTime(string value)
 	{
-		string orientation = string.Format(" %1", value);
-		m_pValuesListboxWidget.SetItem(7, orientation, NULL, 0);
+		string dateTime = string.Format(" %1", value);
+		m_pValuesListboxWidget.SetItem(6, dateTime, NULL, 0);
 	}
 
 	void Hide()

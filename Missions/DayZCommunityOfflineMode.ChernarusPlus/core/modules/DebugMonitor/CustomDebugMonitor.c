@@ -55,7 +55,7 @@ class CustomDebugMonitor extends Module
                     m_debugMonitor.SetShock( shock );
                     //m_debugMonitor.SetBodyTemp( bodytemp );
                     m_debugMonitor.SetAirTemp( airtemp );
-                    m_debugMonitor.SetLastDamage( lastdamage );
+                    //m_debugMonitor.SetLastDamage( lastdamage );
                     m_debugMonitor.SetPosition( position );
                     m_debugMonitor.SetOrientation( orientation );
 
