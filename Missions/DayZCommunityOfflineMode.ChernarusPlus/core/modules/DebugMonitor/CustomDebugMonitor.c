@@ -37,6 +37,9 @@ class CustomDebugMonitor extends Module
                 {
                     auto health = player.GetHealth("","Health");
                     auto blood = player.GetHealth("","Blood");
+                    auto shock = player.GetHealth("","Shock");
+                    //auto bodytemp = player.GetStatTemperature().Get(); //future non existent function
+                    auto airtemp = player.m_Environment.GetTemperature();
                     auto lastdamage = values.GetLastDamage();
 
                     if( lastdamage == "" )
@@ -49,6 +52,9 @@ class CustomDebugMonitor extends Module
 
                     m_debugMonitor.SetHealth( health );
                     m_debugMonitor.SetBlood( blood );
+                    m_debugMonitor.SetShock( shock );
+                    //m_debugMonitor.SetBodyTemp( bodytemp );
+                    m_debugMonitor.SetAirTemp( airtemp );
                     m_debugMonitor.SetLastDamage( lastdamage );
                     m_debugMonitor.SetPosition( position );
                     m_debugMonitor.SetOrientation( orientation );

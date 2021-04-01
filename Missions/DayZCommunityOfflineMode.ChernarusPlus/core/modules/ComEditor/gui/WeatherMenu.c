@@ -237,6 +237,8 @@ class WeatherMenu extends PopupMenu
 	{
 		m_TxtWeatherTime.SetText( GetGame().GetWeather().GetTime().ToString() );
 		// m_TxtAirTemperature.SetText( GetGame().GetWeather().GetAirTemperature().ToString() );
+		PlayerBase player = PlayerBase.Cast( COM_GetPB() );
+		m_TxtAirTemperature.SetText(player.m_Environment.GetTemperature().ToString() );
 	}
 
 	void ResetSliders()
