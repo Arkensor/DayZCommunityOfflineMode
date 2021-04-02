@@ -47,8 +47,9 @@ class CustomDebugMonitor extends Module
                         lastdamage = "Unknown";
                     }
 
-                    auto position = player.GetPosition();
+                    //auto position = player.GetPosition();
                     auto orientation = GetGame().GetCurrentCameraDirection().VectorToAngles();
+                    auto position = GetGame().GetCurrentCameraPosition();
 
                     m_debugMonitor.SetHealth( health );
                     m_debugMonitor.SetBlood( blood );

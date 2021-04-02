@@ -31,7 +31,7 @@ class ArkDebugMonitor
 		/* m_pNamesListboxWidget.AddItem("BODY t°:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0); */
 
-		m_pNamesListboxWidget.AddItem("AIR t°:", NULL, 0);
+		m_pNamesListboxWidget.AddItem("AIR TEMP°:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
 		/*m_pNamesListboxWidget.AddItem("LAST DAMAGE:", NULL, 0);
@@ -50,7 +50,7 @@ class ArkDebugMonitor
         GetGame().GetVersion(version);
 
 		m_pNamesListboxWidget.AddItem("VERSION:", NULL, 0);
-		m_pValuesListboxWidget.AddItem("" + version, NULL, 0);
+		m_pValuesListboxWidget.AddItem(" " + version, NULL, 0);
 
 		/*m_pNamesListboxWidget.AddItem("MODIFIERS:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);*/
