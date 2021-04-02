@@ -25,16 +25,16 @@ class ArkDebugMonitor
 		m_pNamesListboxWidget.AddItem("BLOOD:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 		
-		m_pNamesListboxWidget.AddItem("SHOCK:", NULL, 0);
+		m_pNamesListboxWidget.AddItem("SHOCK:", NULL, 0); //Added shcok
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 		
-		/* m_pNamesListboxWidget.AddItem("BODY t°:", NULL, 0);
+		/* m_pNamesListboxWidget.AddItem("BODY t°:", NULL, 0); // Not working
 		m_pValuesListboxWidget.AddItem("", NULL, 0); */
 
-		m_pNamesListboxWidget.AddItem("AIR TEMP°:", NULL, 0);
+		m_pNamesListboxWidget.AddItem("AIR TEMP°:", NULL, 0); //Fixed air temp
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
-		/*m_pNamesListboxWidget.AddItem("LAST DAMAGE:", NULL, 0);
+		/*m_pNamesListboxWidget.AddItem("LAST DAMAGE:", NULL, 0); // Removed, not working.
 		m_pValuesListboxWidget.AddItem("", NULL, 0);*/
 
 		m_pNamesListboxWidget.AddItem("POSITION:", NULL, 0);
@@ -43,7 +43,7 @@ class ArkDebugMonitor
 		m_pNamesListboxWidget.AddItem("ORIENTATION:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
-		m_pNamesListboxWidget.AddItem("TIME:", NULL, 0);
+		m_pNamesListboxWidget.AddItem("TIME:", NULL, 0); //Shorter text, easier to read
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
         string version;
