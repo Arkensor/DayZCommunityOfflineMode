@@ -73,3 +73,4 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * [LiPeK](https://github.com/LiPeK) - Object editor additions
 * [Cypher](https://github.com/CypherMediaGIT) - Livonia positions
 * [BigBenREDUX](https://twitter.com/BigBenREDUX) - Namalsk positions
+* [openface](https://github.com/openface) - Esseker support
