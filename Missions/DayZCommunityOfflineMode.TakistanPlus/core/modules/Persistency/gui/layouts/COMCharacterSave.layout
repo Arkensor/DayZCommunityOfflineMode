@@ -1,0 +1,191 @@
+FrameWidgetClass character_save_root {
+	position 0 0
+	size 1 1
+	hexactpos 1
+	vexactpos 1
+	hexactsize 0
+	vexactsize 0
+	{
+		GridSpacerWidgetClass character_root {
+			visible 1
+			ignorepointer 1
+			position 80 80
+			size 480 200
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+		    halign right_ref
+			priority 3
+			Padding 0
+			Margin 0
+			"Size To Content V" 1
+			Columns 1
+			Rows 2
+			{
+				PanelWidgetClass character_header {
+					visible 1
+					ignorepointer 1
+					color 0 0 0 0.9608
+					position 0 0
+					size 480 36
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style DayZDefaultPanelTop
+					{
+						TextWidgetClass character_text {
+							visible 1
+							ignorepointer 1
+							position 0 0
+							size 480 0.5
+							valign center_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 0
+							style Normal
+							text "CHARACTER"
+							font "gui/fonts/sdf_MetronBook72"
+							"exact text" 0
+							"text halign" center
+							"text valign" center
+						}
+					}
+				}
+				GridSpacerWidgetClass character_content {
+					ignorepointer 1
+					color 0 0 0 0.8627
+					position 0 36
+					size 1 1
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 0
+					style DayZDefaultPanelBottom
+					Padding 0
+					Margin 10
+					"Size To Content H" 1
+					"Size To Content V" 1
+					Columns 1
+					Rows 1
+					{
+						ButtonWidgetClass character_save_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							style Empty
+							"next up" "character_save_button_button"
+							"next down" "character_save_button_button"
+							{
+								GridSpacerWidgetClass character_save_setting {
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									"no focus" 1
+									Padding 0
+									Margin 0
+									"Size To Content H" 1
+									Columns 2
+									Rows 1
+									{
+										FrameWidgetClass character_save_setting_panel {
+											ignorepointer 1
+											position 0 0
+											size 0.4 0.6
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												TextWidgetClass character_save_setting_label {
+													ignorepointer 1
+													size 1 0.55
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													text "SAVE"
+													font "gui/fonts/sdf_MetronLight24"
+													"text offset" 8 0
+													"exact text" 0
+													"exact text size" 18
+													"text valign" center
+												}
+											}
+										}
+										FrameWidgetClass character_save_setting_option {
+											ignorepointer 1
+											position 0 0
+											size 0.8 1
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												EditBoxWidgetClass general_save_setting_text {
+													ignorepointer 0
+													position 0 0
+													size 1 0.6
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													"exact text" 0
+													font "gui/fonts/sdf_MetronLight24"
+												}
+											}
+										}
+									}
+								}
+								PanelWidgetClass character_save_setting_disable {
+									visible 0
+									ignorepointer 1
+									color 0.1569 0.1569 0.1569 0.902
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									style rover_sim_colorable
+								}
+							}
+						}
+						ButtonWidgetClass character_save_button_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							"next up" "character_save_button"
+							"next down" "character_save_button"
+							visible 1
+							inheritalpha 1
+							scriptclass ""
+							style MainMenu
+							text "SAVE CHARACTER AS"
+							text_offset 10 -1
+							text_proportion 0.7
+							text_halign center
+							font "gui/fonts/sdf_MetronBook24"
+							"disabled text color" 0.3373 0.3373 0.3373 1
+							switch normal
+						}
+					}
+				}
+			}
+		}
+	}
+}

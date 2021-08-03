@@ -1,0 +1,1422 @@
+PanelWidgetClass CameraMenu
+{
+	visible 0
+	position 0.045 0.45
+	color 0 0 0 0
+	size 400 300
+	halign right_ref
+	valign top_ref
+	hexactpos 0
+	vexactpos 0
+	hexactsize 1
+	vexactsize 1
+	scriptclass "CameraSettings"
+	style EditorPanel
+	{
+		PanelWidgetClass Background
+		{
+			visible 1
+			color 0 0 0.1 0.7
+			position 0 0
+			size 1 1
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 0
+			style DayZDefaultPanelTop
+			{
+				PanelWidgetClass TitleBar
+				{
+					color 0 0 0 0.7843
+					position 0 0
+					size 1 0.1
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 0
+					style DayZDefaultPanelTop
+					{
+						TextWidgetClass TitleBarText
+						{
+							visible 1
+							position 0.01 0
+							size 0.8 0.8
+							valign center_ref
+							text "Camera Settings"
+							font "gui/fonts/MetronBook16"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 20
+						}
+						
+						ButtonWidgetClass close_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 25 25
+							halign right_ref
+							valign center_ref
+							hexactsize 1
+							vexactsize 1
+							{
+								ImageWidgetClass close_button_image
+								{
+									ignorepointer 1
+									position 0 0
+									size 25 25
+									halign right_ref
+									valign center_ref
+									hexactsize 1
+									vexactsize 1
+									image0 "set:dayz_gui image:icon_x"
+									mode additive
+									"src alpha" 1
+								}
+							}
+						}
+					}
+				}
+
+				ButtonWidgetClass camera_slider_tab_settings
+				{
+					color 1 1 1 1
+					position 0.575 0.115
+					size 80 20
+					halign left_ref
+					valign top_ref
+					hexactsize 1
+					vexactsize 1
+					style Default
+					{
+						TextWidgetClass camera_slider_tab_settings_txt
+						{
+							visible 1
+							ignorepointer 1
+							text "Settings"
+							"text halign" center
+						   	"text valign" center
+						}
+					}
+				}
+				
+				ButtonWidgetClass camera_slider_tab_effects
+				{
+					color 1 1 1 1
+					position 0.775 0.115
+					size 80 20
+					halign left_ref
+					valign top_ref
+					hexactsize 1
+					vexactsize 1
+					style Default
+					{
+						TextWidgetClass camera_slider_tab_effects_txt
+						{
+							visible 1
+							ignorepointer 1
+							text "Effects"
+							"text halign" center
+						   	"text valign" center
+						}
+					}
+				}
+
+				TextWidgetClass camera_target_txt 
+				{
+					ignorepointer 1
+					color 1 1 1 1
+					position 0.02 0.115
+					size 200 20
+					hexactsize 1
+					vexactsize 1
+					text "Target: "
+					"text halign" left
+					"text valign" center
+				}
+
+				FrameWidgetClass camera_effects_frame 
+				{
+					ignorepointer 1
+					visible 0
+					{
+						PanelWidgetClass camera_sliders_effects
+						{
+							position 0 0.175
+							size 1 0.825
+							hexactpos 0
+							vexactpos 0
+							hexactsize 0
+							vexactsize 0
+							{
+								TextWidgetClass camera_slider_chrom_text
+								{
+									position 0.025 0.05
+									size 1 20
+									hexactsize 0
+									vexactsize 1
+									valign top_ref
+									halign left_ref
+									text "Chromatic Abb:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										EditBoxWidgetClass camera_input_chrom_x
+										{
+											visible 1
+											color 1 1 1 1
+											position 0.25 0
+											size 0.35 1
+											hexactpos 0
+											vexactpos 0
+											hexactsize 0
+											vexactsize 0
+											text "0.0"
+											style Editor
+											"exact text" 1"
+										}
+										EditBoxWidgetClass camera_input_chrom_y
+										{
+											visible 1
+											color 1 1 1 1
+											position 0.6 0
+											size 0.35 1
+											hexactpos 0
+											vexactpos 0
+											hexactsize 0
+											vexactsize 0
+											text "0.0"
+											style Editor
+											"exact text" 1"
+										}
+									}
+								}
+								
+								TextWidgetClass camera_slider_hue_text
+								{
+									position 0.025 0.15
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Hue:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_hue
+										{
+											position 0.25 0
+											size 0.7 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_hue_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+								
+								TextWidgetClass camera_slider_rotblur_text
+								{
+									position 0.025 0.25
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Rotation Blur:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_rotblur_power
+										{
+											position 0.25 0
+											size 0.2 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_rotblur_power_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_rotblur_mindepth
+										{
+											position 0.5 0
+											size 0.2 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_rotblur_mindepth_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_rotblur_maxdepth
+										{
+											position 0.75 0
+											size 0.2 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_rotblur_maxdepth_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+								
+								TextWidgetClass camera_slider_radblur_text
+								{
+									position 0.025 0.35
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Radial Blur:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_radblur_x
+										{
+											position 0.25 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_radblur_value_x
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_radblur_y
+										{
+											position 0.425 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_radblur_value_y
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_radblur_offsetx
+										{
+											position 0.6 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_radblur_value_offsetx
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_radblur_offsety
+										{
+											position 0.775 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_radblur_value_offsety
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+
+								TextWidgetClass camera_slider_vign_txt
+								{
+									position 0.025 0.45
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Vignette:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_vign
+										{
+											position 0.25 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_vign_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_vign_r
+										{
+											position 0.425 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_vign_value_r
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_vign_g
+										{
+											position 0.6 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_vign_value_g
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_vign_b
+										{
+											position 0.775 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_vign_value_b
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+
+								TextWidgetClass camera_slider_color_txt
+								{
+									position 0.025 0.55
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Overlay Color:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_color_a
+										{
+											position 0.25 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_color_value_a
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_color_r
+										{
+											position 0.425 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_color_value_r
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_color_g
+										{
+											position 0.6 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_color_value_g
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+										SliderWidgetClass camera_slider_color_b
+										{
+											position 0.775 0
+											size 0.175 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_color_value_b
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+
+								TextWidgetClass camera_slider_view_txt
+								{
+									position 0.025 0.65
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "View Dist:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_view
+										{
+											position 0.25 0
+											size 0.7 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_view_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+
+				FrameWidgetClass camera_settings_frame 
+				{
+					visible 1
+					ignorepointer 1
+					{
+						PanelWidgetClass camera_sliders 
+						{
+							position 0 0.175
+							size 1 0.5
+							hexactpos 0
+							vexactpos 0
+							hexactsize 0
+							vexactsize 0
+							{
+								TextWidgetClass camera_slider_blur_text
+								{
+									position 0.025 0.05
+									size 1 20
+									hexactsize 0
+									vexactsize 1
+									valign top_ref
+									halign left_ref
+									text "Blur strength:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_blur 
+										{
+											position 0.25 0
+											size 0.7 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_blur_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+								
+								TextWidgetClass camera_slider_dist_text
+								{
+									position 0.025 0.25
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Focus Distance:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_dist 
+										{
+											position 0.25 0
+											size 0.7 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_dist_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+								
+								TextWidgetClass camera_slider_flen_text
+								{
+									visible 0
+									position 0.025 0.45
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Focal Length:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_flen 
+										{
+											position 0.25 0
+											size 0.7 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_flen_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+								
+								TextWidgetClass camera_slider_fnear_text
+								{
+									visible 0
+									position 0.025 0.65
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Focal Near:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_fnear 
+										{
+											position 0.25 0
+											size 0.7 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_fnear_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+
+								TextWidgetClass camera_slider_exp_txt
+								{
+									position 0.025 0.45
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Exposure:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+									{
+										SliderWidgetClass camera_slider_exp
+										{
+											position 0.25 0
+											size 0.7 1
+											hexactpos 0
+											vexactpos 1
+											hexactsize 0
+											hexactsize 0
+											style Editor
+											{
+												TextWidgetClass camera_slider_exp_value
+												{
+													ignorepointer 1
+													size 1 1
+													halign center_ref
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactpos 0
+													vexactpos 0
+													text "0.0"
+													font "gui/fonts/Metron"
+												   "exact text" 1
+												   "text halign" center
+												   "text valign" center
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+
+						PanelWidgetClass camera_options_pnl
+						{
+							position 0 0.675
+							color 1 1 1 0
+							size 1 0.4
+							valign top_ref
+							halign left_ref
+							style EditorPanel
+							{
+								TextWidgetClass camera_smooth_text
+								{
+									position 0.025 0.35
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Cam Smooth:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+								}
+
+								ButtonWidgetClass camera_smooth_btn_dec
+								{
+									position 0.3 0.3
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_smooth_btn_dec_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 1 0 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "-"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								ButtonWidgetClass camera_smooth_btn_inc
+								{
+									position 0.375 0.3
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_smooth_btn_inc_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 0 1 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "+"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								TextWidgetClass camera_msens_text
+								{
+									position 0.025 0.125
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Cam Sens:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+								}
+
+								ButtonWidgetClass camera_msens_btn_dec
+								{
+									position 0.3 0.1
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_msens_btn_dec_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 1 0 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "-"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								ButtonWidgetClass camera_msens_btn_inc
+								{
+									position 0.375 0.1
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_msens_btn_inc_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 0 1 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "+"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								TextWidgetClass camera_fov_speed_text
+								{
+									position 0.5 0.125
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "FOV Smooth:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+								}
+								ButtonWidgetClass camera_fov_speed_btn_inc
+								{
+									position 0.825 0.1
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_fov_speed_btn_inc_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 0 1 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "+"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								ButtonWidgetClass camera_fov_speed_btn_dec
+								{
+									position  0.75 0.1
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_fov_speed_btn_dec_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 1 0 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "-"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								TextWidgetClass camera_msmooth_text
+								{
+									position 0.5 0.35
+									size 1 20
+									valign top_ref
+									halign left_ref
+									vexactsize 1
+									text "Fly smooth:"
+									font "gui/fonts/MetronBook16"
+									"text halign" left
+									"exact text" 1
+									"exact text size" 14
+								}
+
+								ButtonWidgetClass camera_msmooth_btn_dec
+								{
+									position 0.75 0.3
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_msmooth_btn_dec_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 1 0 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "-"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								ButtonWidgetClass camera_msmooth_btn_inc
+								{
+									position 0.825 0.3
+									size 25 25
+									vexactsize 1
+									hexactpos 0
+									hexactsize 1
+									style Default
+									{
+										TextWidgetClass camera_msmooth_btn_inc_txt
+										{
+											ignorepointer 1
+											position 0 0
+											color 0 1 0 1
+											size 25 25
+											hexactsize 1
+											vexactsize 1
+											hexactpos 1
+											vexactpos 1
+											valign top_ref
+											halign left_ref
+											text "+"
+											font "gui/fonts/Metron-Bold58"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										   	"text valign" center
+										}
+
+									}
+								}
+
+								ButtonWidgetClass camera_btn_rot 
+								{
+									visible 1
+									size 100 25
+									color 1 1 1 1
+									position 0.025 0.55
+									valign top_ref
+									halign left_Ref
+									vexactsize 1
+									hexactsize 1
+									hexactpos 0
+									vexactpos 0
+									style Default
+									{
+										TextWidgetClass camera_btn_rot_text 
+										{
+											ignorepointer 1
+											size 1 1
+											position 0 0
+											text "Rule of Thirds"
+											"exact text" 1
+											"exact text size" 14
+											"text halign" center
+										    "text valign" center
+										}
+									}
+								}
+
+								ButtonWidgetClass camera_btn_phi
+								{
+									visible 1
+									size 100 25
+									color 1 1 1 1
+									position 0.3 0.55
+									valign top_ref
+									halign left_Ref
+									vexactsize 1
+									hexactsize 1
+									hexactpos 0
+									vexactpos 0
+									style Default
+									{
+										TextWidgetClass camera_btn_phi_text 
+										{
+											ignorepointer 1
+											size 1 1
+											position 0 0
+											text "PHI Grid"
+											"exact text" 1
+											"exact text size" 14
+											"text halign" center
+										    "text valign" center
+										}
+									}
+								}
+
+								ButtonWidgetClass camera_toggle
+								{
+									visible 1
+									size 150 25
+									color 1 1 1 1
+									position 0.6 0.55
+									valign top_ref
+									halign left_Ref
+									vexactsize 1
+									hexactsize 1
+									hexactpos 0
+									vexactpos 0
+									style Default
+									{
+										TextWidgetClass camera_toggle_text
+										{
+											ignorepointer 1
+											size 1 1
+											position 0 0
+											text "Toggle Camera"
+											"exact text" 1
+											"exact text size" 16
+											"text halign" center
+										    "text valign" center
+										    font "gui/fonts/MetronBook-Bold28"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
