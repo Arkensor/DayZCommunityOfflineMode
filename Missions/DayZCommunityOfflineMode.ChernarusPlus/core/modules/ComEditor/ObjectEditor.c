@@ -86,6 +86,7 @@ class ObjectEditor extends Module
 		KeyMouseBinding sceneSave     = new KeyMouseBinding( GetModuleType(), "ExportScene"  , "Saves current scene of objects", true);
 		KeyMouseBinding tabFix        = new KeyMouseBinding( GetModuleType(), "TabFix"       , "Fixes issue with tabbing out of the game", true );
 //		KeyMouseBinding objectScroll  = new KeyMouseBinding( GetModuleType(), "ScrollObject" , "[Shift][Ctrl][Alt]+(Wheel)" , "Raise or lower objects with mouse wheel as well as rotate.", true );
+		KeyMouseBinding getInfoForMapGroupPos = new KeyMouseBinding( GetModuleType(), "InfoForMapGroupPos", "Get information for MapGroupPos file", true );
 
 //		toggleEditor.AddBinding( KeyCode.KC_LSHIFT, KeyMouseBinding.KB_EVENT_HOLD    );
 //		toggleEditor.AddBinding( KeyCode.KC_END   , KeyMouseBinding.KB_EVENT_RELEASE ); // Press END. Using Release prevents key HOLD spam from onKeyPress (could use ClearKey in onKeyPress however)
@@ -98,6 +99,8 @@ class ObjectEditor extends Module
 		objectDrag.AddBinding( "mBLeft" );
 		objectDrag.SetActionType( KeyMouseActionType.HOLD );
 		objectGround.AddBinding( "mBMiddle" );
+		
+		getInfoForMapGroupPos.AddBinding( "kH" );
 
 		RegisterKeyMouseBinding( objectSelect );
 		RegisterKeyMouseBinding( objectDrag   );
@@ -105,6 +108,8 @@ class ObjectEditor extends Module
 		RegisterKeyMouseBinding( objectGround );
 		RegisterKeyMouseBinding( sceneSave );
 		RegisterKeyMouseBinding( tabFix );
+		
+		RegisterKeyMouseBinding( getInfoForMapGroupPos );
 	}
 
     void TabFix()
@@ -538,4 +543,42 @@ class ObjectEditor extends Module
 			m_SelectedObject.PlaceOnSurface();
 		}
 	}
+	void InfoForMapGroupPos()
+	  {
+	    // Print("m_SelectedObject: " + m_SelectedObject);
+
+	    string toCopyTestPos;
+	    string objType = m_SelectedObject.GetType();
+	    float yaw = m_SelectedObject.GetOrientation()[0];
+	    float a;
+	    vector vOrientation = m_SelectedObject.GetOrientation();
+
+	    if ( objType == "")
+	    {
+	      objType = "Land_Misc_WoodBlock";
+	    }
+
+	    if ( yaw <= -90 )
+	    {
+	      a = -yaw - 270;
+	    }
+	    else 
+	    {
+	      a = 90 - yaw;
+	    }
+
+	    // Print("a: " + a);
+
+	    // Print("vOrientation before: " + vOrientation);
+	    reversearray(vOrientation);
+	    // Print("vOrientation.ToString(false): " + vOrientation.ToString(false));
+
+	    // Print( "<group name=\"" + objType + "\" " + "pos=\"" + m_SelectedObject.GetPosition().ToString(false) + "\" " + "rpy=\"" + vOrientation.ToString(false) + "\" " + "a=\"" + a + "\" />" );
+
+	    toCopyTestPos += "<group name=\"" + objType + "\" " + "pos=\"" + m_SelectedObject.GetPosition().ToString(false) + "\" " + "rpy=\"" + vOrientation.ToString(false) + "\" " + "a=\"" + a + "\" />";
+
+	    GetGame().CopyToClipboard( toCopyTestPos );
+
+	    // COM_Message( "Copied to clipboard" );
+	  }
 }
