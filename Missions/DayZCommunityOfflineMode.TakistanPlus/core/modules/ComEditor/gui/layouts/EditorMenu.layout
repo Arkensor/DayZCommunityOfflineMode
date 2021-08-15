@@ -1,0 +1,337 @@
+FrameWidgetClass EditorMenu
+{
+	visible 0
+	color 0 0 0 0
+	position 0 0
+	size 1 1
+	hexactpos 0
+	vexactpos 0
+	hexactsize 0
+	vexactsize 0
+	style EditorPanel
+	{
+        PanelWidgetClass RightPanel
+        {
+			visible 1
+			color 0 0 0 0.95
+			position 0.005 0.02
+			halign right_ref
+			size 60 550
+			hexactsize 1
+			vexactsize 1
+			style DayZDefaultPanelTop
+			{
+				PanelWidgetClass TitleBar
+				{
+					visible 1
+					position 0 0
+					size 1 25
+					color 0 0 0 0.7843
+					vexactsize 1
+					{
+						TextWidgetClass TitleBarText
+						{
+							visible 1
+							position 0.1 0
+							size 0.8 0.8
+							valign center_ref
+							text "Tools"
+							font "gui/fonts/Metron-Bold58"
+							"text halign" left
+							"exact text" 1
+							"exact text size" 20
+						}
+
+					}
+				}
+
+				PanelWidgetClass objects_button_bkg 
+				{
+					visible 1
+					color 0 0 0 0.25
+					position 0.1 25
+					size 50 50 
+					halign left_ref
+					valign top_ref
+					hexactpos 0
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style rover_sim_colorable
+				    {
+						ButtonWidgetClass objects_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 50 50
+							hexactsize 1
+							vexactsize 1
+							"no focus" 1
+							{
+								TextWidgetClass objects_button_text
+								{
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									halign center_ref
+									valign center_ref
+									hexactsize 0
+									vexactsize 0
+									text "OB"
+									font "gui/fonts/Metron-Bold58"
+								   "exact text" 1
+								   "text halign" center
+								   "text valign" center
+								   "exact text size" 32
+								}
+							}
+						}
+					}
+				}
+
+				PanelWidgetClass position_button_bkg 
+				{
+					visible 1
+					color 0 0 0 0.25
+					position 0.1 75
+					size 50 50 
+					halign left_ref
+					valign top_ref
+					hexactpos 0
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style rover_sim_colorable
+				    {
+						ButtonWidgetClass position_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 50 50
+							hexactsize 1
+							vexactsize 1
+							"no focus" 1
+							{
+								TextWidgetClass position_button_text
+								{
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									halign center_ref
+									valign center_ref
+									hexactsize 0
+									vexactsize 0
+									text "TP"
+									font "gui/fonts/Metron-Bold58"
+								   "exact text" 1
+								   "text halign" center
+								   "text valign" center
+								   "exact text size" 32
+								}
+							}
+						}
+					}
+				}
+
+				PanelWidgetClass weather_button_bkg 
+				{
+					visible 1
+					color 0 0 0 0.25
+					position 0.1 125
+					size 50 50 
+					halign left_ref
+					valign top_ref
+					hexactpos 0
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style rover_sim_colorable
+				    {
+						ButtonWidgetClass weather_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 50 50
+							hexactsize 1
+							vexactsize 1
+							"no focus" 1
+							{
+								TextWidgetClass weather_button_text
+								{
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									halign center_ref
+									valign center_ref
+									hexactsize 0
+									vexactsize 0
+									text "W"
+									font "gui/fonts/Metron-Bold58"
+								   "exact text" 1
+								   "text halign" center
+								   "text valign" center
+								   "exact text size" 32
+								}
+							}
+						}
+					}
+				}
+
+				PanelWidgetClass game_button_bkg 
+				{
+					visible 1
+					color 0 0 0 0.25
+					position 0.1 175
+					size 50 50
+					halign left_ref
+					valign top_ref
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style rover_sim_colorable
+				    {
+						ButtonWidgetClass game_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 50 50
+							hexactsize 1
+							vexactsize 1
+							"no focus" 1
+							{
+								TextWidgetClass game_button_text
+								{
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									halign center_ref
+									valign center_ref
+									hexactsize 0
+									vexactsize 0
+									text "G"
+									font "gui/fonts/Metron-Bold58"
+								   "exact text" 1
+								   "text halign" center
+								   "text valign" center
+								   "exact text size" 32
+								}
+							}
+						}
+					}
+				}
+				PanelWidgetClass sceneManager_button_bkg 
+				{
+					visible 0
+					color 0 0 0 0.25
+					position 0.1 105
+					size 50 50
+					halign left_ref
+					valign bottom_ref
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style rover_sim_colorable
+				    {
+						ButtonWidgetClass sceneManager_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 1 1
+							"no focus" 1
+							{
+								ImageWidgetClass sceneManager_image
+								{
+									ignorepointer 1
+									color 1 1 1 0.65
+									position 0 0
+									size 1 1
+									halign center_ref
+									valign center_ref
+									hexactsize 0
+									vexactsize 0
+									image0 "set:ccgui_enforce image:HudBuild"
+									mode additive
+									"src alpha" 1
+								}
+							}
+						}
+					}
+				}
+				PanelWidgetClass objectEditor_button_bkg 
+				{
+					visible 1
+					color 0 0 0 0.25
+					position 0.1 55
+					size 50 50
+					halign left_ref
+					valign bottom_ref
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style rover_sim_colorable
+				    {
+						ButtonWidgetClass objectEditor_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 1 1
+							"no focus" 1
+							{
+								ImageWidgetClass objectEditor_image
+								{
+									ignorepointer 1
+									position 0 0
+									size 0.75 0.75
+									halign center_ref
+									valign center_ref
+									hexactsize 0
+									vexactsize 0
+									image0 "set:rover_imageset image:robotic_instrument"
+									mode additive
+									"src alpha" 1
+								}
+							}
+						}
+					}
+				}
+				PanelWidgetClass camera_button_bkg 
+				{
+					visible 1
+					color 0 0 0 0.25
+					position 0.1 5
+					size 50 50
+					halign left_ref
+					valign bottom_ref
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style rover_sim_colorable
+				    {
+						ButtonWidgetClass camera_button
+						{
+							color 1 0 0 1
+							position 0 0
+							size 1 1
+							"no focus" 1
+							{
+								ImageWidgetClass camera_button_image
+								{
+									ignorepointer 1
+									position 0 0
+									size 0.75 0.75
+									halign center_ref
+									valign center_ref
+									hexactsize 0
+									vexactsize 0
+									image0 "set:rover_imageset image:camera"
+									mode additive
+									"src alpha" 1
+								}
+							}
+						}
+					}
+				}
+			}
+        }		
+	}
+}
