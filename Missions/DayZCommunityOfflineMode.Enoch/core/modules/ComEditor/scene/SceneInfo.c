@@ -5,10 +5,10 @@
 class SceneInfo
 {
 
-	//ref map< ObjectData, array< LootSpot >>  m_objects = new ref map< ObjectData, array< LootSpot >>;
+	//ref map< ObjectData, array< LootSpot >>  m_objects = new map< ObjectData, array< LootSpot >>;
 	string name;
-	ref array< ObjectData > m_objects = new ref array< ObjectData >;
-	ref array< LootSpot > m_lootSpots = new ref array< LootSpot >;
+	ref array< ObjectData > m_objects = new array< ObjectData >;
+	ref array< LootSpot > m_lootSpots = new array< LootSpot >;
 
 	bool persistent = false;
 	int duration = 0; // in seconds

@@ -1,4 +1,3 @@
-
 class ObjectEditor extends Module
 {
 	protected bool m_ObjectEditorActive = false;
@@ -6,10 +5,8 @@ class ObjectEditor extends Module
 	Object m_SelectedObject;
 	Object building;
 
-	protected ref ObjectMenu m_ObjectMenu;
-
 	// protected ref Scene active_Scene;
-	ref array< ref Object> m_Objects = new array< ref Object>;
+	autoptr array<Object> m_Objects = new array<Object>;
 
 	string BASE_COM_DIR = "$saves:CommunityOfflineMode";
 	string BASE_SCENE_DIR = BASE_COM_DIR + "\\Scenes";
@@ -230,7 +227,7 @@ class ObjectEditor extends Module
 
         FPrint( exportFile, "]}" );
 
-        CloseFile( exportFile )
+        CloseFile( exportFile );
 
 		COM_Message( "Saved objects to COMObjectEditorSave.json (User/Documents/DayZ)." );
 //		JsonFileLoader< SceneSaveST >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
@@ -239,7 +236,7 @@ class ObjectEditor extends Module
 
 	void LoadScene()
 	{
-		ref SceneSaveST scene = new SceneSaveST();
+		SceneSaveST scene = new SceneSaveST();
 
 //		JsonFileLoader<SceneSaveST>.JsonLoadFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
 		JsonFileLoader<SceneSaveST>.JsonLoadFile( "$saves:COMObjectEditorSave.json", scene );
