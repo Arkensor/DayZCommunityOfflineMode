@@ -54,14 +54,14 @@ class CameraSettings extends PopupMenu
 		m_SldCamFnear = SliderWidget.Cast( layoutRoot.FindAnyWidget("camera_slider_fnear") );
 		m_TxtCamFnear = TextWidget.Cast( layoutRoot.FindAnyWidget("camera_slider_fnear_value") );
 		
-		m_SldCamExp = layoutRoot.FindAnyWidget("camera_slider_exp");
-		m_TxtCamExp = layoutRoot.FindAnyWidget("camera_slider_exp_value");
+		m_SldCamExp = SliderWidget.Cast(layoutRoot.FindAnyWidget("camera_slider_exp"));
+		m_TxtCamExp = TextWidget.Cast(layoutRoot.FindAnyWidget("camera_slider_exp_value"));
 
 		m_btn_rot = ButtonWidget.Cast( layoutRoot.FindAnyWidget("camera_btn_rot"));
 		m_btn_phi = ButtonWidget.Cast( layoutRoot.FindAnyWidget("camera_btn_phi"));
 
-		m_TxtChromX = layoutRoot.FindAnyWidget("camera_slider_chrom_value_x");
-		m_TxtChromY = layoutRoot.FindAnyWidget("camera_slider_chrom_value_y");
+		m_TxtChromX = TextWidget.Cast(layoutRoot.FindAnyWidget("camera_slider_chrom_value_x"));
+		m_TxtChromY = TextWidget.Cast(layoutRoot.FindAnyWidget("camera_slider_chrom_value_y"));
 
 		CAMERA_ROT = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraROT.layout" );
 		CAMERA_PHI = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraPHI.layout" );
@@ -110,7 +110,7 @@ class CameraSettings extends PopupMenu
 
 		if ( w.GetName() == "camera_toggle" ) 
 		{
-			ref CameraTool cmt = COM_GetModuleManager().GetModule( CameraTool );
+			CameraTool cmt = CameraTool.Cast(COM_GetModuleManager().GetModule( CameraTool ));
 			GetGame().GetCallQueue( CALL_CATEGORY_GAMEPLAY ).Call( cmt.ToggleCamera ); // Fix crash
 		}
 
@@ -444,16 +444,16 @@ class CameraSettings extends PopupMenu
 
 		// fk me ok im lazy. cbf doing this for all the sliders.
 
-		TextWidget speedTxt = layoutRoot.FindAnyWidget( "camera_fov_speed_text" );
+		TextWidget speedTxt = TextWidget.Cast(layoutRoot.FindAnyWidget( "camera_fov_speed_text" ));
 		speedTxt.SetText("FOV Smooth: " + CameraTool.CAMERA_FOV_SPEED_MODIFIER );
 
-		TextWidget smoothTxt = layoutRoot.FindAnyWidget( "camera_smooth_text" );
+		TextWidget smoothTxt = TextWidget.Cast(layoutRoot.FindAnyWidget( "camera_smooth_text" ));
 		smoothTxt.SetText("Cam Smooth: " + CameraTool.CAMERA_SMOOTH );
 
-		TextWidget sensTxt = layoutRoot.FindAnyWidget( "camera_msens_text" );
+		TextWidget sensTxt = TextWidget.Cast(layoutRoot.FindAnyWidget( "camera_msens_text" ));
 		sensTxt.SetText("Cam Sens: " + CameraTool.CAMERA_MSENS );
 
-		TextWidget flySpeed = layoutRoot.FindAnyWidget("camera_msmooth_text");
+		TextWidget flySpeed = TextWidget.Cast(layoutRoot.FindAnyWidget("camera_msmooth_text"));
 		flySpeed.SetText("Fly smooth: " + (CameraTool.CAMERA_VELDRAG - 0.9) / 0.1);
 	}	
 }

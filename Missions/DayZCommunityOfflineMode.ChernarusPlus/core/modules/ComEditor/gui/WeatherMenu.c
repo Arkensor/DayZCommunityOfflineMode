@@ -91,8 +91,11 @@ class WeatherMenu extends PopupMenu
 			m_OrigWindForce = m_CurrWindForce;
 
 			PluginSceneManager editor = PluginSceneManager.Cast( GetPlugin(PluginSceneManager) );
-			editor.SetWeather(m_CurrOvercast, m_CurrRain, m_CurrFog, m_CurrWindForce);
-			editor.SetDate(m_CurrYear, m_CurrMonth, m_CurrDay, m_CurrHour, m_CurrMinute);
+            if(editor)
+            {
+                editor.SetWeather(m_CurrOvercast, m_CurrRain, m_CurrFog, m_CurrWindForce);
+                editor.SetDate(m_CurrYear, m_CurrMonth, m_CurrDay, m_CurrHour, m_CurrMinute);
+            }
 
             GetGame().GetWeather().SetWindFunctionParams( m_OrigWindForce, m_CurrWindForce, 1 );
 

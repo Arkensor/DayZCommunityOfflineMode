@@ -39,29 +39,29 @@ class ModuleManager
         delete m_Modules;
     }
 
-    void RegisterModule( ref Module module )
+    void RegisterModule( Module module )
     {
         m_Modules.Insert( module );
     }
 
     void RegisterModules()
     {
-        m_Modules = new ref array< ref Module >;
+        m_Modules = new array< ref Module >;
 
         #ifdef MODULE_COM_EDITOR
-        RegisterModule( new ref ObjectEditor );
+        RegisterModule( new ObjectEditor );
         #endif
         #ifdef MODULE_CAMERA_TOOL
-        RegisterModule( new ref CameraTool );
+        RegisterModule( new CameraTool );
         #endif
         #ifdef MODULE_COM_KEYBINDS
-        RegisterModule( new ref COMKeyBinds );
+        RegisterModule( new COMKeyBinds );
         #endif
         #ifdef MODULE_PERSISTENCY
-        RegisterModule( new ref PersistencyModule );
+        RegisterModule( new PersistencyModule );
         #endif
         #ifdef MODULE_DEBUG_MONITOR
-        RegisterModule( new ref CustomDebugMonitor );
+        RegisterModule( new CustomDebugMonitor );
         #endif
     }
 
@@ -73,7 +73,7 @@ class ModuleManager
         }
     }
 
-    ref array< ref Module > GetModules()
+    array< ref Module > GetModules()
     {
         return m_Modules;
     }
@@ -118,7 +118,7 @@ class ModuleManager
 
 		bool inputIsFocused = false;
 
-		ref Widget focusedWidget = GetFocus();
+		Widget focusedWidget = GetFocus();
 		if ( focusedWidget && focusedWidget.ClassName().Contains( "EditBoxWidget" ) )
 		{
 			inputIsFocused = true;
@@ -185,11 +185,11 @@ class ModuleManager
         }
     }
 
-    ref Module GetModule( typename module_Type )
+    Module GetModule( typename module_Type )
     {
         for ( int i = 0; i < m_Modules.Count(); ++i )
         {
-            ref Module module = m_Modules.Get(i);
+            Module module = m_Modules.Get(i);
 
             if ( module.GetModuleType() == module_Type)
             {
@@ -200,11 +200,11 @@ class ModuleManager
         return NULL;
     }
 
-    ref Module GetModuleByName( string module_name )
+    Module GetModuleByName( string module_name )
     {
         for ( int i = 0; i < m_Modules.Count(); ++i )
         {
-            ref Module module = m_Modules.Get( i );
+            Module module = m_Modules.Get( i );
 
             if (module.GetModuleName() == module_name)
             {
@@ -218,7 +218,7 @@ class ModuleManager
 
 ref ModuleManager g_com_ModuleManager;
 
-ref ModuleManager COM_GetModuleManager()
+ModuleManager COM_GetModuleManager()
 {
     if( !g_com_ModuleManager )
     {
@@ -228,7 +228,7 @@ ref ModuleManager COM_GetModuleManager()
     return g_com_ModuleManager;
 }
 
-ref ModuleManager NewModuleManager()
+ModuleManager NewModuleManager()
 {
     if ( g_com_ModuleManager )
     {
