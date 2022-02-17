@@ -12,7 +12,7 @@ class Module
 	{
 		m_Enabled = true;
 		m_PreventInput = false;
-		m_KeyBindings = new ref set< ref KeyMouseBinding >;
+		m_KeyBindings = new set< ref KeyMouseBinding >;
 	}
 	
 	void ~Module()
@@ -68,7 +68,7 @@ class Module
 
         input.AddAlternative();
 
-        ref array< string > bindings = binding.GetBindings();
+        auto bindings = binding.GetBindings();
         for ( int i = 0; i < bindings.Count(); i++ )
         {
             input.BindCombo( bindings[i] );

@@ -44,7 +44,7 @@ class COMPersistencyScene: Managed
 			GetGame().ObjectDelete(m_DemoUnit);
 		}
 
-		ref CameraTool ct = COM_GetModuleManager().GetModuleByName("CameraTool");
+		CameraTool ct = COM_GetModuleManager().GetModuleByName("CameraTool");
 
 		if ( ct )
 		{

@@ -47,20 +47,20 @@ class COMCharacterMenu extends UIScriptedMenu
     protected int 							m_Save;
 	protected bool							m_NoSaves;
 
-    void COMCharacterMenu( ref PersistencyModule oPersistencyModule, bool isLoadSave = true )
+    void COMCharacterMenu( PersistencyModule oPersistencyModule, bool isLoadSave = true )
 	{
 		PersistencyPrint("COMCharacterMenu::COMCharacterMenu");
 		m_oPersistencyModule = oPersistencyModule;
 
-		m_Characters = new ref TStringArray;
-		m_Saves = new ref TStringArray;
+		m_Characters = new TStringArray;
+		m_Saves = new TStringArray;
 
-		m_CharGenderList = new ref TStringArray;
-		m_CharPersonalityMaleList = new ref TStringArray;
-		m_CharPersonalityFemaleList = new ref TStringArray;
-		m_CharShirtList = new ref TStringArray;
-		m_CharPantsList = new ref TStringArray;
-		m_CharShoesList = new ref TStringArray;
+		m_CharGenderList = new TStringArray;
+		m_CharPersonalityMaleList = new TStringArray;
+		m_CharPersonalityFemaleList = new TStringArray;
+		m_CharShirtList = new TStringArray;
+		m_CharPantsList = new TStringArray;
+		m_CharShoesList = new TStringArray;
 
 		m_Saves.Insert("N/A");
 
@@ -210,7 +210,7 @@ class COMCharacterMenu extends UIScriptedMenu
 		m_GenderSelector = new OptionSelectorMultistate( layoutRoot.FindAnyWidget( "character_gender_setting_option" ), 0, null, false, m_CharGenderList );
 		m_GenderSelector.SetValue( m_CharGender );
 
-		ref TStringArray typeList = NULL;
+		TStringArray typeList = NULL;
 		if ( m_CharGender == CharGender.FEMALE )
 		{
 			typeList = m_CharPersonalityFemaleList;
