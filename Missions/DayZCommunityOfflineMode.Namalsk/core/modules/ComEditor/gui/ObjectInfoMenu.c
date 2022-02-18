@@ -26,7 +26,7 @@ class ObjectInfoMenu extends PopupMenu
 	{
 		listBox.ClearItems();
 
-		ref array<ref Object> objects = ((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).m_Objects;
+		auto objects = ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).m_Objects;
 
 		foreach( Object obj : objects )
 		{
@@ -53,12 +53,12 @@ class ObjectInfoMenu extends PopupMenu
 
 		listBox = widgetStore.GetListboxWidget("object_editor_info_list");
 
-		infoPosX = layoutRoot.FindAnyWidget( "object_info_pos_x" );
-		infoPosY = layoutRoot.FindAnyWidget( "object_info_pos_y" );
-		infoPosZ = layoutRoot.FindAnyWidget( "object_info_pos_z" );
-		infoPosYaw = layoutRoot.FindAnyWidget( "object_info_yaw_input" );
-		infoPosPitch = layoutRoot.FindAnyWidget( "object_info_pitch_input" );
-		infoPosRoll = layoutRoot.FindAnyWidget( "object_info_roll_input" );
+		infoPosX = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_pos_x" ));
+		infoPosY = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_pos_y" ));
+		infoPosZ = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_pos_z" ));
+		infoPosYaw = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_yaw_input" ));
+		infoPosPitch = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_pitch_input" ));
+		infoPosRoll = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_roll_input" ));
 	}
 
 	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
@@ -68,7 +68,7 @@ class ObjectInfoMenu extends PopupMenu
 			Object selected = GetSelectedRowObject();
 			if ( selected )
 			{
-				((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).SelectObject( selected );
+				ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SelectObject( selected );
 			}
 		}
 
@@ -79,15 +79,15 @@ class ObjectInfoMenu extends PopupMenu
 	{
 		if ( w.GetName() == "object_editor_info_export")
 		{
-			((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).ExportScene();
+			ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).ExportScene();
 		}
 		if ( w.GetName() == "object_editor_info_save")
 		{
-			((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).SaveScene();
+			ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SaveScene();
 		}
 		if ( w.GetName() == "object_editor_info_clear")
 		{
-			ref array< ref Object> objects = ((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).m_Objects;
+			auto objects = ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).m_Objects;
 
 			foreach( Object obj : objects )
 			{
@@ -100,7 +100,7 @@ class ObjectInfoMenu extends PopupMenu
 		{
 			string toCopy = "";
 			array<LOD> lods = new array<LOD>;
-			Object object = ((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).m_SelectedObject;
+			Object object = ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).m_SelectedObject;
 			object.GetLODS(lods);
 
 			foreach( LOD lod : lods )
@@ -118,14 +118,14 @@ class ObjectInfoMenu extends PopupMenu
 		}
 		if ( w.GetName() == "object_editor_info_load")
 		{
-			objects = ((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).m_Objects;
+			objects = ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).m_Objects;
 
 			foreach( Object obj2 : objects )
 			{
 				GetGame().ObjectDelete( obj2 );
 			}
 			objects.Clear();
-			((ObjectEditor) COM_GetModuleManager().GetModule(ObjectEditor)).LoadScene();
+			ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).LoadScene();
 			UpdateObjectList();
 		}
 		return false;
@@ -221,7 +221,7 @@ class ObjectInfoMenu extends PopupMenu
 		vector pos = GetSelectedObject().GetPosition();
 		vector orientation = GetSelectedObject().GetOrientation();
 
-		EditBoxWidget editWidget = w;
+		EditBoxWidget editWidget = EditBoxWidget.Cast(w);
 		string text = editWidget.GetText();
 
 		float value = text.ToFloat();
@@ -342,7 +342,7 @@ class ObjectInfoMenu extends PopupMenu
 			infoPosRoll.SetFlags( WidgetFlags.IGNOREPOINTER );
 		}
 
-		TextWidget selectedObjectWidget = layoutRoot.FindAnyWidget( "object_editor_info_select_input" );
+		TextWidget selectedObjectWidget = TextWidget.Cast(layoutRoot.FindAnyWidget( "object_editor_info_select_input" ));
 		selectedObjectWidget.SetText( text );
 		// SetFlags(int flags, bool immedUpdate = true);
 	}

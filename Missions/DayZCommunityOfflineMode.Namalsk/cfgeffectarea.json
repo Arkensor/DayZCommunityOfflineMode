@@ -1,0 +1,34 @@
+{
+    "Areas": [
+        { 	"AreaName": "Athena-3", 
+			"Type": "ContaminatedArea_Static", 
+			"TriggerType": "ContaminatedTriggerNam",
+			"Data": { 
+				"Pos": [ 3592, 120, 6709 ],
+				"Radius": 80,
+				"PosHeight": 70,
+				"NegHeight": 0,
+				"InnerRingCount": 0,
+				"InnerPartDist": 0,
+				"OuterRingToggle": 0, 
+				"OuterPartDist": 0, 
+				"OuterOffset": 0, 
+				"VerticalLayers": 0,
+				"VerticalOffset": 0,
+				"ParticleName": "graphics/particles/contaminated_area_gas_bigass"
+				},
+			"PlayerData": {
+				"AroundPartName": "nst/ns_dayz/effects/particles/contaminated_underground_around",
+				"TinyPartName": "nst/ns_dayz/effects/particles/contaminated_underground_tiny",
+				"PPERequesterType": "PPERequester_NamContamination"
+			}
+		}
+    ],
+
+	"SafePositions":[
+		[3540.62, 6248.10],
+		[3452.39, 6956.50],
+		[3428.58, 8227.02],
+		[3758.89, 8673.79]
+	]
+}

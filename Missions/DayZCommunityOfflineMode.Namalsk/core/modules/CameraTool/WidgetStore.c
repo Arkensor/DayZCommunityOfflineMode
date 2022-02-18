@@ -14,12 +14,12 @@ class WidgetStore
 	{
 		layoutRoot = root;
 
-		textWidgets = new ref array< TextWidget >;
-		buttonWidgets = new ref array < ButtonWidget >;
-		editBoxWidgets = new ref array < EditBoxWidget >;
-		sliderWidgets = new ref array < SliderWidget >;
-		textListBoxWidgets = new ref array < TextListboxWidget >;
-		allWidgets = new ref array < Widget >;
+		textWidgets = new array< TextWidget >;
+		buttonWidgets = new array < ButtonWidget >;
+		editBoxWidgets = new array < EditBoxWidget >;
+		sliderWidgets = new array < SliderWidget >;
+		textListBoxWidgets = new array < TextListboxWidget >;
+		allWidgets = new array < Widget >;
 
 		Init();
 	} 
@@ -90,29 +90,29 @@ class WidgetStore
 	{
 		if ( widget.IsInherited( TextWidget ) ) 
 		{
-			textWidgets.Insert( widget );
+			textWidgets.Insert( TextWidget.Cast(widget) );
 		}
 		if ( widget.IsInherited( ButtonWidget ) ) 
 		{
-			buttonWidgets.Insert( widget );
+			buttonWidgets.Insert( ButtonWidget.Cast(widget) );
 		}
 		if ( widget.IsInherited( EditBoxWidget ) ) 
 		{
-			editBoxWidgets.Insert( widget );
+			editBoxWidgets.Insert( EditBoxWidget.Cast(widget) );
 		}
 		if ( widget.IsInherited( SliderWidget ) ) 
 		{
-			sliderWidgets.Insert( widget );
+			sliderWidgets.Insert( SliderWidget.Cast(widget) );
 		}
 		if ( widget.IsInherited( TextListboxWidget )) 
 		{
-			textListBoxWidgets.Insert( widget );
+			textListBoxWidgets.Insert( TextListboxWidget.Cast(widget) );
 		}
 	}
 
-	ref Widget GetWidget( string name ) 
+	Widget GetWidget( string name ) 
 	{
-		foreach( ref Widget widget : allWidgets ) 
+		foreach( Widget widget : allWidgets ) 
 		{
 			if ( widget.GetName() == name ) 
 			{
@@ -122,61 +122,61 @@ class WidgetStore
 		return null;
 	}
 
-	ref TextWidget GetTextWidget( string name ) 
+	TextWidget GetTextWidget( string name ) 
 	{
-		foreach( ref Widget widget : textWidgets ) 
+		foreach( Widget widget : textWidgets ) 
 		{
 			if ( widget.GetName() == name ) 
 			{
-				return widget;
+				return TextWidget.Cast(widget);
 			}
 		}
 		return null;
 	}
 
-	ref ButtonWidget GetButtonWidget( string name ) 
+	ButtonWidget GetButtonWidget( string name ) 
 	{
-		foreach( ref Widget widget : buttonWidgets ) 
+		foreach( Widget widget : buttonWidgets ) 
 		{
 			if ( widget.GetName() == name ) 
 			{
-				return widget;
+				return ButtonWidget.Cast(widget);
 			}
 		}
 		return null;
 	}
 
-	ref EditBoxWidget GetEditBoxWidget( string name ) 
+	EditBoxWidget GetEditBoxWidget( string name ) 
 	{
-		foreach( ref Widget widget : editBoxWidgets ) 
+		foreach( Widget widget : editBoxWidgets ) 
 		{
 			if ( widget.GetName() == name ) 
 			{
-				return widget;
+				return EditBoxWidget.Cast(widget);
 			}
 		}
 		return null;
 	}
 
-	ref SliderWidget GetSliderWidget( string name ) 
+	SliderWidget GetSliderWidget( string name ) 
 	{
-		foreach( ref Widget widget : sliderWidgets ) 
+		foreach( Widget widget : sliderWidgets ) 
 		{
 			if ( widget.GetName() == name ) 
 			{
-				return widget;
+				return SliderWidget.Cast(widget);
 			}
 		}
 		return null;
 	}
 
-	ref TextListboxWidget GetListboxWidget( string name ) 
+	TextListboxWidget GetListboxWidget( string name ) 
 	{
-		foreach( ref Widget widget : textListBoxWidgets ) 
+		foreach( Widget widget : textListBoxWidgets ) 
 		{
 			if ( widget.GetName() == name ) 
 			{
-				return widget;
+				return TextListboxWidget.Cast(widget);
 			}
 		}
 		return null;

@@ -169,17 +169,17 @@ static Weapon COM_GetWeaponInHands()
 
 static MissionBase COM_GetMission()
 {
-    return MissionBase.Cast( GetGame().COM_GetMission() );
+    return MissionBase.Cast( GetGame().GetMission() );
 }
 
 static CommunityOfflineClient COM_GetClientMission()
 {
-    return CommunityOfflineClient.Cast( GetGame().COM_GetMission() );
+    return CommunityOfflineClient.Cast( GetGame().GetMission() );
 }
 
 static CommunityOfflineServer COM_GetServerMission()
 {
-    return CommunityOfflineServer.Cast( GetGame().COM_GetMission() );
+    return CommunityOfflineServer.Cast( GetGame().GetMission() );
 }
 
 static PlayerBase COM_GetPB()

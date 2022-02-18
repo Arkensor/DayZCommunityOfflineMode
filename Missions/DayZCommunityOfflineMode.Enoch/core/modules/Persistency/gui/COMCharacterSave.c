@@ -2,7 +2,7 @@ class COMCharacterSaveEventHandler extends ScriptedWidgetEventHandler
 {
 	ref COMCharacterSave m_CharacterSave;
 
-	void COMCharacterSaveEventHandler( ref COMCharacterSave characterSave )
+	void COMCharacterSaveEventHandler( COMCharacterSave characterSave )
 	{
 		Print( "COMCharacterSaveEventHandler::COMCharacterSaveEventHandler" );
 		m_CharacterSave = characterSave;
@@ -53,7 +53,7 @@ class COMCharacterSave extends UIScriptedMenu
 	protected ButtonWidget						m_Apply;
 	protected EditBoxWidget						m_SaveText;
 
-    void COMCharacterSave( ref PersistencyModule oPersistencyModule )
+    void COMCharacterSave( PersistencyModule oPersistencyModule )
 	{
 		m_oPersistencyModule = oPersistencyModule;
 

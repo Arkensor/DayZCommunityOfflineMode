@@ -9,8 +9,3 @@ Mission CreateCustomMission(string path)
 
     return new CommunityOfflineClient();
 }
-
-void main()
-{
-    //In Beta We Trust!
-}

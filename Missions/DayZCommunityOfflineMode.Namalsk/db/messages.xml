@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<messages>
+    <!-- This is example message for automatic server termination -->
+    <message>
+        <!-- no delay -->
+        <delay>0</delay>
+ 
+        <!-- if the value is larger than 0, then flag Repeat is enabled -->
+        <repeat>0</repeat>
+ 
+        <!-- if the value is larger than 0, then flag Countdown is enabled,
+             countdown reaches zero in 10 hours --> 
+        <deadline>480</deadline>
+ 
+        <!-- disable On connect flag -->
+        <onconnect>0</onconnect>
+ 
+        <!-- enable Shutdown flag -->
+        <shutdown>1</shutdown>
+ 
+        <!-- message itself with placeholders -->
+        <text>This server will restart in #tmin minutes.</text>
+    </message>
+</messages>
