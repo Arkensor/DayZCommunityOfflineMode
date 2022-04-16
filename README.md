@@ -11,13 +11,13 @@ There is now a wiki page available on how to use the community offline mode to s
 Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v3.7/DayZ.Community.OfflineMode.zip) zip archive.  
 Make sure you are on the latest `STABLE` or `EXPERIMENTAL` version of the game.
 
-Place the ```Mis``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
+Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
 
-Now you now start the script ```DayZ/Mis/DayZCommunityOfflineMode.ExclusionZone/DayZCommunityOfflineMode.bat``` to start the game. You will be loaded directly into the offline mode.  
-Or add the following start parameter to your game: ```-mission=.\Mis\DayZCommunityOfflineMode.ExclusionZone```
+Now you now start the script ```DayZ/Missions/DayZCommunityOfflineMode.ExclusionZone/DayZCommunityOfflineMode.bat``` to start the game. You will be loaded directly into the offline mode.  
+Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ExclusionZone```
 
 To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders back to their original name.   
-You might delete your whole ```Mis``` folder and validate your game files via steam to get the original DayZ files back.
+You might delete your whole ```Missions``` folder and validate your game files via steam to get the original DayZ files back.
 
 # Controls:
 * Y (Z for QWERTZ-Keyboard) - Open the COM toolbar menu.
