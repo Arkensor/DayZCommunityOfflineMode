@@ -2,7 +2,7 @@
 
 The DayZ Community Offline Mode offers the ability, to explore the world of DayZ in a singleplayer environment. While this mode does not represent the actual DayZ gameplay it offers other possibilites for developers, content creators and player who do want to experiment around but not loose all their progress from online.
 
-This is UNOFFICIAL modication to modification by Arkensor, so don't blame the DayZ development team if this is not working at all for you!
+This is an UNOFFICIAL modification of the modification from Arkensor!
 
 # Info for server owners & mappers
 There is now a wiki page available on how to use the community offline mode to spawn map objects on your server or mission you are working on: [Add custom objects to your server or mission](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Add-custom-objects-to-your-server-or-mission)
