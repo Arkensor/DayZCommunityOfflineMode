@@ -1,8 +1,8 @@
-# DayZCommunityOfflineMode 3.7
+# DayZCommunityOfflineMode.ExclusionZone based on DayZCommunityOfflineMode 3.7 version.
 
 The DayZ Community Offline Mode offers the ability, to explore the world of DayZ in a singleplayer environment. While this mode does not represent the actual DayZ gameplay it offers other possibilites for developers, content creators and player who do want to experiment around but not loose all their progress from online.
 
-This is UNOFFICIAL, so don't blame the DayZ development team if this is not working at all for you!
+This is UNOFFICIAL modication to modification by Arkensor, so don't blame the DayZ development team if this is not working at all for you!
 
 # Info for server owners & mappers
 There is now a wiki page available on how to use the community offline mode to spawn map objects on your server or mission you are working on: [Add custom objects to your server or mission](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Add-custom-objects-to-your-server-or-mission)
@@ -11,13 +11,13 @@ There is now a wiki page available on how to use the community offline mode to s
 Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v3.7/DayZ.Community.OfflineMode.zip) zip archive.  
 Make sure you are on the latest `STABLE` or `EXPERIMENTAL` version of the game.
 
-Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
+Place the ```Mis``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
 
-Now you now start the script ```DayZ/Missions/DayZCommunityOfflineMode.ChernarusPlus/DayZCommunityOfflineMode.bat``` to start the game. You will be loaded directly into the offline mode.  
-Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ChernarusPlus```
+Now you now start the script ```DayZ/Mis/DayZCommunityOfflineMode.ExclusionZone/DayZCommunityOfflineMode.bat``` to start the game. You will be loaded directly into the offline mode.  
+Or add the following start parameter to your game: ```-mission=.\Mis\DayZCommunityOfflineMode.ExclusionZone```
 
 To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders back to their original name.   
-You might delete your whole ```Missions``` folder and validate your game files via steam to get the original DayZ files back.
+You might delete your whole ```Mis``` folder and validate your game files via steam to get the original DayZ files back.
 
 # Controls:
 * Y (Z for QWERTZ-Keyboard) - Open the COM toolbar menu.
@@ -52,12 +52,6 @@ Locations are stored inside the script.log for now.
 
 You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/DayZ -> Hit enter```. 
 
-# Future:
-* Adding configurable keybinds
-* Adding a dedicated logfile
-* Adding persitent settings and stats saving
-* Adding a cinematic manager for content creators
-
 # Developers
 * [Arkensor](https://github.com/Arkensor)
 * [DannyDog](https://github.com/DannyDog)
@@ -73,3 +67,4 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * [LiPeK](https://github.com/LiPeK) - Object editor additions
 * [Cypher](https://github.com/CypherMediaGIT) - Livonia positions
 * [BigBenREDUX](https://twitter.com/BigBenREDUX) - Namalsk positions
+* [JXHN](https://github.com/JohnDamis) - Area Of Decay positions and fixes
