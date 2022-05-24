@@ -211,7 +211,7 @@
 				<item name="RDG2SmokeGrenade_White" chance="0.25" />
 				<item name="FlashGrenade" chance="0.25" />
 				<item name="RDG2SmokeGrenade_Black" chance="0.25" />
-				<item name="RDG5Grenade" chance="0.25" />
+				<item name="RGD5Grenade" chance="0.25" />
 		</cargo>
 		<attachments chance="0.10" name="optics">
 				<item name="M4_T3NRDSOptic" chance="0.20" />

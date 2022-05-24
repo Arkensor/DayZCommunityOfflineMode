@@ -38,5 +38,6 @@
         <value name="Tier2"/>
         <value name="Tier3"/>
         <value name="Tier4"/>
+        <value name="Unique"/>
     </valueflags>
 </lists>

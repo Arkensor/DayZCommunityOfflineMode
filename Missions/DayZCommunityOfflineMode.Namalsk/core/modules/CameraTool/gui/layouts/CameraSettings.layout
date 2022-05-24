@@ -214,6 +214,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_hue_value
@@ -258,6 +260,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_rotblur_power_value
@@ -286,6 +290,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_rotblur_mindepth_value
@@ -314,6 +320,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_rotblur_maxdepth_value
@@ -358,6 +366,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_radblur_value_x
@@ -386,6 +396,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_radblur_value_y
@@ -414,6 +426,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_radblur_value_offsetx
@@ -442,6 +456,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_radblur_value_offsety
@@ -486,6 +502,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_vign_value
@@ -514,6 +532,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_vign_value_r
@@ -542,6 +562,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_vign_value_g
@@ -570,6 +592,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_vign_value_b
@@ -614,6 +638,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_color_value_a
@@ -642,6 +668,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_color_value_r
@@ -670,6 +698,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_color_value_g
@@ -698,6 +728,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_color_value_b
@@ -742,6 +774,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_view_value
@@ -805,6 +839,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_blur_value
@@ -849,6 +885,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_dist_value
@@ -894,6 +932,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_flen_value
@@ -939,6 +979,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_fnear_value
@@ -983,6 +1025,8 @@ PanelWidgetClass CameraMenu
 											vexactpos 1
 											hexactsize 0
 											hexactsize 0
+											"fill in" 1
+											"listen to input" 1
 											style Editor
 											{
 												TextWidgetClass camera_slider_exp_value

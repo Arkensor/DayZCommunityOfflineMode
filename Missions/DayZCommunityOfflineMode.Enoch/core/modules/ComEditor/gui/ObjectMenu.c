@@ -25,11 +25,7 @@ class ObjectMenu extends PopupMenu
 	    "M203Base",
 	    "M203",
 	    "M203_Standalone",
-	    "Magnum",
-	    "Red9",
 	    "ItemOptics",
-	    "ThingEffect",
-	    "QuickieBow",
     };
 
 	void ~ObjectMenu()
