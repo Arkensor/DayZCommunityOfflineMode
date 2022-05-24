@@ -789,6 +789,22 @@
         <active>0</active>
         <children/>
     </event>
+    <event name="StaticTrain">
+        <nominal>2</nominal>
+        <min>0</min>
+        <max>0</max>
+        <lifetime>5400</lifetime>
+        <restock>0</restock>
+        <saferadius>1000</saferadius>
+        <distanceradius>1000</distanceradius>
+        <cleanupradius>1000</cleanupradius>
+        <secondary>InfectedIndustrial</secondary>
+        <flags deletable="1" init_random="0" remove_damaged="0"/>
+        <position>uniform</position>
+        <limit>child</limit>
+        <active>1</active>
+        <children/>
+    </event>
     <event name="TrajectoryConiferous">
         <nominal>140</nominal>
         <min>2</min>

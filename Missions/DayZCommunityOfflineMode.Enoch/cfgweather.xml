@@ -27,7 +27,7 @@
         <!-- Initial conditions of the rain (target value, time to change, how long will it stay), restricted by thresholds (see below) -->
         <current actual="0.0" time="120" duration="240" />
         <!-- What is the range of the rain value (0..1) -->
-        <limit min="0.0" max="1.0" />
+        <limits min="0.0" max="1.0" />
         <!-- How long does it take to the rain to change from one value to other (time in seconds) -->
         <timelimits min="300" max="600" />
         <!-- How much should the rain change (0..1) -->

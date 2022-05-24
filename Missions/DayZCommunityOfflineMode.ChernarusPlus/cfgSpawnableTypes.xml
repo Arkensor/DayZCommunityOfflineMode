@@ -201,6 +201,23 @@
 		<cargo chance="0.5"> <item name="AmmoBox_762x39_20Rnd" /> </cargo>		
 		<cargo chance="0.25"> <item name="AmmoBox_762x39Tracer_20Rnd" /> </cargo>			
 		<cargo chance="0.25"> <item name="AmmoBox_762x39Tracer_20Rnd" /> </cargo>
+		<cargo chance="0.01"> <item name="Ammo_40mm_ChemGas" /> </cargo>
+		<cargo chance="0.20"> <item name="Ammo_40mm_Smoke_Black" /> </cargo>
+		<cargo chance="0.20"> <item name="Ammo_40mm_Smoke_Red" /> </cargo>
+		<cargo chance="0.20"> <item name="Ammo_40mm_Smoke_White" /> </cargo>
+		<cargo chance="0.20"> <item name="Ammo_40mm_Smoke_Green" /> </cargo>
+		<cargo chance="0.10"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="0.20"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="0.50"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="1.0"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="1.0"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="1.0"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="1.0"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="1.0"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="0.50"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="0.20"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		<cargo chance="0.10"> <item name="Ammo_40mm_Explosive" /> </cargo>
+		
 	</type>
 	<type name="AirborneMask">
 		<cargo chance="0.2">
@@ -463,6 +480,86 @@
 			<item name="Ammo_762x39" chance="0.14" />
 		</cargo>
 	</type>
+	<type name="ManSuit_Black">
+		<cargo chance="0.02">
+			<item name="Derringer_Black" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="ManSuit_Beige">
+		<cargo chance="0.02">
+			<item name="Derringer_Black" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="ManSuit_Blue">
+		<cargo chance="0.02">
+			<item name="Derringer_Black" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="ManSuit_Brown">
+		<cargo chance="0.02">
+			<item name="Derringer_Black" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="ManSuit_DarkGrey">
+		<cargo chance="0.02">
+			<item name="Derringer_Black" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="ManSuit_LightGrey">
+		<cargo chance="0.02">
+			<item name="Derringer_Black" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="ManSuit_White">
+		<cargo chance="0.02">
+			<item name="Derringer_Black" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="ManSuit_Khaki">
+		<cargo chance="0.02">
+			<item name="Derringer_Black" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="WomanSuit_Beige">
+		<cargo chance="0.01">
+			<item name="Derringer_Pink" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="WomanSuit_Black">
+		<cargo chance="0.01">
+			<item name="Derringer_Pink" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="WomanSuit_Blue">
+		<cargo chance="0.01">
+			<item name="Derringer_Pink" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="WomanSuit_Brown">
+		<cargo chance="0.01">
+			<item name="Derringer_Pink" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="WomanSuit_DarkGrey">
+		<cargo chance="0.01">
+			<item name="Derringer_Pink" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="WomanSuit_Khaki">
+		<cargo chance="0.01">
+			<item name="Derringer_Pink" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="WomanSuit_LightGrey">
+		<cargo chance="0.01">
+			<item name="Derringer_Pink" chance="1.00" />
+		</cargo>
+	</type>
+	<type name="WomanSuit_White">
+		<cargo chance="0.01">
+			<item name="Derringer_Pink" chance="1.00" />
+		</cargo>
+	</type>
 	<type name="Sweater_Gray">
 		<cargo preset="mixVillage" />
 	</type>
@@ -683,48 +780,56 @@
 			<item name="Ammo_9x19" chance="0.20" />
 			<item name="Ammo_380" chance="0.20" />
 		</cargo>
+		<cargo chance="0.01"> <item name="Derringer_Pink" /> </cargo>
 	</type>
 	<type name="MiniDress_PinkChecker">
 		<cargo chance="0.10">
 			<item name="Ammo_9x19" chance="0.20" />
 			<item name="Ammo_380" chance="0.20" />
 		</cargo>
+		<cargo chance="0.01"> <item name="Derringer_Pink" /> </cargo>
 	</type>
 	<type name="MiniDress_RedChecker">
 		<cargo chance="0.10">
 			<item name="Ammo_9x19" chance="0.20" />
 			<item name="Ammo_380" chance="0.20" />
 		</cargo>
+		<cargo chance="0.01"> <item name="Derringer_Pink" /> </cargo>
 	</type>
 	<type name="MiniDress_WhiteChecker">
 		<cargo chance="0.10">
 			<item name="Ammo_9x19" chance="0.20" />
 			<item name="Ammo_380" chance="0.20" />
 		</cargo>
+		<cargo chance="0.01"> <item name="Derringer_Pink" /> </cargo>
 	</type>
 	<type name="MiniDress_GreenChecker">
 		<cargo chance="0.10">
 			<item name="Ammo_9x19" chance="0.20" />
 			<item name="Ammo_380" chance="0.20" />
 		</cargo>
+		<cargo chance="0.01"> <item name="Derringer_Pink" /> </cargo>
 	</type>
 	<type name="MiniDress_BrownChecker">
 		<cargo chance="0.10">
 			<item name="Ammo_9x19" chance="0.20" />
 			<item name="Ammo_380" chance="0.20" />
 		</cargo>
+		<cargo chance="0.01"> <item name="Derringer_Pink" /> </cargo>
 	</type>
 	<type name="MiniDress_BlueChecker">
 		<cargo chance="0.10">
 			<item name="Ammo_9x19" chance="0.20" />
 			<item name="Ammo_380" chance="0.20" />
 		</cargo>
+		<cargo chance="0.01"> <item name="Derringer_Pink" /> </cargo>
 	</type>
 	<type name="MiniDress_BlueWithDots">
 		<cargo chance="0.10">
 			<item name="Ammo_9x19" chance="0.20" />
 			<item name="Ammo_380" chance="0.20" />
 		</cargo>
+		<cargo chance="0.01"> <item name="Derringer_Pink" /> </cargo>
 	</type>
 	<type name="QuiltedJacket_Black">
 		<cargo preset="mixVillage" />
@@ -2273,7 +2378,6 @@
 			<item name="HuntingOptic" chance="1.00" />
 		</attachments>
 		<attachments chance="0.30">
-			<item name="Mag_CZ550_4rnd" chance="0.70" />
 			<item name="Mag_CZ550_10rnd" chance="1.00" />
 		</attachments>
 	</type>
@@ -2285,13 +2389,25 @@
 			<item name="PP19_Bttstck" chance="1.00" />
 		</attachments>
 		<attachments chance="0.25">
-			<item name="PSO11Optic" chance="0.25" />
-			<item name="PSO1Optic" chance="0.25" />
-			<item name="KazuarOptic" chance="0.25" />
-			<item name="KobraOptic" chance="0.25" />
+			<item name="PSO11Optic" chance="0.30" />
+			<item name="PSO1Optic" chance="0.30" />
+			<item name="KobraOptic" chance="0.40" />
 		</attachments>
 		<attachments chance="0.20">
 			<item name="Mag_PP19_64Rnd" chance="1.00" />
+		</attachments>
+	</type>
+	<type name="LongHorn">
+		<attachments chance="1.00">
+			<item name="PistolOptic" chance="1.00" />
+		</attachments>
+	</type>
+	<type name="P1">
+		<attachments chance="0.05">
+			<item name="PistolSuppressor" chance="1.00" />
+		</attachments>
+		<attachments chance="0.60">
+			<item name="Mag_P1_8Rnd" chance="1.00" />
 		</attachments>
 	</type>
 <!-- FUTURE

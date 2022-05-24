@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <eventposdef>
     <event name="StaticHeliCrash">
 		<zone smin="1" smax="3" dmin="3" dmax="5" r="45" />
@@ -683,4 +684,37 @@
 		<pos x="1964.88" z="9526.16" a="69.02" />
 		<pos x="1274.97" z="7666.59" a="342.12" />
 	</event>
+	<event name="StaticTrain">
+		<zone smin="0" smax="0" dmin="1" dmax="2" r="20" />
+		<pos x="9994.689" z="11443.961" a="0" y="174.6216" group="Train_Abandoned_Grabin"/>
+		<pos x="7468.930" z="11504.266" a="0" y="174.667" group="Train_Abandoned_Kolembrody"/>
+		<pos x="10905.792" z="9461.094" a="0" y="183.6" group="Train_Abandoned_Sitnik"/>
+		<pos x="4250.055" z="8563.764" a="0" y="182.052" group="Train_Abandoned_Radacz"/>
+		<pos x="5770.630" z="10128.881" a="0" y="176.018" group="Train_Abandoned_Sobotka"/>
+		<pos x="1190.606" z="7663.011" a="0" y="181.439" group="Train_Abandoned_Topolin1"/>
+		<pos x="1900.310" z="7698.955" a="0" y="179.053" group="Train_Abandoned_Topolin2"/>
+		<pos x="10710.917" z="11025.219" a="0" y="179.327" group="Train_Accident_Grabin"/>
+		<pos x="8421.944" z="11814.350" a="0" y="174.553" group="Train_Accident_Kolembrody"/>
+		<pos x="11239.971" z="9929.081" a="0" y="176.117" group="Train_Accident_Sitnik"/>
+		<pos x="6389.930" z="10699.117" a="0" y="176.801" group="Train_Accident_Sobotka"/>
+		<pos x="4996.477" z="9020.883" a="0" y="175.492" group="Train_Mil_Gliniska"/>
+		<pos x="3267.044" z="8253.642" a="0" y="181.100" group="Train_Mil_Radacz"/>
+		<pos x="10026.365" z="8644.638" a="0" y="208.640" group="Train_Mil_Sitnik"/>
+	</event>
+
+    <event name="VehicleTransitBus" />
+    <event name="InfectedVillage" />
+    <event name="InfectedSolitude" />
+    <event name="InfectedArmy" />
+    <event name="InfectedCity" />
+    <event name="InfectedMedic" />
+    <event name="InfectedPolice" />
+    <event name="InfectedFirefighter" />
+    <event name="InfectedPrisoner" />
+    <event name="AnimalDeer" />
+    <event name="AnimalCow" />
+    <event name="AnimalSheep" />
+    <event name="AnimalRoeDeer" />
+    <event name="AnimalWolf" />
+    <event name="AnimalWildBoar" />
 </eventposdef>

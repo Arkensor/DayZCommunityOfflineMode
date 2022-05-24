@@ -14,7 +14,8 @@
             <item name="AK_PlasticHndgrd" chance="0.34" />
         </attachments>
         <attachments chance="0.30">
-            <item name="Mag_AK74_30Rnd" chance="1.00" />
+            <item name="Mag_AK74_30Rnd" chance="0.90" />
+            <item name="Mag_AK74_45Rnd" chance="0.10" />
         </attachments>
         <attachments chance="0.20">
             <item name="KobraOptic" chance="0.50" />
@@ -38,7 +39,8 @@
             <item name="AK_PlasticHndgrd" chance="0.34" />
         </attachments>
         <attachments chance="0.30">
-            <item name="Mag_AK74_30Rnd" chance="1.00" />
+            <item name="Mag_AK74_30Rnd" chance="0.90" />
+            <item name="Mag_AK74_45Rnd" chance="0.10" />
         </attachments>
         <attachments chance="0.20">
             <item name="KobraOptic" chance="0.50" />
@@ -61,7 +63,7 @@
             <item name="AK_PlasticHndgrd" chance="0.34" />
         </attachments>
         <attachments chance="0.30">
-            <item name="Mag_AK74_30Rnd" chance="1.00" />
+            <item name="Mag_AK101_30Rnd" chance="1.00" />
         </attachments>
         <attachments chance="0.20">
             <item name="KobraOptic" chance="0.50" />
@@ -104,6 +106,20 @@
             <item name="HuntingOptic" chance="1.00" />
         </attachments>
     </type>
+    <type name="PP19">
+        <attachments chance="1.00">
+            <item name="PP19_Bttstck" chance="1.00" />
+        </attachments>
+        <attachments chance="0.40">
+            <item name="Mag_PP19_64Rnd" chance="1.00" />
+        </attachments>
+        <attachments chance="0.20">
+            <item name="KobraOptic" chance="1.00" />
+        </attachments>
+        <attachments chance="0.10">
+            <item name="PistolSuppressor" chance="1.00" />
+        </attachments>
+    </type>
     <type name="CZ61">
         <attachments chance="0.40">
             <item name="Mag_CZ61_20Rnd" chance="1.00" />
@@ -115,6 +131,14 @@
     <type name="CZ527">
         <attachments chance="0.30">
             <item name="Mag_CZ527_5rnd" chance="1.00" />
+        </attachments>
+        <attachments chance="0.20">
+            <item name="HuntingOptic" chance="1.00" />
+        </attachments>
+    </type>
+    <type name="CZ550">
+        <attachments chance="0.30">
+            <item name="Mag_CZ550_10rnd" chance="1.00" />
         </attachments>
         <attachments chance="0.20">
             <item name="HuntingOptic" chance="1.00" />
@@ -448,7 +472,16 @@
             <item name="PistolSuppressor" chance="1.00" />
         </attachments>
     </type>
-
+    <type name="P1">
+        <attachments chance="0.90">
+            <item name="Mag_P1_8Rnd" chance="1.00" />
+        </attachments>
+    </type>
+    <type name="LongHorn">
+        <attachments chance="1.00">
+            <item name="PistolOptic" chance="1.00" />
+        </attachments>
+    </type>
 
     <!-- NAMALSK - WEAPONS - EXPLOSIVES -->
     <!-- none require special care -->

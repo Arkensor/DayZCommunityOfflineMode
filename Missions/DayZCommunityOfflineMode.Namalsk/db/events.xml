@@ -45,7 +45,7 @@
         <secondary>InfectedSanta</secondary>
         <position>fixed</position>
         <limit>child</limit>
-        <active>1</active>
+        <active>0</active>
         <children>
             <child lootmax="15" lootmin="10" max="6" min="6" type="Wreck_SantasSleigh"/>
         </children>
@@ -63,7 +63,7 @@
         <secondary>InfectedSanta</secondary>
         <position>fixed</position>
         <limit>child</limit>
-        <active>1</active>
+        <active>0</active>
         <children>
             <child lootmax="15" lootmin="12" max="9" min="9" type="ChristmasTree"/>
         </children>

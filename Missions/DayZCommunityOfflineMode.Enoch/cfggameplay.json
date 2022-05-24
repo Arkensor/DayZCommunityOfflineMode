@@ -1,5 +1,5 @@
 {
-	"version": 115,
+	"version": 116,
 	"GeneralData":
 	{
 		"disableBaseDamage": 0,
@@ -28,7 +28,9 @@
 	"WorldsData":
 	{
 		"lightingConfig": 1,
-		"objectSpawnersArr": []
+		"objectSpawnersArr": [],
+		"environmentMinTemps": [-7, -7.4, -4.1, 1.5, 7, 11.3, 13.4, 13.1, 9.3, 5.3, 0.8, -3.6],
+		"environmentMaxTemps": [-2.5, -2.1, 2.3, 9, 15.5, 19.4, 20.9, 20.4, 16, 10.5, 4.2, 0.1]
 	},
 	"BaseBuildingData":
 	{

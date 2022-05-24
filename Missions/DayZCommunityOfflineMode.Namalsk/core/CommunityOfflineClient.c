@@ -103,12 +103,6 @@ class CommunityOfflineClient extends MissionGameplay
     static void SetupWeather()
     {
         /*
-          [Namalsk] CE init (offline)
-        */
-        CreateHive();
-        GetHive().InitOffline();
-
-        /*
           [Namalsk] Mission time init
            after CE init to determine if storage mission type is outside of the required time-frame
            currently recommended time-frame is:

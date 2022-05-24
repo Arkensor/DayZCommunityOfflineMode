@@ -87,6 +87,20 @@
     <tag name="police" />
     <tag name="military" />
   </type>
+  <type name="PP19">
+    <nominal>6</nominal>
+    <lifetime>3600</lifetime>
+    <restock>200</restock>
+    <min>4</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value user="Tier12" />
+    <category name="rifles" />
+    <tag name="military" />
+  </type>
   <type name="CZ527">
     <nominal>10</nominal>
     <min>7</min>
@@ -98,6 +112,20 @@
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
     <value user="Tier1" />
+    <category name="rifles" />
+    <tag name="hunting" />
+  </type>
+  <type name="CZ550">
+    <nominal>5</nominal>
+    <min>4</min>
+    <lifetime>3600</lifetime>
+    <restock>300</restock>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value user="Tier234" />
     <category name="rifles" />
     <tag name="hunting" />
   </type>
@@ -205,8 +233,8 @@
     <lifetime>3600</lifetime>
     <restock>300</restock>
     <min>8</min>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
+    <quantmin>0</quantmin>
+    <quantmax>80</quantmax>
     <cost>100</cost>
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
@@ -235,8 +263,8 @@
     <lifetime>2700</lifetime>
     <restock>1200</restock>
     <min>4</min>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
+    <quantmin>0</quantmin>
+    <quantmax>80</quantmax>
     <cost>100</cost>
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
@@ -264,8 +292,8 @@
     <lifetime>3600</lifetime>
     <restock>300</restock>
     <min>10</min>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
+    <quantmin>0</quantmin>
+    <quantmax>80</quantmax>
     <cost>100</cost>
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
@@ -335,8 +363,8 @@
     <lifetime>3600</lifetime>
     <restock>1000</restock>
     <min>4</min>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
+    <quantmin>0</quantmin>
+    <quantmax>80</quantmax>
     <cost>100</cost>
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
@@ -365,8 +393,8 @@
     <lifetime>3600</lifetime>
     <restock>800</restock>
     <min>5</min>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
+    <quantmin>0</quantmin>
+    <quantmax>80</quantmax>
     <cost>100</cost>
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
@@ -524,8 +552,8 @@
     <lifetime>3600</lifetime>
     <restock>300</restock>
     <min>5</min>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
+    <quantmin>0</quantmin>
+    <quantmax>80</quantmax>
     <cost>100</cost>
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
@@ -561,6 +589,34 @@
     <value user="Tier1" />
     <category name="pistols" />
     <tag name="civilian" />
+  </type>
+  <type name="P1">
+    <nominal>7</nominal>
+    <lifetime>3600</lifetime>
+    <restock>100</restock>
+    <min>5</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value user="Tier1" />
+    <category name="pistols" />
+    <tag name="civilian" />
+  </type>
+  <type name="LongHorn">
+    <nominal>3</nominal>
+    <lifetime>3600</lifetime>
+    <restock>100</restock>
+    <min>2</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value user="Tier12" />
+    <category name="pistols" />
+    <tag name="hunting" />
   </type>
 
   <!-- NAMALSK - WEAPONS - EXPLOSIVES -->
@@ -866,6 +922,20 @@
     <tag name="farm" />
   </type>
   <type name="FarmingHoe">
+    <nominal>8</nominal>
+    <lifetime>2700</lifetime>
+    <restock>0</restock>
+    <min>6</min>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value />
+    <category name="tools" />
+    <tag name="farm" />
+  </type>
+  <type name="Pitchfork">
     <nominal>8</nominal>
     <lifetime>2700</lifetime>
     <restock>0</restock>
@@ -1662,6 +1732,20 @@
     <tag name="civilian" />
     <tag name="police" />
   </type>
+  <type name="Mag_P1_8Rnd">
+    <nominal>7</nominal>
+    <min>5</min>
+    <lifetime>2700</lifetime>
+    <restock>300</restock>
+    <quantmin>25</quantmin>
+    <quantmax>100</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value user="Tier1" />
+    <category name="weapons" />
+    <tag name="civilian" />
+  </type>
   <type name="Mag_MP5_15Rnd">
     <nominal>7</nominal>
     <min>5</min>
@@ -1718,6 +1802,20 @@
     <value user="Tier1" />
     <category name="weapons" />
     <tag name="police" />
+    <tag name="military" />
+  </type>
+  <type name="Mag_PP19_64Rnd">
+    <nominal>5</nominal>
+    <min>4</min>
+    <lifetime>2700</lifetime>
+    <restock>500</restock>
+    <quantmin>25</quantmin>
+    <quantmax>100</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value user="Tier12" />
+    <category name="weapons" />
     <tag name="military" />
   </type>
   <type name="Mag_Ruger1022_15Rnd">
@@ -1818,6 +1916,21 @@
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
     <value user="Tier1" />
+    <category name="weapons" />
+    <tag name="civilian" />
+    <tag name="hunting" />
+  </type>
+  <type name="Mag_CZ550_10rnd">
+    <nominal>10</nominal>
+    <min>7</min>
+    <lifetime>2700</lifetime>
+    <restock>300</restock>
+    <quantmin>25</quantmin>
+    <quantmax>100</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value user="Tier234" />
     <category name="weapons" />
     <tag name="civilian" />
     <tag name="hunting" />
@@ -2564,6 +2677,20 @@
     <tag name="military" />
   </type>
   <type name="AKS74U_Bttstck">
+    <nominal>0</nominal>
+    <min>0</min>
+    <lifetime>2700</lifetime>
+    <restock>0</restock>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value />
+    <category name="weapons" />
+    <tag name="military" />
+  </type>
+  <type name="PP19_Bttstck">
     <nominal>0</nominal>
     <min>0</min>
     <lifetime>2700</lifetime>
@@ -3848,8 +3975,8 @@
     <tag name="fishing" />
   </type>
   <type name="GiftBox_Large_1">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -3863,8 +3990,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Large_2">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -3878,8 +4005,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Large_3">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -3893,8 +4020,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Large_4">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -3908,8 +4035,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Medium_1">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -3923,7 +4050,7 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Medium_2">
-    <nominal>3</nominal>
+    <nominal>0</nominal>
     <min>2</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
@@ -3938,8 +4065,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Medium_3">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -3953,8 +4080,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Medium_4">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -3968,8 +4095,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Small_1">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -3983,8 +4110,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Small_2">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -3998,8 +4125,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Small_3">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -4013,8 +4140,8 @@
     <tag name="civilian" />
   </type>
   <type name="GiftBox_Small_4">
-    <nominal>3</nominal>
-    <min>2</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -4144,6 +4271,62 @@
     <category name="tools" />
     <tag name="military" />
     <tag name="industrial" />
+  </type>
+  <type name="AlarmClock_Blue">
+    <nominal>3</nominal>
+    <min>2</min>
+    <lifetime>2700</lifetime>
+    <restock>0</restock>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value />
+    <category name="tools" />
+    <tag name="civilian" />
+  </type>
+  <type name="AlarmClock_Green">
+    <nominal>3</nominal>
+    <min>2</min>
+    <lifetime>2700</lifetime>
+    <restock>0</restock>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value />
+    <category name="tools" />
+    <tag name="civilian" />
+  </type>
+  <type name="AlarmClock_Red">
+    <nominal>3</nominal>
+    <min>2</min>
+    <lifetime>2700</lifetime>
+    <restock>0</restock>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value />
+    <category name="tools" />
+    <tag name="civilian" />
+  </type>
+  <type name="KitchenTimer">
+    <nominal>6</nominal>
+    <min>4</min>
+    <lifetime>2700</lifetime>
+    <restock>0</restock>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value />
+    <category name="tools" />
+    <tag name="civilian" />
   </type>
   <type name="Compass">
     <nominal>20</nominal>
@@ -4641,6 +4824,35 @@
   <type name="SteakKnife">
     <nominal>30</nominal>
     <min>25</min>
+    <lifetime>2700</lifetime>
+    <restock>0</restock>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value />
+    <category name="tools" />
+    <tag name="civilian" />
+  </type>
+  <type name="Cleaver">
+    <nominal>20</nominal>
+    <min>15</min>
+    <lifetime>2700</lifetime>
+    <restock>0</restock>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value />
+    <category name="tools" />
+    <tag name="civilian" />
+    <tag name="farm" />
+  </type>
+  <type name="MeatTenderizer">
+    <nominal>15</nominal>
+    <min>10</min>
     <lifetime>2700</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -10187,8 +10399,8 @@
     <tag name="industrial" />
   </type>
   <type name="SantasHat">
-    <nominal>8</nominal>
-    <min>5</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>1800</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -10446,8 +10658,8 @@
     <tag name="civilian" />
   </type>
   <type name="SantasBeard">
-    <nominal>8</nominal>
-    <min>5</min>
+    <nominal>0</nominal>
+    <min>0</min>
     <lifetime>1800</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -11383,6 +11595,10 @@
     <lifetime>2700</lifetime> 
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
+  <type name="BoneKnife">
+    <lifetime>2700</lifetime> 
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
+  </type>
   <type name="WoodenStick">
     <lifetime>900</lifetime> 
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
@@ -11393,6 +11609,10 @@
   </type>
   <type name="Bark_Birch">
     <lifetime>900</lifetime> 
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
+  </type>
+  <type name="CookingStand">
+    <lifetime>1800</lifetime> 
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
   <type name="LongWoodenStick">
@@ -11420,11 +11640,11 @@
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
   <type name="FireplaceIndoor">
-    <lifetime>604800‬</lifetime> 
+    <lifetime>604800</lifetime> 
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
   <type name="OvenIndoor">
-    <lifetime>604800‬</lifetime> 
+    <lifetime>604800</lifetime> 
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
   <type name="Paper">
@@ -11459,7 +11679,11 @@
     <lifetime>1800</lifetime>
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
-  <type name="Spear">
+  <type name="SpearBone">
+    <lifetime>1800</lifetime>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
+  </type>
+  <type name="SpearStone">
     <lifetime>1800</lifetime>
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
@@ -11559,6 +11783,10 @@
     <lifetime>28800</lifetime>
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
+  <type name="GasMask_Filter_Improvised">
+    <lifetime>1800</lifetime>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
+  </type>
   <type name="Rag">
     <lifetime>1800</lifetime> 
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
@@ -11592,11 +11820,11 @@
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
   <type name="UndergroundStash">
-    <lifetime>1209600‬</lifetime>
+    <lifetime>1209600</lifetime>
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
   </type>
   <type name="WoodenCrate">
-    <lifetime>1209600‬</lifetime>
+    <lifetime>1209600</lifetime>
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
   <type name="Armband_Black">
@@ -11628,6 +11856,34 @@
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
   </type>
   <type name="Armband_Yellow">
+    <lifetime>1800</lifetime>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
+  </type>
+  <type name="RopeBelt">
+    <lifetime>1800</lifetime>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
+  </type>
+  <type name="FaceCover_Improvised">
+    <lifetime>1800</lifetime>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
+  </type>
+  <type name="FeetCover_Improvised">
+    <lifetime>1800</lifetime>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
+  </type>
+  <type name="HandsCover_Improvised">
+    <lifetime>1800</lifetime>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
+  </type>
+  <type name="HeadCover_Improvised">
+    <lifetime>1800</lifetime>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
+  </type>
+  <type name="TorsoCover_Improvised">
+    <lifetime>1800</lifetime>
+    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
+  </type>
+  <type name="LegsCover_Improvised">
     <lifetime>1800</lifetime>
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0"/>
   </type>
