@@ -1,7 +1,8 @@
 class EditorMenu extends UIScriptedMenu 
 {
-
-	protected ButtonWidget m_ObjectButton;
+    static const int MENU_ID = 133742;
+    
+    protected ButtonWidget m_ObjectButton;
 	protected ButtonWidget m_PositionButton;
 	protected ButtonWidget m_WeatherButton;
 	protected ButtonWidget m_GameButton;
@@ -14,19 +15,20 @@ class EditorMenu extends UIScriptedMenu
 	protected Widget m_gameMenu;
 	protected Widget m_objectInfoMenu;
 	protected Widget m_cameraMenu;
-
+    
 	void EditorMenu()
 	{
-	    SetID( 133742 );
+	    SetID(MENU_ID);
 	}
-	
-	void ~EditorMenu()
-	{
+    
+    override int GetID()	
+    {
+		return MENU_ID;
 	}
-	
+
 	override Widget Init()
     {
-        layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\ComEditor\\gui\\layouts\\EditorMenu.layout" );
+        layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\EditorMenu.layout" );
 
 		m_ObjectButton   = ButtonWidget.Cast( layoutRoot.FindAnyWidget("objects_button") );
 		m_PositionButton = ButtonWidget.Cast( layoutRoot.FindAnyWidget("position_button") );
@@ -37,52 +39,45 @@ class EditorMenu extends UIScriptedMenu
 
 
 		// object menu
-		m_objectMenu   = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\ComEditor\\gui\\layouts\\ObjectMenu.layout", layoutRoot );
-		m_weatherMenu  = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\ComEditor\\gui\\layouts\\WeatherMenu.layout", layoutRoot );
-		m_positionMenu = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\Admintool\\gui\\layouts\\PositionMenu.layout", layoutRoot );
-		m_gameMenu 	   = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\ComEditor\\gui\\layouts\\GameMenu.layout", layoutRoot );
-		m_objectInfoMenu = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\ComEditor\\gui\\layouts\\ObjectEditorInfo.layout", layoutRoot );
-		m_cameraMenu = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\CameraTool\\gui\\layouts\\CameraSettings.layout", layoutRoot );
+		m_objectMenu   = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\ObjectMenu.layout", layoutRoot );
+		m_weatherMenu  = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\WeatherMenu.layout", layoutRoot );
+		m_positionMenu = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Admintool\\gui\\layouts\\PositionMenu.layout", layoutRoot );
+		m_gameMenu 	   = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\GameMenu.layout", layoutRoot );
+		m_objectInfoMenu = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\ObjectEditorInfo.layout", layoutRoot );
+		m_cameraMenu = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\CameraTool\\gui\\layouts\\CameraSettings.layout", layoutRoot );
 
         return layoutRoot;
 	}
-
-	override bool UseMouse() 
-	{
-		return false;
-	}
-
-	override bool UseKeyboard() 
-	{
-		return false;
-	}
-
-    override void OnShow()
+    
+    override void LockControls()
     {
-        super.OnShow();
-
-        GetGame().GetInput().ChangeGameFocus( 1 );
-        GetGame().GetUIManager().ShowUICursor( true );
+        super.LockControls();
+        
+        GetGame().GetInput().ChangeGameFocus(1);
     }
-
+    
+    override void UnlockControls()
+    {
+        super.UnlockControls();
+        
+        GetGame().GetInput().ChangeGameFocus(-1);
+    }
+    
     override void OnHide()
     {
         super.OnHide();
 
         ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).EditorState( false );
 
-        GetGame().GetInput().ResetGameFocus();
-
         if ( !CameraTool.Cast(COM_GetModuleManager().GetModule(CameraTool)).IsUsingCamera() ) 
         {
 			COM_GetPB().GetInputController().OverrideMovementSpeed( false, 0 );
         }
-        
 
         CameraSettings.CAMERA_ROT.Show( false );
         CameraSettings.CAMERA_PHI.Show( false );
     }
-
+    
     override bool OnDoubleClick( Widget w, int x, int y, int button ) 
     {
     	if ( w == layoutRoot ) 
@@ -263,4 +258,3 @@ class EditorMenu extends UIScriptedMenu
 		}
 	}
 }
-

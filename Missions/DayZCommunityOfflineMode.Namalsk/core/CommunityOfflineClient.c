@@ -130,4 +130,14 @@ class CommunityOfflineClient extends MissionGameplay
             GetGame().GetWorld().SetDate( year, month, day, hour, minute );
         }
     }
-};
+    
+    override UIScriptedMenu CreateScriptedMenu(int id)
+    {
+        if(id == EditorMenu.MENU_ID)
+        {
+            return new EditorMenu();
+        }
+        
+        return super.CreateScriptedMenu(id);
+    }
+}
