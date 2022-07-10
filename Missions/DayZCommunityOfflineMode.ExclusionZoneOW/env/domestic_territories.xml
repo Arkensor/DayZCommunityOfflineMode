@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<territory-type>
+    <territory color="2147483392">
+        <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="7853.12" z="10790.6" r="100"/>
+        <zone name="Water" smin="0" smax="0" dmin="0" dmax="0" x="7875" z="11212.5" r="100"/>
+        <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="7540.62" z="10684.4" r="100"/>
+        <zone name="Water" smin="0" smax="0" dmin="0" dmax="0" x="8281.25" z="10962.5" r="100"/>
+        <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="7400" z="11037.5" r="100"/>
+        <zone name="Graze" smin="0" smax="0" dmin="0" dmax="0" x="8000" z="10925" r="100"/>
+        <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="7859.38" z="11362.5" r="100"/>
+        <zone name="Graze" smin="0" smax="0" dmin="0" dmax="0" x="7884.38" z="10978.1" r="100"/>
+    </territory>
+    <territory color="2147483392">
+        <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="7853.12" z="10790.6" r="100"/>
+        <zone name="Graze" smin="0" smax="0" dmin="0" dmax="0" x="8000" z="10925" r="100"/>
+        <zone name="Graze" smin="0" smax="0" dmin="0" dmax="0" x="7884.38" z="10978.1" r="100"/>
+        <zone name="Water" smin="0" smax="0" dmin="0" dmax="0" x="8281.25" z="10962.5" r="100"/>
+        <zone name="Graze" smin="0" smax="0" dmin="0" dmax="0" x="8081.25" z="10756.2" r="100"/>
+    </territory>
+    <territory color="2147483392">
+        <zone name="Water" smin="0" smax="0" dmin="0" dmax="0" x="8281.25" z="10962.5" r="100"/>
+        <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="8678.12" z="10746.9" r="100"/>
+        <zone name="Graze" smin="0" smax="0" dmin="0" dmax="0" x="8515.62" z="10634.4" r="100"/>
+        <zone name="Graze" smin="0" smax="0" dmin="0" dmax="0" x="8356.25" z="10406.2" r="100"/>
+        <zone name="Graze" smin="0" smax="0" dmin="0" dmax="0" x="8603.12" z="10575" r="100"/>
+        <zone name="Rest" smin="0" smax="0" dmin="0" dmax="0" x="8503.12" z="10434.4" r="100"/>
+    </territory>
+</territory-type>

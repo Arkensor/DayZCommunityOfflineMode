@@ -1,4 +1,4 @@
-# DayZCommunityOfflineMode.ExclusionZone based on DayZCommunityOfflineMode 3.7 version.
+# DayZCommunityOfflineMode.ExclusionZone based on DayZCommunityOfflineMode 3.8 version.
 
 The DayZ Community Offline Mode offers the ability, to explore the world of DayZ in a singleplayer environment. While this mode does not represent the actual DayZ gameplay it offers other possibilites for developers, content creators and player who do want to experiment around but not loose all their progress from online.
 
@@ -14,7 +14,7 @@ Make sure you are on the latest `STABLE` or `EXPERIMENTAL` version of the game.
 Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
 
 Now you now start the script ```DayZ/Missions/DayZCommunityOfflineMode.ExclusionZone/DayZCommunityOfflineMode.bat``` to start the game. You will be loaded directly into the offline mode.  
-Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ExclusionZone```
+Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ExclusionZone``` (I HIGLY RECOMMEND USING THIS METHOD FOR THE BEST PERFOMANCE)
 
 To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders back to their original name.   
 You might delete your whole ```Missions``` folder and validate your game files via steam to get the original DayZ files back.
@@ -33,7 +33,8 @@ You might delete your whole ```Missions``` folder and validate your game files v
 * B - Toggle debug monitor
 * INSERT - Toggle free camera. This teleports your player to the position you looked at when turning it off
 
-# Object Editor Controls:  
+# Object Editor Controls: 
+* The view distance can be increased in the camera controls or in the file (```\core\modules\Camera Tool\Camera Tool.c```) in line 60.
 * Click objects to select them.  
 * Click and drag objects to move them.
 * Click on nothing to deselect the current object.
