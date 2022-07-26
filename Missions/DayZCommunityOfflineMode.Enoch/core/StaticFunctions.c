@@ -234,7 +234,6 @@ static PlayerBase COM_CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), COM_GetSpawnPoints().GetRandomElement(), 0, "NONE") );
 
-    oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
     oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
     oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
     oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
