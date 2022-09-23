@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<territory-type>
+    <territory color="2298456576">
+        <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="10426.5" z="5191.25" r="350"/>
+    </territory>
+    <territory color="2080352768">
+        <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="1427.5" z="8885.75" r="350"/>
+    </territory>
+    <territory color="2298456576">
+        <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="6896.75" z="3755" r="350"/>
+    </territory>
+    <territory color="2231347712">
+        <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="7864.5" z="6653.5" r="500"/>
+    </territory>
+    <territory color="2164238848">
+        <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="8333.5" z="11249" r="450"/>
+        <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="4906.5" z="8437.5" r="450"/>
+    </territory>
+    <territory color="2080352768">
+        <zone name="HuntingGround" smin="0" smax="0" dmin="0" dmax="0" x="2196.75" z="2091.5" r="350"/>
+    </territory>
+</territory-type>
