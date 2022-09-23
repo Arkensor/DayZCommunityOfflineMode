@@ -15,7 +15,7 @@
     </fog>
     <rain>
         <current actual="0.0" time="120" duration="240" />
-        <limit min="0.0" max="1.0" />
+        <limits min="0.0" max="1.0" />
         <timelimits min="300" max="600" />
         <changelimits min="0.0" max="1.0" />
         <thresholds min="0.0" max="1.0" end="0" />

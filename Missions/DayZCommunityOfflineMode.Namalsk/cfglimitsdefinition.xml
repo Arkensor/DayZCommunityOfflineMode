@@ -11,6 +11,7 @@
         <category name="containers" />
         <category name="clothes" />
         <category name="bags" />
+        <category name="lantia" />
     </categories>
     <tags>
         <tag name="military" />
@@ -33,5 +34,6 @@
         <value name="Tier4"/>
         <value name="Tier5"/>
         <value name="Tier6"/>
+        <value name="Tier7"/>
     </valueflags>
 </lists>

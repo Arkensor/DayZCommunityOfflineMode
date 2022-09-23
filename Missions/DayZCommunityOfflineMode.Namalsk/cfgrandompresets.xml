@@ -96,12 +96,16 @@
 	</cargo>
 
 	<cargo chance="0.10" name="ammomilitary">
-		<item name="Ammo_556x45" chance="0.10" />
+		<item name="Ammo_556x45" chance="0.15" />
 		<item name="AmmoBox_556x45_20Rnd" chance="0.10" />
-		<item name="Ammo_762x39" chance="0.25" />
-		<item name="AmmoBox_762x39_20Rnd" chance="0.20" />
-		<item name="Ammo_762x54" chance="0.20" />
-		<item name="AmmoBox_762x54_20Rnd" chance="0.15" />
+		<item name="Ammo_762x39" chance="0.15" />
+		<item name="AmmoBox_762x39_20Rnd" chance="0.10" />
+		<item name="Ammo_762x54" chance="0.15" />
+		<item name="AmmoBox_762x54_20Rnd" chance="0.10" />
+		<item name="Ammo_9x39" chance="0.08" />
+		<item name="AmmoBox_9x39_20Rnd" chance="0.05" />
+		<item name="Ammo_9x39AP" chance="0.08" />
+		<item name="AmmoBox_9x39AP_20Rnd" chance="0.04" />
 	</cargo>
 
 	<cargo chance="0.10" name="magscivil">
