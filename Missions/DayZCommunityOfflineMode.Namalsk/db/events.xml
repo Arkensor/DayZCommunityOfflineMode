@@ -29,7 +29,24 @@
         <limit>child</limit>
         <active>1</active>
         <children>
-            <child lootmax="10" lootmin="5" max="6" min="6" type="Misc_cargo_cont_net1"/>
+            <child lootmax="6" lootmin="4" max="6" min="6" type="Misc_cargo_cont_net1"/>
+        </children>
+    </event>
+    <event name="StaticLifeboat">
+        <nominal>1</nominal>
+        <min>0</min>
+        <max>0</max>
+        <lifetime>2500</lifetime>
+        <restock>0</restock>
+        <saferadius>250</saferadius>
+        <distanceradius>250</distanceradius>
+        <cleanupradius>500</cleanupradius>
+        <flags deletable="1" init_random="0" remove_damaged="0" sec_spawner="0"/>
+        <position>fixed</position>
+        <limit>child</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="5" lootmin="2" max="6" min="6" type="sea_oilrig_lifeboat"/>
         </children>
     </event>
     <event name="StaticSantaCrash">
@@ -223,9 +240,6 @@
             <child lootmax="0" lootmin="0" max="0" min="1" type="ZmbM_JoggerSkinny_Blue"/>
             <child lootmax="0" lootmin="0" max="0" min="1" type="ZmbM_JoggerSkinny_Green"/>
             <child lootmax="0" lootmin="0" max="0" min="1" type="ZmbM_JoggerSkinny_Red"/>
-            <child lootmax="0" lootmin="0" max="0" min="1" type="ZmbM_SurvivorDean_Black"/>
-            <child lootmax="0" lootmin="0" max="0" min="1" type="ZmbM_SurvivorDean_Blue"/>
-            <child lootmax="0" lootmin="0" max="0" min="1" type="ZmbM_SurvivorDean_Grey"/>
             <child lootmax="0" lootmin="0" max="0" min="1" type="ZmbM_VillagerOld_Blue"/>
             <child lootmax="0" lootmin="0" max="0" min="1" type="ZmbM_VillagerOld_Green"/>
             <child lootmax="0" lootmin="0" max="0" min="1" type="ZmbM_VillagerOld_White"/>

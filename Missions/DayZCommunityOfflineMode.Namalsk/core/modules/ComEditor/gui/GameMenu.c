@@ -22,6 +22,7 @@ class GameMenu extends PopupMenu
 		m_gameScriptList = TextListboxWidget.Cast(layoutRoot.FindAnyWidget("game_list_box"));
 		m_gameScriptButton = ButtonWidget.Cast(layoutRoot.FindAnyWidget("game_script_button"));
 
+		m_gameScriptList.AddItem( "Spawn HMMWV",     new Param1< string >( "SpawnHMMWV" ),     0 );
 		m_gameScriptList.AddItem( "Spawn Hatchback", new Param1< string >( "SpawnHatchback" ), 0 );
 		m_gameScriptList.AddItem( "Spawn Sedan", 	 new Param1< string >( "SpawnSedan" ), 	   0 );
         m_gameScriptList.AddItem( "Spawn Gunter 2",  new Param1< string >( "SpawnGunter" ),    0 );
@@ -142,6 +143,19 @@ class GameMenu extends PopupMenu
 
 		return false;
 	}
+
+    void SpawnHMMWV() 
+    {
+        TStringArray attArr = {
+        "HeadlightH7", "HeadlightH7", "CarBattery", "GlowPlug", 
+        "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel",
+        "Offroad_02_Hood", "Offroad_02_Trunk", 
+        "Offroad_02_Door_1_1", "Offroad_02_Door_1_2", "Offroad_02_Door_2_1", "Offroad_02_Door_2_2",
+        };
+
+        SpawnVehicle( "Offroad_02", attArr );
+    }
+
 
 	void SpawnHatchback() 
 	{

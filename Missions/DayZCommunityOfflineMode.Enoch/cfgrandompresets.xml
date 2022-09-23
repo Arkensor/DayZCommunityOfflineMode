@@ -58,6 +58,7 @@
 				<item name="Canteen" chance="0.1" />
 		</cargo>
 		<cargo chance="0.15" name="toolsHermit">
+				<item name="WeaponCleaningKit" chance="0.10" />
 				<item name="Matchbox" chance="0.15" />
 				<item name="CanOpener" chance="0.05" />
 				<item name="Rope" chance="0.07" />
@@ -148,6 +149,8 @@
 				<item name="AmmoBox_9x19_25Rnd" chance="0.1" />
 				<item name="Ammo_556x45" chance="0.3" />
 				<item name="AmmoBox_556x45_20Rnd" chance="0.1" />
+				<item name="Ammo_545x39" chance="0.3" />
+				<item name="AmmoBox_545x39_20Rnd" chance="0.1" />
 		</cargo>
 		<cargo chance="0.25" name="ammoArmy">
 				<item name="Ammo_45ACP" chance="0.2" />

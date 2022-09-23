@@ -273,7 +273,7 @@
 		<pos x="3427.892578" z="3295.283448" a="-1" />
 		<pos x="4848.869629" z="4719.773438" a="-1" />
 		<pos x="655.947754" z="1965.813354" a="-1" />
-    </event>>
+    </event>
     <event name="StaticSantaCrash">
 		<zone smin="1" smax="1" dmin="1" dmax="1" r="45" />
 		<pos x="558.859619" z="12918.953125" a="-1" />
@@ -617,6 +617,28 @@
 		<pos x="3688.735597" z="8255.378907" a="17.46236" />
 		<pos x="7183.526854" z="7541.604005" a="250.295166" />
 		<pos x="1218.171874" z="6215.999023" a="181.061844" />
+    </event>
+	<event name="VehicleOffroad02">
+		<pos x="801.2618410" z="1919.863403" a="6.0492851" />
+		<pos x="2424.320801" z="5143.495117" a="190.13568" />
+		<pos x="3694.878174" z="5993.289063" a="402.01242" />
+		<pos x="6260.272949" z="7843.914551" a="305.01022" />
+		<pos x="4482.699707" z="8247.956055" a="314.33358" />
+		<pos x="4609.861328" z="9517.536133" a="339.01248" />
+		<pos x="4549.987793" z="9721.375977" a="339.01245" />
+		<pos x="5000.976563" z="10049.19238" a="338.93606" />
+		<pos x="4513.097168" z="10692.42187" a="339.02560" />
+		<pos x="1652.649902" z="14209.89355" a="451.74246" />
+		<pos x="1570.475952" z="14051.65722" a="452.78237" />
+		<pos x="1693.303101" z="13850.99121" a="445.31185" />
+		<pos x="7130.719238" z="12717.47460" a="130.40614" />
+		<pos x="11018.02929" z="13380.62695" a="220.25471" />
+		<pos x="9512.939453" z="11746.78222" a="240.07031" />
+		<pos x="8073.897949" z="9415.975586" a="453.66500" />
+		<pos x="10195.62988" z="4041.149170" a="59.795216" />
+		<pos x="7314.906250" z="3066.312256" a="24.057051" />
+		<pos x="4920.057129" z="2595.620361" a="9.5863346" />
+		<pos x="10425.44531" z="5837.930664" a="277.32221" />
     </event>
     <event name="StaticPoliceCar">
 		<zone smin="1" smax="3" dmin="3" dmax="5" r="45" />
@@ -1349,7 +1371,75 @@
     	<pos x="1321.629" z="2398.199" a="0" y="6.7" group="Train_Mil_Kamenka"/>
     	<pos x="1443.256" z="6622.697" a="0" y="176.220" group="Train_Mil_Metalurg"/>
     	<pos x="673.779" z="8747.024" a="0" y="194.405" group="Train_Mil_Myshkino"/>
-    	<pos x="3262.817" z="12430.286" a="0" y="220.495" group="Train_Mil_Petrovka"/>
+    	<pos x="3262.817" z="12430.286" a="0" y="219.495" group="Train_Mil_Petrovka"/>
+	</event>
+	<event name="StaticMilitaryConvoy">
+		<zone smin="0" smax="0" dmin="1" dmax="1" r="20" />
+    	<pos x="8434.497" z="14003.119" a="0" y="205.349" group="Abandoned_Arsenovo"/>
+		<pos x="5272.803" z="2085.858" a="0" y="5.600" group="Abandoned_Balota"/>
+		<pos x="5664.508" z="3254.114" a="0" y="120.222" group="Abandoned_Cherno"/>
+		<pos x="7057.518" z="14492.741" a="0" y="349.237" group="Abandoned_Kamensk"/>
+		<pos x="3048.051" z="9986.940" a="0" y="291.746" group="Abandoned_Lopatino"/>
+		<pos x="10927.198" z="13403.151" a="0" y="219.720" group="Abandoned_Novo"/>
+		<pos x="5248.110" z="6510.306" a="0" y="263.877" group="Abandoned_Rogovo"/>
+		<pos x="616.200" z="12121.522" a="0" y="391.921" group="Abandoned_Sinystok"/>
+		<pos x="6427.380" z="8027.553" a="0" y="323.645" group="Abandoned_StarySobor"/>
+		<pos x="12678.560" z="4834.562" a="0" y="117.462" group="Abandoned_Tulga"/>
+		<pos x="3623.335" z="8078.458" a="0" y="298.206" group="Abandoned_Vybor"/>
+		<pos x="10784.112" z="6684.350" a="0" y="93.008" group="Ambush_Dolina"/>
+		<pos x="9778.452" z="10969.752" a="0" y="214.959" group="Ambush_Dubrovka"/>
+		<pos x="5768.208" z="10208.027" a="0" y="274.293" group="Ambush_Grishino"/>
+		<pos x="8387.078" z="5988.155" a="0" y="292.062" group="Ambush_Kumyrna"/>
+		<pos x="1203.912" z="7974.503" a="0" y="218.039" group="Ambush_Metalurg"/>
+		<pos x="9834.277" z="4667.238" a="0" y="84.831" group="Supply_Elektro"/>
+		<pos x="4132.739" z="5649.462" a="0" y="347.288" group="Supply_GreenMountain"/>
+		<pos x="2506.352" z="2043.815" a="0" y="6.736" group="Supply_Kamenka"/>
+		<pos x="1836.243" z="2110.332" a="0" y="4.480" group="Supply_Komarovo"/>
+		<pos x="6628.302" z="12507.082" a="0" y="168.853" group="Supply_Petrovka"/>
+		<pos x="2421.141" z="13608.731" a="0" y="301.707" group="Supply_Tisy"/>
+		<pos x="332.324" z="3059.927" a="0" y="99.673" group="Supply_Volchiypik"/>
+	</event>
+	<event name="StaticPoliceSituation">
+		<zone smin="0" smax="0" dmin="1" dmax="2" r="20" />
+		<pos x="11909.426" z="6432.040" a="0" y="49.747" group="Block_Dolina"/>
+		<pos x="10400.112" z="2237.542" a="0" y="5.930" group="Block_Elektro"/>
+		<pos x="8757.742" z="11875.513" a="0" y="206.034" group="Block_Gvozdno"/>
+		<pos x="2666.745" z="5887.918" a="0" y="251.544" group="Block_Zeleno"/>
+		<pos x="8138.609" z="8564.824" a="0" y="428.844" group="Traffic_Altar"/>
+		<pos x="4888.580" z="2784.829" a="0" y="25.428" group="Traffic_Balota"/>
+		<pos x="12932.872" z="10189.173" a="0" y="5.980" group="Traffic_Berezino"/>
+		<pos x="13580.554" z="11766.809" a="0" y="30.708" group="Traffic_Berezino2"/>
+		<pos x="3433.691" z="3953.545" a="0" y="192.242" group="Traffic_Bor"/>
+		<pos x="6906.814" z="3086.961" a="0" y="7.280" group="Traffic_Cherno"/>
+		<pos x="6447.458" z="2552.698" a="0" y="5.975" group="Traffic_Cherno2"/>
+		<pos x="13404.373" z="14722.688" a="0" y="38.293" group="Traffic_Dobroe"/>
+		<pos x="10545.377" z="10260.771" a="0" y="102.047" group="Traffic_Dubrovka"/>
+		<pos x="10448.940" z="8882.513" a="0" y="223.098" group="Traffic_Gorka"/>
+		<pos x="5689.945" z="11852.006" a="0" y="221.974" group="Traffic_Grishino"/>
+		<pos x="5744.804" z="9286.175" a="0" y="315.611" group="Traffic_Grishino2"/>
+		<pos x="1894.825" z="2126.238" a="0" y="4.147" group="Traffic_Kamenka"/>
+		<pos x="7517.877" z="14048.492" a="0" y="260.978" group="Traffic_Kamensk"/>
+		<pos x="12873.966" z="3729.957" a="0" y="4.960" group="Traffic_Kamy"/>
+		<pos x="4523.444" z="4489.846" a="0" y="226.011" group="Traffic_Kozlovka"/>
+		<pos x="11087.840" z="12478.969" a="0" y="226.415" group="Traffic_Krasno"/>
+		<pos x="2515.404" z="9651.739" a="0" y="254.428" group="Traffic_Lopatino"/>
+		<pos x="7512.342" z="4660.855" a="0" y="219.617" group="Traffic_Mogilevka"/>
+		<pos x="9044.078" z="4934.135" a="0" y="113.847" group="Traffic_Mogilevka2"/>
+		<pos x="11581.700" z="14614.000" a="0" y="58.116" group="Traffic_Novo"/>
+		<pos x="3570.656" z="13899.145" a="0" y="231.642" group="Traffic_Petrovka"/>
+		<pos x="4711.930" z="6356.809" a="0" y="282.775" group="Traffic_Pogorevka"/>
+		<pos x="5828.543" z="5954.523" a="0" y="201.752" group="Traffic_Pulkovo"/>
+		<pos x="7729.012" z="12629.849" a="0" y="118.510" group="Traffic_Severo"/>
+		<pos x="1493.279" z="11113.760" a="0" y="290.985" group="Traffic_Sinystok"/>
+		<pos x="13103.048" z="7345.300" a="0" y="6.087" group="Traffic_Soln"/>
+		<pos x="10670.524" z="4568.996" a="0" y="125.785" group="Traffic_Staroye"/>
+		<pos x="6582.245" z="7508.025" a="0" y="283.046" group="Traffic_Stary"/>
+		<pos x="5346.021" z="14484.883" a="0" y="341.170" group="Traffic_StaryYar"/>
+		<pos x="9434.659" z="13915.317" a="0" y="106.461" group="Traffic_Svergino"/>
+		<pos x="13378.349" z="5439.850" a="0" y="5.920" group="Traffic_ThreeValleys"/>
+		<pos x="2244.152" z="12250.476" a="0" y="237.972" group="Traffic_Topolniki"/>
+		<pos x="4927.973" z="7844.380" a="0" y="333.543" group="Traffic_VMC"/>
+		<pos x="3518.464" z="9122.509" a="0" y="310.821" group="Traffic_Vybor"/>
 	</event>
 
     <event name="VehicleTransitBus" />

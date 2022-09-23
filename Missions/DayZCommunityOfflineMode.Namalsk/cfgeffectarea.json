@@ -15,7 +15,7 @@
 				"OuterOffset": 0, 
 				"VerticalLayers": 0,
 				"VerticalOffset": 0,
-				"ParticleName": "graphics/particles/contaminated_area_gas_bigass"
+				"ParticleName": "nst/ns_dayz/effects/particles/contaminated_underground_bigone"
 				},
 			"PlayerData": {
 				"AroundPartName": "nst/ns_dayz/effects/particles/contaminated_underground_around",
@@ -29,6 +29,8 @@
 		[3540.62, 6248.10],
 		[3452.39, 6956.50],
 		[3428.58, 8227.02],
-		[3758.89, 8673.79]
+		[3758.89, 8673.79],
+		[12120.38, 7947.39],
+		[12290.56, 7520.61]
 	]
 }
