@@ -7,9 +7,9 @@
 
 
 ## Configuration
- - All keybinds are configureable in $saves\COM\COMSettings.json or COMSettingsEnoch/Namalsk.json respectively.
-
-
+ - All keybinds are configureable in $saves\COM\COMSettings.json or COMSettingsEnoch/Namalsk.json respectively. Check out [All Keybind Codes](./All%20Keybind%20Codes.md) for a full list of useable keybinds.
+ 
+ 
 ### COM Keybinds
 | Key | Action | 
 | ----- | ----- |
