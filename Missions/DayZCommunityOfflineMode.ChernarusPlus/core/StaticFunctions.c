@@ -1,6 +1,4 @@
 
-static string worldMap = "Chernarus"; // Chernarus, Livonia, Namalsk
-
 static bool m_COM_GodMode; // move these to player saves? Edit: Jacob says "yes"
 static bool m_COM_OldAiming;
 static bool COM_bc_Visible;
@@ -19,13 +17,16 @@ string lastObjectFilter = "All";
 string lastObjectSearch = "";
 string lastObjectSelection = "";
 int chatLinesCount = 0;
+static string gameVersion;
+static string worldMap;
 
 string BASE_COM_DIR = "$saves:CommunityOfflineMode", BASE_SCENE_DIR = BASE_COM_DIR + "\\Scenes", BASE_BACKUP_DIR = BASE_COM_DIR + "\\Backups\\";
 string objectsFile = "COMObjectEditorSave", undofilename = BASE_COM_DIR + "\\COMObjectMoves.json", filenameSettings = BASE_COM_DIR + "\\COMSettings.json";
 
-
 static void startCOM() {
-	if(worldMap == "Livonia") { 
+    GetGame().GetVersion(gameVersion); Print("Game Version: " + gameVersion);
+    worldMap = GetGame().GetWorldName();Print("Game World: " + worldMap);
+	if(worldMap == "Enoch") { 
 		objectsFile = "COMObjectEditorSaveEnoch"; undofilename = BASE_COM_DIR + "\\COMObjectMovesEnoch.json"; filenameSettings = BASE_COM_DIR + "\\COMSettingsEnoch.json";
 	} else if(worldMap == "Namalsk") { objectsFile = "COMObjectEditorSaveNamalsk"; undofilename = BASE_COM_DIR + "\\COMObjectMovesNamalsk.json"; filenameSettings = BASE_COM_DIR + "\\COMSettingsNamalsk.json"; }
     ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).loadSettings();
@@ -33,7 +34,7 @@ static void startCOM() {
 static void stopCOM() { ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).saveSettings(); }
 
 static TVectorArray COM_GetSpawnPoints() {
-    if(worldMap == "Livonia") return { "6296 0 9755" }; // Livonia spawn point
+    if(worldMap == "Enoch") return { "6296 0 9755" }; // Livonia spawn point
     if(worldMap == "Namalsk") return { "7000 0 11025" }; // Namalsk spawn point
     /*            Chernarus */return { "7025 0 8236" }; // Chernarus spawn point
 }

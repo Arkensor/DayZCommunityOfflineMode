@@ -147,7 +147,7 @@ class GameMenu extends PopupMenu
 	
 	void SpawnM1025() 
 	{
-		COM_Message("M1025 is not ready yet.");  return;
+		if(gameVersion.Contains("1.18.")) { COM_Message("M1025 is not ready yet.");  return; } // REMOVE AFTER 1.19 OFFICIAL RELEASE
 		TStringArray attArr = {
 		"HeadlightH7", "HeadlightH7", "CarBattery", "GlowPlug", 
         "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel",

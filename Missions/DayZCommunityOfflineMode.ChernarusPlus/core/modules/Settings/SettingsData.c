@@ -69,7 +69,7 @@ class SettingsData
  	float flipSpeedFast = 5;
     
  	void SettingsData(SettingsData config = NULL) {
-        if(!config) { if(worldMap == "Livonia") { spawnPosition = Vector(6296, 0, 9755); } else if(worldMap == "Namalsk") { spawnPosition = Vector(7000, 0, 11025); } lastPosition = spawnPosition; return; }
+        if(!config) { if(worldMap == "Enoch") { spawnPosition = Vector(6296, 0, 9755); } else if(worldMap == "Namalsk") { spawnPosition = Vector(7000, 0, 11025); } lastPosition = spawnPosition; return; }
         hiveEnabled = config.hiveEnabled;
         spawnPosition = config.spawnPosition;
  	    lastPosition = config.lastPosition;
