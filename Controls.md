@@ -3,6 +3,11 @@
  - [Home](./README.md)
  - [Controls](./Controls.md)
  - [All Keybind Codes](./All%20Keybind%20Codes.md)
+ - [Original README](./oldREADME.md)
+
+
+## Configuration
+ - All keybinds are configureable in $saves\COM\COMSettings.json or COMSettingsEnoch/Namalsk.json respectively.
 
 
 ### COM Keybinds

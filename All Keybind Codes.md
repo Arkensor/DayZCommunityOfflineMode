@@ -3,6 +3,7 @@
  - [Home](./README.md)
  - [Controls](./Controls.md)
  - [All Keybind Codes](./All%20Keybind%20Codes.md)
+ - [Original README](./oldREADME.md)
 
 
 # Keyboard, Mouse, and Gamepad Key Codes
