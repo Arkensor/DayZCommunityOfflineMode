@@ -1,56 +1,68 @@
-# DayZCommunityOfflineMode 3.8
+# Table of Contents
 
-The DayZ Community Offline Mode offers the ability, to explore the world of DayZ in a singleplayer environment. While this mode does not represent the actual DayZ gameplay it offers other possibilites for developers, content creators and player who do want to experiment around but not loose all their progress from online.
+ - [Home](./README.md)
+ - [Controls](./Controls.md)
+ - [All Keybind Codes](./All%20Keybind%20Codes.md)
+ - [Original README](./oldREADME.md)
+ 
+ 
+# Community Offline Mode (Object Editor Edition) 4.0 worthy?
 
-This is UNOFFICIAL, so don't blame the DayZ development team if this is not working at all for you!
+## Known Issues:
+- Cannot rotate object groups yet.
+- Some keybinds are non-configureable.
 
-# Info for server owners & mappers
-There is now a wiki page available on how to use the community offline mode to spawn map objects on your server or mission you are working on: [Add custom objects to your server or mission](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Add-custom-objects-to-your-server-or-mission)
 
-# Installation
-Download [this](https://github.com/Arkensor/DayZCommunityOfflineMode/releases/download/v3.9/DayZ.Community.OfflineMode.zip) zip archive.  
-Make sure you are on the latest `STABLE` or `EXPERIMENTAL` version of the game.
+## Changes:
+- Main $saves\COM folder is now located in: C:\Users\YOURUSERNAME\Documents\DayZ\CommunityOfflineMode\.
+- Created object groups, allowing organization, selection and movement of multiple object of once.
+- Added saved object variables: Group, Time/Date Created, and Active.
+- Created movement hotkeys to easily fine to your object's position.
+- Add a "Lock Y Axis" toggle to the Object Info Menu, which allows you to move objects without changing their altitude.
+- Made built-in map objects non-selectable.
+- Objects now save in a format that can be copied directly to your mission\custom folder.
+- Object files are now backed up 25 times in $saves\COM\Backups\.
+- Every object or group action including spawn/movement/rotation/deletion/group change/active status change can be Undone and Redone up to the last Object Reload using keybinds.
+- Made almost every keybind configureable in $saves\COM\COMSettings.json or COMSettingsEnoch.json respectively.
+- Added settings: spawnPosition, spawnAtLastPosition, alwaysDay, keepWeatherClear, moveSpeedSlow-Medium-Fast, rotateSpeedSlow-Medium-Fast, flipSpeedSlow-Medium-Fast.
+- Made the Object Menu and Object Editor Menu layouts larger and easier to use.
+- Added more filter buttons to the Object Menu.
+- Moved Copy LODs function to work in the Object Menu.
+- Added Amount variable to the Object Menu, to allow spawning multiple of the same object at once.
+- Enabled Camera Tool enable/disable keybind while in Object Editor Menu.
+- Added object position export formats for easy copying and pasting of locations.
+- Added an ongoing position list hotkey, which copies multiple positions at once in CfgEventSpawns form.
+- Added hotkey to spawn Large_Giftbox_1 for loot offset positions.
+- Godmode is now enabled by default.
+- Godmode now protects your vehicle.
+- Godmode now repairs your weapon-in-hand and suppressor if attached.
+- Disabling the camera will now enable godmode and drop you from your cameras position instead of placing you on the ground, potentially inside of an object.
+- Changed Camera Tool altitude down button from kZ to kQ to prevent interference with kZ Undo keybind.
+- Moved enableHive variable to $saves\COM\COMSettings.json.
 
-Place the ```Missions``` folder inside your DayZ game directory (```For example: C:\Program Files (x86)\Steam\steamapps\common\DayZ```).  
 
-Now you now start the script ```DayZ/Missions/DayZCommunityOfflineMode.ChernarusPlus/DayZCommunityOfflineMode.bat``` to start the game. You will be loaded directly into the offline mode.  
-Or add the following start parameter to your game: ```-mission=.\Missions\DayZCommunityOfflineMode.ChernarusPlus```
+## Fixes
+- Re-tested and fixed all excluded items to prevent crashing while scrolling through the object menu.
+- Added MS3 to vehicle spawn list. (HMMWV is ready for 1.19 release)
+- Adjusted many other functions for ease of use.
+- Fixed issue where the mouse cursor would not in menus show after switching screens.
+- Teleporting to land while swimming now makes you stop swimming.
+- Adjusted the Position Menu to show positions in alphabetical order.
+- Searching the Object Menu will now only search the current filtered list, instead of all objects.
 
-To unstinstall this mod, simple delete all downloaded files, and rename your .disabled folders back to their original name.   
-You might delete your whole ```Missions``` folder and validate your game files via steam to get the original DayZ files back.
 
-# Controls
-* Y (Z for QWERTZ-Keyboard) - Open the COM toolbar menu.
-* X - Toggle Autojog/walk/run
-* X + SHIFT - Enable Autorun (Just X to disable it again)
-* X + CTRL - Enable Autowalk (Just X to disable it again)
-* END - Teleport at the position you are looking at
-* O - Spawn a random infected (Zombies)
-* O + CTRL - Spawn a wolf (Agressive and will fight both players and infected)
-* O + SHIFT - Spawn a random animal
-* R - Reload the weapon and refill the ammo (Infinite ammo)
-* P - Display your current position in the chat and print it to your logfiles (See logfiles section for their location)
-* B - Toggle debug monitor
-* INSERT - Toggle free camera. This teleports your player to the position you looked at when turning it off
-
-# Object Editor Controls
-* Click objects to select them.  
-* Click and drag objects to move them.
-* Click on nothing to deselect the current object.
-* Middle Click to snap to ground (Might not be accurate)
-* Spawn in new items using the object spawner menu that can be found in the toolbar.
-* You can either enter values on the onject editor gui or hover above the value with your mouse and use the scroll wheel to in-/decrease them.
-
-# Loot and infected spawn
-By default the "Hive" that is repsonsible for spawning loot and infected is **enabled**. If you want to prevent loot and infected from spawning you need to follow this guide: [Toggle loot and infected spawn](https://github.com/Arkensor/DayZCommunityOfflineMode/wiki/Toggle-loot-and-infected-spawn)  
+## Loot and infected spawn
+By default the "Hive" that is repsonsible for spawning loot and infected is **enabled**. If you want to prevent loot and infected from spawning, set enableHive to 0 in $saves\COM\COMSettings.json.
 > Disabling the hive increases the game performace.
 
-# Logfiles
+
+## Logfiles
 In case you want to report errors to us or the offical dayz dev team, you might need logfile info.
 We also save the positions you printed ingame in it so that you might revisit them later on by saving them in some textfile.
 Locations are stored inside the script.log for now.
 
 You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/DayZ -> Hit enter```. 
+
 
 # Contributors:
 * [DannyDog](https://github.com/DannyDog) - Inital core developer
@@ -64,3 +76,4 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * [LiPeK](https://github.com/LiPeK) - Object editor additions
 * [Cypher](https://github.com/CypherMediaGIT) - Livonia positions
 * [BigBenREDUX](https://twitter.com/BigBenREDUX) - Namalsk positions
+* [Brandon10x15](https://github.com/Brandon10x15) - Object editor and QOL additions

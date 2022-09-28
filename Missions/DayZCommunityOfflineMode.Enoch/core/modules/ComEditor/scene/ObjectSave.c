@@ -1,0 +1,1 @@
+class ObjectSave { ref array<ref ObjectData> Objects = new ref array<ref ObjectData>; }

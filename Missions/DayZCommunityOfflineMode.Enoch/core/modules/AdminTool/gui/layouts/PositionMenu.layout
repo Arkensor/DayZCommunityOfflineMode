@@ -2,7 +2,7 @@ PanelWidgetClass PositionMenu
 {
 	visible 0
 	color 0 0 0 0
-	position 0.0425 0.09
+	position 0.0425 0.02
 	size 250 450
 	halign right_ref
 	valign top_ref

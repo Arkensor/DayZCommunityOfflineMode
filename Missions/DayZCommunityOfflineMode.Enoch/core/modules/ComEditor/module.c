@@ -22,9 +22,13 @@
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\Scene.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\SceneManager.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\SceneInfo.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\ObjectSave.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\ObjectData.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\OldObjectSave.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\OldObjectData.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\LootSpot.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\SceneSaveST.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\scene\\objectHandler.c"
 #endif
 
 #ifndef COM_MODULES_OLDLOADING

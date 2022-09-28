@@ -1,6 +1,6 @@
 class CameraTool extends Module
 {
-	protected Camera m_oCamera; // active static camera "staticcamera"
+	static Camera m_oCamera; // active static camera "staticcamera"
 
 	protected ref array<vector> m_cKeyframes = new array<vector>;
 
@@ -88,48 +88,28 @@ class CameraTool extends Module
 		UpdateCamera( timeslice );
 	}
 	
-	override void RegisterKeyMouseBindings() 
-	{
+	override void RegisterKeyMouseBindings() {
+		Print("Loading keyboard and mouse bindings for CameraTool.c");
 		KeyMouseBinding toggleCamera  = new KeyMouseBinding( GetModuleType(), "ToggleCamera" , "Toggle camera."  );
+		toggleCamera.AddBinding(settings.keyCameraToggleCamera); RegisterKeyMouseBinding(toggleCamera);
 		KeyMouseBinding freezeCamera  = new KeyMouseBinding( GetModuleType(), "FreezeCamera" , "Freezes camera." );
+		freezeCamera.AddBinding(settings.keyCameraFreezeCamera); RegisterKeyMouseBinding(freezeCamera);
 		KeyMouseBinding freezePlayer  = new KeyMouseBinding( GetModuleType(), "FreezePlayer" , "Freezes player.", true);
-		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "Follows target.", true );
-		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "Toggle orbital mode", true );
+		freezePlayer.AddBinding(settings.keyCameraFreezePlayer); RegisterKeyMouseBinding(freezePlayer);
 		KeyMouseBinding targetCamera  = new KeyMouseBinding( GetModuleType(), "TargetCamera" , "Targets objects or positions", true );
+		targetCamera.AddBinding(settings.keyCameraTargetCamera); RegisterKeyMouseBinding(targetCamera);
+		KeyMouseBinding followTarget  = new KeyMouseBinding( GetModuleType(), "FollowTarget" , "Follows target.", true );
+		followTarget.AddBinding(settings.keyCameraFollowTarget); RegisterKeyMouseBinding(followTarget);
+		KeyMouseBinding toggleOrbit   = new KeyMouseBinding( GetModuleType(), "ToggleOrbital", "Toggle orbital mode", true );
+		toggleOrbit.AddBinding(settings.keyCameraToggleOrbital); RegisterKeyMouseBinding(toggleOrbit);
 		KeyMouseBinding zoomCamera    = new KeyMouseBinding( GetModuleType(), "ZoomCamera"   , "Zooms camera" );
+		zoomCamera.AddBinding(settings.keyCameraZoomCameraHOLD, KeyMouseActionType.HOLD); RegisterKeyMouseBinding(zoomCamera);
 		KeyMouseBinding incCamSpeed   = new KeyMouseBinding( GetModuleType(), "IncCamSpeed"  , "Increase camera speed" );
+		incCamSpeed.AddBinding(settings.keyCameraIncreaseCameraSpeed); RegisterKeyMouseBinding(incCamSpeed);
 		KeyMouseBinding decCamSpeed   = new KeyMouseBinding( GetModuleType(), "DecCamSpeed"  , "Decrease camera speed" );
-
+		decCamSpeed.AddBinding(settings.keyCameraDecreaseCameraSpeed); RegisterKeyMouseBinding(decCamSpeed);
 		KeyMouseBinding release       = new KeyMouseBinding( GetModuleType(), "Release"		 , "Release mouse", true);
-
-		toggleCamera.AddBinding( "kInsert" );
-		freezeCamera.AddBinding( "kBackslash" );
-		freezePlayer.AddBinding( "kCapital" );
-		followTarget.AddBinding( "kLBracket" );
-		toggleOrbit .AddBinding( "kRBracket" );
-		
-		targetCamera.AddBinding( "mBMiddle" );
-		
-		zoomCamera.AddBinding( "mBRight", KeyMouseActionType.HOLD );
-		zoomCamera.AddBinding( "kLControl", KeyMouseActionType.HOLD );
-
-		incCamSpeed.AddBinding( "mWheelUp" );
-		decCamSpeed.AddBinding( "mWheelDown" );
-
-		release.AddBinding( "mBRight", KeyMouseActionType.RELEASE );
-
-//		zoomCamera    .AddBinding( MouseState.WHEEL, 0 );
-		
-		RegisterKeyMouseBinding( toggleCamera );
-		RegisterKeyMouseBinding( freezeCamera );
-		RegisterKeyMouseBinding( freezePlayer );
-		RegisterKeyMouseBinding( followTarget );
-		RegisterKeyMouseBinding( toggleOrbit  );
-		RegisterKeyMouseBinding( targetCamera );
-		RegisterKeyMouseBinding( zoomCamera   );
-		RegisterKeyMouseBinding( incCamSpeed  );
-		RegisterKeyMouseBinding( decCamSpeed  );
-		RegisterKeyMouseBinding( release );
+		release.AddBinding("mBRight", KeyMouseActionType.RELEASE ); RegisterKeyMouseBinding(release);
 	}
 
 	Camera GetCamera()
@@ -137,84 +117,64 @@ class CameraTool extends Module
 		return m_oCamera;
 	}
 
-	void EnableCamera( bool staticCam = false )
-	{
-		if ( m_oCamera )
-		{
-			return;
-		}
-
+	void EnableCamera( bool staticCam = false ) {
+		if (m_oCamera) { return; }
 		vector position = "0 0 0";
-
-		if ( COM_GetPB() )
-		{
-			position = COM_GetPB().GetPosition();
-			position[ 1 ] = position[ 1 ] + 2;
-		}
-
+		if (COM_GetPB()) { position = COM_GetPB().GetPosition(); position[ 1 ] = position[ 1 ] + 2; }
 		m_oCamera = Camera.Cast(g_Game.CreateObject( "staticcamera", position, false ));
-		m_oCamera.SetActive( true );
-
-		if ( !staticCam ) 
-		{
-			SetFreezePlayer( true );
-		}
-		
+		m_CameraTool = true; m_oCamera.SetActive( true );
+		if (!staticCam) { SetFreezePlayer( true ); }
 		m_DistanceToObject = 0.0;
 	}
 
-	void DisableCamera()
-	{
-		if ( m_oCamera )
-		{
-		    //Close menu to give back control to player
-            if( GetGame().GetUIManager().GetMenu() && ( GetGame().GetUIManager().GetMenu().GetID() == 133742 ) )
-            {
-                GetGame().GetUIManager().Back();
-            }
-
-			SetFreezePlayer( false );
-			SetFreezeMouse( false );
-
-			vector position;
-
-			if( COM_CTRL() || COM_SHIFT() ) // Extra
-			{
-				position = m_oCamera.GetPosition();
-				position[ 1 ] = GetGame().SurfaceY( position[ 0 ], position[ 2 ] );
-			}
-			else
-			{
-				position = COM_GetCursorPos();
-			}
-
-			if ( COM_GetPB() )
-			{
-				COM_GetPB().SetPosition( position );
-			}
-
-			m_oCamera.SetActive( false );
-
-			GetGame().SelectPlayer( NULL, COM_GetPB() );
-
-			GetGame().ObjectDelete( m_oCamera );
-
-			m_oCamera = NULL;
-
-			m_CamFOV = 1.0;
-			m_TargetFOV = 1.0;
-			m_TargetRoll = 0;
-
-			m_FollowTarget = false;
-			m_OrbitalCam = false;
-
-			m_Target = NULL;
-			m_TargetPos = vector.Zero;
-
-			PPEffects.ResetDOFOverride();
-		}
+	void DisableCamera() {
+		if (!m_oCamera) { return; }
+		//Close menu to give back control to player
+        if(GetGame().GetUIManager().GetMenu() && (GetGame().GetUIManager().GetMenu().GetID() == 133742)) { GetGame().GetUIManager().Back(); }
+		SetFreezePlayer( false );
+		SetFreezeMouse( false );
+		vector position;
+		if(COM_CTRL() || COM_SHIFT()) { position = m_oCamera.GetPosition(); } else { position = COM_GetCursorPos(); }
+		m_oCamera.SetActive( false );
+		GetGame().SelectPlayer( NULL, COM_GetPB() );
+		GetGame().ObjectDelete( m_oCamera );
+		m_oCamera = NULL;
+		m_CameraTool = false;
+		m_CamFOV = 1.0;
+		m_TargetFOV = 1.0;
+		m_TargetRoll = 0;
+		m_FollowTarget = false;
+		m_OrbitalCam = false;
+		m_Target = NULL;
+		m_TargetPos = vector.Zero;
+		PPEffects.ResetDOFOverride();
+		stopSwimming();
+		//exitVehicle();
+		if (!m_COM_GodMode) { // Enable god mode for fall.
+			//COM_Message("Enabled godmode for fall.");
+			m_COM_GodMode = true;
+			COM_GetPB().SetAllowDamage(!m_COM_GodMode);
+		} if (COM_GetPB()) { COM_GetPB().SetPosition(position); }
 	}
-	
+	void stopSwimming() { if (COM_GetPB().IsSwimming()) { HumanCommandSwim hcs = COM_GetPB().GetCommand_Swim(); hcs.StopSwimming(); } }
+//	void exitVehicle() { if (COM_GetPB().IsInVehicle()) { HumanCommandVehicle hcv = COM_GetPB().GetCommand_Vehicle(); hcv.GetOutVehicle(); GetDayZGame().GetBacklit().OnLeaveCar(); } }
+
+	void DisableGodMode() {
+		//COM_Message("Checking falling state.");
+		bool falling = true;
+		while (falling) {
+			if (!COM_GetPB().IsFalling()) {
+				m_COM_GodMode = false;
+				COM_GetPB().SetAllowDamage(!m_COM_GodMode);
+				//COM_Message("Disabled godmode after fall.");
+				falling = true; break;
+			}
+		}/*
+		m_COM_GodMode = false;
+		COM_GetPB().SetAllowDamage(!m_COM_GodMode);
+		COM_Message( "Disabled godmode after fall." );*/
+	}
+
 	void ToggleCamera() 
 	{
 		if ( m_oCamera )
@@ -275,7 +235,8 @@ class CameraTool extends Module
 		{
 			m_Target = oObject;
 			m_TargetPos = oObject.GetPosition();
-		} else
+		}
+		else
 		{
 			m_Target = NULL;
 		}
@@ -307,7 +268,7 @@ class CameraTool extends Module
 
 				float forward = KeyState(KeyCode.KC_W) - KeyState(KeyCode.KC_S); // -1, 0, 1
 				float strafe = KeyState(KeyCode.KC_D) - KeyState(KeyCode.KC_A);
-				float altitude = KeyState(KeyCode.KC_Q) - KeyState(KeyCode.KC_Z); // change to hardcode keys? these actions can be rebinded via vanilla keybind menu
+				float altitude = KeyState(KeyCode.KC_Q) - KeyState(KeyCode.KC_E); // change to hardcode keys? these actions can be rebinded via vanilla keybind menu
 
 				if( KeyState(KeyCode.KC_LSHIFT) ) 
 				{

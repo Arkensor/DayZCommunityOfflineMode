@@ -42,10 +42,10 @@ class SceneInfo
 		return NULL;
 	}
 */
-	void AddObject( Object object, vector pos ) 
+	/*void AddObject( Object object, vector pos )
 	{
 		m_objects.Insert( new ObjectData( object.GetType(), pos, object.GetOrientation() ));
-	}
+	}*/
 
 	void AddLootSpot( vector pos, LootType type ) 
 	{

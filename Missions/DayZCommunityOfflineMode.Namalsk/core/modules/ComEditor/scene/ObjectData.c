@@ -1,28 +1,34 @@
-class ObjectData 
-{
-	string classname;
-	vector position;
-	vector orientation;
+class ObjectData
+ {
+ 	string name;
+ 	string group;
+    string date;
+ 	int active;
+ 	vector pos;
+ 	vector ypr;
+ 	void ObjectData(string name1, string group1, string date1, int active1, vector pos1, vector ypr1) {
+        name = name1;
+        group = group1;
+        date = date1;
+        active = active1;
+        pos = pos1;
+        ypr = ypr1;
+    }
+ 	string GetType()
+ 	{
+ 		return name;
+ 	}
+ 	string getGroup()
+ 	{
+ 		return group;
+ 	}
+ 	vector GetPosition()
+ 	{
+ 		return pos;
+ 	}
+ 	vector GetOrientation()
+ 	{
+ 		return ypr;
+ 	}
 
-	void ObjectData( string name, vector pos, vector ori )
-	{
-		classname = name;
-		position = pos;
-		orientation = ori;
-	}
-
-	string GetClassName() 
-	{
-		return classname;
-	}
-
-	vector GetPosition() 
-	{
-		return position;
-	}
-
-	vector GetOrientation() 
-	{
-		return orientation;
-	}
-}
+ }

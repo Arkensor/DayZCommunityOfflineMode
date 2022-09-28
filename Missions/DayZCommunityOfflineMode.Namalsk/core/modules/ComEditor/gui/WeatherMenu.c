@@ -168,8 +168,7 @@ class WeatherMenu extends PopupMenu
 			float density = m_CurrRain * m_CurrRain; 
 			float threshold = 0.8; 
 			float timeOut = 4000;
-
-			GetGame().GetWeather().SetStorm(density, threshold, timeOut);
+			
 
 			return true;
 		}

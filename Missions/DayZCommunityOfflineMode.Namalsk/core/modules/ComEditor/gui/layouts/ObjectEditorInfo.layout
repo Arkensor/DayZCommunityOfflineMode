@@ -2,9 +2,9 @@ PanelWidgetClass object_editor_info
 {
 	visible 0
 	color 0 0 0 1
-	position 0.045 0.475
-	size 400 400
-	halign right_ref
+	position 0.02 0.02
+	size 600 750
+	halign left_ref
 	valign top_ref
 	hexactpos 0
 	vexactpos 0
@@ -18,28 +18,43 @@ PanelWidgetClass object_editor_info
 			visible 1
 			color 0 0 0 0.92
 			position 0 0
-			size 1 25
-			hexactpos 1
-			vexactpos 1
-			hexactsize 0
+			size 1 20
 			vexactsize 1
 			style rover_sim_colorable
 			{
 				TextWidgetClass title_text
 				{
-					position 0 0
-					size 1 0.6
-					halign center_ref
-					valign center_ref
-					hexactpos 0
-					vexactpos 0
-					hexactsize 0
-					vexactsize 0
+					position 0 0.2
+					size 0.4 0.6
 					style Normal
-					text "Object Info"
+					text "Objects"
 					font "gui/fonts/Metron-Bold58"
                     "exact text" 1
-                    "exact text size" 20
+                    "exact text size" 18
+                    "text halign" center
+                    "text valign" center
+				}
+				TextWidgetClass title_text1
+				{
+					position 0.4 0.2
+					size 0.1 0.6
+					style Normal
+					text "|"
+					font "gui/fonts/Metron-Bold58"
+                    "exact text" 1
+                    "exact text size" 18
+                    "text halign" center
+                    "text valign" center
+				}
+				TextWidgetClass title_text2
+				{
+					position 0.5 0.2
+					size 0.5 0.6
+					style Normal
+					text "Selected"
+					font "gui/fonts/Metron-Bold58"
+                    "exact text" 1
+                    "exact text size" 18
                     "text halign" center
                     "text valign" center
 				}
@@ -57,230 +72,603 @@ PanelWidgetClass object_editor_info
 			vexactpos 1
 			style rover_sim_colorable
 			{
-				TextWidgetClass object_editor_info_select_input
-				{
-					color 1 1 1 1
-					position 0.05 0.05
-					size 0.9 0.055
-					text "No object Selected"
-				}
 				FrameWidgetClass objectInfo_scene
 				{
 					visible 1
-					position 0.65 0
-					size 0.3 0.95
+					position 0.025 0.005
+					size 0.45 0.9
 					style EditorPanel
 					{
-						TextWidgetClass object_editor_info_objects
+                        TextWidgetClass object_editor_group_name
+                        {
+                            color 1 1 1 1
+                            position 0 0
+                            size 1 0.015
+                            text "Groups"
+					        font "gui/fonts/Metron-Bold58"
+                            "exact text" 1
+                            "exact text size" 18
+                            "text halign" center
+                            "text valign" center
+                        }
+						TextListboxWidgetClass object_editor_group_list
 						{
-							color 1 1 1 1
-							position 0 0.05
-							size 1 0.055
-							text "Objects Placed"
+							visible 1
+							position 0 0.02
+							size 1 0.23
+							style Editor
+							lines 30
+							font "gui/fonts/Metron14"
 						}
-
+                        TextWidgetClass object_editor_object_name
+                        {
+                            color 1 1 1 1
+                            position 0 0.255
+                            size 1 0.015
+                            text "Objects"
+					        font "gui/fonts/Metron-Bold58"
+                            "exact text" 1
+                            "exact text size" 18
+                            "text halign" center
+                            "text valign" center
+                        }
 						TextListboxWidgetClass object_editor_info_list
 						{
 							visible 1
-							position 0 0.15
-							size 1 0.6
+							position 0 0.28
+							size 1 0.71
 							style Editor
-							lines 20
+							lines 30
 							font "gui/fonts/Metron14"
-						}
-						ButtonWidgetClass object_editor_info_load
-						{
-							position 0 0.75
-							size 0.5 0.055
-							text "Load"
-						}
-						ButtonWidgetClass object_editor_info_save
-						{
-							position 0.5 0.75
-							size 0.5 0.055
-							text "Save"
-						}
-						ButtonWidgetClass object_editor_info_export
-						{
-							position 0 0.8
-							size 1 0.055
-							text "Export"
-						}
-						ButtonWidgetClass object_editor_info_clear
-						{
-							position 0 0.85
-							size 1 0.055
-							text "Clear"
-						}
-						ButtonWidgetClass object_editor_info_dumplods
-						{
-							position 0 0.9
-							size 1 0.055
-							text "Dump LODS"
 						}
 					}
 				}
-				FrameWidgetClass objectInfo 
+				FrameWidgetClass objectInfo
 				{
 					visible 1
-					position 0 0.1
-					size 0.65 1
+					position 0.48 0
+					size 0.53 0.38
 					style EditorPanel
 					{
 						PanelWidgetClass objectInfo_pos_panel 
 						{
-							position 0.05 0.05
+							position 0.0 0.01
 							color 0 0 0 1
-							size 0.9 0.35
+							size 0.97 1
 							halign left_ref
-							hexactsize 0
-							vexactsize 0
 							style EditorPanel
 							{
+                                TextWidgetClass object_editor_info_select_input
+                                {
+                                    color 1 1 1 1
+                                    position 0 0.02
+                                    size 1 0.07
+                                    text "No object selected"
+					                font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 21
+                                    "text halign" center
+                                    "text valign" center
+                                }
+                                TextWidgetClass object_editor_info_select_display_name
+                                {
+                                    color 1 1 1 1
+                                    position 0 0.08
+                                    size 1 0.08
+                                    text ""
+                                    "exact text size" 20
+                                    "text halign" center
+                                    "text valign" center
+                                }
 								TextWidgetClass object_info_x 
 								{
 									visible 1
 									color 1 1 1 1
-									size 0.5 0.33
-									position 0 0
-									text "Pos X"
-									"exact text" 1
-									"text halign" center
+									position 0.02 0.16
+									size 0.22 0.12
+									text "Pos X:"
+					                font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 25
+									"text halign" right
 									"text valign" center
 								}
+								EditBoxWidgetClass object_info_pos_x
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.27 0.14
+									size 0.53 0.16
+									text "0.0"
+									style Default
+									"exact text" 1
+									"text halign" left
+									"text valign" center
+								}
+                                ButtonWidgetClass object_info_pos_x_minus
+                                {
+                                    position 0.8 0.17
+                                    size 0.1 0.11
+                                    text "-"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass object_info_pos_x_plus
+                                {
+                                    position 0.9 0.17
+                                    size 0.1 0.11
+                                    text "+"
+                                    text_proportion 0.75
+                                }
 								TextWidgetClass object_info_y
 								{
 									visible 1
 									color 1 1 1 1
-									size 0.5 0.33
-									position 0 0.33
-									text "Pos Y"
-									"exact text" 1
-									"text halign" center
+									position 0.02 0.3
+									size 0.22 0.12
+									text "Pos Y:"
+					                font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 25
+									"text halign" right
 									"text valign" center
 								}
+								EditBoxWidgetClass object_info_pos_y
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.27 0.28
+									size 0.43 0.16
+									text "0.0"
+									style Default
+									"exact text" 1
+									"text halign" left
+									"text valign" center
+								}
+								PanelWidgetClass object_info_pos_y_lock_bkg 
+								{
+									visible 1
+									color 0 0 0 0.25
+									position 0.7 0.31
+									size 0.1 0.11
+									style rover_sim_colorable
+									{
+										ButtonWidgetClass object_info_pos_y_lock
+										{
+											position 0 0
+											size 1 1
+											text "L"
+											text_proportion 0.75
+										}
+									}
+								}
+                                ButtonWidgetClass object_info_pos_y_minus
+                                {
+                                    position 0.8 0.31
+                                    size 0.1 0.11
+                                    text "-"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass object_info_pos_y_plus
+                                {
+                                    position 0.9 0.31
+                                    size 0.1 0.11
+                                    text "+"
+                                    text_proportion 0.75
+                                }
 								TextWidgetClass object_info_z
 								{
 									visible 1
 									color 1 1 1 1
-									size 0.5 0.33
-									position 0 0.66
-									text "Pos Z"
-									"exact text" 1
-									"text halign" center
+									position 0.02 0.44
+									size 0.22 0.12
+									text "Pos Z:"
+					                font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 25
+									"text halign" right
 									"text valign" center
-								}
-
-								EditBoxWidgetClass object_info_pos_x 
-								{
-									visible 1
-									color 1 1 1 1
-									position 0.5 0
-									size 0.5 0.33
-									text "0.0"
-									style Default
-									"exact text" 1
-								}
-								EditBoxWidgetClass object_info_pos_y 
-								{
-									visible 1
-									color 1 1 1 1
-									position 0.5 0.33
-									size 0.5 0.33
-									text "0.0"
-									style Default
-									"exact text" 1
 								}
 								EditBoxWidgetClass object_info_pos_z
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.5 0.66
-									size 0.5 0.33
+									position 0.27 0.42
+									size 0.53 0.16
 									text "0.0"
 									style Default
 									"exact text" 1
+									"text halign" left
+									"text valign" center
 								}
-							}
-						}
-						PanelWidgetClass objectInfo_orientation_panel 
-						{
-							visible 1
-							color 0 0 0 1
-							position 0.05 0.45
-							size 0.9 0.35
-							halign left_ref
-							hexactsize 0
-							vexactsize 0
-							style EditorPanel
-							{
+                                ButtonWidgetClass object_info_pos_z_minus
+                                {
+                                    position 0.8 0.45
+                                    size 0.1 0.11
+                                    text "-"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass object_info_pos_z_plus
+                                {
+                                    position 0.9 0.45
+                                    size 0.1 0.11
+                                    text "+"
+                                    text_proportion 0.75
+                                }
 								TextWidgetClass object_info_yaw
 								{
 									visible 1
 									color 1 1 1 1
-									size 0.5 0.33
-									position 0 0
-									text "Yaw"
-									"exact text" 1
-									"text halign" center
-									"text valign" center
-								}
-								TextWidgetClass object_info_pitch
-								{
-									visible 1
-									color 1 1 1 1
-									size 0.5 0.33
-									position 0 0.33
-									text "Pitch"
-									"exact text" 1
-									"text halign" center
-									"text valign" center
-								}
-								TextWidgetClass object_info_roll
-								{
-									visible 1
-									color 1 1 1 1
-									size 0.5 0.33
-									position 0 0.66
-									text "Roll"
-									"exact text" 1
-									"text halign" center
+									position 0.02 0.58
+									size 0.22 0.12
+									text "Yaw:"
+					                font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 25
+									"text halign" right
 									"text valign" center
 								}
 								EditBoxWidgetClass object_info_yaw_input
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.5 0
-									size 0.5 0.33
+									position 0.27 0.56
+									size 0.53 0.16
 									text "0.0"
 									style Default
 									"exact text" 1
+									"text halign" left
+									"text valign" center
+								}
+                                ButtonWidgetClass object_info_yaw_minus
+                                {
+                                    position 0.8 0.59
+                                    size 0.1 0.11
+                                    text "-"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass object_info_yaw_plus
+                                {
+                                    position 0.9 0.59
+                                    size 0.1 0.11
+                                    text "+"
+                                    text_proportion 0.75
+                                }
+								TextWidgetClass object_info_pitch
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.02 0.72
+									size 0.22 0.12
+									text "Pitch:"
+					                font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 25
+									"text halign" right
+									"text valign" center
 								}
 								EditBoxWidgetClass object_info_pitch_input
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.5 0.33
-									size 0.5 0.33
+									position 0.27 0.7
+									size 0.53 0.16
 									text "0.0"
 									style Default
 									"exact text" 1
+									"text halign" left
+									"text valign" center
+								}
+                                ButtonWidgetClass object_info_pitch_minus
+                                {
+                                    position 0.8 0.73
+                                    size 0.1 0.11
+                                    text "-"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass object_info_pitch_plus
+                                {
+                                    position 0.9 0.73
+                                    size 0.1 0.11
+                                    text "+"
+                                    text_proportion 0.75
+                                }
+								TextWidgetClass object_info_roll
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.02 0.85
+									size 0.22 0.12
+									text "Roll:"
+					                font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 25
+									"text halign" right
+									"text valign" center
 								}
 								EditBoxWidgetClass object_info_roll_input
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.5 0.66
-									size 0.5 0.33
+									position 0.27 0.83
+									size 0.53 0.16
 									text "0.0"
 									style Default
 									"exact text" 1
+									"text halign" left
+									"text valign" center
+								}
+                                ButtonWidgetClass object_info_roll_minus
+                                {
+                                    position 0.8 0.86
+                                    size 0.1 0.11
+                                    text "-"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass object_info_roll_plus
+                                {
+                                    position 0.9 0.86
+                                    size 0.1 0.11
+                                    text "+"
+                                    text_proportion 0.75
+                                }
+							}
+						}
+					}
+				}
+				FrameWidgetClass objectSelectedButtons
+				{
+					visible 1
+					position 0.48 0.38
+					size 0.53 0.08
+					style EditorPanel
+					{
+						PanelWidgetClass objectExportButtons_panel
+						{
+							position 0 0
+							color 0 0 0 1
+							size 0.97 1
+							halign left_ref
+							style EditorPanel
+							{
+								TextWidgetClass object_info_roll
+								{
+									visible 1
+									color 1 1 1 1
+									position 0 0.1
+									size 0.28 0.4
+									text "Export To:  "
+					                font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 16
+									"text halign" right
+									"text valign" center
+								}
+                                ButtonWidgetClass objectExportButton_json
+                                {
+                                    position 0.3 0
+                                    size 0.23 0.5
+                                    text "JSON"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass objectExportButton_proto
+                                {
+                                    position 0.53 0
+                                    size 0.23 0.5
+                                    text "Proto"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass objectExportButton_pos
+                                {
+                                    position 0.76 0
+                                    size 0.23 0.5
+                                    text "Pos"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass objectFunctionButton_teleport
+                                {
+                                    position 0 0.5
+                                    size 0.33 0.5
+                                    text "Teleport"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass objectFunctionButton_duplicate
+                                {
+                                    position 0.33 0.5
+                                    size 0.33 0.5
+                                    text "Duplicate"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass objectFunctionButton_delete
+                                {
+                                    position 0.66 0.5
+                                    size 0.33 0.5
+                                    text "Delete"
+                                    text_proportion 0.75
+                                }
+							}
+						}
+					}
+				}
+				FrameWidgetClass groupEditor_frame
+				{
+					visible 1
+					position 0.48 0.47
+					size 0.53 0.435
+					style EditorPanel
+					{
+						PanelWidgetClass groupEditor_panel
+						{
+							position 0 0
+							color 0 0 0 1
+							size 1 1
+							halign left_ref
+							style EditorPanel
+							{
+                                TextWidgetClass groupEditor_active_title
+                                {
+                                    color 1 1 1 1
+                                    position 0 0.01
+                                    size 0.23 0.06
+                                    text "Status: "
+                                    font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 18
+                                    "text halign" right
+                                    "text valign" center
+                                }
+                                ButtonWidgetClass groupEditor_active_button
+                                {
+                                    color 1 1 1 1
+                                    position 0.25 0.01
+                                    size 0.25 0.06
+									text "Inactive"
+									text_proportion 0.8
+                                }
+                                TextWidgetClass groupEditor_date_title
+                                {
+                                    color 1 1 1 1
+                                    position 0 0.07
+                                    size 0.23 0.06
+                                    text "Created: "
+                                    font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 18
+                                    "text halign" right
+                                    "text valign" center
+                                }
+                                TextWidgetClass groupEditor_date_current
+                                {
+                                    color 1 1 1 1
+                                    position 0.25 0.08
+                                    size 0.73 0.06
+                                    text "None"
+                                    "exact text" 1
+                                    "exact text size" 18
+                                    "text halign" left
+                                    "text valign" center
+                                }
+                                TextWidgetClass groupEditor_title
+                                {
+                                    color 1 1 1 1
+                                    position 0 0.14
+                                    size 0.23 0.06
+                                    text "Group: "
+                                    font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 18
+                                    "text halign" right
+                                    "text valign" center
+                                }
+                                TextWidgetClass groupEditor_name_current
+                                {
+                                    color 1 1 1 1
+                                    position 0.25 0.15
+                                    size 0.73 0.06
+                                    text "None"
+                                    "exact text" 1
+                                    "exact text size" 19
+                                    "text halign" left
+                                    "text valign" center
+                                }
+                                TextWidgetClass groupEditor_title
+                                {
+                                    color 1 1 1 1
+                                    position 0 0.2
+                                    size 1 0.06
+                                    text "Select Group"
+                                    font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 18
+                                    "text halign" center
+                                    "text valign" center
+                                }
+                                TextListboxWidgetClass groupEditor_list
+                                {
+                                    visible 1
+                                    position 0.01 0.26
+                                    size 0.95 0.64
+                                    style Editor
+                                    lines 30
+                                    font "gui/fonts/Metron14"
+                                }
+                                EditBoxWidgetClass groupEditor_name_input
+                                {
+                                    color 1 1 1 1
+                                    position 0.03 0.91
+                                    size 0.70 0.06
+                                    text "None"
+                                    style ServerBrowser
+                                }
+                                ButtonWidgetClass groupEditor_update_button
+                                {
+                                    position 0.71 0.91
+                                    size 0.26 0.08
+                                    text "Update"
+                                    text_proportion 0.75
+                                }
+							}
+						}
+					}
+				}
+				FrameWidgetClass objectInfo_scene_buttons
+				{
+					visible 1
+					position 0 0.9
+					size 0.99 0.06
+					style EditorPanel
+					{
+						ButtonWidgetClass object_editor_info_export
+						{
+							position 0.02 0.02
+							size 0.29 0.46
+							text "Export Objects"
+                            text_proportion 0.75
+						}
+						ButtonWidgetClass object_editor_info_export_proto
+						{
+							position 0.35 0.02
+							size 0.29 0.46
+							text "Export groupProto"
+                            text_proportion 0.75
+						}
+						ButtonWidgetClass object_editor_info_export_pos
+						{
+							position 0.68 0.02
+							size 0.29 0.46
+							text "Export groupPos"
+                            text_proportion 0.75
+						}
+						ButtonWidgetClass object_editor_info_save
+						{
+							position 0 0.52
+							size 0.33 0.46
+							text "Save"
+                            text_proportion 0.75
+						}
+						ButtonWidgetClass object_editor_info_load
+						{
+							position 0.33 0.52
+							size 0.33 0.46
+							text "Reload"
+                            text_proportion 0.75
+						}
+						PanelWidgetClass object_editor_info_clear_bkg 
+						{
+							visible 1
+							color 0 0 0 0.25
+							position 0.66 0.52
+							size 0.33 0.46
+							style rover_sim_colorable
+							{
+								ButtonWidgetClass object_editor_info_clear
+								{
+									position 0 0
+									size 1 1
+									text "Delete All"
+									text_proportion 0.75
 								}
 							}
 						}
-						
-						
 					}
 				}
 			}

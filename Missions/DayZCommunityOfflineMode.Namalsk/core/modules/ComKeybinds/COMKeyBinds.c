@@ -5,6 +5,7 @@ class COMKeyBinds extends Module
 {
 	bool m_IsHudVisible = true;
 	protected int m_nAutoWalkMode = 0;
+    string cursorPositions;
 
 	void COMKeyBinds()
 	{
@@ -28,107 +29,65 @@ class COMKeyBinds extends Module
 	
 	override void RegisterKeyMouseBindings() 
 	{
-		KeyMouseBinding toggleCursor    = new KeyMouseBinding( GetModuleType() , "ToggleCursor"  , "Toggles the cursor."   , true     );
-		KeyMouseBinding toggleCOMEditor = new KeyMouseBinding( GetModuleType() , "ShowCOMEditor" ,  "Opens the COM Editor."           );
-		KeyMouseBinding teleport	    = new KeyMouseBinding( GetModuleType() , "TeleportCursor",  "Teleport to cursor position."    );
-		KeyMouseBinding reload          = new KeyMouseBinding( GetModuleType() , "Reload"        ,  "Instantly reloads mag."		  );
-        KeyMouseBinding spawnZ          = new KeyMouseBinding( GetModuleType() , "SpawnZ"        ,  "Spawns infected."                );
-        KeyMouseBinding hideHud         = new KeyMouseBinding( GetModuleType() , "HideHud"       ,  "Hides ui completely."            );
-        KeyMouseBinding printPlayer     = new KeyMouseBinding( GetModuleType() , "PrintPlayer"   ,  "Print current player position."  );
-        KeyMouseBinding autoRun         = new KeyMouseBinding( GetModuleType() , "AutoRun"       ,  "Toggle autorun."                 );
-//        KeyMouseBinding keyFrame        = new KeyMouseBinding( GetModuleType() , "OpenKeyframe"  ,  "Toggle dayz dev cinematic tool." );
-        KeyMouseBinding closeMenu       = new KeyMouseBinding( GetModuleType() , "CloseOpenMenu" ,  "Close the menu on esc.", true    );
-
-		toggleCursor   .AddBinding( "kU" );
-		toggleCOMEditor.AddBinding( "kY" );
-		teleport       .AddBinding( "kEnd" );
-		reload         .AddBinding( "kR" );
-        spawnZ         .AddBinding( "kO" );
-        hideHud        .AddBinding( "kHome" );
-        printPlayer    .AddBinding( "kP" );
-        autoRun        .AddBinding( "kX" );
-//        keyFrame       .AddBinding( "kPrior" );
-        closeMenu      .AddBinding( "kEscape" );
-
-		RegisterKeyMouseBinding( toggleCursor );
-		RegisterKeyMouseBinding( toggleCOMEditor );
-		RegisterKeyMouseBinding( teleport );
-		RegisterKeyMouseBinding( reload );
-        RegisterKeyMouseBinding( spawnZ );
-        RegisterKeyMouseBinding( hideHud );
-        RegisterKeyMouseBinding( printPlayer );
-        RegisterKeyMouseBinding( autoRun );
-//        RegisterKeyMouseBinding( keyFrame );
-        RegisterKeyMouseBinding( closeMenu );
+		Print("Loading keyboard and mouse bindings for COMKeyBinds.c");
+        KeyMouseBinding toggleCOMEditor = new KeyMouseBinding(GetModuleType(), "ShowCOMEditor", "Opens the COM Editor.");
+        toggleCOMEditor.AddBinding(settings.keyCOMOpenMenu); RegisterKeyMouseBinding(toggleCOMEditor);
+        KeyMouseBinding closeMenu       = new KeyMouseBinding(GetModuleType(), "CloseOpenMenu", "Close the menu on esc.", true);
+        closeMenu.AddBinding(settings.keyCOMCloseMenu); RegisterKeyMouseBinding(closeMenu);
+        KeyMouseBinding toggleCursor    = new KeyMouseBinding(GetModuleType(), "ToggleCursor", "Toggles the cursor.", true);
+        toggleCursor.AddBinding(settings.keyCOMToggleCursor); RegisterKeyMouseBinding(toggleCursor);
+        KeyMouseBinding teleport        = new KeyMouseBinding(GetModuleType(), "TeleportCursor", "Teleport to cursor position.");
+        teleport.AddBinding(settings.keyCOMTeleportToCursor); RegisterKeyMouseBinding(teleport);
+        KeyMouseBinding reload          = new KeyMouseBinding(GetModuleType(), "Reload", "Instantly reloads mag.");
+        reload.AddBinding(settings.keyCOMInstantReload);RegisterKeyMouseBinding(reload);
+        KeyMouseBinding spawnZ          = new KeyMouseBinding(GetModuleType(), "SpawnZ", "Spawns infected.");
+        spawnZ.AddBinding(settings.keyCOMSpawnInfected); RegisterKeyMouseBinding(spawnZ);
+        KeyMouseBinding spawnGift       = new KeyMouseBinding(GetModuleType(), "SpawnGift", "Spawns large gift box.");
+        spawnGift.AddBinding(settings.keyCOMSpawnGiftBox); RegisterKeyMouseBinding(spawnGift);
+        KeyMouseBinding hideHud         = new KeyMouseBinding(GetModuleType(), "HideHud", "Hides ui completely.");
+        hideHud.AddBinding(settings.keyCOMHideHUD); RegisterKeyMouseBinding(hideHud);
+        KeyMouseBinding printPlayer     = new KeyMouseBinding(GetModuleType(), "PrintPlayer", "Print current player position.");
+        printPlayer.AddBinding(settings.keyCOMCopyPlayerPosition); RegisterKeyMouseBinding(printPlayer);
+        KeyMouseBinding printCursor     = new KeyMouseBinding(GetModuleType(), "PrintCursor", "Print current cursor position.");
+        printCursor.AddBinding(settings.keyCOMCopyCursorPositions); RegisterKeyMouseBinding(printCursor);
+        KeyMouseBinding clearCursor     = new KeyMouseBinding(GetModuleType(), "ClearCursor", "Clear current cursor positions.");
+        clearCursor.AddBinding(settings.keyCOMClearCursorPositions); RegisterKeyMouseBinding(clearCursor);
+        KeyMouseBinding autoRun         = new KeyMouseBinding(GetModuleType(), "AutoRun", "Toggle autorun.");
+        autoRun.AddBinding(settings.keyCOMAutoRun); RegisterKeyMouseBinding(autoRun);
+        //KeyMouseBinding keyFrame        = new KeyMouseBinding( GetModuleType() , "OpenKeyframe"  ,  "Toggle dayz dev cinematic tool." );
+        //keyFrame.AddBinding( "kPrior" ); RegisterKeyMouseBinding( keyFrame );
 	}
+    //void OpenKeyframe() { GetGame().GetUIManager().ShowScriptedMenu( COM_GetMission().CreateScriptedMenu(MENU_CAMERA_TOOLS) , NULL ); }
 
-//    void OpenKeyframe()
-//    {
-//        GetGame().GetUIManager().ShowScriptedMenu( COM_GetMission().CreateScriptedMenu(MENU_CAMERA_TOOLS) , NULL );
-//    }
-
-    void COM_ToggleCursor()
+    void ToggleCursor()
     {
-        if ( GetGame().GetInput().HasGameFocus( INPUT_DEVICE_MOUSE ) )
+        if (GetGame().GetUIManager().IsCursorVisible())
         {
-            GetGame().GetInput().ChangeGameFocus( 1 );
-            GetGame().GetUIManager().ShowUICursor( true );
-            FreeDebugCamera.GetInstance().SetFreezed(true);
+            GetGame().GetInput().ResetGameFocus();
+            GetGame().GetUIManager().ShowUICursor(false);
+            //FreeDebugCamera.GetInstance().SetFreezed(true);
         }
         else
         {
-            GetGame().GetUIManager().ShowUICursor( false );
-            GetGame().GetInput().ResetGameFocus();
-            FreeDebugCamera.GetInstance().SetFreezed(false);
+            GetGame().GetInput().ChangeGameFocus(1);
+            GetGame().GetUIManager().ShowUICursor(true);
+            //FreeDebugCamera.GetInstance().SetFreezed(false);
         }
-         COM_Message(GetDayZGame().GetMissionFolderPath());
     }
 
     void CloseOpenMenu()
     {
+        ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).saveGroupInputs();
         if( GetGame().GetUIManager().GetMenu() && ( GetGame().GetUIManager().GetMenu().GetID() == 133742 ) )
         {
             GetGame().GetUIManager().Back();
         }
+        deleteAllClicks = 0;
     }
 
     void ShowCOMEditor()
     {
         GetGame().GetUIManager().EnterScriptedMenu(EditorMenu.MENU_ID, NULL);
-    }
-
-    void TeleportCursor()
-    {
-        Print( "COMKeyBinds::TeleportCursor()" );
-
-//		if ( CameraTool.Cast( m_Mission.GetModule( CameraTool ) ).IsUsingCamera() ) //Todo renable after module manager is done
-//		{
-//			COM_GetPB().MessageStatus( "You can not teleport while you are inside the freecam!" );
-//			return;
-//		}
-		
-        vector hitPos = COM_GetCursorPos();
-
-        float distance = vector.Distance( COM_GetPB().GetPosition(), hitPos );
-
-        if ( distance < 5000 )
-        {
-            EntityAI oVehicle = COM_GetPB().GetDrivingVehicle();
-
-            if( oVehicle )
-            {
-                COM_GetPB().MessageStatus( "Get out of the vehicle first!" );
-            }
-            else
-            {
-                COM_GetPB().SetPosition( hitPos );
-                COM_GetPB().MessageStatus( "Teleported!" );
-            }
-        }
-        else
-        {
-            COM_GetPB().MessageStatus( "Distance for teleportation is too far!" );
-        }
     }
 
     void Reload()
@@ -165,32 +124,66 @@ class COMKeyBinds extends Module
 
     void SpawnZ() 
     {
-        if( COM_CTRL() )
-        {
-            GetGame().CreateObject( "Animal_CanisLupus_Grey", COM_GetCursorPos(), false, true );
-        }
-        else if( COM_SHIFT() )
-        {
-            GetGame().CreateObject( COM_GetRandomChildFromBaseClass( "cfgVehicles", "AnimalBase" ), COM_GetCursorPos(), false, true );
-        }
-        else
-        {
-            GetGame().CreateObject( COM_GetRandomChildFromBaseClass( "cfgVehicles", "ZombieBase", 2 ), COM_GetCursorPos(), false, true );
+        vector cursorPos = COM_GetCursorPos();
+        if(COM_CTRL()) {
+            ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObject( "Animal_CanisLupus_Grey", cursorPos, vector.Zero, "Test" );
+            COM_Message("Spawning Animal_CanisLupus_Grey at X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
+        } else if(COM_SHIFT()) {
+            ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObject( COM_GetRandomChildFromBaseClass( "cfgVehicles", "AnimalBase" ), cursorPos, vector.Zero, "Test" );
+            COM_Message("Spawning Random Animal at X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
+        } else {
+            ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObject( COM_GetRandomChildFromBaseClass( "cfgVehicles", "ZombieBase", 2 ), cursorPos, vector.Zero, "Test" );
+            COM_Message("Spawning Random Infected at X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
         }
     }
-
-    void HideHud() 
-    {
-        Widget hudWidget = IngameHud.Cast(COM_GetClientMission().GetHud()).GetHudPanelWidget();
-        hudWidget.Show(!hudWidget.IsVisible());
+    void SpawnGift() {
+        vector cursorPos = COM_GetCursorPos();
+        COM_Message("Spawning GiftBox_Large_1 at X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
+        ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObject("GiftBox_Large_1", cursorPos, vector.Zero, "Test");
     }
 
-    void PrintPlayer()
+    void HideHud() { 
+        if(!COM_SHIFT() && !COM_CTRL()) { Widget hudWidget = IngameHud.Cast(COM_GetClientMission().GetHud()).GetHudPanelWidget(); hudWidget.Show(!hudWidget.IsVisible()); }
+    }
+
+    void PrintPlayer() {
+        vector pos = COM_GetPB().GetPosition(); vector ypr = COM_GetPB().GetOrientation();
+        Print("Position: " + COM_VectorToString(pos)); Print("Orientation: " + COM_VectorToString(ypr));
+        string toCopy;
+        if(COM_CTRL()) {
+            string plyr_r = COM_FormatFloat(ypr[2], 6);
+            string plyr_p = COM_FormatFloat(ypr[1], 6);
+            string plyr_y = COM_FormatFloat(ypr[0], 6);
+            if(plyr_r == "0" || plyr_r == "-0") { plyr_r = "0.000000"; }
+            if(plyr_p == "0" || plyr_p == "-0") { plyr_p = "0.000000"; }
+            if(plyr_y == "0" || plyr_y == "-0") { plyr_y = "0.000000"; }
+            toCopy += "    <group name=\"Item_Survivor\" pos=\"" + COM_VectorToString( pos ) + "\" rpy=\"" + plyr_r + " " + plyr_p + " " + plyr_y + "\" />";
+            
+        } else if(COM_SHIFT()) {
+            toCopy += "        <zone name=\"Rest\" smin=\"0\" smax=\"0\" dmin=\"1\" dmax=\"1\" x=\"" + pos[0].ToString() + "\" z=\"" + pos[2].ToString() + "\" r=\"45\"/>";
+        } else { toCopy += "		<pos x=\"" + pos[0].ToString() + "\" z=\"" + pos[2].ToString() + "\" a=\"" + ypr[0].ToString() + "\" />"; }
+        COM_Message("Copied to clipboard: " + toCopy);
+        GetGame().CopyToClipboard("\n" + toCopy);
+    }
+    void TeleportCursor()
     {
-        Print( "Position:" + COM_GetPB().GetPosition().ToString() );
-        Print( "Orientation" + COM_GetPB().GetOrientation().ToString() );
-        COM_Message( "POS X:" + COM_GetPB().GetPosition()[0] + " Y:" + COM_GetPB().GetPosition()[2] + " Z:" + COM_GetPB().GetPosition()[1] );
-        COM_Message( "Player position and orientation vector were written to the game logs too." );
+        vector cursorPos = COM_GetCursorPos();
+        if(COM_GetPB().IsInVehicle()) { COM_Message("Exit the vehicle before teleporting."); return; }
+        if (vector.Distance(COM_GetPB().GetPosition(), cursorPos) > 5000) { COM_Message("You cannot teleport that far."); return; }
+        COM_GetPB().SetPosition(cursorPos); 
+        COM_Message("Teleported to X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
+		Camera cam = CameraTool.Cast(COM_GetModuleManager().GetModule(CameraTool)).m_oCamera;
+		if(cam) { cursorPos[1] = cursorPos[1] + 2; cam.SetPosition(cursorPos); }
+    }
+    void PrintCursor() {
+        vector hitPos = COM_GetCursorPos();
+        cursorPositions += "\n		<pos x=\"" + hitPos[0].ToString() + "\" z=\"" + hitPos[2].ToString() + "\" a=\"0\" />";
+        GetGame().CopyToClipboard(cursorPositions);
+        COM_Message("Added to cursor Positions: X = " + hitPos[0].ToString() + ", Y = " + hitPos[2].ToString());
+    }
+    void ClearCursor() {
+        cursorPositions = "";
+        COM_Message("Cleared cursor positions.");
     }
 
     void AutoRun()
@@ -242,37 +235,38 @@ class COMKeyBinds extends Module
     void UpdateGodMode()
     {
         // just putting this here for now
-        if ( m_COM_GodMode ) // located in staticfunctions
+        if (m_COM_GodMode) // located in staticfunctions
         {
-            COM_GetPB().SetHealth( COM_GetPB().GetMaxHealth( "", "" ) );
-            COM_GetPB().SetHealth( "","Blood", COM_GetPB().GetMaxHealth( "", "Blood" ) );
-            COM_GetPB().SetHealth( "","Shock", COM_GetPB().GetMaxHealth( "", "Shock" ) );
+            COM_GetPB().SetHealth(COM_GetPB().GetMaxHealth("", ""));
+            COM_GetPB().SetHealth("", "Blood", COM_GetPB().GetMaxHealth("", "Blood"));
+            COM_GetPB().SetHealth("", "Shock", COM_GetPB().GetMaxHealth("", "Shock"));
 
-            //GetPlayer().GetStaminaHandler().SyncStamina(1000, 1000);
-            COM_GetPB().GetStatStamina().Set(COM_GetPB().GetStaminaHandler().GetStaminaCap());
-            COM_GetPB().GetStatEnergy().Set(1000);
+            COM_GetPB().GetStatEnergy().Set(COM_GetPB().GetStatEnergy().GetMax());
+            COM_GetPB().GetStaminaHandler().SetStamina(COM_GetPB().GetStatStamina().GetMax());
             COM_GetPB().GetStatWater().Set(1000);
-//            COM_GetPB().GetStatStomachVolume().Set(300);
-//            COM_GetPB().GetStatStomachWater().Set(300);
-//            COM_GetPB().GetStatStomachEnergy().Set(300);
+            //            COM_GetPB().GetStatStomachVolume().Set(300);
+            //            COM_GetPB().GetStatStomachWater().Set(300);
+            //            COM_GetPB().GetStatStomachEnergy().Set(300);
             COM_GetPB().GetStatHeatComfort().Set(0);
 
             EntityAI oWeapon = COM_GetPB().GetHumanInventory().GetEntityInHands();
 
-            if( oWeapon )
+            if (oWeapon)
             {
-                Magazine oMag = Magazine.Cast(oWeapon.GetAttachmentByConfigTypeName( "DefaultMagazine" ));
+                oWeapon.SetHealth(oWeapon.GetMaxHealth("", ""));
 
-                if( oMag && oMag.IsMagazine() )
+                Magazine oMag = (Magazine.Cast(oWeapon.GetAttachmentByConfigTypeName("DefaultMagazine"));
+
+                if (oMag && oMag.IsMagazine())
                 {
                     oMag.LocalSetAmmoMax();
                 }
 
-                Object oSupressor = ( Object ) oWeapon.GetAttachmentByConfigTypeName( "SuppressorBase" );
+                Object oSupressor = (Object)oWeapon.GetAttachmentByConfigTypeName("SuppressorBase");
 
-                if( oSupressor )
+                if (oSupressor)
                 {
-                    oSupressor.SetHealth( oSupressor.GetMaxHealth( "", "" ) );
+                    oSupressor.SetHealth(oSupressor.GetMaxHealth("", ""));
                 }
             }
         }

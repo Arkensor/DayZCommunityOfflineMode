@@ -77,89 +77,38 @@ class EditorMenu extends UIScriptedMenu
         CameraSettings.CAMERA_ROT.Show( false );
         CameraSettings.CAMERA_PHI.Show( false );
     }
-    
-    override bool OnDoubleClick( Widget w, int x, int y, int button ) 
-    {
-    	if ( w == layoutRoot ) 
-    	{
-	    	ObjectMenu objectMenu;
-	    	m_objectMenu.GetScript( objectMenu );
-	    	string strSelection = objectMenu.GetCurrentSelection();
-
-	    	if ( strSelection != "" ) 
-	    	{
-	    		bool ai = false;
-
-	        	if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) ) 
-	        	{
-	        		ai = true;
-	        	}
-
-	    		Object obj = GetGame().CreateObject( strSelection, COM_GetPointerPos(), true, ai );
-	    		obj.PlaceOnSurface(); // reeeeeeeeeeeee
-	    		COM_ForceTargetCollisionUpdate( obj );
-	    		ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor )).SelectObject( obj );
-	    		ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor )).addObject( obj );
-
-	    		ObjectInfoMenu.listBox.AddItem(obj.GetType(), obj, 0);
-	    	}
-    	}
-
-    	return false;
-    }
+	override bool OnDoubleClick(Widget w, int x, int y, int button)
+	{
+        string strSelection = ObjectMenu.GetCurrentSelection();
+	    if(isEditorMenuOpen || !isSpawnMenuOpen || strSelection == "") { return false; }
+        if(ObjectMenu.m_excludeBroken.Find(strSelection) != -1 ) { return false; } strSelection.ToLower();
+        int amount = ObjectMenu.m_AmountItem.GetText().ToInt(); Object newObject;
+        if(amount < 1) { amount = 1; ObjectMenu.m_AmountItem.SetText(amount.ToString()); } else if (amount > 25) { amount = 25; ObjectMenu.m_AmountItem.SetText(amount.ToString()); }
+        for (int i = 0; i < amount; i++) {
+            newObject = ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).SpawnObject(strSelection, COM_GetCursorPos(), vector.Zero, ObjectMenu.groupSelectorNameInput.GetText()); ObjectMenu.setupNewItem(newObject);
+        }
+	    /*ObjectEditor objEditor = COM_GetModuleManager().GetModule(ObjectEditor);
+		if (!objEditor.isEditing() || !objEditor.isSelected() || !objEditor.m_SelectedObject) { return false; }
+		objEditor.DupeObjectInPlace(objEditor.m_SelectedObject);*/
+		return true;
+	}
+	
+	void showMousePointer() { GetGame().GetInput().ResetGameFocus(); GetGame().GetUIManager().ShowUICursor(true); GetGame().GetInput().ChangeGameFocus(1); }
 
     override bool OnClick( Widget w, int x, int y, int button )
 	{
 		PopupMenu popMenu;
-
-		if ( w == m_ObjectButton ) 
-		{
-			m_objectMenu.GetScript( popMenu );
+		if (w == m_ObjectButton) { m_objectMenu.GetScript(popMenu); }
+		else if (w == m_PositionButton) { m_positionMenu.GetScript( popMenu ); }
+		else if (w == m_WeatherButton) { m_weatherMenu.GetScript( popMenu ); }
+		else if (w == m_GameButton)  { m_gameMenu.GetScript( popMenu ); }
+		else if (w == m_ObjectEditorButton) { m_objectInfoMenu.GetScript( popMenu ); ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).ToggleEditor(); }
+		else if (w == m_CameraButton) { m_cameraMenu.GetScript( popMenu );  }
+		if (popMenu) {
+			if (popMenu.GetLayoutRoot().IsVisible()) { popMenu.GetLayoutRoot().Show( false ); popMenu.OnHide(); }
+			else {popMenu.GetLayoutRoot().Show(true); popMenu.OnShow(); showMousePointer(); }
+			SetButtonFocus(w); HideMenus( popMenu.GetLayoutRoot() );
 		}
-		if ( w == m_PositionButton ) 
-		{
-			m_positionMenu.GetScript( popMenu );
-		}
-
-		if ( w == m_WeatherButton ) 
-		{
-			m_weatherMenu.GetScript( popMenu );
-		}
-
-		if ( w == m_GameButton ) 
-		{
-			m_gameMenu.GetScript( popMenu );
-		}
-		if ( w == m_ObjectEditorButton ) 
-		{
-			m_objectInfoMenu.GetScript( popMenu );
-
-			ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).ToggleEditor();
-		}
-
-		if ( w == m_CameraButton ) 
-		{
-			m_cameraMenu.GetScript( popMenu );
-		}
-
-		if ( popMenu ) 
-		{
-
-			if ( popMenu.GetLayoutRoot().IsVisible() ) 
-			{
-				popMenu.GetLayoutRoot().Show( false );
-				popMenu.OnHide();
-			}
-			else 
-			{
-				popMenu.GetLayoutRoot().Show( true );
-				popMenu.OnShow();
-			}
-
-			SetButtonFocus( w );
-			HideMenus( popMenu.GetLayoutRoot() );
-		}
-
 		return false;
 	}
 
@@ -209,7 +158,7 @@ class EditorMenu extends UIScriptedMenu
 
 	void HideMenus( Widget focus ) 
 	{
-		if ( m_objectInfoMenu != focus && m_objectMenu != focus && m_objectMenu.IsVisible() ) 
+		if ( m_objectInfoMenu != focus && m_objectMenu != focus && m_positionMenu != focus && m_objectMenu.IsVisible() ) 
 		{
 			m_objectMenu.Show(false);
 		}
@@ -217,7 +166,7 @@ class EditorMenu extends UIScriptedMenu
 		{
 			m_weatherMenu.Show(false);
 		}
-		if ( m_positionMenu != focus && m_positionMenu.IsVisible() ) 
+		if ( m_objectInfoMenu != focus && m_cameraMenu != focus && m_positionMenu != focus && m_positionMenu.IsVisible() ) 
 		{
 			m_positionMenu.Show(false);
 		}
@@ -225,11 +174,11 @@ class EditorMenu extends UIScriptedMenu
 		{
 			m_gameMenu.Show(false);
 		}
-		if ( m_cameraMenu != focus && m_cameraMenu.IsVisible() ) 
+		if ( m_positionMenu != focus && m_cameraMenu != focus && m_cameraMenu.IsVisible() ) 
 		{
 			m_cameraMenu.Show(false);
 		}
-		if ( m_objectMenu != focus && m_objectInfoMenu != focus && m_objectInfoMenu.IsVisible() ) 
+		if ( m_objectMenu != focus && m_objectInfoMenu != focus && m_positionMenu != focus && m_objectInfoMenu.IsVisible() ) 
 		{
 			m_objectInfoMenu.Show(false);
 			ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).ToggleEditor();

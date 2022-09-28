@@ -1,0 +1,1 @@
+class SettingsSave { ref array<SettingsData> Settings = new array<SettingsData>; }
