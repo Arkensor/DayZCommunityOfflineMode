@@ -76,4 +76,5 @@ You find your logfiles here: ```Press WINDOWS + R  -> Type in %localappdata%/Day
 * [LiPeK](https://github.com/LiPeK) - Object editor additions
 * [Cypher](https://github.com/CypherMediaGIT) - Livonia positions
 * [BigBenREDUX](https://twitter.com/BigBenREDUX) - Namalsk positions
+* [Arkensor](https://github.com/Arkensor) - Current main developer
 * [Brandon10x15](https://github.com/Brandon10x15) - Object editor and QOL additions
