@@ -1,5 +1,6 @@
 class ObjectMenu extends PopupMenu
 {
+	static bool isReady = false;
 	static TextListboxWidget m_classList;
 	static EditBoxWidget m_SearchBox;
 	protected ButtonWidget m_btnSpawnGround;
@@ -45,17 +46,33 @@ class ObjectMenu extends PopupMenu
 		m_SearchBox.SetText(lastObjectSearch);
 		UpdateList(lastObjectFilter);
 		showItemPreview(lastObjectSelection);
+		isReady = false;
 	}
 
 	override void OnShow() { UpdateList("All"); isSpawnMenuOpen = true; groupSelectorNameInput.SetText(lastObjectGroupInput); }
 
 	override void OnHide()  { if (previewItem) { GetGame().ObjectDelete(previewItem); } isSpawnMenuOpen = false; lastObjectGroupInput = groupSelectorNameInput.GetText(); }
 
-	override bool OnChange(Widget w, int x, int y, bool finished) { if (w == m_SearchBox) { UpdateList(lastObjectFilter); return true; } return false; }
+	override bool OnChange(Widget w, int x, int y, bool finished) { 
+		if ( !w.IsInherited( EditBoxWidget )) { return false; }
+		if (w == m_SearchBox) { UpdateList(lastObjectFilter); return true; } 
+		if (w == groupSelectorNameInput) { lastObjectGroupInput = groupSelectorNameInput.GetText(); return true; } 
+		return false; 
+	}
 
-    bool OnMouseEnter( Widget w , int x, int y ) { if (w == m_SearchBox) { COM_GetPB().GetInputController().OverrideMovementSpeed( true, 0 ); } return false; }
+    bool OnMouseEnter( Widget w , int x, int y ) {
+		if ( !w.IsInherited( EditBoxWidget )) { return false; }
+		isEditingText = true;
+		if (w == m_SearchBox) { COM_GetPB().GetInputController().OverrideMovementSpeed( true, 0 ); } 
+		return false;
+	}
 
-    bool OnMouseLeave(Widget w, Widget enterW, int x, int y) { if (w == m_SearchBox) { COM_GetPB().GetInputController().OverrideMovementSpeed(false, 0); } return false; }
+    bool OnMouseLeave(Widget w, Widget enterW, int x, int y) {
+		if ( !w.IsInherited( EditBoxWidget )) { return false; }
+		isEditingText = false;
+		COM_GetPB().GetInputController().OverrideMovementSpeed(false, 0);
+		return false;
+	}
 
 	override bool OnClick( Widget w, int x, int y, int button ) {
         string strSelection = GetCurrentSelection();

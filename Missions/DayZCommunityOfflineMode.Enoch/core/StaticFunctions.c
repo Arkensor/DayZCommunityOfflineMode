@@ -9,6 +9,8 @@ static string currentGroup = "All";
 static ref SettingsData settings;
 static bool isSpawnMenuOpen = false;
 static bool isEditorMenuOpen = false;
+static bool isEditingText = false;
+static bool isLookingAround = false;
 static string timeZone = "EST";
 string lastEditorGroup = "All";
 string lastEditorGroupInput = "None";
@@ -60,13 +62,11 @@ static string getDateTime() {
 
 Object createObject(string type, vector pos, vector ypr = vector.Zero, bool snapToGround = false) {
     bool ai = false; if (GetGame().IsKindOf(type, "DZ_LightAI")) { ai = true; }
-    Object obj = GetGame().CreateObject(type, pos, true, ai); obj.SetPosition(obj.GetPosition()); obj.SetOrientation(ypr);
+    Object obj = GetGame().CreateObject(type, pos, true, ai); obj.SetPosition(pos); obj.SetOrientation(ypr);
+    string objName = obj.GetType();
     obj.Update(); obj.SetAffectPathgraph( true, false ); GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(GetGame().UpdatePathgraphRegionByObject, 100, false, obj);
-	if(snapToGround) { COM_PlaceObjectOnGround(obj); } COM_ForceTargetCollisionUpdate(obj);
+	if(snapToGround) { COM_PlaceObjectOnGround(obj); }
 	return obj;
-}
-void objectDelete(Object obj) {
-    obj.SetPosition(vector.Zero); GetGame().ObjectDelete(obj);
 }
 
 static string COM_FormatFloat(float value, int decimals)
@@ -274,6 +274,11 @@ static bool COM_WINKEY()
     return( ( KeyState( KeyCode.KC_LWIN ) > 0 ) || ( KeyState( KeyCode.KC_RWIN ) > 0 ) );
 }
 
+static bool COM_RIGHTCLICK()
+{
+    return GetMouseState(MouseState.RIGHT);
+}
+
 /*
 static Weapon_Base COM_CreateWeapon( PlayerBase oPlayer )
 {
@@ -308,8 +313,9 @@ static Weapon_Base COM_CreateWeapon( PlayerBase oPlayer, string sWeapon )
 
 static PlayerBase COM_CreateCustomDefaultCharacter()
 {
-    vector pos = settings.spawnPosition; if(settings.spawnAtLastPosition == 1) { pos = settings.lastPosition; }
+    vector pos; if(settings.spawnAtLastPosition == 1) { pos = settings.lastPosition; } else { pos = COM_SnapToGround(settings.spawnPosition); }
     PlayerBase oPlayer = PlayerBase.Cast(GetGame().CreatePlayer(NULL, GetGame().CreateRandomPlayer(), pos, 0, "NONE"));
+    oPlayer.SetPosition(pos);
     if(settings.spawnAtLastPosition == 1) { oPlayer.SetOrientation(settings.lastOrientation); }
     oPlayer.GetInventory().CreateInInventory( "BalaclavaMask_Blackskull" );
     oPlayer.GetInventory().CreateInInventory( "HuntingJacket_Winter" );
@@ -359,10 +365,7 @@ static string COM_FileAttributeToString( FileAttr attr )
     return fileType;
 }
 
-static vector COM_SnapToGround(vector pos) {
-    float pos_x = pos[0], pos_z = pos[2], pos_y = GetGame().SurfaceY(pos_x, pos_z);
-    vector tmp_pos = Vector(pos_x, pos_y, pos_z); tmp_pos[1] = tmp_pos[1] + pos[1]; return tmp_pos;
-}
+static vector COM_SnapToGround(vector pos) { return Vector(pos[0], GetGame().SurfaceRoadY(pos[0], pos[2]), pos[2]); }
 
 static void COM_SnapObjectToGround(Object object) {
     vector clippingInfo[2], pos = object.GetPosition(); 

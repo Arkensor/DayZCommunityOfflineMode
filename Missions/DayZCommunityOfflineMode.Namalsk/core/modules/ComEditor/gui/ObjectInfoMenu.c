@@ -97,7 +97,7 @@ class ObjectInfoMenu extends PopupMenu
 		}
 	}
 	void Update() { updateInfoPos(); }
-	static void addListBoxObject(Object obj) { if(isReady) { listBox.AddItem(obj.GetType(), obj, 0); currentObjects.Insert(obj); updateObjectCount(); } }
+	static void addListBoxObject(Object obj) { if(listBox) { listBox.AddItem(obj.GetType(), obj, 0); currentObjects.Insert(obj); updateObjectCount(); } }
 	static void updateObjectCount() { 
 		if (!isReady) { return; }
 		int i = listBox.GetNumItems(); string o = " Objects ("; if(i == 1) { o = " Object ("; } objectsCount.SetText(i.ToString() + o + currentGroup + ")");
@@ -146,7 +146,7 @@ class ObjectInfoMenu extends PopupMenu
 	static void selectObjectGroup(string group) {
 		if(!isReady) { return; }
 		currentGroup = group; UpdateObjectList(); updateObjectCount();
-        if(currentObjects.Count() > 0) { objEditor.SelectObject(currentObjects.Get(0)); } else { objEditor.DeselectObject(); }
+        if(currentObjects.Count() > 0 && group != "All") { objEditor.SelectObject(currentObjects.Get(0)); } else { objEditor.DeselectObject(); }
         if(group == "All") { objEditor.groupEditor = false; } else { objEditor.groupEditor = true; }
 		//if(currentGroup != "All" && !(currentGroup.Contains("Within ") && currentGroup.Contains(" Meters"))) {
        // } else { groupEditor = false; }
@@ -217,6 +217,7 @@ class ObjectInfoMenu extends PopupMenu
             }
         } else if ( w.GetName() == "objectFunctionButton_teleport") {
             if(objEditor.m_SelectedObject) {
+                if(COM_GetPB().IsInVehicle()) { COM_Message("Exit the vehicle before teleporting."); return false; }
                 Object m_object = objEditor.m_SelectedObject; vector obj_pos = m_object.GetPosition(); vector minMax[2];
                 float radius = m_object.ClippingInfo(minMax); obj_pos[1] = obj_pos[1] + radius + 0.05;
                 COM_GetPB().SetPosition(obj_pos); COM_Message("Teleported to " + m_object.GetType() + " at [" + COM_VectorToString(obj_pos) + "]");
@@ -254,6 +255,7 @@ class ObjectInfoMenu extends PopupMenu
 	}
 
 	override bool OnMouseWheel(Widget w, int x, int y, int wheel) {
+		if(COM_RIGHTCLICK()) { return false; }
 		if (!w.IsInherited(EditBoxWidget) || !objEditor.m_SelectedObject) { return false; } 
 		bool up = wheel < 0; int value = 1; if (up) { value = -1; } int posChange = -1, yprChange = -1; bool changed = false;
 		EditBoxWidget editWidget = EditBoxWidget.Cast(w);
@@ -296,6 +298,7 @@ class ObjectInfoMenu extends PopupMenu
     }
     override bool OnMouseEnter(Widget w, int x, int y) {
 		if ( !w.IsInherited( EditBoxWidget )) { return false; }
+		isEditingText = true;
 		EditBoxWidget editWidget = EditBoxWidget.Cast(w); string text = editWidget.GetText();
 		if (editWidget == infoPosYaw || editWidget == infoPosPitch || editWidget == infoPosRoll || editWidget == infoPosX || editWidget == infoPosY || editWidget == infoPosZ) { 
 			editingPos = true; newPosChange = false; newYPRChange = false;
@@ -304,6 +307,7 @@ class ObjectInfoMenu extends PopupMenu
 	}
 	override bool OnMouseLeave(Widget w, Widget enterW, int x, int y) {
 		if ( !w.IsInherited( EditBoxWidget )) { return false; }
+		isEditingText = false;
 		EditBoxWidget editWidget = EditBoxWidget.Cast(w); string text = editWidget.GetText();
 		if (editWidget == infoPosYaw || editWidget == infoPosPitch || editWidget == infoPosRoll || editWidget == infoPosX || editWidget == infoPosY || editWidget == infoPosZ) { 
 			editingPos = false; if(newPosChange) { objEditor.addAction("Move"); } else if (newYPRChange) { objEditor.addAction("Move"); } newPosChange = false; newYPRChange = false;

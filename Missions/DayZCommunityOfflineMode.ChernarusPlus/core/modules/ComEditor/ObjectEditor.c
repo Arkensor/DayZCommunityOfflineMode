@@ -2,8 +2,10 @@ class ObjectEditor extends Module
 {
 	static bool m_ObjectEditorActive = false;
 	protected bool m_ObjectDragCancel = false;
-	protected bool m_IsDragging;
+	protected bool m_IsDragging = false;
+	protected bool m_DragTimeout = false;
 	static Object m_SelectedObject;
+	static vector m_DragPlayerPos;
 	Object building;
 	bool Undo[100], Redo[100];
 	vector UndoPos[100], UndoOr[100], RedoPos[100], RedoOr[100];
@@ -19,7 +21,7 @@ class ObjectEditor extends Module
 
 	autoptr array<Object> m_Objects = new array<Object>;
 	bool hasObject(Object obj) { if(m_Objects.Find(obj) != -1) { return true; } else { return false; } }
-	Object getObject(Object obj) { foreach(Object oObj : m_Objects) { if(oObj == obj) { return oObj; } } return obj; }
+	Object getObject(Object obj) { foreach(Object oObj : m_Objects) { if(oObj == obj) { return oObj; } } return NULL; }
 	Object getObjectByID(int objID) { foreach(Object oObj : m_Objects) { if(oObj.GetID() == objID) { return oObj; } } return NULL; }
 
 	override void Init()
@@ -186,8 +188,10 @@ class ObjectEditor extends Module
 	}
 
 	void saveGroupInputs() { 
-		if(!ObjectInfoMenu.isReady) { return; }
-		lastEditorGroup = currentGroup; lastEditorGroupInput = ObjectInfoMenu.groupEditorNameInput.GetText();
+		lastEditorGroup = currentGroup;
+		if(!ObjectInfoMenu.groupEditorNameInput) { return; }
+		lastEditorGroupInput = ObjectInfoMenu.groupEditorNameInput.GetText();
+		if(!ObjectMenu.groupSelectorNameInput || !ObjectMenu.m_SearchBox) { return; }
 		lastObjectGroupInput = ObjectMenu.groupSelectorNameInput.GetText(); lastObjectSearch = ObjectMenu.m_SearchBox.GetText();
 	}
 
@@ -241,16 +245,20 @@ class ObjectEditor extends Module
 			ObjectInfoMenu.SetButtonFocus(ObjectInfoMenu.deleteAllButton);
 		} else {
 			array<Object> oObjects = new array<Object>; oObjects.Insert(m_SelectedObject); addAction("Delete", oObjects);
-			m_Objects.RemoveItem(m_SelectedObject); ObjectInfoMenu.currentObjects.RemoveItem(m_SelectedObject); objHandler.delObjectData(m_SelectedObject);
 			COM_Message("Deleted " + m_SelectedObject.GetType() + " at [" + COM_VectorToString(m_SelectedObject.GetPosition()) + "]");
-			objectDelete(m_SelectedObject); DeselectObject();
+			m_SelectedObject.SetPosition(vector.Zero); 
+			m_Objects.RemoveItem(m_SelectedObject); ObjectInfoMenu.currentObjects.RemoveItem(m_SelectedObject); objHandler.delObjectData(m_SelectedObject);
+			//GetGame().ObjectDelete(m_SelectedObject); DeselectObject();
+			GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(GetGame().ObjectDelete, 100, false, m_SelectedObject);
+			GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(DeselectObject, 150, false);
 		}
 	}
 	void SpawnBulkObjects(array<ref Param7<string, vector, vector, string, string, int, int>> objects, bool reload = false, bool redo = false) {
 		string cgroup = ""; array<Object> spawnedObjects = new array<Object>;
 		foreach(auto oData : objects) {
 			Object obj = createObject(oData.param1, oData.param2, oData.param3);
-			m_Objects.Insert(obj); if(oData.param5 != "") { objHandler.setObjectData(obj, oData.param4, oData.param6, oData.param5, reload); } else { objHandler.setObjectData(obj, oData.param4); }
+			m_Objects.Insert(obj); 
+			if(oData.param5 != "") { objHandler.setObjectData(obj, oData.param4, oData.param6, oData.param5, reload); } else { objHandler.setObjectData(obj, oData.param4); }
 			cgroup = oData.param4;
 			if(objects.Count() == 1) { SelectObject(obj); }
 			spawnedObjects.Insert(obj); updateUndoRedoObject(oData.param7, obj.GetID());
@@ -267,7 +275,9 @@ class ObjectEditor extends Module
 		foreach (Object obj : newObjects) {
 			if(!obj) { continue; }
 		    //if(!reload) { Print("Deleted " + obj.GetType() + " at [" + COM_VectorToString(obj.GetPosition()) + "]"); }
-		    m_Objects.RemoveItem(obj); ObjectInfoMenu.currentObjects.RemoveItem(obj); objHandler.delObjectData(obj); objectDelete(obj);
+			obj.SetPosition(vector.Zero);
+		    m_Objects.RemoveItem(obj); ObjectInfoMenu.currentObjects.RemoveItem(obj); objHandler.delObjectData(obj);
+			GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(GetGame().ObjectDelete, 100, false, obj);
 		}
         DeselectObject();
 		//objHandler.updateObjectGroups(); ObjectInfoMenu.UpdateObjectList(); ObjectInfoMenu.selectObjectGroup("All");
@@ -355,7 +365,8 @@ class ObjectEditor extends Module
 		auto groups = objHandler.getObjectGroups();
 		for(int i = 0; i < 100; i++) { if(groups.Find(groupName + i.ToString()) == -1) { groupName = groupName + i.ToString(); break; } }
 		Object oObj = createObject(m_SelectedObject.GetType(), pos, m_SelectedObject.GetOrientation()); 
-		if(!lockYAxis) { COM_PlaceObjectOnGround(oObj); } pos = oObj.GetPosition(); objectDelete(oObj);
+		if(!lockYAxis) { COM_PlaceObjectOnGround(oObj); } pos = oObj.GetPosition(); oObj.SetPosition(vector.Zero);
+        GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(GetGame().ObjectDelete, 100, false, oObj);
 
 		array<ref Param7<string, vector, vector, string, string, int, int>> objects = new array<ref Param7<string, vector, vector, string, string, int, int>>;
 		foreach(int index, vector offset : offsets)  {
@@ -371,8 +382,8 @@ class ObjectEditor extends Module
 		if (!m_ObjectEditorActive || !m_SelectedObject) { return; }
 		addAction("Move");
 		ref array<vector> offsets = getGroupPositionOffsets();
-		COM_SnapObjectToGround(m_SelectedObject);
-		if(groupEditor) { GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(GroundObjectGroup, 100, false, offsets); }
+		COM_PlaceObjectOnGround(m_SelectedObject);
+		if(groupEditor) { GroundObjectGroup(offsets); }
 	}
 	void GroundObjectGroup(array<vector> offsets) { 
 		if (!m_ObjectEditorActive || !m_SelectedObject) { return; }
@@ -406,20 +417,6 @@ class ObjectEditor extends Module
 	}
 	void UndoObject() { if(COM_CTRL()) { undoAction(); } }
 	void RedoObject() { if(COM_CTRL()) { undoAction(true); } }
-
-	void StartDragObject() { if (!m_ObjectEditorActive || !m_SelectedObject) { return; } m_IsDragging = true; addAction("Move"); }
-
-	void CancelDragObject() {
-		if (!m_IsDragging) { return; }
-		if (m_ObjectDragCancel) { COM_Message("Cancelled request to cancel drag."); } else { COM_Message("Cancelling current drag when dropped."); }
-		m_ObjectDragCancel = !m_ObjectDragCancel;
-	}
-
-	void FinishDragObject() {
-		if (!m_ObjectEditorActive || !m_SelectedObject) { return; }
-		m_IsDragging = false;
-		if (m_ObjectDragCancel) { COM_Message("Cancelling last drag."); undoAction(); m_ObjectDragCancel = false; } 
-	}
 	
 	array<vector> getGroupPositionOffsets() {
 		if (!m_ObjectEditorActive || !m_SelectedObject || !groupEditor) { return NULL; }
@@ -444,22 +441,47 @@ class ObjectEditor extends Module
 		
 	}
 
-	void DragObject() {
+	void ClickObject() { // CLICK/SELECT OBJECT
+		if (!m_ObjectEditorActive || m_IsDragging) { return; }
+		Widget widgetCursor = GetGame().GetUIManager().GetWidgetUnderCursor();
+		if (widgetCursor && widgetCursor.GetName() != "EditorMenu") { return; }
+		DeselectObject();
+		vector dir = GetGame().GetPointerDirection(), from = GetGame().GetCurrentCameraPosition(), to = from + ( dir * 1000 );
+		set<Object> objects = COM_GetObjectsAt(from, to, COM_GetPB(), 0.3); if (!objects) { return; }
+		for (int newObject = 0; newObject < objects.Count(); ++newObject) { Object obj = objects.Get(newObject); if(obj) { SelectObject(obj); break; } }
+	}
+	void StartDragObject() {
+	    if (!m_ObjectEditorActive || !m_SelectedObject) { return; } m_IsDragging = true; addAction("Move");
+	    m_DragPlayerPos = COM_GetPB().GetPosition(); COM_GetPB().SetPosition(vector.Zero);
+	}
+	void CancelDragObject() {
+		if (!m_IsDragging) { return; }
+		if (m_ObjectDragCancel) { COM_Message("Cancelled request to cancel drag."); } else { COM_Message("Cancelling current drag when dropped."); }
+		m_ObjectDragCancel = !m_ObjectDragCancel;
+	}
+	void FinishDragObject() {
 		if (!m_ObjectEditorActive || !m_SelectedObject) { return; }
-		m_IsDragging = true;
-		vector dir = GetGame().GetPointerDirection(), from = GetGame().GetCurrentCameraPosition(), to = from + (dir * 10000), contact_pos, contact_dir, bbox; int contact_component;
-		m_SelectedObject.GetCollisionBox(bbox);
+		m_IsDragging = false; COM_GetPB().SetPosition(m_DragPlayerPos);
+		if (m_ObjectDragCancel) { COM_Message("Cancelling last drag."); undoAction(); m_ObjectDragCancel = false; }
+	}
+	void DragObject() { // DRAG/MOVE OBJECT
+		if (!m_ObjectEditorActive || !m_SelectedObject || m_DragTimeout) { return; }
+		m_IsDragging = true; m_DragTimeout = true;
+		vector dir = GetGame().GetPointerDirection(), from = GetGame().GetCurrentCameraPosition(), to = from + (dir * 10000), contact_pos, contact_dir; int contact_component;
 		if (DayZPhysics.RaycastRV(from, to, contact_pos, contact_dir, contact_component, NULL, m_SelectedObject, COM_GetPB(), false, false)) {
 		    if(!groupEditor) {
-                if(lockYAxis) { contact_pos[1] = m_SelectedObject.GetPosition()[1]; }
-                m_SelectedObject.SetPosition(contact_pos);
-                if(!lockYAxis) { COM_PlaceObjectOnGround(m_SelectedObject); } ObjectInfoMenu.updateInfoPos();
+                if(lockYAxis) { contact_pos[1] = m_SelectedObject.GetPosition()[1]; m_SelectedObject.SetPosition(contact_pos); }
+                else { m_SelectedObject.SetPosition(contact_pos); COM_PlaceObjectOnGround(m_SelectedObject); }
+                ObjectInfoMenu.updateInfoPos();
 			} else {
 			    ref array<vector> offsets = getGroupPositionOffsets();
-                if(lockYAxis) { contact_pos[1] = m_SelectedObject.GetPosition()[1]; }
-				m_SelectedObject.SetPosition(contact_pos);
-                if(!lockYAxis) { COM_PlaceObjectOnGround(m_SelectedObject); } ObjectInfoMenu.updateInfoPos();
-				contact_pos = m_SelectedObject.GetPosition();
+                if(lockYAxis) { contact_pos[1] = m_SelectedObject.GetPosition()[1]; m_SelectedObject.SetPosition(contact_pos); }
+				else {
+				    foreach(Object cObj : ObjectInfoMenu.currentObjects) { cObj.SetPosition(vector.Zero); }
+                    m_SelectedObject.SetPosition(contact_pos); COM_PlaceObjectOnGround(m_SelectedObject);
+                    contact_pos = m_SelectedObject.GetPosition(); m_SelectedObject.SetPosition(contact_pos);
+                }
+                ObjectInfoMenu.updateInfoPos();
 			    foreach (int index, vector offset : offsets) {
 	                Object obj = ObjectInfoMenu.currentObjects.Get(index);
                     if(obj == m_SelectedObject) { continue; }
@@ -470,18 +492,9 @@ class ObjectEditor extends Module
 			    }
 			}
 		}
+		m_DragTimeout = false;
 	}
 
-	void ClickObject() {
-		if (!m_ObjectEditorActive) { return; }
-		Widget widgetCursor = GetGame().GetUIManager().GetWidgetUnderCursor();
-		if (widgetCursor && widgetCursor.GetName() != "EditorMenu") { return; }
-		DeselectObject();
-		vector dir = GetGame().GetPointerDirection(), from = GetGame().GetCurrentCameraPosition(), to = from + ( dir * 1000 );
-		set<Object> objects = COM_GetObjectsAt(from, to, COM_GetPB(), 0.3); if (!objects) { return; }
-		for (int newObject = 0; newObject < objects.Count(); ++newObject) { Object obj = objects.Get(newObject); if(obj) { SelectObject(obj); break; } }
-	}
-	
 	void moveNorth() { if (!m_ObjectEditorActive || (!m_SelectedObject && !groupEditor)) { return; } addAction("Move"); moveNorthHOLD(); }
 	void moveNorthHOLD() {
 		if (!m_ObjectEditorActive || (!m_SelectedObject && !groupEditor)) { return; }

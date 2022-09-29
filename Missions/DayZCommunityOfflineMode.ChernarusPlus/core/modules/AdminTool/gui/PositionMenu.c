@@ -225,6 +225,7 @@ class PositionMenu extends PopupMenu
 	{
 		if ( w == m_TeleportButton )
 		{
+            if(COM_GetPB().IsInVehicle()) { COM_Message("Exit the vehicle before teleporting."); return false; }
 		    float pos_x = 0;
             float pos_y = 0;
 
@@ -246,13 +247,10 @@ class PositionMenu extends PopupMenu
 		        return true;
 		    }
 
-			vector vPlayerPos;
-			vPlayerPos[0] = pos_x;
-			vPlayerPos[2] = pos_y;
+			vector vPlayerPos; vPlayerPos[0] = pos_x; vPlayerPos[2] = pos_y;
+			vPlayerPos = COM_SnapToGround(vPlayerPos);
 
-			vPlayerPos = COM_SnapToGround( vPlayerPos );
-
-			COM_GetPB().SetPosition( vPlayerPos );
+			COM_GetPB().SetPosition(vPlayerPos);
 			Camera cam = CameraTool.Cast(COM_GetModuleManager().GetModule(CameraTool)).m_oCamera;
 			if(cam) { vPlayerPos[1] = vPlayerPos[1] + 2; cam.SetPosition(vPlayerPos); }
 

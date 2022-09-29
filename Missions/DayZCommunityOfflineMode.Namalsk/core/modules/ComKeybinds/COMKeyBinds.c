@@ -167,9 +167,10 @@ class COMKeyBinds extends Module
     }
     void TeleportCursor()
     {
-        vector cursorPos = COM_GetCursorPos();
         if(COM_GetPB().IsInVehicle()) { COM_Message("Exit the vehicle before teleporting."); return; }
+        vector cursorPos = COM_GetCursorPos();
         if (vector.Distance(COM_GetPB().GetPosition(), cursorPos) > 5000) { COM_Message("You cannot teleport that far."); return; }
+		cursorPos = COM_SnapToGround(cursorPos);
         COM_GetPB().SetPosition(cursorPos); 
         COM_Message("Teleported to X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
 		Camera cam = CameraTool.Cast(COM_GetModuleManager().GetModule(CameraTool)).m_oCamera;

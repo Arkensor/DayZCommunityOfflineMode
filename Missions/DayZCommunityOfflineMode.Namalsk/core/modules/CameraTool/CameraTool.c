@@ -23,7 +23,7 @@ class CameraTool extends Module
 	static float CAMERA_FOV = 1.0;
 	static float CAMERA_TARGETFOV = 1.0;
 	static float CAMERA_FOV_SPEED_MODIFIER = 5.0;
-	static float CAMERA_SPEED = 5.0;
+	static float CAMERA_SPEED = 2.5;
 	static float CAMERA_VELDRAG = 0.9; // 0.9 - 1.0 0.9 == no smoothing
 	static float CAMERA_MSENS = 0.8; // acceleration
 	static float CAMERA_SMOOTH = 0.65; // drag
@@ -119,6 +119,7 @@ class CameraTool extends Module
 
 	void EnableCamera( bool staticCam = false ) {
 		if (m_oCamera) { return; }
+        if(COM_GetPB().IsInVehicle()) { COM_Message("Exit the vehicle before using the Camera Tool."); return; }
 		vector position = "0 0 0";
 		if (COM_GetPB()) { position = COM_GetPB().GetPosition(); position[ 1 ] = position[ 1 ] + 2; }
 		m_oCamera = Camera.Cast(g_Game.CreateObject( "staticcamera", position, false ));
@@ -134,7 +135,7 @@ class CameraTool extends Module
 		SetFreezePlayer( false );
 		SetFreezeMouse( false );
 		vector position;
-		if(COM_CTRL() || COM_SHIFT()) { position = m_oCamera.GetPosition(); } else { position = COM_GetCursorPos(); }
+		if(!COM_SHIFT()) { position = m_oCamera.GetPosition(); } else { position = COM_GetCursorPos(); }
 		m_oCamera.SetActive( false );
 		GetGame().SelectPlayer( NULL, COM_GetPB() );
 		GetGame().ObjectDelete( m_oCamera );
@@ -150,11 +151,8 @@ class CameraTool extends Module
 		PPEffects.ResetDOFOverride();
 		stopSwimming();
 		//exitVehicle();
-		if (!m_COM_GodMode) { // Enable god mode for fall.
-			//COM_Message("Enabled godmode for fall.");
-			m_COM_GodMode = true;
-			COM_GetPB().SetAllowDamage(!m_COM_GodMode);
-		} if (COM_GetPB()) { COM_GetPB().SetPosition(position); }
+		position = COM_SnapToGround(position);
+		if (COM_GetPB()) { COM_GetPB().SetPosition(position); }
 	}
 	void stopSwimming() { if (COM_GetPB().IsSwimming()) { HumanCommandSwim hcs = COM_GetPB().GetCommand_Swim(); hcs.StopSwimming(); } }
 //	void exitVehicle() { if (COM_GetPB().IsInVehicle()) { HumanCommandVehicle hcv = COM_GetPB().GetCommand_Vehicle(); hcv.GetOutVehicle(); GetDayZGame().GetBacklit().OnLeaveCar(); } }
@@ -263,27 +261,20 @@ class CameraTool extends Module
 			// Camera movement
 			Input input = GetGame().GetInput();
 
-			if ( !m_FreezeCam ) 
+			if ( !m_FreezeCam && !isEditingText) 
 			{
 
 				float forward = KeyState(KeyCode.KC_W) - KeyState(KeyCode.KC_S); // -1, 0, 1
 				float strafe = KeyState(KeyCode.KC_D) - KeyState(KeyCode.KC_A);
 				float altitude = KeyState(KeyCode.KC_Q) - KeyState(KeyCode.KC_E); // change to hardcode keys? these actions can be rebinded via vanilla keybind menu
 
-				if( KeyState(KeyCode.KC_LSHIFT) ) 
-				{
-					forward *= 10.0;
-					strafe *= 10.0;
-					altitude *= 10.0;
-				}
+				if(COM_SHIFT() && COM_CTRL()) { forward *= 25.0; strafe *= 25.0; altitude *= 25.0; }
+				else if(COM_SHIFT() || COM_CTRL()) { forward *= 10.0; strafe *= 10.0; altitude *= 10.0; }
+
 				float cam_speed = CAMERA_SPEED;
 				float drag = CAMERA_VELDRAG;
 
-				if ( CAMERA_VELDRAG == 0.9 ) 
-				{
-					cam_speed *= 15.0;
-					drag = 0;
-				}
+				if (CAMERA_VELDRAG == 0.9) { cam_speed *= 15.0; drag = 0; }
 
 				vector up = vector.Up;
 				vector direction = m_oCamera.GetDirection();
@@ -300,10 +291,7 @@ class CameraTool extends Module
 				vector newPos = oldPos + velocity;
 
 				float surfaceY = GetGame().SurfaceY( newPos[0], newPos[2] ) + 0.25;
-				if ( newPos[1] < surfaceY ) 
-				{
-					newPos[1] = surfaceY;
-				}
+				if ( newPos[1] < surfaceY ) { newPos[1] = surfaceY; }
 
 				m_oCamera.SetPosition(newPos);
 			}

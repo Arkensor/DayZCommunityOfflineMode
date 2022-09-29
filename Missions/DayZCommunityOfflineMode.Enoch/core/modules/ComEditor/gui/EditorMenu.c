@@ -195,6 +195,7 @@ class EditorMenu extends UIScriptedMenu
 			{
 				GetGame().GetUIManager().ShowUICursor( false );
 				GetGame().GetInput().ResetGameFocus( );
+				isLookingAround = true;
 			}
 		}
 		else
@@ -203,6 +204,7 @@ class EditorMenu extends UIScriptedMenu
 			{
 				GetGame().GetUIManager().ShowUICursor( true );
 				GetGame().GetInput().ChangeGameFocus( 1 );
+				isLookingAround = false;
 			}
 		}
 	}
