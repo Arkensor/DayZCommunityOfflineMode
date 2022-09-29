@@ -11,6 +11,7 @@
 ## Known Issues:
 - Cannot rotate object groups yet.
 - Some keybinds are non-configureable.
+- Cannot teleport or use camera tool while in a vehicle. (Cannot force player to exit vehicle, player teleports outside of map)
 
 
 ## Changes:
