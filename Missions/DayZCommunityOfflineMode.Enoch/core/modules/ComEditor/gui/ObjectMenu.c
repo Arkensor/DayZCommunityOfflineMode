@@ -90,7 +90,7 @@ class ObjectMenu extends PopupMenu
                 if (w == m_btnSpawnInventory) { newObject = g_Game.GetPlayer().GetInventory().CreateInInventory(strSelection); }
                 else {
                     if(w == m_btnSpawnCursor) { pos = COM_GetCursorPos(); } else { pos = COM_GetPB().GetPosition(); }
-                    newObject = objEditor.SpawnObject(strSelection, pos, vector.Zero, groupSelectorNameInput.GetText());
+                    newObject = objEditor.SpawnObject(strSelection, pos, vector.Zero, 1, groupSelectorNameInput.GetText());
                 }
                 setupNewItem(newObject);
             }

@@ -1,12 +1,12 @@
 
 static bool m_COM_GodMode; // move these to player saves? Edit: Jacob says "yes"
 static bool m_COM_OldAiming;
+static bool isCOMOpen = false;
 static bool COM_bc_Visible;
 static bool m_CameraTool;
 static bool m_FreezeCam = false;
 static int deleteAllClicks = 0;
-static string currentGroup = "All";
-static ref SettingsData settings;
+static int reloadAllClicks = 0;
 static bool isSpawnMenuOpen = false;
 static bool isEditorMenuOpen = false;
 static bool isEditingText = false;
@@ -21,433 +21,489 @@ string lastObjectSelection = "";
 int chatLinesCount = 0;
 static string gameVersion;
 static string worldMap;
+ref objectHandler objHandler;
+ref actionHandler actHandler;
+ref SettingsData settings;
+string currentGroup = "All";
+
+static void scriptLog(string txt) { Print("[" + getDateTime() + "] " + txt); }
 
 string BASE_COM_DIR = "$saves:CommunityOfflineMode", BASE_SCENE_DIR = BASE_COM_DIR + "\\Scenes", BASE_BACKUP_DIR = BASE_COM_DIR + "\\Backups\\";
 string objectsFile = "COMObjectEditorSave", undofilename = BASE_COM_DIR + "\\COMObjectMoves.json", filenameSettings = BASE_COM_DIR + "\\COMSettings.json";
 
 static void startCOM() {
-    GetGame().GetVersion(gameVersion); Print("Game Version: " + gameVersion);
-    worldMap = GetGame().GetWorldName();Print("Game World: " + worldMap);
+	GetGame().GetVersion(gameVersion); scriptLog("Game Version: " + gameVersion);
+	worldMap = GetGame().GetWorldName();scriptLog("Game World: " + worldMap);
 	if(worldMap == "Enoch") { 
 		objectsFile = "COMObjectEditorSaveEnoch"; undofilename = BASE_COM_DIR + "\\COMObjectMovesEnoch.json"; filenameSettings = BASE_COM_DIR + "\\COMSettingsEnoch.json";
 	} else if(worldMap == "Namalsk") { objectsFile = "COMObjectEditorSaveNamalsk"; undofilename = BASE_COM_DIR + "\\COMObjectMovesNamalsk.json"; filenameSettings = BASE_COM_DIR + "\\COMSettingsNamalsk.json"; }
-    ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).loadSettings();
+	ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).loadSettings();
 }
 static void stopCOM() { ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).saveSettings(); }
 
 static TVectorArray COM_GetSpawnPoints() {
-    if(worldMap == "Enoch") return { "6296 0 9755" }; // Livonia spawn point
-    if(worldMap == "Namalsk") return { "7000 0 11025" }; // Namalsk spawn point
-    /*            Chernarus */return { "7025 0 8236" }; // Chernarus spawn point
+	if(worldMap == "Enoch") return { "6296 0 9755" }; // Livonia spawn point
+	if(worldMap == "Namalsk") return { "7000 0 11025" }; // Namalsk spawn point
+	/*            Chernarus */return { "7025 0 8236" }; // Chernarus spawn point
 }
 
-void clearWeather(bool force = false) {
-    if(settings.keepWeatherClear || force) { 
-        GetGame().GetWeather().SetWindFunctionParams( 0, 0, 0 );
-        GetGame().GetWeather().GetFog().Set( 0, 0, 0 );
-        GetGame().GetWeather().SetStorm(0, 0, 99999);
-        GetGame().GetWeather().GetOvercast().Set( 0, 0, 0 );
+void clearWeather() {
+	GetGame().GetWeather().SetWindFunctionParams( 0, 0, 0 );
+	GetGame().GetWeather().GetFog().Set( 0, 0, 0 );
+	GetGame().GetWeather().SetStorm(0, 0, 99999);
+	GetGame().GetWeather().GetOvercast().Set( 0, 0, 0 );
+}
+void keepWeatherClear() {
+	if(!settings || settings == NULL) { ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).loadSettings(); }
+	if(settings.keepWeatherClear == 1) {
+		GetGame().GetWeather().SetWindFunctionParams( 0, 0, 0 );
+		GetGame().GetWeather().GetFog().Set( 0, 0, 0 );
+		GetGame().GetWeather().SetStorm(0, 0, 99999);
+		GetGame().GetWeather().GetOvercast().Set( 0, 0, 0 );
+	}
+}
+void setDaytime() { GetGame().GetWorld().SetDate( 2017, 7, 15, 12, 0 ); }
+void setAlwaysDaytime() { if(settings.alwaysDay == 1) { GetGame().GetWorld().SetDate( 2017, 7, 15, 12, 0 ); } }
+
+void ToggleCursor(int show = -1)
+{
+	if ((GetGame().GetUIManager().IsCursorVisible() && show != 1) || show == 0) {
+        GetGame().GetInput().ResetGameFocus(); GetGame().GetUIManager().ShowUICursor(false);
+        //FreeDebugCamera.GetInstance().SetFreezed(true);
+    } else {
+        GetGame().GetInput().ChangeGameFocus(1);
+        GetGame().GetUIManager().ShowUICursor(true);
+        //FreeDebugCamera.GetInstance().SetFreezed(false);
     }
 }
-void setDaytime(bool force = false) { if(settings.alwaysDay || force) { GetGame().GetWorld().SetDate( 2017, 7, 15, 12, 0 ); } }
-
 static string getDateTime() {
-    int yr, mo, dy, hr, mn, sc; GetHourMinuteSecondUTC(hr, mn, sc); GetYearMonthDayUTC(yr, mo, dy); string ampm = "AM";
-    if(timeZone == "EST") { hr -= 4; if(hr < 0) { hr += 24; dy -= 1; } }
-    string month = mo.ToString(), day = dy.ToString(), hour = hr.ToString(), min = mn.ToString(), sec = sc.ToString();
-    if(mo < 10) { month = "0" + month; } if(dy < 10) { day = "0" + day; } if(mn < 10) { min = "0" + min; } if(sc < 10) { sec = "0" + sec; }
-    if(hr > 12) { hour = (hr - 12).ToString(); ampm = "PM"; } else if (hr == 0) { hour = "12"; }
-    return yr.ToString() + "/" + month + "/" + day + " " + hour + ":" + min + ":" + sec + ampm + " " + timeZone;
+	int yr, mo, dy, hr, mn, sc; GetHourMinuteSecondUTC(hr, mn, sc); GetYearMonthDayUTC(yr, mo, dy); string ampm = "AM";
+	if(timeZone == "EST") { hr -= 4; if(hr < 0) { hr += 24; dy -= 1; } }
+	string month = mo.ToString(), day = dy.ToString(), hour = hr.ToString(), min = mn.ToString(), sec = sc.ToString();
+	if(mo < 10) { month = "0" + month; } if(dy < 10) { day = "0" + day; } if(mn < 10) { min = "0" + min; } if(sc < 10) { sec = "0" + sec; }
+	if(hr > 12) { hour = (hr - 12).ToString(); ampm = "PM"; } else if (hr == 0) { hour = "12"; }
+	return yr.ToString() + "/" + month + "/" + day + " " + hour + ":" + min + ":" + sec + ampm + " " + timeZone;
 }
 
-Object createObject(string type, vector pos, vector ypr = vector.Zero, bool snapToGround = false) {
-    bool ai = false; if (GetGame().IsKindOf(type, "DZ_LightAI")) { ai = true; }
-    Object obj = GetGame().CreateObject(type, pos, true, ai); obj.SetPosition(pos); obj.SetOrientation(ypr);
-    string objName = obj.GetType();
-    obj.Update(); obj.SetAffectPathgraph( true, false ); GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(GetGame().UpdatePathgraphRegionByObject, 100, false, obj);
-	if(snapToGround) { COM_PlaceObjectOnGround(obj); }
+Object createObject(string type, vector pos, vector ypr = vector.Zero, float scale = 1) {
+	bool ai = false; if (GetGame().IsKindOf(type, "DZ_LightAI")) { ai = true; }
+	Object obj = GetGame().CreateObjectEx(type, pos, ECE_SETUP | ECE_UPDATEPATHGRAPH | ECE_CREATEPHYSICS); obj.SetPosition(pos); obj.SetOrientation(ypr);
+	if(scale > 0 && COM_RoundFloat(scale) != 1) { obj.SetScale(scale); }
+	return obj;
+}
+Object createObjectAI(string type, vector pos, vector ypr = vector.Zero, float scale = 1) {
+	bool ai = false; if (GetGame().IsKindOf(type, "DZ_LightAI")) { ai = true; }
+	Object obj = GetGame().CreateObject(type, pos, true, ai); obj.SetPosition(pos); obj.SetOrientation(ypr);
+	if(scale > 0 && COM_RoundFloat(scale) != 1) { obj.SetScale(scale); }
+	obj.Update(); obj.SetAffectPathgraph( true, false ); GetGame().GetCallQueue(CALL_CATEGORY_SYSTEM).CallLater(GetGame().UpdatePathgraphRegionByObject, 100, false, obj);
 	return obj;
 }
 
 static string COM_FormatFloat(float value, int decimals)
 {
-    if (!value.ToString().Contains(".")) return value.ToString()+".000000";
-    string result = "";
-    array<string> output = new array<string>;
-    value.ToString().Split(".", output);
-    if (decimals == 0) return Math.Round(value).ToString();
-    
-    string right = output.Get(1).Substring(0, decimals);
-    result = output.Get(0) + "." + right;
-    return result;
+	if (!value.ToString().Contains(".")) return value.ToString()+".000000";
+	string result = "";
+	array<string> output = new array<string>;
+	value.ToString().Split(".", output);
+	if (decimals == 0) return Math.Round(value).ToString();
+
+	string right = output.Get(1).Substring(0, decimals);
+	result = output.Get(0) + "." + right;
+	return result;
+}
+static float COM_RoundFloat(float value, int decimals = 6)
+{
+	float newFloat = (value.ToString()).ToFloat();
+	return newFloat;
+/*
+	string sNum = value.ToString();
+	if (!sNum.Contains(".")) { return value; }
+	if (decimals == 0) { return Math.Round(value); }
+	//string result = "";
+	array<string> output = new array<string>;
+	sNum.Split(".", output);
+	string leftString = output.Get(0);
+	scriptLog("Output Right = " + output.Get(1));
+	if(!output.Get(1)) { return Math.Round(output.Get(0).ToFloat()); }
+	string rightString = output.Get(1).Substring(0, decimals);
+	scriptLog("rightString: " + rightString);
+	if(rightString == "000000") { return Math.Round(output.Get(0).ToFloat()); }
+	float right = rightString.ToFloat();
+	if(output.Get(1).Length() > decimals) {
+		float roundUp = (output.Get(1).Substring(decimals+1, decimals+1)).ToFloat();
+		if(roundUp >= 5) { right = right + 1; }
+	}
+	scriptLog("roundUp: " + roundUp);
+	//result = output.Get(0) + "." + right.ToString();
+	return (output.Get(0) + "." + right).ToFloat();*/
 }
 /*
 static string COM_FormatFloat(float value, int decimals)
 {
-    if (!value.ToString().Contains(".")) return value.ToString();
+	if (!value.ToString().Contains(".")) return value.ToString();
 
-    string result = "";
-    array<string> output = new array<string>;
+	string result = "";
+	array<string> output = new array<string>;
 
-    value.ToString().Split(".", output);
+	value.ToString().Split(".", output);
 
-    if (output.Count() == 0) return value.ToString();
+	if (output.Count() == 0) return value.ToString();
 
-    if (decimals == 0) return output.Get(0);
+	if (decimals == 0) return output.Get(0);
 
-    string right = output.Get(1).Substring(0, decimals);
-    result = output.Get(0) + "." + right;
-    return result;
+	string right = output.Get(1).Substring(0, decimals);
+	result = output.Get(0) + "." + right;
+	return result;
 }
 */
 static string COM_VectorToString( vector vec )
 {
-    string result = vec.ToString();
-    result.Replace( "<", "" );
-    result.Replace( ">", "" );
-    result.Replace( ",", "" );
+	string result = vec.ToString();
+	result.Replace( "<", "" );
+	result.Replace( ">", "" );
+	result.Replace( ",", "" );
 
-    return result;
+	return result;
 }
 
 static string COM_VectorToString( vector vec, int decimals ) 
 {
-    string result = "";
-    result = COM_FormatFloat(vec[0], decimals) + "|" + COM_FormatFloat(vec[1], decimals) + "|" + COM_FormatFloat(vec[2], decimals);
+	string result = "";
+	result = COM_FormatFloat(vec[0], decimals) + "|" + COM_FormatFloat(vec[1], decimals) + "|" + COM_FormatFloat(vec[2], decimals);
 
-    return result;
+	return result;
 }
 
 static string vecToString(vector vec, string divider)
 {
-    string result = vec.ToString();
-    result.Replace("<", "");
-    result.Replace(">", "");
-    result.Replace(",", "");
-    result.Replace(" ", divider);
+	string result = vec.ToString();
+	result.Replace("<", "");
+	result.Replace(">", "");
+	result.Replace(",", "");
+	result.Replace(" ", divider);
 
-    return result;
+	return result;
 }
 
 static TStringArray COM_GetChildrenFromBaseClass( string strConfigName, string strBaseClass )
 {
-    string child_name = "";
-    int count = GetGame().ConfigGetChildrenCount ( strConfigName );
-    TStringArray class_names = new TStringArray;
+	string child_name = "";
+	int count = GetGame().ConfigGetChildrenCount ( strConfigName );
+	TStringArray class_names = new TStringArray;
 
-    for (int p = 0; p < count; p++)
-    {
-        GetGame().ConfigGetChildName ( strConfigName, p, child_name );
+	for (int p = 0; p < count; p++)
+	{
+		GetGame().ConfigGetChildName ( strConfigName, p, child_name );
 
-        if ( GetGame().IsKindOf(child_name, strBaseClass ) && ( child_name != strBaseClass ) )
-        {
-            class_names.Insert(child_name);
-        }
-    }
+		if ( GetGame().IsKindOf(child_name, strBaseClass ) && ( child_name != strBaseClass ) )
+		{
+			class_names.Insert(child_name);
+		}
+	}
 
-    return class_names;
+	return class_names;
 }
 
 static set< Object > COM_GetObjectsAt( vector from, vector to, Object ignore = NULL, float radius = 0.5, Object with = NULL )
 {
-    vector contact_pos, contact_dir; int contact_component;
-    set<Object> geom = new set<Object>;
-    DayZPhysics.RaycastRV(from, to, contact_pos, contact_dir, contact_component, geom, with, ignore, false, false, ObjIntersectGeom, radius);
-    if(geom.Count() > 0) { return geom; }
-    set<Object> view = new set<Object>;
-    DayZPhysics.RaycastRV(from, to, contact_pos, contact_dir, contact_component, view, with, ignore, false, false, ObjIntersectView, radius);
-    if(view.Count() > 0) { return view; }
-    return NULL;
+	vector contact_pos, contact_dir; int contact_component;
+	set<Object> geom = new set<Object>;
+	DayZPhysics.RaycastRV(from, to, contact_pos, contact_dir, contact_component, geom, with, ignore, false, false, ObjIntersectGeom, radius);
+	if(geom.Count() > 0) { return geom; }
+	set<Object> view = new set<Object>;
+	DayZPhysics.RaycastRV(from, to, contact_pos, contact_dir, contact_component, view, with, ignore, false, false, ObjIntersectView, radius);
+	if(view.Count() > 0) { return view; }
+	return NULL;
 }
 
 static Object COM_GetPointerObject( Object ignore = NULL, float radius = 0.5, Object with = NULL )
 {
-    vector dir = GetGame().GetPointerDirection(), from = GetGame().GetCurrentCameraPosition(), to = from + ( dir * 10000 );
-    auto objs = COM_GetObjectsAt(from, to, ignore, radius, with);
-    if(objs.Count() > 0) { return objs[0]; }
-    return NULL;
+	vector dir = GetGame().GetPointerDirection(), from = GetGame().GetCurrentCameraPosition(), to = from + ( dir * 10000 );
+	auto objs = COM_GetObjectsAt(from, to, ignore, radius, with);
+	if(objs.Count() > 0) { return objs[0]; }
+	return NULL;
 }
 
 static Object COM_GetCursorObject()
 {
-    vector rayStart = GetGame().GetCurrentCameraPosition(), rayEnd = rayStart + GetGame().GetCurrentCameraDirection() * 10000;
-    auto objs = COM_GetObjectsAt( rayStart, rayEnd );
-    if( objs.Count() > 0 ) { return objs[0]; }
-    return NULL;
+	vector rayStart = GetGame().GetCurrentCameraPosition(), rayEnd = rayStart + GetGame().GetCurrentCameraDirection() * 10000;
+	auto objs = COM_GetObjectsAt( rayStart, rayEnd );
+	if( objs.Count() > 0 ) { return objs[0]; }
+	return NULL;
 }
 
 static vector COM_GetPointerPos()
 {
-    if ( !COM_GetPB() )
-    {
-        return "0 0 0";
-    }
+	if ( !COM_GetPB() )
+	{
+		return "0 0 0";
+	}
 
-    vector dir = GetGame().GetPointerDirection();
+	vector dir = GetGame().GetPointerDirection();
 
-    vector from = GetGame().GetCurrentCameraPosition();
+	vector from = GetGame().GetCurrentCameraPosition();
 
-    vector to = from + ( dir * 10000 );
+	vector to = from + ( dir * 10000 );
 
-    vector rayStart = from;
-    vector rayEnd = to;
-    vector hitPos;
-    vector hitNormal;
-    int hitComponentIndex;
-    DayZPhysics.RaycastRV(rayStart, rayEnd, hitPos, hitNormal, hitComponentIndex, NULL, NULL, COM_GetPB());
+	vector rayStart = from;
+	vector rayEnd = to;
+	vector hitPos;
+	vector hitNormal;
+	int hitComponentIndex;
+	DayZPhysics.RaycastRV(rayStart, rayEnd, hitPos, hitNormal, hitComponentIndex, NULL, NULL, COM_GetPB());
 
-    return hitPos;
+	return hitPos;
 }
 
 static vector COM_GetCursorPos()
 {
-    if ( !COM_GetPB() )
-    {
-        return "0 0 0";
-    }
+	if ( !COM_GetPB() )
+	{
+		return "0 0 0";
+	}
 
-    vector rayStart = GetGame().GetCurrentCameraPosition();
-    vector rayEnd = rayStart + GetGame().GetCurrentCameraDirection() * 10000;
-    vector hitPos;
-    vector hitNormal;
-    int hitComponentIndex;
-    DayZPhysics.RaycastRV(rayStart, rayEnd, hitPos, hitNormal, hitComponentIndex, NULL, NULL, COM_GetPB());
+	vector rayStart = GetGame().GetCurrentCameraPosition();
+	vector rayEnd = rayStart + GetGame().GetCurrentCameraDirection() * 10000;
+	vector hitPos;
+	vector hitNormal;
+	int hitComponentIndex;
+	DayZPhysics.RaycastRV(rayStart, rayEnd, hitPos, hitNormal, hitComponentIndex, NULL, NULL, COM_GetPB());
 
-    return hitPos;
+	return hitPos;
 }
 
 static void COM_Message(string txt) {
-    if(chatLinesCount == 8) { MissionGameplay.Cast(GetGame().GetMission()).m_Chat.Clear(); chatLinesCount = 0; }
-    string name;
-    GetGame().GetPlayerName(name);
-    ChatMessageEventParams chat_params = new ChatMessageEventParams(CCDirect, name, txt, "");
-    MissionGameplay.Cast(GetGame().GetMission()).m_Chat.Add(chat_params);
-    chatLinesCount++;
+	if(chatLinesCount == 8) { MissionGameplay.Cast(GetGame().GetMission()).m_Chat.Clear(); chatLinesCount = 0; }
+	string name;
+	GetGame().GetPlayerName(name);
+	ChatMessageEventParams chat_params = new ChatMessageEventParams(CCDirect, name, txt, "");
+	MissionGameplay.Cast(GetGame().GetMission()).m_Chat.Add(chat_params);
+	chatLinesCount++;
 
 }
 
 static Weapon COM_GetWeaponInHands()
 {
-    Weapon weapon_in_hands;
-    if( COM_GetPB() && COM_GetPB().GetItemInHands() ) Class.CastTo(weapon_in_hands,  COM_GetPB().GetItemInHands());
+	Weapon weapon_in_hands;
+	if( COM_GetPB() && COM_GetPB().GetItemInHands() ) Class.CastTo(weapon_in_hands,  COM_GetPB().GetItemInHands());
 
-    return weapon_in_hands;
+	return weapon_in_hands;
 }
 
 static MissionBase COM_GetMission()
 {
-    return MissionBase.Cast( GetGame().GetMission() );
+	return MissionBase.Cast( GetGame().GetMission() );
 }
 
 static CommunityOfflineClient COM_GetClientMission()
 {
-    return CommunityOfflineClient.Cast( GetGame().GetMission() );
+	return CommunityOfflineClient.Cast( GetGame().GetMission() );
 }
 
 static CommunityOfflineServer COM_GetServerMission()
 {
-    return CommunityOfflineServer.Cast( GetGame().GetMission() );
+	return CommunityOfflineServer.Cast( GetGame().GetMission() );
 }
 
 static PlayerBase COM_GetPB()
 {
-    return PlayerBase.Cast( GetGame().GetPlayer() );
+	return PlayerBase.Cast( GetGame().GetPlayer() );
 }
 
 static bool COM_SHIFT()
 {
-    return( ( KeyState( KeyCode.KC_LSHIFT ) > 0 ) || ( KeyState( KeyCode.KC_RSHIFT ) > 0 ) );
+	return( ( KeyState( KeyCode.KC_LSHIFT ) > 0 ) || ( KeyState( KeyCode.KC_RSHIFT ) > 0 ) );
 }
 
 static bool COM_CTRL()
 {
-    return( ( KeyState( KeyCode.KC_LCONTROL ) > 0 ) || ( KeyState( KeyCode.KC_RCONTROL ) > 0 ) );
+	return( ( KeyState( KeyCode.KC_LCONTROL ) > 0 ) || ( KeyState( KeyCode.KC_RCONTROL ) > 0 ) );
 }
 
 static bool COM_ALT()
 {
-    return( ( KeyState( KeyCode.KC_LMENU ) > 0 ) || ( KeyState( KeyCode.KC_RMENU ) > 0 ) );
+	return( ( KeyState( KeyCode.KC_LMENU ) > 0 ) || ( KeyState( KeyCode.KC_RMENU ) > 0 ) );
 }
 
 static bool COM_WINKEY()
 {
-    return( ( KeyState( KeyCode.KC_LWIN ) > 0 ) || ( KeyState( KeyCode.KC_RWIN ) > 0 ) );
+	return( ( KeyState( KeyCode.KC_LWIN ) > 0 ) || ( KeyState( KeyCode.KC_RWIN ) > 0 ) );
 }
 
 static bool COM_RIGHTCLICK()
 {
-    return GetMouseState(MouseState.RIGHT);
+	return GetMouseState(MouseState.RIGHT);
 }
 
 /*
 static Weapon_Base COM_CreateWeapon( PlayerBase oPlayer )
 {
-    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "M4A1_Black" ));
-    oWpn.GetInventory().CreateAttachment( "M4_Suppressor" );
-    oWpn.GetInventory().CreateAttachment( "M4_RISHndgrd_Black" );
-    oWpn.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
-    oWpn.GetInventory().CreateAttachment( "ACOGOptic" );
+	Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "M4A1_Black" ));
+	oWpn.GetInventory().CreateAttachment( "M4_Suppressor" );
+	oWpn.GetInventory().CreateAttachment( "M4_RISHndgrd_Black" );
+	oWpn.GetInventory().CreateAttachment( "M4_MPBttstck_Black" );
+	oWpn.GetInventory().CreateAttachment( "ACOGOptic" );
 
-    return oWpn;
+	return oWpn;
 }
 */
 
 static Weapon_Base COM_CreateWeaponTundra( PlayerBase oPlayer, string sWeapon )
 {
-    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( sWeapon ));
-    EntityAI optic = oWpn.GetInventory().CreateAttachment( "HuntingOptic" );
+	Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( sWeapon ));
+	EntityAI optic = oWpn.GetInventory().CreateAttachment( "HuntingOptic" );
 
-    return oWpn;
+	return oWpn;
 }
 
 static Weapon_Base COM_CreateWeapon( PlayerBase oPlayer, string sWeapon )
 {
-    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( sWeapon ));
-    oWpn.GetInventory().CreateAttachment("Mag_FAL_20Rnd");
-    oWpn.GetInventory().CreateAttachment("Fal_FoldingBttstck");
-    EntityAI optic = oWpn.GetInventory().CreateAttachment( "ReflexOptic" );
-    optic.GetInventory().CreateAttachment("Battery9V");
+	Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( sWeapon ));
+	oWpn.GetInventory().CreateAttachment("Mag_FAL_20Rnd");
+	oWpn.GetInventory().CreateAttachment("Fal_FoldingBttstck");
+	EntityAI optic = oWpn.GetInventory().CreateAttachment( "ReflexOptic" );
+	optic.GetInventory().CreateAttachment("Battery9V");
 
-    return oWpn;
+	return oWpn;
 }
 
 static PlayerBase COM_CreateCustomDefaultCharacter()
 {
-    vector pos; if(settings.spawnAtLastPosition == 1) { pos = settings.lastPosition; } else { pos = COM_SnapToGround(settings.spawnPosition); }
-    PlayerBase oPlayer = PlayerBase.Cast(GetGame().CreatePlayer(NULL, GetGame().CreateRandomPlayer(), pos, 0, "NONE"));
-    oPlayer.SetPosition(pos);
-    if(settings.spawnAtLastPosition == 1) { oPlayer.SetOrientation(settings.lastOrientation); }
-    oPlayer.GetInventory().CreateInInventory( "BalaclavaMask_Blackskull" );
-    oPlayer.GetInventory().CreateInInventory( "HuntingJacket_Winter" );
-    oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
-    oPlayer.GetInventory().CreateInInventory( "HunterPants_Winter" );
-    oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
-    oPlayer.GetInventory().CreateInInventory("AliceBag_Black");
-    oPlayer.GetInventory().CreateInInventory("HighCapacityVest_Black");
-    oPlayer.GetInventory().CreateInInventory("Mag_FAL_20Rnd");
-    oPlayer.GetInventory().CreateInInventory("Ammo_308Win");
-    oPlayer.GetInventory().CreateInInventory("Binoculars");
-    oPlayer.GetInventory().CreateInInventory("Vodka");
-    Weapon_Base oWpn2 = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "Shovel" ));
+	vector pos; if(settings.spawnAtLastPosition == 1) { pos = settings.lastPosition; } else { pos = COM_SnapToGround(settings.spawnPosition); }
+	PlayerBase oPlayer = PlayerBase.Cast(GetGame().CreatePlayer(NULL, GetGame().CreateRandomPlayer(), pos, 0, "NONE"));
+	oPlayer.SetPosition(pos);
+	if(settings.spawnAtLastPosition == 1) { oPlayer.SetOrientation(settings.lastOrientation); }
+	oPlayer.GetInventory().CreateInInventory( "BalaclavaMask_Blackskull" );
+	oPlayer.GetInventory().CreateInInventory( "HuntingJacket_Winter" );
+	oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );
+	oPlayer.GetInventory().CreateInInventory( "HunterPants_Winter" );
+	oPlayer.GetInventory().CreateInInventory( "MilitaryBoots_Black" );
+	oPlayer.GetInventory().CreateInInventory("AliceBag_Black");
+	oPlayer.GetInventory().CreateInInventory("HighCapacityVest_Black");
+	oPlayer.GetInventory().CreateInInventory("Mag_FAL_20Rnd");
+	oPlayer.GetInventory().CreateInInventory("Ammo_308Win");
+	oPlayer.GetInventory().CreateInInventory("Binoculars");
+	oPlayer.GetInventory().CreateInInventory("Vodka");
+	Weapon_Base oWpn2 = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "Shovel" ));
 
-    Weapon_Base oWpn = COM_CreateWeapon( oPlayer, "FAL" );
-    Weapon_Base oWpn1 = COM_CreateWeaponTundra( oPlayer, "Winchester70" );
-    //oPlayer.PredictiveTakeEntityToHands( oWpn );
-    oPlayer.SetQuickBarEntityShortcut(oWpn, 0, true);
-    oPlayer.SetQuickBarEntityShortcut(oWpn1, 1, true);
-    oPlayer.SetQuickBarEntityShortcut(oWpn2, 2, true);
+	Weapon_Base oWpn = COM_CreateWeapon( oPlayer, "FAL" );
+	Weapon_Base oWpn1 = COM_CreateWeaponTundra( oPlayer, "Winchester70" );
+	//oPlayer.PredictiveTakeEntityToHands( oWpn );
+	oPlayer.SetQuickBarEntityShortcut(oWpn, 0, true);
+	oPlayer.SetQuickBarEntityShortcut(oWpn1, 1, true);
+	oPlayer.SetQuickBarEntityShortcut(oWpn2, 2, true);
 
-    oPlayer.SetAllowDamage(false);
-    m_COM_GodMode = true;
+	oPlayer.SetAllowDamage(false);
+	m_COM_GodMode = true;
 
-    return oPlayer;
+	return oPlayer;
 }
 
 static string COM_FileAttributeToString( FileAttr attr )
 {
-    string fileType = "";
-    if ( attr & FileAttr.DIRECTORY )
-    {
-        fileType = fileType + "DIRECTORY";
-    }
-    if ( attr & FileAttr.HIDDEN )
-    {
-        fileType = fileType + "HIDDEN";
-    }
-    if ( attr & FileAttr.READONLY )
-    {
-        fileType = fileType + "READONLY";
-    }
-    if ( attr & FileAttr.INVALID )
-    {
-        fileType = fileType + "INVALID";
-    }
-    return fileType;
+	string fileType = "";
+	if ( attr & FileAttr.DIRECTORY )
+	{
+		fileType = fileType + "DIRECTORY";
+	}
+	if ( attr & FileAttr.HIDDEN )
+	{
+		fileType = fileType + "HIDDEN";
+	}
+	if ( attr & FileAttr.READONLY )
+	{
+		fileType = fileType + "READONLY";
+	}
+	if ( attr & FileAttr.INVALID )
+	{
+		fileType = fileType + "INVALID";
+	}
+	return fileType;
 }
 
 static vector COM_SnapToGround(vector pos) { return Vector(pos[0], GetGame().SurfaceRoadY(pos[0], pos[2]), pos[2]); }
 
 static void COM_SnapObjectToGround(Object object) {
-    vector clippingInfo[2], pos = object.GetPosition(); 
-    pos[1] = GetGame().SurfaceY(pos[0], pos[2]); object.ClippingInfo( clippingInfo ); pos[1] = pos[1] + clippingInfo[1][1] / 2;
-    object.SetPosition(pos); COM_ForceTargetCollisionUpdate(object);
+	vector clippingInfo[2], pos = object.GetPosition();
+	pos[1] = GetGame().SurfaceY(pos[0], pos[2]); object.ClippingInfo( clippingInfo ); pos[1] = pos[1] + clippingInfo[1][1] / 2;
+	object.SetPosition(pos); COM_ForceTargetCollisionUpdate(object);
 }
 static void COM_PlaceObjectOnGround(Object object) {
-    //vector clippingInfo[2], pos = object.GetPosition(); 
-    //pos[1] = GetGame().SurfaceY(pos[0], pos[2]); object.ClippingInfo( clippingInfo ); pos[1] = pos[1] + clippingInfo[1][1] / 2;
-    //object.SetPosition(pos); 
-    object.PlaceOnSurface(); COM_ForceTargetCollisionUpdate(object);
+	//vector clippingInfo[2], pos = object.GetPosition();
+	//pos[1] = GetGame().SurfaceY(pos[0], pos[2]); object.ClippingInfo( clippingInfo ); pos[1] = pos[1] + clippingInfo[1][1] / 2;
+	//object.SetPosition(pos);
+	object.PlaceOnSurface(); COM_ForceTargetCollisionUpdate(object);
 }
 
 static void COM_ForceTargetCollisionUpdate( Object oObj )
 {
-    if ( !oObj ) return;
+	if ( !oObj ) return;
 
-    vector roll = oObj.GetOrientation();
-    roll [ 2 ] = roll [ 2 ] - 1;
-    oObj.SetOrientation( roll );
-    roll [ 2 ] = roll [ 2 ] + 1;
-    oObj.SetOrientation( roll );
+	vector roll = oObj.GetOrientation();
+	roll [ 2 ] = roll [ 2 ] - 1;
+	oObj.SetOrientation( roll );
+	roll [ 2 ] = roll [ 2 ] + 1;
+	oObj.SetOrientation( roll );
 }
 
 static void COM_ToggleCursor()
 {
-    if ( GetGame().GetInput().HasGameFocus( INPUT_DEVICE_MOUSE ) )
-    {
-        GetGame().GetInput().ChangeGameFocus( 1 );
-        GetGame().GetUIManager().ShowUICursor( true );
-    }
-    else
-    {
-        GetGame().GetUIManager().ShowUICursor( false );
-        GetGame().GetInput().ResetGameFocus();
-    }
+	if ( GetGame().GetInput().HasGameFocus( INPUT_DEVICE_MOUSE ) )
+	{
+		GetGame().GetInput().ChangeGameFocus( 1 );
+		GetGame().GetUIManager().ShowUICursor( true );
+	}
+	else
+	{
+		GetGame().GetUIManager().ShowUICursor( false );
+		GetGame().GetInput().ResetGameFocus();
+	}
 }
 
 /*
-    Token types:
-     0 - error, no token
-     1 - defined token (special characters etc. . / * )
-     2 - quoted string. Quotes are removed -> TODO
-     3 - alphabetic string
-     4 - number
-     5 - end of line -> TODO
+	Token types:
+	 0 - error, no token
+	 1 - defined token (special characters etc. . / * )
+	 2 - quoted string. Quotes are removed -> TODO
+	 3 - alphabetic string
+	 4 - number
+	 5 - end of line -> TODO
 */
 static bool COM_CheckStringType( string str, int type ) 
 {
-    for(int i = 0; i<str.Length(); i++ ) 
-    {
-        string character = str.Get(i);
-        string token;
-        int result = character.ParseStringEx(token);
-        if ( result == type ) return true;
-    }
-    return false;
+	for(int i = 0; i<str.Length(); i++ )
+	{
+		string character = str.Get(i);
+		string token;
+		int result = character.ParseStringEx(token);
+		if ( result == type ) return true;
+	}
+	return false;
 }
 
 string COM_GetRandomChildFromBaseClass( string strConfigName, string strBaseClass, int minScope = -1 )
 {
-    string child_name = "";
-    int count = GetGame().ConfigGetChildrenCount ( strConfigName );
-    array< string > class_names = new array<string>;
+	string child_name = "";
+	int count = GetGame().ConfigGetChildrenCount ( strConfigName );
+	array< string > class_names = new array<string>;
 
-    for ( int p = 0; p < count; p++ )
-    {
-        GetGame().ConfigGetChildName( strConfigName, p, child_name );
+	for ( int p = 0; p < count; p++ )
+	{
+		GetGame().ConfigGetChildName( strConfigName, p, child_name );
 
-        if( ( minScope != -1 ) && ( GetGame().ConfigGetInt( strConfigName + " " + child_name + " scope" ) < minScope ) ) continue;
+		if( ( minScope != -1 ) && ( GetGame().ConfigGetInt( strConfigName + " " + child_name + " scope" ) < minScope ) ) continue;
 
-        if ( GetGame().IsKindOf( child_name, strBaseClass ) && ( child_name != strBaseClass ) )
-        {
-            class_names.Insert( child_name );
-        }
-    }
+		if ( GetGame().IsKindOf( child_name, strBaseClass ) && ( child_name != strBaseClass ) )
+		{
+			class_names.Insert( child_name );
+		}
+	}
 
-    return class_names.GetRandomElement();
+	return class_names.GetRandomElement();
 }
 
 int getKeyCode(string key) {
-    key.ToLower();
+	key.ToLower();
 	switch(key)
 	{
 		case "esc": { return KeyCode.KC_ESCAPE; }
@@ -652,11 +708,11 @@ int getKeyCode(string key) {
 		case "wake": { return KeyCode.KC_WAKE; }
 		case "mediaselect": { return KeyCode.KC_MEDIASELECT; }
 	}
-    return -1;
+	return -1;
 }
 string getMouseCode(string key) {
-    string original = key;
-    key.ToLower();
+	string original = key;
+	key.ToLower();
 	switch(key)
 	{
 		case "leftclick": { return "mBLeft"; }
@@ -676,6 +732,6 @@ string getMouseCode(string key) {
 		case "mwd": { return "mWheelDown"; }
 		case "mousewheeldown": { return "mWheelDown"; }
 		case "wheeldown": { return "mWheelDown"; }
-    }
-    return original;
+	}
+	return original;
 }

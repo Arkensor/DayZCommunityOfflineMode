@@ -1,46 +1,79 @@
 class objectHandler {
-	ref array<ref Param7<Object, string, string, string, int, vector, vector>> objectData;
+	ref map<int, ref objectData> objData;
     ref ObjectEditor objEditor = ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor));
-    void objectHandler() { 
-        if(objectData == NULL) { objectData = new array<ref Param7<Object, string, string, string, int, vector, vector>>; } 
-    }
-
+    void objectHandler() { if(objData == NULL) { objData = new map<int, ref objectData>; } }
+    void clear() { objData.Clear(); }
     // Data
-    void newObjectData(Object obj, string group = "N/A", int active = -1, string date = "N/A", bool firstLoad = false) {
+    ref objectData getObjectData(Object obj = NULL, int objID = -1) {
+        if(obj != NULL) { return objData.Get(obj.GetID()); }
+        else if(objID != -1) { return objData.Get(objID); }
+        else { return NULL; }
+    }
+    void newObjectData(Object obj, vector pos, vector ypr, float scale, string group = "", string date = "", int active = -1, bool firstLoad = false) {
         int groupSize = getObjectGroupsSize();
-        if(group == "N/A" || group == "All" || (group.Contains("Within ") && group.Contains(" Meters"))) { group = "None"; }
+        if(group == "" || group == "All" || (group.Contains("Within ") && group.Contains(" Meters"))) { group = "None"; }
         if(active == -1) { active = 1; }
-        if(date == "N/A") { date = getDateTime(); }
-        objectData.Insert(new ref Param7<Object, string, string, string, int, vector, vector>(obj, obj.GetType(), group, date, active, obj.GetPosition(), obj.GetOrientation()));
-                                                                                       // param1,  param2,    param3, param4, param5,      param6,            param7
-        //auto gData = objectData.Get(objectData.Count() - 1);
+        if(date == "") { date = getDateTime(); }
+        auto oData = new objectData(obj.GetType(), group, date, active, pos, ypr, scale);
+        objData.Insert(obj.GetID(), oData);
         if(!firstLoad) {
-            Print(string.Format("Added %1 to group %2.", obj.GetType(), group));
-            checkObjectUpdate(obj, groupSize, group, "N/A", true);
+            //scriptLog(string.Format("Added %1 to group %2.", oData.getName(), oData.getGroup()));
+            checkObjectUpdate(obj, groupSize, group, "", true);
         }
     }
-    void delObjectData(Object obj, int index = -1) {
+	void swapData(int objID, Object newObject) {
+	    auto oldData = objData.Get(objID); if(!oldData) { return; }
+	    int newID = newObject.GetID();
+	    auto oData = new objectData(oldData.getName(), oldData.getGroup(), oldData.getDate(), oldData.getActive(), oldData.getPosition(), oldData.getOrientation(), oldData.getScale());
+	    objData.Remove(objID); objData.Insert(newID, oData);
+    	objEditor.m_Objects.Remove(objID); objEditor.m_Objects.Set(newID, newObject);
+    	if(objEditor.currentObjects.Contains(objID)) { objEditor.currentObjects.Remove(objID); objEditor.currentObjects.Set(newID, newObject); }
+	}
+
+    void delObjectData(Object obj) {
+        if(!obj) { return; }
         int groupSize = getObjectGroupsSize(); string oldGroup; bool foundObj = false;
-        if(index == -1) {
-            foreach(int i, auto data : objectData) { 
-                if(data.param1 == obj) {
-                    Print(string.Format("Deleted %1's object data.", data.param2));
-                    oldGroup = data.param3; foundObj = true; objectData.Remove(i); break;
-                }
-            }
-        } else {
-            auto oData = objectData.Get(index);
-            if(oData) {
-                Print(string.Format("Deleted %1's object data at index %2.", oData.param2, index));
-                oldGroup = oData.param3; objectData.Remove(index); foundObj = true;
-            }
+        auto oData = getObjectData(obj);
+        if(oData) {
+            //scriptLog(string.Format("Deleted %1's object data.", oData.getName()));
+            oldGroup = oData.getGroup(); foundObj = true;
+            checkObjectUpdate(obj, groupSize, "", oldGroup, false);
         }
-        checkObjectUpdate(obj, groupSize, "N/A", oldGroup, false);
+        objData.Remove(obj.GetID());
+    }
+    void delObjectDataKey(int key) {
+        int groupSize = getObjectGroupsSize(); string oldGroup; bool foundObj = false;
+        auto oData = objData.Get(key); auto obj = objEditor.getObject(key);
+        if(oData && obj) {
+            //scriptLog(string.Format("Deleted %1's object data.", oData.getName()));
+            oldGroup = oData.getGroup(); foundObj = true;
+            checkObjectUpdate(obj, groupSize, "", oldGroup, false);
+        }
+        objData.Remove(key);
+    }
+    void setObjectData(Object obj, string group = "", string date = "", int active = -1, vector pos = "0 0 0", vector ypr = "0 0 0", float scale = 0, bool firstLoad = false) {
+        int groupSize = getObjectGroupsSize(); string oldGroup, newGroup; bool foundObj = false;
+        if(!objData.Contains(obj.GetID())) { newObjectData(obj, pos, ypr, scale, group, date, active, firstLoad); return; }
+        auto oData = getObjectData(obj); bool changedObj = false;
+        oldGroup = oData.getGroup();
+        if(date == "") { date = oData.getDate(); }
+        if(group != "" && oldGroup != group) {
+            oData.setGroup(group); changedObj = true;
+            //scriptLog(string.Format("Changed %1's group from %2 to %3.", oData.getName(), oldGroup, group));
+        }
+        if(active != -1 && oData.getActive() != active) {
+            //string activeText = "INACTIVE"; if(active == 1) { activeText = "Active";}
+            oData.setActive(active); changedObj = true;
+            //scriptLog(string.Format("%1 is now %2.", oData.getName(), activeText));
+        }
+        if(changedObj) { objData.Set(obj.GetID(), oData); }
+        checkObjectUpdate(obj, groupSize, group, oldGroup, true, active);
     }
 
-    void checkObjectUpdate(Object obj, int groupSize, string newGroup, string oldGroup, bool added = true, int active = -1) {
+
+    void checkObjectUpdate(Object obj, int oldGroupSize, string newGroup, string oldGroup, bool added = true, int active = -1) {
         if(!ObjectInfoMenu.isReady) { return; }
-        if(getObjectGroupsSize() != groupSize) { updateObjectGroups(); }
+        if(getObjectGroupsSize() != oldGroupSize) { updateObjectGroups(); }
         if(active != -1) {
             if(currentGroup == "Inactive") { 
                 if(active == 1 || !added) { ObjectInfoMenu.UpdateObjectList(); if(ObjectInfoMenu.listBox.GetNumItems() == 0) { ObjectInfoMenu.selectObjectGroup("All"); } } 
@@ -53,53 +86,68 @@ class objectHandler {
                 float distance = vector.Distance(COM_GetPB().GetPosition(), obj.GetPosition());
                 if(distance <= meters) { if(added) { ObjectInfoMenu.addListBoxObject(obj); } else { ObjectInfoMenu.UpdateObjectList(); } }
             }
-            if(getGroupSize(currentGroup) == 0) { updateObjectGroups(); ObjectInfoMenu.selectObjectGroup("All"); }
+            if(getGroupSize(currentGroup) == 0) { updateObjectGroups(); if(newGroup != "") { ObjectInfoMenu.selectObjectGroup(newGroup); } else { ObjectInfoMenu.selectObjectGroup("All"); }}
             else if(currentGroup == oldGroup) { ObjectInfoMenu.UpdateObjectList(); }
             else if(currentGroup == newGroup) { ObjectInfoMenu.addListBoxObject(obj); }
         }
     }
 
-    void setObjectData(Object obj, string group = "N/A", int active = -1, string date = "N/A", bool firstLoad = false) {
-        int groupSize = getObjectGroupsSize(); string oldGroup, newGroup; bool foundObj = false;
-        foreach(int i, auto data : objectData) { 
-            if(data.param1 == obj) {
-                foundObj = true; oldGroup = data.param3;
-                bool changedObj = false;
-                if(date == "N/A") { date = data.param4; }
-                if(group != "N/A" && data.param3 != group) {
-                    Print(string.Format("Changed %1's group from %2 to %3.", data.param2, data.param3, group));
-                    data.param3 = group; changedObj = true;
-                }
-                if(active != -1 && data.param5 != active) {
-                    string activeText = "INACTIVE"; if(data.param5 == 1) { activeText = "Active";}
-                    Print(string.Format("%1 is now %2.", data.param5, activeText));
-                    data.param5 = active; changedObj = true;
-                }
-                if(changedObj) { objectData.Set(i, data); }
-                break;
-            }
-        }
-        if(foundObj) { checkObjectUpdate(obj, groupSize, group, oldGroup, true, active); } else { newObjectData(obj, group, active, date, firstLoad); }
-    }
-
-    ref Param7<Object, string, string, string, int, vector, vector> getObjectData(Object obj) { foreach(auto data : objectData) { if(data.param1 == obj) { return data; } } return NULL; }
-
-
     // Groups
-    string getObjectGroup(Object obj) { auto oData = getObjectData(obj); if(oData) { return oData.param3; } return "Not Found"; }
+    string getObjectGroup(Object obj) { auto oData = getObjectData(obj); if(oData) { return oData.getGroup(); } return "Not Found"; }
     ref array<string> getObjectGroups() {
+        ref array<string> spyZGroups = new array<string>;
+        ref array<string> playerGroups = new array<string>;
+        ref array<string> otherGroups = new array<string>;
         ref array<string> objectGroups = new array<string>;
-        foreach(auto data : objectData) { if(objectGroups.Find(data.param3) == -1) { objectGroups.Insert(data.param3); } }
+        foreach(auto data : objData) {
+            if(data.getGroup().Contains("SpyZ: ")) { if(spyZGroups.Find(data.getGroup()) == -1) { spyZGroups.Insert(data.getGroup()); } }
+            else if(data.getGroup().Contains("P: ")) { if(playerGroups.Find(data.getGroup()) == -1) { playerGroups.Insert(data.getGroup()); } }
+            else { if(otherGroups.Find(data.getGroup()) == -1) { otherGroups.Insert(data.getGroup()); } }
+        }
+        spyZGroups.Sort(); playerGroups.Sort(); otherGroups.Sort();
+        foreach(auto spyZ : spyZGroups) { objectGroups.Insert(spyZ); }
+        foreach(auto player : playerGroups) { objectGroups.Insert(player); }
+        foreach(auto other : otherGroups) { objectGroups.Insert(other); }
         return objectGroups;
     }
     int getGroupSize(string group) { auto objs = getGroupObjects(group); return objs.Count(); }
+
     ref array<Object> getGroupObjects(string group) { 
         ref array<Object> groupObjects = new array<Object>;
-        foreach(auto data : objectData) { if(data.param3 == group) { groupObjects.Insert(data.param1); } }
+        ref array<Object> childObjects = new array<Object>;
+        bool foundGate = false; Object firstObject = NULL;
+        foreach(int key, auto data : objData) {
+            auto obj = objEditor.getObject(key);
+            if(!obj) { delObjectDataKey(key); continue; }
+            if(data.getGroup() == group) { if(data.getName() == "Land_Castle_Gate") { foundGate = true; firstObject = obj; groupObjects.Insert(obj); break; } }
+        }
+        if(firstObject == NULL) {
+            float lowestHeight = 5000;
+            foreach(int key1, auto oData : objData) {
+                auto oObj = objEditor.getObject(key1);
+                if(!oObj) { delObjectDataKey(key1); continue; }
+                if(oData.getGroup() == group) {
+                    if(oData.getName().Contains("Land_")) {
+                        if(lowestHeight > oData.getPosition()[1]) {
+                            lowestHeight = oData.getPosition()[1]; firstObject = oObj;
+                        }
+                    }
+                }
+            }
+            if(firstObject != NULL) { groupObjects.Insert(firstObject); }
+        }
+        foreach(int key2, auto objData : objData) {
+            auto oObject = objEditor.getObject(key2);
+            if(!oObject) { delObjectDataKey(key2); continue; }
+            if(firstObject == oObject) { continue; }
+            if(objData.getGroup() == group) { childObjects.Insert(oObject); }
+        }
+        childObjects.Sort();
+        foreach(auto child : childObjects) { groupObjects.Insert(child); }
         return groupObjects;
     }
+
     int getObjectGroupsSize() { auto groups = getObjectGroups(); return groups.Count(); }
-	void deleteObjectsInGroup(string group) { objEditor.DeleteBulkObjects(getGroupObjects(group)); }
     
     void updateObjectGroups() {
         if(!ObjectInfoMenu.isReady) { return; }
@@ -113,25 +161,14 @@ class objectHandler {
     }
 
     // Active Status
-    int isObjectActive(Object obj) { auto oData = getObjectData(obj); if(oData) { return oData.param5; } return -1; }
+    bool isObjectActive(Object obj) { auto oData = getObjectData(obj); if(oData) { return oData.isActive(); } return false; }
    
-    string getObjectActiveText(Object obj) { int active = isObjectActive(obj); if(active == 1) { return "Active"; } else if (active == 0) { return "Inactive"; } else { return "Not Found"; } }
+    string getObjectActiveText(Object obj) { if(isObjectActive(obj)) { return "Active"; } else { return "Inactive"; } }
 	
     void setObjectActiveText() { if(ObjectInfoMenu.isReady) { ObjectInfoMenu.activeButton.SetText(getObjectActiveText(objEditor.m_SelectedObject)); } }
-	
     
     // Object Creation Date
-    string getObjectDate(Object obj) { auto oData = getObjectData(obj); if(oData) { return oData.param4; } else { return "Not Found"; } }
+    string getObjectDate(Object obj) { auto oData = getObjectData(obj); if(oData) { return oData.getDate(); } else { return "Not Found"; } }
 	void setObjectDateText() { if(ObjectInfoMenu.isReady) { ObjectInfoMenu.dateOutput.SetText(getObjectDate(objEditor.m_SelectedObject)); } }
-
-    string dumpObjectData() {
-        string copyThis = objectData.Count().ToString();
-        //for(int i = 0; i < objData.Count(); i++) {
-        foreach(int i, auto data : objectData) {
-            string addCopy = "\n'" + i.ToString() + "' '" + data.param2 + "' '" + data.param3 + "' '" + data.param4 + "' '" + data.param5.ToString() + "' '" + COM_VectorToString(data.param6) + "' '" + COM_VectorToString(data.param7) + "'";
-            Print(addCopy); copyThis += addCopy;
-        }
-        return copyThis;
-    }
 
 }

@@ -67,6 +67,12 @@ class SettingsData
  	float flipSpeedSlow = 0.1;
  	float flipSpeedMedium = 1.0;
  	float flipSpeedFast = 5;
+
+    string keyEditorScaleObjectEnlarge = "kAdd";
+    string keyEditorScaleObjectShrink = "kSubtract";
+ 	float scaleSpeedSlow = 0.001;
+ 	float scaleSpeedMedium = 0.01;
+ 	float scaleSpeedFast = 0.1;
     
  	void SettingsData(SettingsData config = NULL) {
         if(!config) { if(worldMap == "Enoch") { spawnPosition = Vector(6296, 0, 9755); } else if(worldMap == "Namalsk") { spawnPosition = Vector(7000, 0, 11025); } lastPosition = spawnPosition; return; }
@@ -138,5 +144,11 @@ class SettingsData
         flipSpeedSlow = config.flipSpeedSlow;
         flipSpeedMedium = config.flipSpeedMedium;
         flipSpeedFast = config.flipSpeedFast;
+
+        keyEditorScaleObjectEnlarge = config.keyEditorScaleObjectEnlarge;
+        keyEditorScaleObjectShrink = config.keyEditorScaleObjectShrink;
+        scaleSpeedSlow = config.scaleSpeedSlow;
+        scaleSpeedMedium = config.scaleSpeedMedium;
+        scaleSpeedFast = config.scaleSpeedFast;
  	}
 }

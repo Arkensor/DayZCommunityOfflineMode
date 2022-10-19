@@ -4,7 +4,7 @@ class CommunityOfflineServer : MissionServer
 
 	void CommunityOfflineServer()
 	{
-	    Print( "CommunityOfflineServer::CommunityOfflineServer()" );
+	    scriptLog( "CommunityOfflineServer::CommunityOfflineServer()" );
 	    m_loaded = false;
 
 		COM_GetModuleManager();
@@ -12,7 +12,7 @@ class CommunityOfflineServer : MissionServer
 
 	void ~CommunityOfflineServer()
 	{
-	    Print( "CommunityOfflineServer::~CommunityOfflineServer()" );
+	    scriptLog( "CommunityOfflineServer::~CommunityOfflineServer()" );
 	}
 
 	override void OnInit()

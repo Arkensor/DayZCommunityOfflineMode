@@ -73,7 +73,7 @@ class CustomDebugMonitor extends Module
 	
 	override void RegisterKeyMouseBindings() 
 	{
-		Print("Loading keyboard and mouse bindings for CustomDebugMonitor.c");
+		scriptLog("Loading keyboard and mouse bindings for CustomDebugMonitor.c");
 		KeyMouseBinding oToggleMonitor = new KeyMouseBinding(GetModuleType(), "ToggleMonitor", "Toggles the debug monitor.");
 		oToggleMonitor.AddBinding(settings.keyCOMToggleDebugMonitor); RegisterKeyMouseBinding(oToggleMonitor);
 	}

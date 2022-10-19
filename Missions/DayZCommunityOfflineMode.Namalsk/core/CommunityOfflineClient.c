@@ -13,8 +13,8 @@ class CommunityOfflineClient extends MissionGameplay
 
 	override void OnInit()
 	{
-		super.OnInit();
 		startCOM();
+		super.OnInit();
         InitHive();
         SetupWeather();
 		SpawnPlayer();

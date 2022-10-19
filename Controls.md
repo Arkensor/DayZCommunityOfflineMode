@@ -8,8 +8,8 @@
 
 ## Configuration
  - All keybinds are configureable in $saves\COM\COMSettings.json or COMSettingsEnoch/Namalsk.json respectively. Check out [All Keybind Codes](./All%20Keybind%20Codes.md) for a full list of useable keybinds.
- 
- 
+
+
 ### COM Keybinds
 | Key | Action | 
 | ----- | ----- |
@@ -33,7 +33,7 @@
 | ----- | ----- |
 | kPause | Save all objects. |
 | kScrollLock | Copy current objects to clipboard in JSON form. (CTRL) MapGroupPos form (SHIFT) MapGroupProto form |
-| mBLeft | Select object. |
+| mBLeft | Select object. (SHIFT) Select object's group. |
 | mBMiddle HOLD | Drag selected object or object group. |
 | kSpace | Use while dragging to cancel the move. |
 | kZ CTRL | Undo your last action. |
@@ -54,6 +54,8 @@
 | kDivide | Flip selected object down. (No group support yet) |
 | kNumPad0 | Flip selected object left. (No group support yet) |
 | kDecimal | Flip selected object right. (No group support yet) |
+| kAdd | Scale object larger. (No group support yet) |
+| kSubtract | Scale object smaller. (No group support yet) |
 | Mouse Wheel | You can type values manually or hover above the value with your mouse and use the Mouse Wheel to in/decrease them. |
 
 
@@ -74,18 +76,3 @@
 | kD | Move camera right. (Unconfigurable) |
 | kE | Move camera up. (Unconfigurable) |
 | kQ | Move camera down. (Unconfigurable) |
-
-
-# Contributors:
-* [DannyDog](https://github.com/DannyDog) - Inital core developer
-* [Jacob_Mango](https://github.com/Jacob-Mango) - Inital core developer
-* [gallexme](https://github.com/gallexme) - Suggestion for the mission based version
-* [DuhOneZ](https://twitter.com/DuhOneZ) - Code snippets
-* [Watchman](https://twitter.com/watchman113) - Documentation
-* [n8m4re](https://github.com/n8m4re) - Code: SaveManager
-* [wriley](https://github.com/wriley) - Code snippets beards
-* [PR9INICHEK](https://github.com/PR9INICHEK) - Object spawner additions
-* [LiPeK](https://github.com/LiPeK) - Object editor additions
-* [Cypher](https://github.com/CypherMediaGIT) - Livonia positions
-* [BigBenREDUX](https://twitter.com/BigBenREDUX) - Namalsk positions
-* [Brandon10x15](https://github.com/Brandon10x15) - Object editor and QOL additions

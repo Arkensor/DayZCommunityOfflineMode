@@ -1,1 +1,0 @@
-class OldObjectSave { ref array<OldObjectData> Objects = new array<OldObjectData>; }

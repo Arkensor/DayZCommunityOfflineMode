@@ -4,43 +4,43 @@ class COMCharacterSaveEventHandler extends ScriptedWidgetEventHandler
 
 	void COMCharacterSaveEventHandler( COMCharacterSave characterSave )
 	{
-		Print( "COMCharacterSaveEventHandler::COMCharacterSaveEventHandler" );
+		scriptLog( "COMCharacterSaveEventHandler::COMCharacterSaveEventHandler" );
 		m_CharacterSave = characterSave;
 	}
 
 	override bool OnClick( Widget w, int x, int y, int button )
 	{
-		Print( "COMCharacterSaveEventHandler::OnClick" );
+		scriptLog( "COMCharacterSaveEventHandler::OnClick" );
 		return m_CharacterSave.OnClick( w, x, y, button );
 	}
 
 	override bool OnMouseEnter( Widget w, int x, int y )
 	{
-		Print( "COMCharacterSaveEventHandler::OnMouseEnter" );
+		scriptLog( "COMCharacterSaveEventHandler::OnMouseEnter" );
 		return m_CharacterSave.OnMouseEnter( w, x, y );
 	}
 	
 	override bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
 	{
-		Print( "COMCharacterSaveEventHandler::OnMouseLeave" );
+		scriptLog( "COMCharacterSaveEventHandler::OnMouseLeave" );
 		return m_CharacterSave.OnMouseLeave( w, enterW, x, y );
 	}
 	
 	override bool OnFocus( Widget w, int x, int y )
 	{
-		Print( "COMCharacterSaveEventHandler::OnFocus" );
+		scriptLog( "COMCharacterSaveEventHandler::OnFocus" );
 		return m_CharacterSave.OnFocus( w, x, y );
 	}
 	
 	override bool OnFocusLost( Widget w, int x, int y )
 	{
-		Print( "COMCharacterSaveEventHandler::OnFocusLost" );
+		scriptLog( "COMCharacterSaveEventHandler::OnFocusLost" );
 		return m_CharacterSave.OnFocusLost( w, x, y );
 	}
 
 	override bool OnModalResult(Widget w, int x, int y, int code, int result)
 	{
-		Print( "COMCharacterSaveEventHandler::OnModalResult" );
+		scriptLog( "COMCharacterSaveEventHandler::OnModalResult" );
 		return m_CharacterSave.OnModalResult( w, x, y, code, result );
 	}
 }
@@ -66,7 +66,7 @@ class COMCharacterSave extends UIScriptedMenu
 
 	Widget InitWithParent( Widget parent )
 	{
-		Print( "COMCharacterSave::InitWithParent" );
+		scriptLog( "COMCharacterSave::InitWithParent" );
 		string layoutFile = "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\Persistency\\gui\\layouts\\COMCharacterSave.layout";
 		if ( parent )
 		{
@@ -86,13 +86,13 @@ class COMCharacterSave extends UIScriptedMenu
 	
 	override Widget Init()
 	{
-		Print( "COMCharacterSave::Init" );
+		scriptLog( "COMCharacterSave::Init" );
 		return InitWithParent( NULL );
     }
 
 	void Save()
 	{
-		Print( "COMCharacterSave::Save" );
+		scriptLog( "COMCharacterSave::Save" );
 
 		bool canSave = false;
 

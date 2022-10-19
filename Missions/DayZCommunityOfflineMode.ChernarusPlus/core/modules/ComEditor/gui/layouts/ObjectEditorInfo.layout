@@ -165,11 +165,11 @@ PanelWidgetClass object_editor_info
 									visible 1
 									color 1 1 1 1
 									position 0.02 0.16
-									size 0.22 0.12
+									size 0.22 0.1
 									text "Pos X:"
 					                font "gui/fonts/Metron-Bold58"
                                     "exact text" 1
-                                    "exact text size" 25
+                                    "exact text size" 22
 									"text halign" right
 									"text valign" center
 								}
@@ -178,23 +178,24 @@ PanelWidgetClass object_editor_info
 									visible 1
 									color 1 1 1 1
 									position 0.27 0.14
-									size 0.53 0.16
+									size 0.53 0.14
 									text "0.0"
 									style Default
 									"exact text" 1
+                                    "exact text size" 22
 									"text halign" left
 									"text valign" center
 								}
                                 ButtonWidgetClass object_info_pos_x_minus
                                 {
-                                    position 0.8 0.17
+                                    position 0.8 0.15
                                     size 0.1 0.11
                                     text "-"
                                     text_proportion 0.75
                                 }
                                 ButtonWidgetClass object_info_pos_x_plus
                                 {
-                                    position 0.9 0.17
+                                    position 0.9 0.15
                                     size 0.1 0.11
                                     text "+"
                                     text_proportion 0.75
@@ -203,12 +204,12 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.02 0.3
-									size 0.22 0.12
+									position 0.02 0.28
+									size 0.22 0.1
 									text "Pos Y:"
 					                font "gui/fonts/Metron-Bold58"
                                     "exact text" 1
-                                    "exact text size" 25
+                                    "exact text size" 22
 									"text halign" right
 									"text valign" center
 								}
@@ -216,11 +217,12 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.27 0.28
-									size 0.43 0.16
+									position 0.27 0.26
+									size 0.43 0.14
 									text "0.0"
 									style Default
 									"exact text" 1
+                                    "exact text size" 22
 									"text halign" left
 									"text valign" center
 								}
@@ -228,7 +230,7 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 0 0 0 0.25
-									position 0.7 0.31
+									position 0.7 0.29
 									size 0.1 0.11
 									style rover_sim_colorable
 									{
@@ -243,14 +245,14 @@ PanelWidgetClass object_editor_info
 								}
                                 ButtonWidgetClass object_info_pos_y_minus
                                 {
-                                    position 0.8 0.31
+                                    position 0.8 0.29
                                     size 0.1 0.11
                                     text "-"
                                     text_proportion 0.75
                                 }
                                 ButtonWidgetClass object_info_pos_y_plus
                                 {
-                                    position 0.9 0.31
+                                    position 0.9 0.29
                                     size 0.1 0.11
                                     text "+"
                                     text_proportion 0.75
@@ -259,12 +261,12 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.02 0.44
-									size 0.22 0.12
+									position 0.02 0.4
+									size 0.22 0.1
 									text "Pos Z:"
 					                font "gui/fonts/Metron-Bold58"
                                     "exact text" 1
-                                    "exact text size" 25
+                                    "exact text size" 22
 									"text halign" right
 									"text valign" center
 								}
@@ -272,24 +274,25 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.27 0.42
-									size 0.53 0.16
+									position 0.27 0.38
+									size 0.53 0.14
 									text "0.0"
 									style Default
 									"exact text" 1
+                                    "exact text size" 22
 									"text halign" left
 									"text valign" center
 								}
                                 ButtonWidgetClass object_info_pos_z_minus
                                 {
-                                    position 0.8 0.45
+                                    position 0.8 0.39
                                     size 0.1 0.11
                                     text "-"
                                     text_proportion 0.75
                                 }
                                 ButtonWidgetClass object_info_pos_z_plus
                                 {
-                                    position 0.9 0.45
+                                    position 0.9 0.39
                                     size 0.1 0.11
                                     text "+"
                                     text_proportion 0.75
@@ -298,12 +301,12 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.02 0.58
-									size 0.22 0.12
+									position 0.02 0.52
+									size 0.22 0.1
 									text "Yaw:"
 					                font "gui/fonts/Metron-Bold58"
                                     "exact text" 1
-                                    "exact text size" 25
+                                    "exact text size" 22
 									"text halign" right
 									"text valign" center
 								}
@@ -311,24 +314,25 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.27 0.56
-									size 0.53 0.16
+									position 0.27 0.5
+									size 0.53 0.14
 									text "0.0"
 									style Default
 									"exact text" 1
+                                    "exact text size" 22
 									"text halign" left
 									"text valign" center
 								}
                                 ButtonWidgetClass object_info_yaw_minus
                                 {
-                                    position 0.8 0.59
+                                    position 0.8 0.51
                                     size 0.1 0.11
                                     text "-"
                                     text_proportion 0.75
                                 }
                                 ButtonWidgetClass object_info_yaw_plus
                                 {
-                                    position 0.9 0.59
+                                    position 0.9 0.51
                                     size 0.1 0.11
                                     text "+"
                                     text_proportion 0.75
@@ -337,12 +341,12 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.02 0.72
-									size 0.22 0.12
+									position 0.02 0.64
+									size 0.22 0.1
 									text "Pitch:"
 					                font "gui/fonts/Metron-Bold58"
                                     "exact text" 1
-                                    "exact text size" 25
+                                    "exact text size" 22
 									"text halign" right
 									"text valign" center
 								}
@@ -350,24 +354,25 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.27 0.7
-									size 0.53 0.16
+									position 0.27 0.62
+									size 0.53 0.14
 									text "0.0"
 									style Default
 									"exact text" 1
+                                    "exact text size" 22
 									"text halign" left
 									"text valign" center
 								}
                                 ButtonWidgetClass object_info_pitch_minus
                                 {
-                                    position 0.8 0.73
+                                    position 0.8 0.63
                                     size 0.1 0.11
                                     text "-"
                                     text_proportion 0.75
                                 }
                                 ButtonWidgetClass object_info_pitch_plus
                                 {
-                                    position 0.9 0.73
+                                    position 0.9 0.63
                                     size 0.1 0.11
                                     text "+"
                                     text_proportion 0.75
@@ -376,12 +381,12 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.02 0.85
-									size 0.22 0.12
+									position 0.02 0.76
+									size 0.22 0.1
 									text "Roll:"
 					                font "gui/fonts/Metron-Bold58"
                                     "exact text" 1
-                                    "exact text size" 25
+                                    "exact text size" 22
 									"text halign" right
 									"text valign" center
 								}
@@ -389,24 +394,65 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.27 0.83
-									size 0.53 0.16
+									position 0.27 0.74
+									size 0.53 0.14
 									text "0.0"
 									style Default
 									"exact text" 1
+                                    "exact text size" 22
 									"text halign" left
 									"text valign" center
 								}
                                 ButtonWidgetClass object_info_roll_minus
                                 {
-                                    position 0.8 0.86
+                                    position 0.8 0.75
                                     size 0.1 0.11
                                     text "-"
                                     text_proportion 0.75
                                 }
                                 ButtonWidgetClass object_info_roll_plus
                                 {
-                                    position 0.9 0.86
+                                    position 0.9 0.75
+                                    size 0.1 0.11
+                                    text "+"
+                                    text_proportion 0.75
+                                }
+								TextWidgetClass object_info_scale
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.02 0.88
+									size 0.22 0.1
+									text "Scale:"
+					                font "gui/fonts/Metron-Bold58"
+                                    "exact text" 1
+                                    "exact text size" 22
+									"text halign" right
+									"text valign" center
+								}
+								EditBoxWidgetClass object_info_scale_input
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.27 0.86
+									size 0.53 0.14
+									text "0.0"
+									style Default
+									"exact text" 1
+                                    "exact text size" 22
+									"text halign" left
+									"text valign" center
+								}
+                                ButtonWidgetClass object_info_scale_minus
+                                {
+                                    position 0.8 0.85
+                                    size 0.1 0.11
+                                    text "-"
+                                    text_proportion 0.75
+                                }
+                                ButtonWidgetClass object_info_scale_plus
+                                {
+                                    position 0.9 0.85
                                     size 0.1 0.11
                                     text "+"
                                     text_proportion 0.75
@@ -645,12 +691,22 @@ PanelWidgetClass object_editor_info
 							text "Save"
                             text_proportion 0.75
 						}
-						ButtonWidgetClass object_editor_info_load
+						PanelWidgetClass object_editor_info_load_bkg
 						{
+							visible 1
+							color 0 0 0 0.25
 							position 0.33 0.52
 							size 0.33 0.46
-							text "Reload"
-                            text_proportion 0.75
+							style rover_sim_colorable
+							{
+								ButtonWidgetClass object_editor_info_load
+								{
+									position 0 0
+									size 1 1
+									text "Reload"
+									text_proportion 0.75
+								}
+							}
 						}
 						PanelWidgetClass object_editor_info_clear_bkg 
 						{

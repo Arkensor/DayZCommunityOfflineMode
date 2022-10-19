@@ -76,6 +76,7 @@ class EditorMenu extends UIScriptedMenu
 
         CameraSettings.CAMERA_ROT.Show( false );
         CameraSettings.CAMERA_PHI.Show( false );
+        isCOMOpen = false;
     }
 	override bool OnDoubleClick(Widget w, int x, int y, int button)
 	{
@@ -85,15 +86,13 @@ class EditorMenu extends UIScriptedMenu
         int amount = ObjectMenu.m_AmountItem.GetText().ToInt(); Object newObject;
         if(amount < 1) { amount = 1; ObjectMenu.m_AmountItem.SetText(amount.ToString()); } else if (amount > 25) { amount = 25; ObjectMenu.m_AmountItem.SetText(amount.ToString()); }
         for (int i = 0; i < amount; i++) {
-            newObject = ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).SpawnObject(strSelection, COM_GetCursorPos(), vector.Zero, ObjectMenu.groupSelectorNameInput.GetText()); ObjectMenu.setupNewItem(newObject);
+            newObject = ObjectEditor.Cast( COM_GetModuleManager().GetModule( ObjectEditor )).SpawnObject(strSelection, COM_GetCursorPos(), vector.Zero, 1, ObjectMenu.groupSelectorNameInput.GetText()); ObjectMenu.setupNewItem(newObject);
         }
 	    /*ObjectEditor objEditor = COM_GetModuleManager().GetModule(ObjectEditor);
 		if (!objEditor.isEditing() || !objEditor.isSelected() || !objEditor.m_SelectedObject) { return false; }
 		objEditor.DupeObjectInPlace(objEditor.m_SelectedObject);*/
 		return true;
 	}
-	
-	void showMousePointer() { GetGame().GetInput().ResetGameFocus(); GetGame().GetUIManager().ShowUICursor(true); GetGame().GetInput().ChangeGameFocus(1); }
 
     override bool OnClick( Widget w, int x, int y, int button )
 	{
@@ -106,7 +105,7 @@ class EditorMenu extends UIScriptedMenu
 		else if (w == m_CameraButton) { m_cameraMenu.GetScript( popMenu );  }
 		if (popMenu) {
 			if (popMenu.GetLayoutRoot().IsVisible()) { popMenu.GetLayoutRoot().Show( false ); popMenu.OnHide(); }
-			else {popMenu.GetLayoutRoot().Show(true); popMenu.OnShow(); showMousePointer(); }
+			else {popMenu.GetLayoutRoot().Show(true); popMenu.OnShow(); ToggleCursor(1); }
 			SetButtonFocus(w); HideMenus( popMenu.GetLayoutRoot() );
 		}
 		return false;

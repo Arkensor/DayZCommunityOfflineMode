@@ -89,7 +89,7 @@ class CameraTool extends Module
 	}
 	
 	override void RegisterKeyMouseBindings() {
-		Print("Loading keyboard and mouse bindings for CameraTool.c");
+		scriptLog("Loading keyboard and mouse bindings for CameraTool.c");
 		KeyMouseBinding toggleCamera  = new KeyMouseBinding( GetModuleType(), "ToggleCamera" , "Toggle camera."  );
 		toggleCamera.AddBinding(settings.keyCameraToggleCamera); RegisterKeyMouseBinding(toggleCamera);
 		KeyMouseBinding freezeCamera  = new KeyMouseBinding( GetModuleType(), "FreezeCamera" , "Freezes camera." );
@@ -131,7 +131,7 @@ class CameraTool extends Module
 	void DisableCamera() {
 		if (!m_oCamera) { return; }
 		//Close menu to give back control to player
-        if(GetGame().GetUIManager().GetMenu() && (GetGame().GetUIManager().GetMenu().GetID() == 133742)) { GetGame().GetUIManager().Back(); }
+        //if(GetGame().GetUIManager().GetMenu() && (GetGame().GetUIManager().GetMenu().GetID() == 133742)) { GetGame().GetUIManager().Back(); }
 		SetFreezePlayer( false );
 		SetFreezeMouse( false );
 		vector position;

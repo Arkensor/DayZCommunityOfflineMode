@@ -5,7 +5,7 @@ modded class DayZPlayerCamera1stPerson
         m_iBoneIndex = pPlayer.GetBoneIndexByName("Face_Forehead");
         if (m_iBoneIndex == -1)
         {
-            Print("modded DayZPlayerCamera1stPerson: main bone not found");
+            scriptLog("modded DayZPlayerCamera1stPerson: main bone not found");
         }
     }
 }

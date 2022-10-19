@@ -1,1 +1,1 @@
-class ObjectSave { ref array<ref ObjectData> Objects = new ref array<ref ObjectData>; }
+class objectSave { ref array<ref objectData> Objects = new ref array<ref objectData>; }

@@ -13,7 +13,7 @@ class LoadText extends UIScriptedMenu
 
 	Widget InitWithParent( Widget parent )
 	{
-		Print( "LoadText::InitWithParent" );
+		scriptLog( "LoadText::InitWithParent" );
 
 		string layoutFile = "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\Persistency\\gui\\layouts\\LoadText.layout";
 		if ( parent )
@@ -32,7 +32,7 @@ class LoadText extends UIScriptedMenu
 	
 	override Widget Init()
 	{
-		Print( "LoadText::Init" );
+		scriptLog( "LoadText::Init" );
 		return InitWithParent( NULL );
     }
 

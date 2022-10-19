@@ -5,9 +5,9 @@
 class SceneInfo
 {
 
-	//ref map< ObjectData, array< LootSpot >>  m_objects = new map< ObjectData, array< LootSpot >>;
+	//ref map< ObjectDataOld, array< LootSpot >>  m_objects = new map< ObjectDataOld, array< LootSpot >>;
 	string name;
-	ref array< ObjectData > m_objects = new array< ObjectData >;
+	ref array< objectData > m_objects = new array< objectData >;
 	ref array< LootSpot > m_lootSpots = new array< LootSpot >;
 
 	bool persistent = false;
@@ -29,11 +29,11 @@ class SceneInfo
 	}
 
 /*
-	ObjectData GetObjectData( vector position ) 
+	ObjectDataOld GetObjectData( vector position )
 	{
 		for(int i = 0; i<m_objects.Count();i++ ) 
 		{
-			ObjectData data = m_objects.GetKey( i );
+			ObjectDataOld data = m_objects.GetKey( i );
 			if ( data.GetPosition() == position ) 
 			{
 				return data;
@@ -44,7 +44,7 @@ class SceneInfo
 */
 	/*void AddObject( Object object, vector pos )
 	{
-		m_objects.Insert( new ObjectData( object.GetType(), pos, object.GetOrientation() ));
+		m_objects.Insert( new ObjectDataOld( object.GetType(), pos, object.GetOrientation() ));
 	}*/
 
 	void AddLootSpot( vector pos, LootType type ) 
@@ -62,7 +62,7 @@ class SceneInfo
 
 	void AddObject( string classname, vector position, vector orientation ) 
 	{
-		m_objects.Insert( new ObjectData( classname, position, orientation ), new array< LootSpot > );
+		m_objects.Insert( new ObjectDataOld( classname, position, orientation ), new array< LootSpot > );
 	}
 */
 }

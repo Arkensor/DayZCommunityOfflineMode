@@ -23,7 +23,7 @@ void PersistencyPrint( string var )
 {
     if ( true )
     {
-        Print( var );
+        scriptLog( var );
     }
 }
 

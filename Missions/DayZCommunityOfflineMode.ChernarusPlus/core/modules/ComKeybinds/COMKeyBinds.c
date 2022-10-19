@@ -29,7 +29,7 @@ class COMKeyBinds extends Module
 	
 	override void RegisterKeyMouseBindings() 
 	{
-		Print("Loading keyboard and mouse bindings for COMKeyBinds.c");
+		scriptLog("Loading keyboard and mouse bindings for COMKeyBinds.c");
         KeyMouseBinding toggleCOMEditor = new KeyMouseBinding(GetModuleType(), "ShowCOMEditor", "Opens the COM Editor.");
         toggleCOMEditor.AddBinding(settings.keyCOMOpenMenu); RegisterKeyMouseBinding(toggleCOMEditor);
         KeyMouseBinding closeMenu       = new KeyMouseBinding(GetModuleType(), "CloseOpenMenu", "Close the menu on esc.", true);
@@ -59,35 +59,21 @@ class COMKeyBinds extends Module
 	}
     //void OpenKeyframe() { GetGame().GetUIManager().ShowScriptedMenu( COM_GetMission().CreateScriptedMenu(MENU_CAMERA_TOOLS) , NULL ); }
 
-    void ToggleCursor()
-    {
-        if (GetGame().GetUIManager().IsCursorVisible())
-        {
-            GetGame().GetInput().ResetGameFocus();
-            GetGame().GetUIManager().ShowUICursor(false);
-            //FreeDebugCamera.GetInstance().SetFreezed(true);
-        }
-        else
-        {
-            GetGame().GetInput().ChangeGameFocus(1);
-            GetGame().GetUIManager().ShowUICursor(true);
-            //FreeDebugCamera.GetInstance().SetFreezed(false);
-        }
-    }
-
     void CloseOpenMenu()
     {
         ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).saveGroupInputs();
-        if( GetGame().GetUIManager().GetMenu() && ( GetGame().GetUIManager().GetMenu().GetID() == 133742 ) )
-        {
+        auto menu = GetGame().GetUIManager().GetMenu(); if(!menu) { return; }
+        if(menu.GetID() == 133742) {
             GetGame().GetUIManager().Back();
+	        deleteAllClicks = 0;
+	        ToggleCursor(0);
         }
-        deleteAllClicks = 0;
     }
 
     void ShowCOMEditor()
     {
         GetGame().GetUIManager().EnterScriptedMenu(EditorMenu.MENU_ID, NULL);
+        ToggleCursor(1); isCOMOpen = true;
     }
 
     void Reload()
@@ -126,20 +112,20 @@ class COMKeyBinds extends Module
     {
         vector cursorPos = COM_GetCursorPos();
         if(COM_CTRL()) {
-            ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObject( "Animal_CanisLupus_Grey", cursorPos, vector.Zero, "Test" );
+            ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObjectAI( "Animal_CanisLupus_Grey", cursorPos, vector.Zero, 1, "Test" );
             COM_Message("Spawning Animal_CanisLupus_Grey at X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
         } else if(COM_SHIFT()) {
-            ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObject( COM_GetRandomChildFromBaseClass( "cfgVehicles", "AnimalBase" ), cursorPos, vector.Zero, "Test" );
+            ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObjectAI( COM_GetRandomChildFromBaseClass( "cfgVehicles", "AnimalBase" ), cursorPos, vector.Zero, 1, "Test" );
             COM_Message("Spawning Random Animal at X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
         } else {
-            ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObject( COM_GetRandomChildFromBaseClass( "cfgVehicles", "ZombieBase", 2 ), cursorPos, vector.Zero, "Test" );
+            ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObjectAI( COM_GetRandomChildFromBaseClass( "cfgVehicles", "ZombieBase", 2 ), cursorPos, vector.Zero, 1, "Test" );
             COM_Message("Spawning Random Infected at X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
         }
     }
     void SpawnGift() {
         vector cursorPos = COM_GetCursorPos();
         COM_Message("Spawning GiftBox_Large_1 at X = " + cursorPos[0] + ", Y = " + cursorPos[1] + ", Z = " + cursorPos[2]);
-        ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObject("GiftBox_Large_1", cursorPos, vector.Zero, "Test");
+        ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).SpawnObjectAI("GiftBox_Large_1", cursorPos, vector.Zero, 1, "Test");
     }
 
     void HideHud() { 
@@ -148,7 +134,7 @@ class COMKeyBinds extends Module
 
     void PrintPlayer() {
         vector pos = COM_GetPB().GetPosition(); vector ypr = COM_GetPB().GetOrientation();
-        Print("Position: " + COM_VectorToString(pos)); Print("Orientation: " + COM_VectorToString(ypr));
+        scriptLog("Position: " + COM_VectorToString(pos)); scriptLog("Orientation: " + COM_VectorToString(ypr));
         string toCopy;
         if(COM_CTRL()) {
             string plyr_r = COM_FormatFloat(ypr[2], 6);

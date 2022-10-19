@@ -6,10 +6,20 @@
  - [Original README](./oldREADME.md)
  
  
-# Community Offline Mode (Object Editor Edition) 4.0 worthy?
+# Community Offline Mode (Object Editor Edition) 4.0.2
+
+## 4.0.2 Newest Additions:
+- Added object scaling options to the Object Info Menu.
+- Added scaling keybinds and speed variables to the settings.
+- Fine tuned the cursor to not glitch while switching tabs. (Use right click to fix if cursor will not show.)
+- Limited pulling information from the object, instead, using cached object data to prevent slight object movement on reload.
+- Speed and stability improvements while dragging objects.
+
+
 
 ## Known Issues:
-- Cannot rotate object groups yet.
+- Using in-game menu "Restart" causes settings to not load. Must close the game and re-open.
+- Can only scale and orientate individual objects, no group support yet.
 - Some keybinds are non-configureable.
 - Cannot teleport or use camera tool while in a vehicle. (Cannot force player to exit vehicle, player teleports outside of map)
 

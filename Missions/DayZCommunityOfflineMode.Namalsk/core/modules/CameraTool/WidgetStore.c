@@ -32,7 +32,7 @@ class WidgetStore
 	{
 		SearchChildren( layoutRoot ); //recursion
 
-		Print( "WidgetStore Init - Testing widget loading count: " + allWidgets.Count() );
+		scriptLog( "WidgetStore Init - Testing widget loading count: " + allWidgets.Count() );
 	}
 
 	void SearchChildren( Widget widget ) 
@@ -40,7 +40,7 @@ class WidgetStore
 		Widget child = widget.GetChildren();
 		while ( child ) 
 		{
-			//Print( child.GetName() );
+			//scriptLog( child.GetName() );
 			allWidgets.Insert( child );
 			AddWidget( child );
 			SearchSibling( child );
@@ -53,7 +53,7 @@ class WidgetStore
 		Widget sibling = widget.GetSibling();
 		while ( sibling ) 
 		{
-			//Print( sibling.GetName() );
+			//scriptLog( sibling.GetName() );
 			allWidgets.Insert( sibling );
 			AddWidget( sibling );
 			SearchChildren( sibling );
@@ -77,13 +77,13 @@ class WidgetStore
 				}
 				if ( count > 1 ) 
 				{
-					Print( "Found duplicate: " + name );
+					scriptLog( "Found duplicate: " + name );
 					duplicates++;
 					break;
 				}
 			}
 		}
-		Print( "Duplicates: " + duplicates );
+		scriptLog( "Duplicates: " + duplicates );
 	}
 
 	void AddWidget( Widget widget ) 
