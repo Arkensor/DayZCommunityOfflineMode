@@ -149,10 +149,9 @@ class GameMenu extends PopupMenu
 	{
 		if(gameVersion.Contains("1.18.")) { COM_Message("M1025 is not ready yet.");  return; } // REMOVE AFTER 1.19 OFFICIAL RELEASE
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7", "CarBattery", "GlowPlug", 
-        "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel",
-		"Offroad_02_Hood", "Offroad_02_Trunk", 
-        "Offroad_02_Door_1_1", "Offroad_02_Door_1_2", "Offroad_02_Door_2_1", "Offroad_02_Door_2_2",
+        "Offroad_02_Wheel","Offroad_02_Wheel","Offroad_02_Wheel","Offroad_02_Wheel","Offroad_02_Wheel",
+		"HeadlightH7","HeadlightH7","CarBattery","GlowPlug",
+		"Offroad_02_Hood","Offroad_02_Trunk","Offroad_02_Door_1_1","Offroad_02_Door_1_2", "Offroad_02_Door_2_1","Offroad_02_Door_2_2",
 		};
 
 		SpawnVehicle( "Offroad_02", attArr );
@@ -161,9 +160,9 @@ class GameMenu extends PopupMenu
 	void SpawnMS3()
 	{
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7", "Truck_01_Wheel", "Truck_01_Wheel",
-		"Truck_01_WheelDouble", "Truck_01_WheelDouble", "Truck_01_WheelDouble", "Truck_01_WheelDouble",
-		"TruckBattery", "Truck_01_Hood", "Truck_01_Door_1_1", "Truck_01_Door_2_1",
+		"Truck_01_Wheel","Truck_01_Wheel","Truck_01_Wheel","Truck_01_Wheel","Truck_01_WheelDouble","Truck_01_WheelDouble","Truck_01_WheelDouble","Truck_01_WheelDouble",
+		"HeadlightH7", "HeadlightH7", "TruckBattery",
+		"Truck_01_Hood", "Truck_01_Door_1_1", "Truck_01_Door_2_1",
 		};
 
 		SpawnVehicle("Truck_01_Covered", attArr);
@@ -172,10 +171,9 @@ class GameMenu extends PopupMenu
 	void SpawnHatchback()
 	{
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7",
-		"HatchbackWheel", "HatchbackWheel", "HatchbackWheel", "HatchbackWheel",
-		"CarBattery", "CarRadiator", "EngineBelt", "SparkPlug", "HatchbackHood",
-		"HatchbackTrunk", "HatchbackDoors_Driver", "HatchbackDoors_CoDriver",
+		"HatchbackWheel", "HatchbackWheel", "HatchbackWheel", "HatchbackWheel", "HatchbackWheel",
+		"HeadlightH7", "HeadlightH7","CarBattery", "CarRadiator","SparkPlug",
+		"HatchbackHood", "HatchbackTrunk", "HatchbackDoors_Driver", "HatchbackDoors_CoDriver",
 		};
 
 		SpawnVehicle("OffroadHatchback", attArr);
@@ -184,11 +182,9 @@ class GameMenu extends PopupMenu
 	void SpawnSedan()
 	{
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7",
-		"CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel",
-		"CarBattery", "CarRadiator","EngineBelt", "SparkPlug","CivSedanHood",
-		"CivSedanTrunk", "CivSedanDoors_Driver","CivSedanDoors_CoDriver",
-		"CivSedanDoors_BackLeft", "CivSedanDoors_BackRight",
+		"CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel",
+		"HeadlightH7", "HeadlightH7","CarBattery", "CarRadiator","SparkPlug",
+		"CivSedanHood","CivSedanTrunk", "CivSedanDoors_Driver","CivSedanDoors_CoDriver","CivSedanDoors_BackLeft", "CivSedanDoors_BackRight",
 		};
 
 		SpawnVehicle("CivilianSedan", attArr);
@@ -197,10 +193,9 @@ class GameMenu extends PopupMenu
 	void SpawnGunter()
 	{
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug", "Hatchback_02_Door_1_1",
-		"Hatchback_02_Door_1_2", "Hatchback_02_Door_2_1","Hatchback_02_Door_2_2",
-		"Hatchback_02_Trunk", "Hatchback_02_Hood", "Hatchback_02_Wheel", "Hatchback_02_Wheel",
-		"Hatchback_02_Wheel", "Hatchback_02_Wheel", "CivSedanDoors_BackRight",
+		"Hatchback_02_Wheel","Hatchback_02_Wheel","Hatchback_02_Wheel","Hatchback_02_Wheel","Hatchback_02_Wheel",
+		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug",
+		"Hatchback_02_Trunk","Hatchback_02_Hood","Hatchback_02_Door_1_1","Hatchback_02_Door_1_2","Hatchback_02_Door_2_1","Hatchback_02_Door_2_2",
 		};
 
 		SpawnVehicle("Hatchback_02", attArr);
@@ -209,10 +204,9 @@ class GameMenu extends PopupMenu
 	void SpawnSarka()
 	{
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug", "Sedan_02_Hood",
-		"Sedan_02_Hood","Sedan_02_Trunk","Sedan_02_Door_1_1",
-		"Sedan_02_Door_2_1","Sedan_02_Door_1_2","Sedan_02_Door_2_2","Sedan_02_Wheel",
-		"Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel",
+		"Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel",
+		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug",
+		"Sedan_02_Hood","Sedan_02_Trunk","Sedan_02_Door_1_1","Sedan_02_Door_2_1","Sedan_02_Door_1_2","Sedan_02_Door_2_2",
 		};
 
 		SpawnVehicle("Sedan_02", attArr);
