@@ -12,6 +12,8 @@
 //#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\Persistency\\module.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\DebugMonitor\\module.c"
 #include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\BarrelCrosshair\\module.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\Settings\\SettingsData.c"
+#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\Settings\\SettingsSave.c"
 #endif
 
 class KeyMouseActionType
@@ -151,6 +153,7 @@ class ModuleManager
                     //COM_Message( k_m_Binding.GetUAInputName() + " -> " + input.LocalPress() );
 
                     //input.ForceEnable( true );
+
 
                     int action = k_m_Binding.GetActionType();
 

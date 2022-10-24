@@ -21,12 +21,13 @@ class GameMenu extends PopupMenu
 		m_checkboxPanel = layoutRoot.FindAnyWidget("game_checkbox_panel");
 		m_gameScriptList = TextListboxWidget.Cast(layoutRoot.FindAnyWidget("game_list_box"));
 		m_gameScriptButton = ButtonWidget.Cast(layoutRoot.FindAnyWidget("game_script_button"));
-
-		m_gameScriptList.AddItem( "Spawn HMMWV",     new Param1< string >( "SpawnHMMWV" ),     0 );
-		m_gameScriptList.AddItem( "Spawn Hatchback", new Param1< string >( "SpawnHatchback" ), 0 );
-		m_gameScriptList.AddItem( "Spawn Sedan", 	 new Param1< string >( "SpawnSedan" ), 	   0 );
-        m_gameScriptList.AddItem( "Spawn Gunter 2",  new Param1< string >( "SpawnGunter" ),    0 );
-        m_gameScriptList.AddItem( "Spawn Sarka",     new Param1< string >( "SpawnSarka" ),     0 );
+		
+		m_gameScriptList.AddItem("Spawn M1025", new Param1< string >("SpawnM1025"), 0);
+		m_gameScriptList.AddItem("Spawn MS3 Truck", new Param1< string >("SpawnMS3"), 0);
+		m_gameScriptList.AddItem("Spawn ADA 4x4", new Param1< string >("SpawnHatchback"), 0);
+		m_gameScriptList.AddItem("Spawn Olga 24", new Param1< string >("SpawnSedan"), 0);
+		m_gameScriptList.AddItem("Spawn Gunter 2", new Param1< string >("SpawnGunter"), 0);
+		m_gameScriptList.AddItem("Spawn Sarka 120", new Param1< string >("SpawnSarka"), 0);
 //      m_gameScriptList.AddItem( "Spawn V3S",		 new Param1< string >( "SpawnV3S" ), 	   0 );
 //		m_gameScriptList.AddItem( "Spawn V3S_Cargo", new Param1< string >( "SpawnV3SCargo" ),  0 );
 //		m_gameScriptList.AddItem( "Spawn Bus", 		 new Param1< string >( "SpawnBus" ), 	   0 );
@@ -143,69 +144,75 @@ class GameMenu extends PopupMenu
 
 		return false;
 	}
-
-	void SpawnHMMWV() 
+	
+	void SpawnM1025() 
 	{
+		if(gameVersion.Contains("1.18.")) { COM_Message("M1025 is not ready yet.");  return; } // REMOVE AFTER 1.19 OFFICIAL RELEASE
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7", "CarBattery", "GlowPlug", 
-        "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel", "Offroad_02_Wheel",
-		"Offroad_02_Hood", "Offroad_02_Trunk", 
-        "Offroad_02_Door_1_1", "Offroad_02_Door_1_2", "Offroad_02_Door_2_1", "Offroad_02_Door_2_2",
+        "Offroad_02_Wheel","Offroad_02_Wheel","Offroad_02_Wheel","Offroad_02_Wheel","Offroad_02_Wheel",
+		"HeadlightH7","HeadlightH7","CarBattery","GlowPlug",
+		"Offroad_02_Hood","Offroad_02_Trunk","Offroad_02_Door_1_1","Offroad_02_Door_1_2", "Offroad_02_Door_2_1","Offroad_02_Door_2_2",
 		};
 
 		SpawnVehicle( "Offroad_02", attArr );
 	}
 
-	void SpawnHatchback() 
+	void SpawnMS3()
 	{
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7",
-		"HatchbackWheel", "HatchbackWheel", "HatchbackWheel", "HatchbackWheel",
-		"CarBattery", "CarRadiator", "EngineBelt", "SparkPlug", "HatchbackHood",
-		"HatchbackTrunk", "HatchbackDoors_Driver", "HatchbackDoors_CoDriver",
+		"Truck_01_Wheel","Truck_01_Wheel","Truck_01_Wheel","Truck_01_Wheel","Truck_01_WheelDouble","Truck_01_WheelDouble","Truck_01_WheelDouble","Truck_01_WheelDouble",
+		"HeadlightH7", "HeadlightH7", "TruckBattery",
+		"Truck_01_Hood", "Truck_01_Door_1_1", "Truck_01_Door_2_1",
 		};
 
-		SpawnVehicle( "OffroadHatchback", attArr );
+		SpawnVehicle("Truck_01_Covered", attArr);
 	}
 
-	void SpawnSedan() 
+	void SpawnHatchback()
 	{
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7",
-		"CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel",
-		"CarBattery", "CarRadiator","EngineBelt", "SparkPlug","CivSedanHood",
-		"CivSedanTrunk", "CivSedanDoors_Driver","CivSedanDoors_CoDriver",
-		"CivSedanDoors_BackLeft", "CivSedanDoors_BackRight",
+		"HatchbackWheel", "HatchbackWheel", "HatchbackWheel", "HatchbackWheel", "HatchbackWheel",
+		"HeadlightH7", "HeadlightH7","CarBattery", "CarRadiator","SparkPlug",
+		"HatchbackHood", "HatchbackTrunk", "HatchbackDoors_Driver", "HatchbackDoors_CoDriver",
 		};
 
-		SpawnVehicle( "CivilianSedan", attArr );
+		SpawnVehicle("OffroadHatchback", attArr);
+	}
+
+	void SpawnSedan()
+	{
+		TStringArray attArr = {
+		"CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel",
+		"HeadlightH7", "HeadlightH7","CarBattery", "CarRadiator","SparkPlug",
+		"CivSedanHood","CivSedanTrunk", "CivSedanDoors_Driver","CivSedanDoors_CoDriver","CivSedanDoors_BackLeft", "CivSedanDoors_BackRight",
+		};
+
+		SpawnVehicle("CivilianSedan", attArr);
 	}
 
 	void SpawnGunter()
 	{
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug", "Hatchback_02_Door_1_1",
-		"Hatchback_02_Door_1_2", "Hatchback_02_Door_2_1","Hatchback_02_Door_2_2",
-		"Hatchback_02_Trunk", "Hatchback_02_Hood", "Hatchback_02_Wheel", "Hatchback_02_Wheel",
-		"Hatchback_02_Wheel", "Hatchback_02_Wheel", "CivSedanDoors_BackRight",
+		"Hatchback_02_Wheel","Hatchback_02_Wheel","Hatchback_02_Wheel","Hatchback_02_Wheel","Hatchback_02_Wheel",
+		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug",
+		"Hatchback_02_Trunk","Hatchback_02_Hood","Hatchback_02_Door_1_1","Hatchback_02_Door_1_2","Hatchback_02_Door_2_1","Hatchback_02_Door_2_2",
 		};
 
-		SpawnVehicle( "Hatchback_02", attArr );
+		SpawnVehicle("Hatchback_02", attArr);
 	}
 
 	void SpawnSarka()
 	{
 		TStringArray attArr = {
-		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug", "Sedan_02_Hood",
-		"Sedan_02_Hood","Sedan_02_Trunk","Sedan_02_Door_1_1",
-		"Sedan_02_Door_2_1","Sedan_02_Door_1_2","Sedan_02_Door_2_2","Sedan_02_Wheel",
-		"Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel",
+		"Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel",
+		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug",
+		"Sedan_02_Hood","Sedan_02_Trunk","Sedan_02_Door_1_1","Sedan_02_Door_2_1","Sedan_02_Door_1_2","Sedan_02_Door_2_2",
 		};
 
-		SpawnVehicle( "Sedan_02", attArr );
+		SpawnVehicle("Sedan_02", attArr);
 	}
 
-	void SpawnV3SCargo() 
+	void SpawnV3SCargo()
 	{
 		TStringArray attArr = {
 		"V3SWheel","V3SWheel", "V3SWheel","V3SWheel", "V3SWheelDouble","V3SWheelDouble", "V3SWheelDouble","V3SWheelDouble",
@@ -213,10 +220,10 @@ class GameMenu extends PopupMenu
 		"V3SDoors_Driver_Orange","V3SDoors_CoDriver_Orange",
 		};
 
-		SpawnVehicle( "V3S_Cargo_Blue", attArr );
+		SpawnVehicle("V3S_Cargo_Blue", attArr);
 	}
 
-	void SpawnV3S() 
+	void SpawnV3S()
 	{
 		TStringArray attArr = {
 		"V3SWheel","V3SWheel", "V3SWheel","V3SWheel", "V3SWheelDouble","V3SWheelDouble", "V3SWheelDouble","V3SWheelDouble",
@@ -224,10 +231,10 @@ class GameMenu extends PopupMenu
 		"V3SDoors_Driver_Orange","V3SDoors_CoDriver_Orange",
 		};
 
-		SpawnVehicle( "V3S_Chassis_Blue", attArr );
+		SpawnVehicle("V3S_Chassis_Blue", attArr);
 	}
 
-	void SpawnBus() 
+	void SpawnBus()
 	{
 		TStringArray attArr = {
 		"TransitBusWheel","TransitBusWheel", "TransitBusWheelDouble","TransitBusWheelDouble",
@@ -235,10 +242,10 @@ class GameMenu extends PopupMenu
 		"BusDoors_Left","BusDoors_Right", "BusDoors_Left","BusDoors_Right", "BusDoors_Left","BusDoors_Right",
 		};
 
-		SpawnVehicle( "TransitBus", attArr );
+		SpawnVehicle("TransitBus", attArr);
 	}
 
-	void SpawnVan() 
+	void SpawnVan()
 	{
 		TStringArray attArr = {
 			"CivVanWheel","CivVanWheel","CivVanWheel","CivVanWheel",
@@ -247,7 +254,7 @@ class GameMenu extends PopupMenu
 			"CivVanDoors_TrumpDown", "CivVanDoors_TrumpUp",
 		};
 
-		SpawnVehicle( "CivilianVan", attArr );
+		SpawnVehicle("CivilianVan", attArr);
 	}
 
 	void SpawnVehicle( string vehicle, TStringArray attachments) 
@@ -260,6 +267,7 @@ class GameMenu extends PopupMenu
 		oCar.Fill( CarFluid.OIL, 1000 );
 		oCar.Fill( CarFluid.BRAKE, 1000 );
 		oCar.Fill( CarFluid.COOLANT, 1000 );
+		oCar.SetAllowDamage(false);
 
 		//oCar.EngineStart();
 		//oCar.SwitchLights();

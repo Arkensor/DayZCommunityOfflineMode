@@ -202,7 +202,6 @@ PanelWidgetClass WeatherMenu
                             "fill in" 1
                             "listen to input" 1
                             style Editor
-
                             {
                                 TextWidgetClass txt_ppp_st_start_day_value
                                 {
@@ -248,8 +247,8 @@ PanelWidgetClass WeatherMenu
                             vexactsize 0
                             "fill in" 1
                             "listen to input" 1
-                            style Editor
 
+                            style Editor
                             {
                                 TextWidgetClass txt_ppp_st_overcast_value
                                 {
@@ -295,8 +294,8 @@ PanelWidgetClass WeatherMenu
                             vexactsize 0
                             "fill in" 1
                             "listen to input" 1
-                            style Editor
 
+                            style Editor
                             {
 
                                 TextWidgetClass txt_ppp_st_rain_value

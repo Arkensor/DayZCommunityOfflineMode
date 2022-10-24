@@ -29,7 +29,7 @@ class SceneManager
 		string fileName;
 
 		FindFileHandle fileHandle = FindFile( SCENE_DIR + "\\" + "*.json", fileName, fileAttr, FindFileFlags.ALL );
-		if ( fileName != "" ) 
+		if ( fileName != "" )
 		{
 			while (FindNextFile( fileHandle, fileName, fileAttr )) 
 			{

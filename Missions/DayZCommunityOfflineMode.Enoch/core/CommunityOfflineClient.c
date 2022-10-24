@@ -13,27 +13,25 @@ class CommunityOfflineClient extends MissionGameplay
 
 	override void OnInit()
 	{
+		startCOM();
 		super.OnInit();
-
         InitHive();
-
         SetupWeather();
-
 		SpawnPlayer();
-
-		GetDayZGame().SetMissionPath( "$saves:CommunityOfflineMode\\" ); // CameraToolsMenu
+		GetDayZGame().SetMissionPath(BASE_COM_DIR + "\\");
+		
 	}
 
 	override void OnMissionStart()
 	{
 		super.OnMissionStart();
-
         COM_GetModuleManager().OnInit();
 		COM_GetModuleManager().OnMissionStart();
 	}
 
 	override void OnMissionFinish()
 	{
+		stopCOM();
         COM_GetModuleManager().OnMissionFinish();
 
 		CloseAllMenus();
@@ -82,7 +80,7 @@ class CommunityOfflineClient extends MissionGameplay
 		if ( GetGame().IsClient() && GetGame().IsMultiplayer() ) return;
 
 		// RD /s /q "storage_-1" > nul 2>&1
-		if ( !HIVE_ENABLED ) return;
+		if (settings.hiveEnabled != 1) return;
 	
 		Hive oHive = GetHive();
 		

@@ -37,7 +37,7 @@ class KeyMouseBinding
         m_ActionType = action;
     }
     
-    array< string > GetBindings() 
+    array< string > GetBindings()
     {
         return m_KeyBinds;
     }
