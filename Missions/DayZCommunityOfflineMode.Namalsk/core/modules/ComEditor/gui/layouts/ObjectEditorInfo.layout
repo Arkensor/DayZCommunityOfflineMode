@@ -218,7 +218,7 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									size 0.5 0.33
+									size 0.5 0.25
 									position 0 0
 									text "Yaw"
 									"exact text" 1
@@ -229,8 +229,8 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									size 0.5 0.33
-									position 0 0.33
+									size 0.5 0.25
+									position 0 0.25
 									text "Pitch"
 									"exact text" 1
 									"text halign" center
@@ -240,9 +240,20 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									size 0.5 0.33
-									position 0 0.66
+									size 0.5 0.25
+									position 0 0.5
 									text "Roll"
+									"exact text" 1
+									"text halign" center
+									"text valign" center
+								}
+								TextWidgetClass object_info_scale
+								{
+									visible 1
+									color 1 1 1 1
+									size 0.5 0.25
+									position 0 0.75
+									text "Scale"
 									"exact text" 1
 									"text halign" center
 									"text valign" center
@@ -252,7 +263,7 @@ PanelWidgetClass object_editor_info
 									visible 1
 									color 1 1 1 1
 									position 0.5 0
-									size 0.5 0.33
+									size 0.5 0.25
 									text "0.0"
 									style Default
 									"exact text" 1
@@ -261,8 +272,8 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.5 0.33
-									size 0.5 0.33
+									position 0.5 0.25
+									size 0.5 0.25
 									text "0.0"
 									style Default
 									"exact text" 1
@@ -271,8 +282,18 @@ PanelWidgetClass object_editor_info
 								{
 									visible 1
 									color 1 1 1 1
-									position 0.5 0.66
-									size 0.5 0.33
+									position 0.5 0.5
+									size 0.5 0.25
+									text "0.0"
+									style Default
+									"exact text" 1
+								}
+								EditBoxWidgetClass object_info_scale_input
+								{
+									visible 1
+									color 1 1 1 1
+									position 0.5 0.75
+									size 0.5 0.25
 									text "0.0"
 									style Default
 									"exact text" 1

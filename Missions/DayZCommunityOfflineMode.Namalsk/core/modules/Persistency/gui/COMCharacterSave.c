@@ -67,7 +67,7 @@ class COMCharacterSave extends UIScriptedMenu
 	Widget InitWithParent( Widget parent )
 	{
 		Print( "COMCharacterSave::InitWithParent" );
-		string layoutFile = "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\Persistency\\gui\\layouts\\COMCharacterSave.layout";
+		string layoutFile = "$mission:core\\modules\\Persistency\\gui\\layouts\\COMCharacterSave.layout";
 		if ( parent )
 		{
 			layoutRoot = GetGame().GetWorkspace().CreateWidgets( layoutFile, parent );

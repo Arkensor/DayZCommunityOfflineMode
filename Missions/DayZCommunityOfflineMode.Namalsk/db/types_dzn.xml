@@ -31,8 +31,8 @@
     <tag name="civilian" />
   </type>
   <type name="dzn_SodaCan_Pipsi">
-    <nominal>4</nominal>
-    <min>3</min>
+    <nominal>15</nominal>
+    <min>12</min>
     <lifetime>900</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -44,8 +44,8 @@
     <category name="food" />
   </type>
   <type name="dzn_SodaCan_Cola">
-    <nominal>4</nominal>
-    <min>3</min>
+    <nominal>15</nominal>
+    <min>12</min>
     <lifetime>900</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -57,8 +57,8 @@
     <category name="food" />
   </type>
   <type name="dzn_SodaCan_Spite">
-    <nominal>4</nominal>
-    <min>3</min>
+    <nominal>15</nominal>
+    <min>12</min>
     <lifetime>900</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -70,21 +70,8 @@
     <category name="food" />
   </type>
   <type name="dzn_SodaCan_Kvass">
-    <nominal>4</nominal>
-    <min>3</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
-  <type name="dzn_SodaCan_Fronta">
-    <nominal>4</nominal>
-    <min>3</min>
+    <nominal>15</nominal>
+    <min>12</min>
     <lifetime>900</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -96,8 +83,8 @@
     <category name="food" />
   </type>
   <type name="dzn_BakedBeansCan">
-    <nominal>4</nominal>
-    <min>3</min>
+    <nominal>10</nominal>
+    <min>6</min>
     <lifetime>900</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -109,8 +96,8 @@
     <category name="food" />
   </type>
   <type name="dzn_PeachesCan">
-    <nominal>4</nominal>
-    <min>3</min>
+    <nominal>10</nominal>
+    <min>6</min>
     <lifetime>900</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -122,45 +109,6 @@
     <category name="food" />
   </type>
   <type name="dzn_SardinesCan">
-    <nominal>4</nominal>
-    <min>3</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
-  <type name="dzn_SpaghettiCan">
-    <nominal>4</nominal>
-    <min>3</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
-  <type name="dzn_TunaCan">
-    <nominal>4</nominal>
-    <min>3</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
-  <type name="dzn_UnknownFoodCan">
     <nominal>10</nominal>
     <min>8</min>
     <lifetime>900</lifetime>
@@ -173,9 +121,9 @@
     <value />
     <category name="food" />
   </type>
-  <type name="dzn_DogFoodCan">
-    <nominal>5</nominal>
-    <min>4</min>
+  <type name="dzn_SpaghettiCan">
+    <nominal>8</nominal>
+    <min>6</min>
     <lifetime>900</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -186,74 +134,9 @@
     <value />
     <category name="food" />
   </type>
-  <type name="dzn_CatFoodCan">
-    <nominal>5</nominal>
-    <min>4</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
-  <type name="dzn_PorkCan">
-    <nominal>5</nominal>
-    <min>4</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
-  <type name="dzn_Lunchmeat">
-    <nominal>5</nominal>
-    <min>4</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
-  <type name="dzn_Pajka">
-    <nominal>5</nominal>
-    <min>4</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
-  <type name="dzn_Pate">
-    <nominal>5</nominal>
-    <min>4</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
-  <type name="dzn_BrisketSpread">
-    <nominal>5</nominal>
-    <min>4</min>
+  <type name="dzn_TunaCan">
+    <nominal>10</nominal>
+    <min>8</min>
     <lifetime>900</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -277,23 +160,10 @@
     <value />
     <category name="food" />
   </type>
-  <type name="dzn_Honey">
-    <nominal>5</nominal>
-    <min>4</min>
-    <lifetime>900</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0"/>
-    <usage />
-    <value />
-    <category name="food" />
-  </type>
   <type name="dzn_Pot">
     <nominal>12</nominal>
     <min>10</min>
-    <lifetime>2700</lifetime>
+    <lifetime>900</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
     <quantmax>-1</quantmax>
@@ -373,364 +243,6 @@
     <value user="Tier4" />
     <category name="lore" />
   </type>
-  <type name="dzn_athena3_august">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier5" />
-    <category name="lore" />
-  </type>
-  <type name="dzn_athena3_exp1">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier5" />
-    <category name="lore" />
-  </type>
-  <type name="dzn_athena3_exp2">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier5" />
-    <category name="lore" />
-  </type>
-  <type name="dzn_athena3_october">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier5" />
-    <category name="lore" />
-  </type>
-  <type name="dzn_lantia_december">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="medical" />
-  </type>
-  <type name="dzn_lantia_vega7">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="medical" />
-  </type>
-  <type name="dzn_phoenix_log_1">
-    <nominal>0</nominal>
-    <min>0</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="lore" />
-    <tag />
-  </type>
-  <type name="dzn_phoenix_log_2">
-    <nominal>0</nominal>
-    <min>0</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="lore" />
-    <tag />
-  </type>
-  <type name="dzn_phoenix_log_3">
-    <nominal>0</nominal>
-    <min>0</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="lore" />
-    <tag />
-  </type>
-  <type name="dzn_phoenix_log_4">
-    <nominal>0</nominal>
-    <min>0</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="lore" />
-    <tag />
-  </type>
-  <type name="dzn_phoenix_log_5">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="1" />
-    <usage />
-    <value />
-    <category name="lantia" />
-    <tag name="seaice" />
-  </type>
-  <type name="dzn_phoenix_stash">
-    <nominal>0</nominal>
-    <min>0</min>
-    <lifetime>1209600</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="lore" />
-    <tag />
-  </type>
-  <type name="dzn_printer_filament_abs">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier3" />
-    <category name="tools" />
-    <tag name="industrial" />
-  </type>
-  <type name="dzn_printer_filament_tpc">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier3" />
-    <category name="tools" />
-    <tag name="industrial" />
-  </type>
-  <type name="dzn_printer_filament_nylon">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier3" />
-    <category name="tools" />
-    <tag name="industrial" />
-  </type>
-  <type name="dzn_module_card">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>300</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier4" />
-    <category name="lore" />
-  </type>
-  <type name="dzn_module_lantia">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>600</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier3" />
-    <category name="tools" />
-    <tag name="seaice" />
-  </type>
-  <type name="dzn_module_surge">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>600</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="industrial" />
-  </type>
-  <type name="dzn_module_ext">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>600</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier3" />
-    <category name="lore" />
-  </type>
-  <type name="dzn_module_ext2">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>600</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier6" />
-    <category name="lantia" />
-    <tag name="industrial" />
-  </type>
-  <type name="dzn_vega7_enzyme">
-    <nominal>2</nominal>
-    <min>2</min>
-    <lifetime>2700</lifetime>
-    <restock>600</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="medical" />
-  </type>
-  <type name="dzn_oxygenated_blood">
-    <nominal>4</nominal>
-    <min>4</min>
-    <lifetime>2700</lifetime>
-    <restock>600</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="medical" />
-  </type>
-  <type name="dzn_FirstAidKit">
-    <nominal>2</nominal>
-    <min>2</min>
-    <lifetime>2700</lifetime>
-    <restock>600</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="medical" />
-  </type>
-  <type name="dzn_DuctTape">
-    <nominal>2</nominal>
-    <min>2</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="industrial" />
-  </type>
-  <type name="dzn_EpoxyPutty">
-    <nominal>2</nominal>
-    <min>2</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="industrial" />
-  </type>
-  <type name="dzn_ElectronicRepairKit">
-    <nominal>2</nominal>
-    <min>2</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="industrial" />
-  </type>
   <type name="dzn_tool_watch">
     <nominal>0</nominal>
     <min>0</min>
@@ -765,100 +277,19 @@
     <tag name="police" />
     <tag name="military" />
   </type>
-  <type name="dzn_vinyl_bubson">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>300</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="tools" />
-    <tag name="civilian" />
-  </type>
   <type name="dzn_apsi">
-    <nominal>2</nominal>
-    <min>2</min>
+    <nominal>6</nominal>
+    <min>5</min>
     <lifetime>2700</lifetime>
-    <restock>1800</restock>
+    <restock>0</restock>
     <quantmin>-1</quantmin>
     <quantmax>-1</quantmax>
     <cost>100</cost>
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
-    <value user="Tier5" />
+    <value user="Tier4" />
     <category name="tools" />
     <tag name="military" />
-  </type>
-  <type name="dzn_detector">
-    <nominal>8</nominal>
-    <min>8</min>
-    <lifetime>2700</lifetime>
-    <restock>1800</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier34" />
-    <category name="lore" />
-  </type>
-  <type name="dzn_lehs_o2tank">
-    <nominal>6</nominal>
-    <min>6</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier567" />
-    <category name="lantia" />
-    <tag name="industrial" />
-  </type>
-  <type name="dzn_lehs_battery">
-    <nominal>3</nominal>
-    <min>3</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier567" />
-    <category name="lantia" />
-    <tag name="industrial" />
-  </type>
-  <type name="dzn_blueprint_lehs">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>2700</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="lantia" />
-    <tag name="seaice" />
-  </type>
-  <type name="dzn_lehs">
-    <lifetime>3600</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_lehs_helmet">
-    <lifetime>3600</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_lehs_helmet_visor">
-    <lifetime>3600</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
   <type name="dzn_gorka_up_winter">
     <nominal>2</nominal>
@@ -903,8 +334,8 @@
     <tag name="military" />
   </type>
   <type name="dzn_yeger_up_woodl">
-    <nominal>3</nominal>
-    <min>1</min>
+    <nominal>5</nominal>
+    <min>3</min>
     <lifetime>1800</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -1057,8 +488,8 @@
     <tag name="military" />
   </type>
   <type name="dzn_yeger_pants_woodl">
-    <nominal>3</nominal>
-    <min>1</min>
+    <nominal>5</nominal>
+    <min>3</min>
     <lifetime>1800</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -1109,62 +540,6 @@
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
     <value user="Tier234" />
-    <category name="clothes" />
-    <tag name="military" />
-  </type>
-  <type name="dzn_ballisticvest_nac">
-    <nominal>0</nominal>
-    <min>0</min>
-    <lifetime>1800</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier234" />
-    <category name="clothes" />
-    <tag name="military" />
-  </type>
-  <type name="dzn_platecarriervest_nac">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>1800</lifetime>
-    <restock>800</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier5" />
-    <category name="clothes" />
-    <tag name="military" />
-  </type>
-  <type name="dzn_platecarrierholster_nac">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>1800</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier5" />
-    <category name="clothes" />
-    <tag name="military" />
-  </type>
-  <type name="dzn_platecarrierpouches_nac">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>1800</lifetime>
-    <restock>0</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value user="Tier5" />
     <category name="clothes" />
     <tag name="military" />
   </type>
@@ -1367,8 +742,8 @@
     <tag name="military" />
   </type>
   <type name="dzn_yegerhood_woodl">
-    <nominal>3</nominal>
-    <min>1</min>
+    <nominal>5</nominal>
+    <min>3</min>
     <lifetime>1800</lifetime>
     <restock>0</restock>
     <quantmin>-1</quantmin>
@@ -1508,21 +883,7 @@
     <tag name="military" />
   </type>
   <type name="dzn_ghilliebushragwinter">
-    <nominal>1</nominal>
-    <min>1</min>
-    <lifetime>1800</lifetime>
-    <restock>1800</restock>
-    <quantmin>-1</quantmin>
-    <quantmax>-1</quantmax>
-    <cost>100</cost>
-    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
-    <usage />
-    <value />
-    <category name="clothes" />
-    <tag name="military" />
-  </type>
-  <type name="dzn_ghilliebushragtandark">
-    <nominal>2</nominal>
+    <nominal>3</nominal>
     <min>2</min>
     <lifetime>1800</lifetime>
     <restock>1800</restock>
@@ -1535,8 +896,22 @@
     <category name="clothes" />
     <tag name="military" />
   </type>
+  <type name="dzn_ghilliebushragtandark">
+    <nominal>5</nominal>
+    <min>3</min>
+    <lifetime>1800</lifetime>
+    <restock>1800</restock>
+    <quantmin>-1</quantmin>
+    <quantmax>-1</quantmax>
+    <cost>100</cost>
+    <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
+    <usage />
+    <value />
+    <category name="clothes" />
+    <tag name="military" />
+  </type>
   <type name="dzn_ghillietopwinter">
-    <nominal>1</nominal>
+    <nominal>2</nominal>
     <min>1</min>
     <lifetime>1800</lifetime>
     <restock>1800</restock>
@@ -1550,7 +925,7 @@
     <tag name="military" />
   </type>
   <type name="dzn_ghillietoptandark">
-    <nominal>2</nominal>
+    <nominal>3</nominal>
     <min>2</min>
     <lifetime>1800</lifetime>
     <restock>1800</restock>
@@ -1564,7 +939,7 @@
     <tag name="military" />
   </type>  
   <type name="dzn_ghilliesuitwinter">
-    <nominal>1</nominal>
+    <nominal>2</nominal>
     <min>1</min>
     <lifetime>1800</lifetime>
     <restock>3600</restock>
@@ -1579,7 +954,7 @@
   </type>
   <type name="dzn_ghilliesuittandark">
     <nominal>2</nominal>
-    <min>2</min>
+    <min>1</min>
     <lifetime>1800</lifetime>
     <restock>3600</restock>
     <quantmin>-1</quantmin>
@@ -1592,7 +967,7 @@
     <tag name="military" />
   </type>
   <type name="dzn_ghilliehoodwinter">
-    <nominal>1</nominal>
+    <nominal>3</nominal>
     <min>1</min>
     <lifetime>1800</lifetime>
     <restock>1800</restock>
@@ -1606,8 +981,8 @@
     <tag name="military" />
   </type>
   <type name="dzn_ghilliehoodtandark">
-    <nominal>2</nominal>
-    <min>2</min>
+    <nominal>5</nominal>
+    <min>3</min>
     <lifetime>1800</lifetime>
     <restock>1800</restock>
     <quantmin>-1</quantmin>
@@ -1633,58 +1008,6 @@
   </type>
   <type name="dzn_snowball_small">
     <lifetime>500</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_BakedBeansCan_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_PeachesCan_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_SpaghettiCan_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_SardinesCan_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_TunaCan_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_UnknownFoodCan_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_DogFoodCan_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_CatFoodCan_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_PorkCan_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_Lunchmeat_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_Pajka_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_Pate_Opened">
-    <lifetime>900</lifetime>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
-  </type>
-  <type name="dzn_BrisketSpread_Opened">
-    <lifetime>900</lifetime>
     <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="1" deloot="0" /> 
   </type>
 </types>

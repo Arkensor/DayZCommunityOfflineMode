@@ -15,7 +15,7 @@ class LoadText extends UIScriptedMenu
 	{
 		Print( "LoadText::InitWithParent" );
 
-		string layoutFile = "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\Persistency\\gui\\layouts\\LoadText.layout";
+		string layoutFile = "$mission:core\\modules\\Persistency\\gui\\layouts\\LoadText.layout";
 		if ( parent )
 		{
 			layoutRoot = GetGame().GetWorkspace().CreateWidgets( layoutFile, parent );

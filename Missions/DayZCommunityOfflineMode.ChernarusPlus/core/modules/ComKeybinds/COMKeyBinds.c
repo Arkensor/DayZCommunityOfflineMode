@@ -1,3 +1,7 @@
+
+// Disabled teleporting while in vehicle to prevent player glitching.
+// - Brandon10x15.
+
 /*
 	Manages all keybinds for COM
 */
@@ -99,6 +103,11 @@ class COMKeyBinds extends Module
 
     void TeleportCursor()
     {
+        if(COM_GetPB().IsInVehicle()) {
+            COM_Message("Exit the vehicle before teleporting.");
+            return;
+        }
+
         Print( "COMKeyBinds::TeleportCursor()" );
 
 //		if ( CameraTool.Cast( m_Mission.GetModule( CameraTool ) ).IsUsingCamera() ) //Todo renable after module manager is done

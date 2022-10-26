@@ -11,7 +11,6 @@
         <category name="containers" />
         <category name="clothes" />
         <category name="bags" />
-        <category name="lantia" />
     </categories>
     <tags>
         <tag name="military" />
@@ -23,8 +22,6 @@
         <tag name="medical" />
         <tag name="firefighter" />
         <tag name="fishing" />
-        <tag name="seaice" />
-        <tag name="seasonalevent" />
     </tags>
     <usageflags />
     <valueflags>
@@ -32,8 +29,5 @@
         <value name="Tier2"/>
         <value name="Tier3"/>
         <value name="Tier4"/>
-        <value name="Tier5"/>
-        <value name="Tier6"/>
-        <value name="Tier7"/>
     </valueflags>
 </lists>

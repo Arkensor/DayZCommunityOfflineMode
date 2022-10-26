@@ -1,3 +1,7 @@
+
+// Removed SetupWeather(), use $mission:cfgWeather.xml to configure the weather.
+// - Brandon10x15
+
 class CommunityOfflineServer : MissionServer
 {
     protected bool m_loaded;
@@ -18,8 +22,6 @@ class CommunityOfflineServer : MissionServer
 	override void OnInit()
 	{
 		super.OnInit();
-
-        SetupWeather();
 
         COM_GetModuleManager().OnInit();
 	}

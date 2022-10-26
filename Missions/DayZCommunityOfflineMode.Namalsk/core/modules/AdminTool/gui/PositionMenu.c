@@ -1,3 +1,12 @@
+
+// Saving positions to $saves:CommunityOfflineMode/COMPositions.json.
+// COMPositions.json can be customized to the users liking.
+// COMPositions.json can be renamed or deleted to restore the default COMPositions.json file.
+// Positions are now inserted into the Positions menu in the same order as the COMPositions.json file.
+// Added positions for Namalsk.
+// Disabled teleporting while in vehicle to prevent player glitching.
+// - Brandon10x15.
+
 class PositionMenu extends PopupMenu
 {
 	protected TextListboxWidget m_LstPositionList;
@@ -8,49 +17,14 @@ class PositionMenu extends PopupMenu
 	protected ButtonWidget m_TeleportButton;
 	protected ButtonWidget m_CancelButton;
 
-	autoptr map< string, vector > Positions = new map< string, vector >;
+    ref array<ref PositionData> Positions = new ref array< ref PositionData>;
 
     protected bool m_bOverCurrentPos;
+    protected bool m_positionMenuOpen = false;
 
 	void PositionMenu()
 	{
 	    m_bOverCurrentPos = false;
-
-		Positions.Insert( "Nemsk", "9043.1 9.31 10134.0" );
-		Positions.Insert( "Jalovisko", "8177.9 16.12 10827.0" );
-		Positions.Insert( "BK-T08", "3929.8 6.15 10010.0" );
-		Positions.Insert( "Lubjansk", "4450.1 9.24 11238.0" );
-		Positions.Insert( "BK-T07", "4414.0 20.94 10746" );
-		Positions.Insert( "BK-M06", "4808.1 13.96 10848.0" );
-		Positions.Insert( "Vorkuta", "6815.5 16.6 11306.0" );
-		Positions.Insert( "Alakit Old Yard", "6153.5 36.43 10874.0" );
-		Positions.Insert( "Alakit", "5766.0 16.86 10768.0" );
-		Positions.Insert( "Sebjan Dam", "5707.3 22.05 9851.5" );
-		Positions.Insert( "Sebjan Airfield", "6340.5 22.2 9342.2" );
-		Positions.Insert( "Sebjan Factory East", "6481.0 16.45 9299.9" );
-		Positions.Insert( "Tara Farcory", "7688.5 72.67 8724.1" );
-		Positions.Insert( "Tara Hospital", "7302.3 84.83 7991.4" );
-		Positions.Insert( "Tara Harbor", "7868.4 10.1 7715.9" );
-		Positions.Insert( "Tara Rail Yard", "7671.7 42.05 7402.6" );
-		Positions.Insert( "Tara", "7241.9 238.26 7026.8" );
-		Positions.Insert( "BK-L16", "6004.3 20.3 6623.2" ); 
-		Positions.Insert( "Sawmill", "7047.7 39.6 5823.5" );
-		Positions.Insert( "Tara Bridge", "5913.0 41.0 5872.4" );
-		Positions.Insert( "Brensk", "4350.5 5.03 4772.9" );
-		Positions.Insert( "Brensk Factory", "4855.4 41.3 6230.7" );
-		Positions.Insert( "Brensk Bridge", "4885.1 41.74 6082.0" );
-		Positions.Insert( "Athena-2", "4980.0 47.7 6612.6" );
-		Positions.Insert( "BK-L02", "3440.7 216.4 6706.1" );
-		Positions.Insert( "C-130J Mohawk", "3180.1 117.31 7516.7" );
-		Positions.Insert( "Athena-1", "3755.5 147.3 8243.6" );
-		Positions.Insert( "Warehouses", "4686.5 23.63 8933.7" );
-		Positions.Insert( "Sebjan Refugee Camp", "5170.5 74.13 8976.3" );
-		Positions.Insert( "Sebjan Factory", "5817.3 43.99 8715.0" );
-		Positions.Insert( "Sebjan", "5185.5 30.89 8535.1" );
-		Positions.Insert( "Sebjan uranium Mine", "4792.9 50.648 8019.0" );
-		Positions.Insert( "Athena Research institute", "4291.1 78.91 8049.2" );
-		Positions.Insert( "Norinsk", "3919.5 50.44 7519.8" );
-		Positions.Insert( "BK-L01", "4146.8 381.48 6573.7" );
 	}
 
 	void ~PositionMenu()
@@ -67,23 +41,62 @@ class PositionMenu extends PopupMenu
 		m_TeleportButton = ButtonWidget.Cast( layoutRoot.FindAnyWidget("btn_ppp_pm_teleport") );
 		m_CancelButton = ButtonWidget.Cast( layoutRoot.FindAnyWidget("btn_ppp_pm_cancel") );
 
-        for ( int nPosition = 0; nPosition < Positions.Count(); nPosition++ )
+		SetupPositions();
+
+        foreach(auto position : Positions)
         {
-            m_LstPositionList.AddItem( Positions.GetKey( nPosition ), NULL, 0 );
+            m_LstPositionList.AddItem(position.name, NULL, 0);
+        }
+        GetGame().GetCallQueue( CALL_CATEGORY_GUI ).CallLater( Update, 1000, true );
+	}
+
+	void SetupPositions()
+	{
+		string positionsPath = BASE_COM_DIR + "COMPositions.json";
+		ref PositionSave positions = NULL;
+        if ( !FileExist( positionsPath ) )
+        {
+			positions = new PositionSave();
+			positions.New();
+			JsonFileLoader<PositionSave>.JsonSaveFile( positionsPath, positions);
+        }
+    	if(positions == NULL)
+    	{
+    	    JsonFileLoader<PositionSave>.JsonLoadFile( positionsPath, positions );
+    	}
+		if(worldMap == "ChernarusPlus") {
+            Positions = positions.ChernarusPlus;
+        }
+        else if(worldMap == "Enoch")
+        {
+            Positions = positions.Enoch;
+        }
+        else if(worldMap == "Namalsk")
+        {
+            Positions = positions.Namalsk;
         }
 	}
 
-	override void OnShow()
-	{
-        vector player_pos = COM_GetPB().GetPosition();
+    void Update()
+    {
+        if(isPositionMenuOpen())
+        {
+            vector player_pos = COM_GetPB().GetPosition();
+            m_TxtCurrentX.SetText(player_pos[0].ToString());
+            m_TxtCurrentY.SetText(player_pos[2].ToString());
+        }
+    }
 
-        m_TxtCurrentX.SetText( player_pos[0].ToString() );
-		m_TxtCurrentY.SetText( player_pos[2].ToString() );
+	bool isPositionMenuOpen() {
+		return m_positionMenuOpen;
 	}
 
-	override void OnHide()
-	{
+	override void OnShow() {
+		m_positionMenuOpen = true;
+	}
 
+	override void OnHide() {
+		m_positionMenuOpen = false;
 	}
 
 	override bool OnMouseEnter(Widget w, int x, int y)
@@ -121,6 +134,12 @@ class PositionMenu extends PopupMenu
 	{
 		if ( w == m_TeleportButton )
 		{
+            if(COM_GetPB().IsInVehicle())
+            {
+                COM_Message("Exit the vehicle before teleporting.");
+                return false;
+            }
+
 		    float pos_x = 0;
             float pos_y = 0;
 
@@ -159,17 +178,19 @@ class PositionMenu extends PopupMenu
 	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
 	{
 		vector position = "0 0 0";
-
-		if( !Positions.Find( GetCurrentPositionName(), position ) )
-		{
-			position = "0 0 0";
-		}
-
-		m_TxtSelectedX.SetText( position[0].ToString() );
-		m_TxtSelectedY.SetText( position[2].ToString() );
-
-		return true;
-	}
+        string posName = GetCurrentPositionName();
+        if (posName) {
+            foreach(auto pos : Positions) {
+                if (pos.name == posName) {
+                    position = pos.pos;
+                    break;
+                }
+            }
+        }
+        m_TxtSelectedX.SetText(position[0].ToString());
+        m_TxtSelectedY.SetText(position[2].ToString());
+        return true;
+    }
 
 	string GetCurrentPositionName()
 	{

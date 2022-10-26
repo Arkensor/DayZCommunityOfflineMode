@@ -1,3 +1,8 @@
+
+// Added editingPos bool, set OnMouseEnter and OnMouseLeave to prevent text updating while typing.
+// Adjusted OnChange and OnMouseWheel to allow scaling.
+// - Brandon10x15.
+
 class ObjectInfoMenu extends PopupMenu
 {
 	static EditBoxWidget infoPosX;
@@ -7,8 +12,11 @@ class ObjectInfoMenu extends PopupMenu
 	static EditBoxWidget infoPosYaw;
 	static EditBoxWidget infoPosPitch;
 	static EditBoxWidget infoPosRoll;
+	static EditBoxWidget infoPosScale;
 
 	static TextListboxWidget listBox;
+
+	static bool editingPos = false;
 
 	private ref WidgetStore widgetStore;
 
@@ -59,6 +67,7 @@ class ObjectInfoMenu extends PopupMenu
 		infoPosYaw = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_yaw_input" ));
 		infoPosPitch = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_pitch_input" ));
 		infoPosRoll = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_roll_input" ));
+		infoPosScale = EditBoxWidget.Cast(layoutRoot.FindAnyWidget( "object_info_scale_input" ));
 	}
 
 	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
@@ -88,10 +97,10 @@ class ObjectInfoMenu extends PopupMenu
 		if ( w.GetName() == "object_editor_info_clear")
 		{
 			auto objects = ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).m_Objects;
-
-			foreach( Object obj : objects )
+			foreach(auto obj : objects)
 			{
-				GetGame().ObjectDelete( obj );
+				obj.SetPosition(vector.Zero);
+				GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(GetGame().ObjectDelete, 100, false, obj);
 			}
 			objects.Clear();
 			UpdateObjectList();
@@ -137,77 +146,54 @@ class ObjectInfoMenu extends PopupMenu
 		{
 			return false;
 		}
+		EditBoxWidget editWidget = EditBoxWidget.Cast(w);
+
 		vector orientation = GetSelectedObject().GetOrientation();
 		vector position = GetSelectedObject().GetPosition();
+		float scale = GetSelectedObject().GetScale();
 
 		bool up = wheel < 0;
 		int value = 1;
-
 		if ( up ) value = -1;
 
-		if ( w == infoPosYaw )
-		{
-			orientation[0] = orientation[0] + value;
+		bool changed = false;
+		int posChange = -1, yprChange = -1, scaleChange = -1;
 
-			if( Math.AbsFloat( orientation[0] ) < 0.001 )
-			{
-			    orientation[0] = 0;
-			}
+		if (editWidget == infoPosX) { posChange = 0; }
+		else if (editWidget == infoPosY) { posChange = 1; }
+		else if (editWidget == infoPosZ) { posChange = 2; }
+		else if (editWidget == infoPosYaw) { yprChange = 0; }
+		else if (editWidget == infoPosPitch) { yprChange = 1; }
+		else if (editWidget == infoPosRoll) { yprChange = 2; }
+		else if (editWidget == infoPosScale) { scaleChange = 0; }
 
-			GetSelectedObject().SetOrientation( orientation );
-			infoPosYaw.SetText( orientation[0].ToString() );
-		}
-		if ( w == infoPosPitch )
-		{
-			if ( orientation[0] > 0 ) // seemless pitch change
-			{
-				value = -value;
-			}
-
-			orientation[1] = orientation[1] + value;
-
-            if( Math.AbsFloat( orientation[1] ) < 0.001 )
-            {
-                orientation[1] = 0;
-            }
-
-			GetSelectedObject().SetOrientation( orientation );
-			infoPosPitch.SetText( orientation[1].ToString() );
-
-		}
-		if ( w == infoPosRoll )
-		{
-			orientation[2] = orientation[2] + value;
-
-            if( Math.AbsFloat( orientation[2] ) < 0.001 )
-            {
-                orientation[2] = 0;
-            }
-
-			GetSelectedObject().SetOrientation( orientation );
-			infoPosRoll.SetText( orientation[2].ToString() );
-		}
-		if ( w == infoPosY )
-		{
-			position[1] = position[1] + value * 0.05;
+        if(posChange != -1) {
+        	changed = true;
+            position[posChange] = position[posChange] + value;
 			GetSelectedObject().SetPosition( position );
 			COM_ForceTargetCollisionUpdate( GetSelectedObject() );
-			infoPosY.SetText( position[1].ToString() );
+			infoPosX.SetText(position[0].ToString());
+			infoPosY.SetText(position[1].ToString());
+			infoPosZ.SetText(position[2].ToString());
 		}
-		if ( w == infoPosX )
-		{
-			position[0] = position[0] + (value * 0.05);
-			GetSelectedObject().SetPosition( position );
+        if(yprChange != -1) {
+        	changed = true;
+            orientation[yprChange] = orientation[yprChange] + value;
+			GetSelectedObject().SetOrientation( orientation );
 			COM_ForceTargetCollisionUpdate( GetSelectedObject() );
-			infoPosX.SetText( position[0].ToString() );
+			infoPosYaw.SetText(orientation[0].ToString());
+			infoPosPitch.SetText(orientation[1].ToString());
+			infoPosRoll.SetText(orientation[2].ToString());
 		}
-		if ( w == infoPosZ )
+        if(scaleChange != -1) {
+        	scale = scale + (value / 10);
+            if(Math.AbsFloat(scale) < 0.001) { scale = 0.001; }
+			infoPosScale.SetText(scale.ToString());
+		}
+		if((changed && scale.ToString() != "1") || scaleChange != -1)
 		{
-			position[2] = position[2] + value * 0.05;
-			GetSelectedObject().SetPosition( position );
-			COM_ForceTargetCollisionUpdate( GetSelectedObject() );
-			infoPosZ.SetText( position[2].ToString() );
-		}
+        	ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).ScaleObject(GetSelectedObject(), scale);
+        }
 		return false;
 	}
 
@@ -218,42 +204,47 @@ class ObjectInfoMenu extends PopupMenu
 			return false;
 		}
 
-		vector pos = GetSelectedObject().GetPosition();
+		vector position = GetSelectedObject().GetPosition();
 		vector orientation = GetSelectedObject().GetOrientation();
+		float scale = GetSelectedObject().GetScale();
 
 		EditBoxWidget editWidget = EditBoxWidget.Cast(w);
 		string text = editWidget.GetText();
 
+		bool changed = false;
+		int posChange = -1, yprChange = -1, scaleChange = -1;
+
+		if (editWidget == infoPosX) { posChange = 0; }
+		else if (editWidget == infoPosY) { posChange = 1; }
+		else if (editWidget == infoPosZ) { posChange = 2; }
+		else if (editWidget == infoPosYaw) { yprChange = 0; }
+		else if (editWidget == infoPosPitch) { yprChange = 1; }
+		else if (editWidget == infoPosRoll) { yprChange = 2; }
+		else if (editWidget == infoPosScale) { scaleChange = 0; }
+
 		float value = text.ToFloat();
 
+        if(posChange != -1) {
+        	changed = true;
+            position[posChange] = value;
+			GetSelectedObject().SetPosition( position );
+			COM_ForceTargetCollisionUpdate( GetSelectedObject() );
+		}
+        if(yprChange != -1) {
+        	changed = true;
+            orientation[yprChange] = value;
+			GetSelectedObject().SetOrientation( orientation );
+			COM_ForceTargetCollisionUpdate( GetSelectedObject() );
+		}
+        if(scaleChange != -1) {
+        	scale = value;
+            if(Math.AbsFloat(scale) < 0.001) { scale = 0.001; }
+		}
+		if((changed && scale.ToString() != "1") || scaleChange != -1)
+		{
+        	ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor)).ScaleObject(GetSelectedObject(), scale);
+        }
 //		Print("float value = text.ToFloat() = " + value);
-
-		if ( editWidget == infoPosYaw )
-		{
-			orientation[0] = value;
-		}
-		if ( editWidget == infoPosPitch )
-		{
-			orientation[1] = value;
-		}
-		if ( editWidget == infoPosRoll )
-		{
-			orientation[2] = value;
-		}
-		if ( editWidget == infoPosX )
-		{
-			pos[0] = value;
-		}
-		if ( editWidget == infoPosY )
-		{
-			pos[1] = value;
-		}
-		if ( editWidget == infoPosZ )
-		{
-			pos[2] = value;
-		}
-		GetSelectedObject().SetPosition( pos );
-		GetSelectedObject().SetOrientation( orientation );
 
 /*
 		bool check = false; //?????????????
@@ -291,12 +282,29 @@ class ObjectInfoMenu extends PopupMenu
         return false;
     }
 
-    override bool OnMouseEnter(Widget w, int x, int y)
-	{
+    override bool OnMouseEnter(Widget w, int x, int y) {
+		if ( !w.IsInherited( EditBoxWidget )) { return false; }
+		EditBoxWidget editWidget = EditBoxWidget.Cast(w);
+		if (editWidget == infoPosYaw || editWidget == infoPosPitch || editWidget == infoPosRoll || editWidget == infoPosX || editWidget == infoPosY || editWidget == infoPosZ || editWidget == infoPosScale)
+		{
+			editingPos = true;
+		}
 		return false;
 	}
-	override bool OnMouseLeave(Widget w, Widget enterW, int x, int y)
-	{
+	override bool OnMouseLeave(Widget w, Widget enterW, int x, int y) {
+		if ( !w.IsInherited( EditBoxWidget )) { return false; }
+		EditBoxWidget editWidget = EditBoxWidget.Cast(w);
+		if (editWidget == infoPosYaw || editWidget == infoPosPitch || editWidget == infoPosRoll || editWidget == infoPosX || editWidget == infoPosY || editWidget == infoPosZ || editWidget == infoPosScale)
+		{
+			editingPos = false;
+			infoPosX.SetText( GetSelectedObject().GetPosition()[0].ToString() );
+            infoPosY.SetText( GetSelectedObject().GetPosition()[1].ToString() );
+            infoPosZ.SetText( GetSelectedObject().GetPosition()[2].ToString() );
+            infoPosYaw.SetText( GetSelectedObject().GetOrientation()[0].ToString() );
+            infoPosPitch.SetText( GetSelectedObject().GetOrientation()[1].ToString() );
+            infoPosRoll.SetText( GetSelectedObject().GetOrientation()[2].ToString() );
+            infoPosScale.SetText( GetSelectedObject().GetScale().ToString() );
+		}
 		SetFocus( layoutRoot );
 		return false;
 	}
@@ -330,6 +338,7 @@ class ObjectInfoMenu extends PopupMenu
 			infoPosYaw.ClearFlags( WidgetFlags.IGNOREPOINTER );
 			infoPosPitch.ClearFlags( WidgetFlags.IGNOREPOINTER );
 			infoPosRoll.ClearFlags( WidgetFlags.IGNOREPOINTER );
+			infoPosScale.ClearFlags( WidgetFlags.IGNOREPOINTER );
 
 			text = selectedObject.GetType();
 		} else
@@ -340,6 +349,7 @@ class ObjectInfoMenu extends PopupMenu
 			infoPosYaw.SetFlags( WidgetFlags.IGNOREPOINTER );
 			infoPosPitch.SetFlags( WidgetFlags.IGNOREPOINTER );
 			infoPosRoll.SetFlags( WidgetFlags.IGNOREPOINTER );
+			infoPosScale.SetFlags( WidgetFlags.IGNOREPOINTER );
 		}
 
 		TextWidget selectedObjectWidget = TextWidget.Cast(layoutRoot.FindAnyWidget( "object_editor_info_select_input" ));

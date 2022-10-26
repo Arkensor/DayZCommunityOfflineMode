@@ -44,7 +44,7 @@ class SceneInfo
 */
 	void AddObject( Object object, vector pos ) 
 	{
-		m_objects.Insert( new ObjectData( object.GetType(), pos, object.GetOrientation() ));
+		m_objects.Insert( new ObjectData( object.GetType(), pos, object.GetOrientation(), object.GetScale() ));
 	}
 
 	void AddLootSpot( vector pos, LootType type ) 

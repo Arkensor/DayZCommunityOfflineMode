@@ -1,3 +1,10 @@
+
+// Changed m_SceneObjects to Objects to match vanilla objectSpawnerArr json format.
+// Saving and loading object scale.
+// Added ScaleObject function. (Objects cannot be moved or orientated after scaling, objects must be recreated as they are moved, if scaled)
+// Checking ObjectInfoMenu.editingPos before updating ObjectInfoMenu positions on SelectObject.
+// - Brandon10x15
+
 class ObjectEditor extends Module
 {
 	protected bool m_ObjectEditorActive = false;
@@ -8,15 +15,13 @@ class ObjectEditor extends Module
 	// protected ref Scene active_Scene;
 	autoptr array<Object> m_Objects = new array<Object>;
 
-	string BASE_COM_DIR = "$saves:CommunityOfflineMode";
-	string BASE_SCENE_DIR = BASE_COM_DIR + "\\Scenes";
+	string BASE_SCENE_DIR = BASE_COM_DIR + "Scenes";
 
 	ref SceneManager sceneManager;
 	SceneData currentSceneData;
 
 	void ObjectEditor()
 	{
-//		MakeDirectory( BASE_COM_DIR );
 //		MakeDirectory( BASE_SCENE_DIR );
 
 		sceneManager = new SceneManager();
@@ -139,115 +144,134 @@ class ObjectEditor extends Module
 
 	void SaveScene()
 	{
-
-		// loot spots
-		// pumpkins = civilian
-		// apple = medical
-		// orange = industral
-		// plum = military
-
-/*
-		SceneInfo sceneData = new SceneInfo("Test");
-		// vector position = COM_GetPB().WorldToModel(); // origin point
-
-		foreach( Object m_object : m_Objects )
+		MakeDirectory("$mission:custom\\");
+		ref ObjectSave scene = new ObjectSave();
+		ref array<ref ObjectSave> scenes = new ref array<ref ObjectSave>;
+		int fileNum = 0;
+		TStringArray objSpawnerArr = new TStringArray;
+		TStringArray objSpawnerArrRemove = new TStringArray;
+		if(m_Objects.Count() > 0)
 		{
-			vector pos = COM_GetPB().WorldToModel( m_object.GetPosition() );
-
-			if ( m_object.GetType() != "Pumpkin" )
-			{
-				sceneData.AddObject( m_object, pos ); // add objects
+			foreach(auto obj : m_Objects) {
+				scene.Objects.Insert(new ObjectData(obj.GetType(), obj.GetPosition(), obj.GetOrientation(), obj.GetScale()));
+				if (scene.Objects.Count() == 150)
+				{
+					scenes.Insert(scene);
+					scene = new ObjectSave();
+				}
 			}
-			// then add loot spots
-		}
-
-		foreach( Object m_objectt : m_Objects )
-		{
-			vector poss = COM_GetPB().WorldToModel( m_object.GetPosition() );
-
-			if ( m_object.GetType() == "Pumpkin" )
-			{
-				sceneData.AddObject( m_objectt, poss ); // add objects
-			}
-			// then add loot spots
-		}
-
-		JsonFileLoader< SceneInfo >.JsonSaveFile( SCENE_DATA + "\\" + sceneData.GetName() + ".json", sceneData );
-
-		*/
-
-		/*
-		string toCopy = "";
-
-		foreach( Object m_object : m_Objects )
-		{
-			if ( m_object.GetType() == "Pot" ) //save loot positions
-			{
-				vector modelPos = m_SelectedObject.WorldToModel( m_object.GetPosition() );
-
-				toCopy = toCopy + "{" + modelPos[0] + "," + modelPos[1] + "," + modelPos[2] + "},";
+			scenes.Insert(scene);
+			foreach(auto sc : scenes)  {
+				string sceneFilename = "$mission:custom\\" + objectsFilename + fileNum.ToString() + ".json";
+				JsonFileLoader<ObjectSave>.JsonSaveFile(sceneFilename, sc);
+				string objSpawnerName = "custom/" + objectsFilename + fileNum.ToString() + ".json";
+				objSpawnerArr.Insert( objSpawnerName );
+				fileNum += 1;
 			}
 		}
-		toCopy = m_SelectedObject.GetType() + "[] = {" + toCopy + "};";
-
-		GetGame().CopyToClipboard( toCopy );
-		m_Objects.Clear();
-		*/
-
-        /*
-		ref SceneSaveST scene = new SceneSaveST();
-		scene.name = "latest";
-
-		foreach( Object m_object : m_Objects )
-		{
-			ref Param objectParam = new Param3<string, vector, vector>( m_object.GetType(), m_object.GetPosition(), m_object.GetOrientation() );
-			scene.m_SceneObjects.Insert( objectParam );
+		for (int i = fileNum; i < 100; i++) {
+			string oldFilename = "$mission:custom\\" + objectsFilename + i.ToString() + ".json";
+			string oldObjSpawnerName = "custom/" + objectsFilename + i.ToString() + ".json";
+			objSpawnerArrRemove.Insert( oldObjSpawnerName );
+			if(FileExist(oldFilename)) { DeleteFile(oldFilename); }
 		}
-		*/
+		COM_Message("Saved objects to " + "$mission:custom\\" + objectsFilename);
+		UpdateObjectSpawnerArr(objSpawnerArr, objSpawnerArrRemove);
+	}
+	void UpdateObjectSpawnerArr(TStringArray newObjectSpawnerArr, TStringArray objSpawnerArrRemove)
+	{
+		CfgGameplayHandler.m_Data = new CfgGameplayJson;
+	    JsonFileLoader<CfgGameplayJson>.JsonLoadFile( "$mission:cfgGameplay.json", CfgGameplayHandler.m_Data );
 
-		auto exportFile = OpenFile( "$saves:COMObjectEditorSave.json", FileMode.WRITE );
+	    TStringArray objectSpawnerArr = CfgGameplayHandler.m_Data.WorldsData.objectSpawnersArr;
 
-        if( !exportFile )
-        {
-            COM_Message( "Error writing COMObjectEditorSave.json. Current changes could not NOT be saved!!!" );
-            return;
-        }
+	    if(newObjectSpawnerArr.Count() > 0) {
+			foreach(auto objFilename: newObjectSpawnerArr)
+			{
+				if(objectSpawnerArr.Find( objFilename ) == -1)
+				{
+					CfgGameplayHandler.m_Data.WorldsData.objectSpawnersArr.Insert( objFilename );
+				}
+			}
+		}
 
-        FPrint( exportFile, "{\"name\":\"latest\",\"m_SceneObjects\":[" );
+	    if(objSpawnerArrRemove.Count() > 0) {
+			foreach(auto objFilenameRemove : objSpawnerArrRemove)
+			{
+				if(objectSpawnerArr.Find( objFilenameRemove ) != -1)
+				{
+					CfgGameplayHandler.m_Data.WorldsData.objectSpawnersArr.RemoveItem( objFilenameRemove );
+				}
+			}
+		}
+		JsonFileLoader<CfgGameplayJson>.JsonSaveFile( "$mission:cfgGameplay.json", CfgGameplayHandler.m_Data );
 
-        auto serial = new JsonSerializer;
-        string file_content;
-        foreach(int nObject, Object object : m_Objects )
-        {
-            auto objectParam = new Param3<string, vector, vector>( object.GetType(), object.GetPosition(), object.GetOrientation() );
-            serial.WriteToString( objectParam, false, file_content );
-            FPrint( exportFile, file_content );
-            if( nObject < m_Objects.Count() - 1 ) FPrint( exportFile, "," );
-        }
-
-        FPrint( exportFile, "]}" );
-
-        CloseFile( exportFile );
-
-		COM_Message( "Saved objects to COMObjectEditorSave.json (User/Documents/DayZ)." );
-//		JsonFileLoader< SceneSaveST >.JsonSaveFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
-//		JsonFileLoader< SceneSaveST >.JsonSaveFile( "$saves:COMObjectEditorSave.json", scene );
 	}
 
 	void LoadScene()
 	{
-		SceneSaveST scene = new SceneSaveST();
-
-//		JsonFileLoader<SceneSaveST>.JsonLoadFile( BASE_SCENE_DIR + "\\" + "latest.json", scene );
-		JsonFileLoader<SceneSaveST>.JsonLoadFile( "$saves:COMObjectEditorSave.json", scene );
-
-		foreach( auto param : scene.m_SceneObjects )
+		// Delete all existing objects (if any)
+		foreach(auto obj : m_Objects)
 		{
-			Object object = GetGame().CreateObject( param.param1, param.param2, false, false );
-			object.SetOrientation( param.param3 );
-			COM_ForceTargetCollisionUpdate( object );
+			obj.SetPosition(vector.Zero);
+			GetGame().GetCallQueue(CALL_CATEGORY_GUI).CallLater(GetGame().ObjectDelete, 100, false, obj);
+		}
+     	m_Objects.Clear();
 
+     	// Reload cfgGameplay.json in-case of any manual changes.
+		CfgGameplayHandler.m_Data = new CfgGameplayJson;
+	    JsonFileLoader<CfgGameplayJson>.JsonLoadFile( "$mission:cfgGameplay.json", CfgGameplayHandler.m_Data );
+	    TStringArray objectSpawnerArr = CfgGameplayHandler.m_Data.WorldsData.objectSpawnersArr;
+
+	    if(objectSpawnerArr.Count() > 0)
+	    {
+	        foreach(auto objectFilename: objectSpawnerArr)
+    		{
+    			string objectPath = "$mission:" + objectFilename;
+    			if ( FileExist( objectPath ) )
+    			{
+    				ObjectSave fileData;
+    				JsonFileLoader<ObjectSave>.JsonLoadFile( objectPath, fileData );
+
+    				foreach (auto data : fileData.Objects)
+    				{
+						Object object = GetGame().CreateObject( data.name, data.pos, false, false );
+						object.SetOrientation( data.ypr );
+						COM_ForceTargetCollisionUpdate( object );
+						object.SetScale( data.scale );
+						m_Objects.Insert(object);
+    				}
+					Print("All objects loaded from save file: " + objectPath);
+    			}
+    		}
+    	}
+	}
+
+	void ScaleObject(Object obj, float scale) { // NEEDS WORK
+		if(scale <= 0)
+		{
+			return;
+		}
+		bool select = false;
+		if(m_SelectedObject == obj)
+		{
+			select = true;
+		}
+		//COM_Message("Setting scale to: " + scale.ToString());
+		Object object = GetGame().CreateObjectEx(obj.GetType(), obj.GetPosition(), ECE_SETUP | ECE_UPDATEPATHGRAPH | ECE_CREATEPHYSICS | ECE_NOLIFETIME);
+		if ( object )
+		{
+			object.SetOrientation( obj.GetOrientation() );
+			object.SetScale(scale);
 			m_Objects.Insert( object );
+			m_Objects.RemoveItem( obj );
+			ObjectInfoMenu.UpdateObjectList();
+			if(select)
+			{
+				SelectObject(object);
+			}
+			obj.SetPosition( vector.Zero );
+			GetGame().GetCallQueue( CALL_CATEGORY_GUI ).CallLater( GetGame().ObjectDelete, 100, false, obj );
 		}
 	}
 
@@ -296,24 +320,32 @@ class ObjectEditor extends Module
 			return;
 		}
 
-		if ( COM_CTRL() ) 
-		{
-			vector modelPos = m_SelectedObject.WorldToModel( object.GetPosition() );
+		if( !ObjectInfoMenu.editingPos ) {
+			if ( COM_CTRL() )
+			{
+				vector modelPos = m_SelectedObject.WorldToModel( object.GetPosition() );
 
-			ObjectInfoMenu.infoPosX.SetText( modelPos[0].ToString() );
-			ObjectInfoMenu.infoPosY.SetText( modelPos[1].ToString() );
-			ObjectInfoMenu.infoPosZ.SetText( modelPos[2].ToString() );
+				ObjectInfoMenu.infoPosX.SetText( modelPos[0].ToString() );
+				ObjectInfoMenu.infoPosY.SetText( modelPos[1].ToString() );
+				ObjectInfoMenu.infoPosZ.SetText( modelPos[2].ToString() );
+				ObjectInfoMenu.infoPosYaw.SetText( "0.0" );
+				ObjectInfoMenu.infoPosPitch.SetText( "0.0" );
+				ObjectInfoMenu.infoPosRoll.SetText( "0.0" );
+				ObjectInfoMenu.infoPosScale.SetText( "0.0" );
 
-		}
-		else 
-		{
-			ObjectInfoMenu.infoPosX.SetText( object.GetPosition()[0].ToString() );
-			ObjectInfoMenu.infoPosY.SetText( object.GetPosition()[1].ToString() );
-			ObjectInfoMenu.infoPosZ.SetText( object.GetPosition()[2].ToString() );
+			}
+			else
+			{
+				ObjectInfoMenu.infoPosX.SetText( object.GetPosition()[0].ToString() );
+				ObjectInfoMenu.infoPosY.SetText( object.GetPosition()[1].ToString() );
+				ObjectInfoMenu.infoPosZ.SetText( object.GetPosition()[2].ToString() );
 
-			ObjectInfoMenu.infoPosYaw.SetText( object.GetOrientation()[0].ToString() );
-			ObjectInfoMenu.infoPosPitch.SetText( object.GetOrientation()[1].ToString() );
-			ObjectInfoMenu.infoPosRoll.SetText( object.GetOrientation()[2].ToString() );
+				ObjectInfoMenu.infoPosYaw.SetText( object.GetOrientation()[0].ToString() );
+				ObjectInfoMenu.infoPosPitch.SetText( object.GetOrientation()[1].ToString() );
+				ObjectInfoMenu.infoPosRoll.SetText( object.GetOrientation()[2].ToString() );
+
+				ObjectInfoMenu.infoPosScale.SetText( object.GetScale().ToString() );
+			}
 		}
 
 		m_SelectedObject = object;
@@ -356,6 +388,8 @@ class ObjectEditor extends Module
 
 				//contact_pos [ 1 ] = contact_pos [ 1 ] + nHightOffsetToGround;
 
+				float oldScale = m_SelectedObject.GetScale();
+
 				m_SelectedObject.SetPosition( contact_pos );
 				m_SelectedObject.PlaceOnSurface();
 
@@ -364,6 +398,11 @@ class ObjectEditor extends Module
 				ObjectInfoMenu.infoPosX.SetText( m_SelectedObject.GetPosition()[0].ToString() );
 				ObjectInfoMenu.infoPosY.SetText( m_SelectedObject.GetPosition()[1].ToString() );
 				ObjectInfoMenu.infoPosZ.SetText( m_SelectedObject.GetPosition()[2].ToString() );
+
+				if(oldScale.ToString() != "1")
+				{
+					ScaleObject(m_SelectedObject, oldScale);
+				}
 			}
 		}
 	}
@@ -465,6 +504,8 @@ class ObjectEditor extends Module
 					ObjectInfoMenu.infoPosYaw.SetText( m_SelectedObject.GetOrientation()[0].ToString() );
 					ObjectInfoMenu.infoPosPitch.SetText( m_SelectedObject.GetOrientation()[1].ToString() );
 					ObjectInfoMenu.infoPosRoll.SetText( m_SelectedObject.GetOrientation()[2].ToString() );
+
+					ObjectInfoMenu.infoPosScale.SetText( m_SelectedObject.GetScale().ToString() );
 				}
 			}
 		}
@@ -532,7 +573,14 @@ class ObjectEditor extends Module
 			m_SelectedObject.SetPosition(pos);
 			*/
 			//COM_SnapToGroundNew( m_SelectedObject );
+
+			float oldScale = m_SelectedObject.GetScale();
 			m_SelectedObject.PlaceOnSurface();
+
+			if(oldScale.ToString() != "1")
+			{
+				ScaleObject(m_SelectedObject, oldScale);
+			}
 		}
 	}
 }

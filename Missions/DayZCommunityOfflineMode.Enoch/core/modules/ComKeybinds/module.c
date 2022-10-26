@@ -1,5 +1,5 @@
 #ifndef COM_MODULES_OLDLOADING
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\BaseModuleInclude.c"
+#include "$mission:core\\BaseModuleInclude.c"
 #endif
 /*
     Define used for optional compilations
@@ -10,7 +10,7 @@
     Include of all .c files that belong to this module
 */
 #ifdef COM_MODULES_OLDLOADING
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComKeybinds\\COMKeyBinds.c"
+#include "$mission:core\\modules\\ComKeybinds\\COMKeyBinds.c"
 #endif
 
 #ifndef COM_MODULES_OLDLOADING

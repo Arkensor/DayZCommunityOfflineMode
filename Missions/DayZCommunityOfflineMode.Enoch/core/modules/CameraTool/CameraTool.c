@@ -1,3 +1,7 @@
+
+// Disabled camera tool while in vehicle to prevent player glitching.
+// - Brandon10x15.
+
 class CameraTool extends Module
 {
 	protected Camera m_oCamera; // active static camera "staticcamera"
@@ -143,6 +147,12 @@ class CameraTool extends Module
 		{
 			return;
 		}
+
+        if(COM_GetPB().IsInVehicle())
+        {
+            COM_Message("Exit the vehicle before using the Camera Tool .");
+            return;
+        }
 
 		vector position = "0 0 0";
 

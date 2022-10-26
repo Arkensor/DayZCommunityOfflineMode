@@ -1,3 +1,7 @@
+
+// Tested all items again for the m_excludeBroken array.
+// - Brandon10x15.
+
 class ObjectMenu extends PopupMenu
 {
 	protected TextListboxWidget m_classList;
@@ -19,14 +23,14 @@ class ObjectMenu extends PopupMenu
 	protected EditBoxWidget m_editBox;
 
 	protected autoptr array<string> m_excludeBroken = {
-	    "GP25Base",
-	    "GP25",
-	    "GP25_Standalone",
-	    "M203Base",
-	    "M203",
-	    "M203_Standalone",
-	    "ItemOptics",
-    };
+		"GP25Base",
+		"M203Base",
+		"ItemOptics",
+		"Head",
+		"LargeTentBackPack",
+		"CarWheel",
+		"CarDoor",
+	};
 
 	void ~ObjectMenu()
 	{
@@ -274,7 +278,7 @@ class ObjectMenu extends PopupMenu
 
             if( m_excludeBroken.Find( strSelection ) != -1 ) return false;
 
-            Print(strSelection);
+            //Print(strSelection);
 
             previewItem = EntityAI.Cast(GetGame().CreateObject( strSelection, vector.Zero, false ));
 
