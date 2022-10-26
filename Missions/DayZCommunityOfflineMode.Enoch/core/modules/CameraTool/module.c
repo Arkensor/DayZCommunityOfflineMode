@@ -1,5 +1,5 @@
 #ifndef COM_MODULES_OLDLOADING
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\BaseModuleInclude.c"
+#include "$mission:core\\BaseModuleInclude.c"
 #endif
 
 /*
@@ -11,9 +11,9 @@
     Include of all .c files that belong to this module
 */
 #ifdef COM_MODULES_OLDLOADING
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\CameraTool\\CameraTool.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\CameraTool\\gui\\CameraSettings.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\CameraTool\\WidgetStore.c"
+#include "$mission:core\\modules\\CameraTool\\CameraTool.c"
+#include "$mission:core\\modules\\CameraTool\\gui\\CameraSettings.c"
+#include "$mission:core\\modules\\CameraTool\\WidgetStore.c"
 #endif
 
 #ifndef COM_MODULES_OLDLOADING

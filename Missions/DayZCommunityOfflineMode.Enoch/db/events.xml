@@ -758,8 +758,8 @@
         </children>
     </event>
     <event name="StaticMilitaryConvoy">
-        <nominal>5</nominal>
-        <min>5</min>
+        <nominal>3</nominal>
+        <min>2</min>
         <max>0</max>
         <lifetime>1800</lifetime>
         <restock>0</restock>
@@ -767,7 +767,7 @@
         <distanceradius>1000</distanceradius>
         <cleanupradius>1000</cleanupradius>
         <secondary>InfectedArmyConvoy</secondary>
-        <flags deletable="0" init_random="0" remove_damaged="0"/>
+        <flags deletable="1" init_random="0" remove_damaged="0"/>
         <position>fixed</position>
         <limit>child</limit>
         <active>1</active>
@@ -802,7 +802,7 @@
         <distanceradius>1000</distanceradius>
         <cleanupradius>1000</cleanupradius>
         <secondary>InfectedPoliceHard</secondary>
-        <flags deletable="0" init_random="0" remove_damaged="0"/>
+        <flags deletable="1" init_random="0" remove_damaged="0"/>
         <position>fixed</position>
         <limit>child</limit>
         <active>1</active>

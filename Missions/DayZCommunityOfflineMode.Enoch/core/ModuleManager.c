@@ -1,17 +1,17 @@
 #define COM_MODULES_OLDLOADING
 
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\Module.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\KeyMouseBinding.c"
+#include "$mission:core\\Module.c"
+#include "$mission:core\\KeyMouseBinding.c"
 
 #ifdef COM_MODULES_OLDLOADING
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\Admintool\\module.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\CameraTool\\module.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComEditor\\module.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComKeyBinds\\module.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\ComMenu\\module.c"
-//#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\Persistency\\module.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\DebugMonitor\\module.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\BarrelCrosshair\\module.c"
+#include "$mission:core\\modules\\Admintool\\module.c"
+#include "$mission:core\\modules\\CameraTool\\module.c"
+#include "$mission:core\\modules\\ComEditor\\module.c"
+#include "$mission:core\\modules\\ComKeyBinds\\module.c"
+#include "$mission:core\\modules\\ComMenu\\module.c"
+//#include "$mission:core\\modules\\Persistency\\module.c"
+#include "$mission:core\\modules\\DebugMonitor\\module.c"
+#include "$mission:core\\modules\\BarrelCrosshair\\module.c"
 #endif
 
 class KeyMouseActionType

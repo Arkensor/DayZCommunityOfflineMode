@@ -1,3 +1,9 @@
+
+// Now reads cfgGamePlay.json, cfgEffectArea.json, and cfgUndergroundTriggers.json variables by default.
+// Removed SetupWeather(), use $mission:cfgWeather.xml to configure the weather.
+// Added worldMap and gameVersion variables to change editor object save file names automatically.
+// - Brandon10x15
+
 class CommunityOfflineClient extends MissionGameplay
 {
 	protected bool HIVE_ENABLED = true; //Local Hive / Economy / Infected spawn
@@ -13,11 +19,27 @@ class CommunityOfflineClient extends MissionGameplay
 
 	override void OnInit()
 	{
+		GetGame().GetVersion(gameVersion); Print("Game Version: " + gameVersion);
+		Print("Game World: " + worldMap);
+		if(worldMap == "Enoch") {
+        	objectsFilename = "COMObjectsEnoch";
+        }
+        else if(worldMap == "Namalsk")
+        {
+            objectsFilename = "COMObjectsNamalsk";
+        }
+		MakeDirectory( BASE_COM_DIR );
+		// Initialize cfgGameplay.json
+		CfgGameplayHandler.m_Data = new CfgGameplayJson;
+	    JsonFileLoader<CfgGameplayJson>.JsonLoadFile( "$mission:cfgGameplay.json", CfgGameplayHandler.m_Data );
+		GetGame().GetMission().OnGameplayDataHandlerLoad();
+		DayZGame.Cast(GetGame()).OnGameplayDataHandlerLoad();
+
 		super.OnInit();
 
         InitHive();
 
-        SetupWeather();
+        //SetupWeather();
 
 		SpawnPlayer();
 
@@ -30,6 +52,12 @@ class CommunityOfflineClient extends MissionGameplay
 
         COM_GetModuleManager().OnInit();
 		COM_GetModuleManager().OnMissionStart();
+
+		// Initialize cfgUndergroundTriggers.json
+		GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call(UndergroundAreaLoader.SpawnAllTriggerCarriers);
+
+		// Initialize cfgEffectArea.json
+		GetGame().GetCallQueue(CALL_CATEGORY_GUI).Call(EffectAreaLoader.CreateZones);
 	}
 
 	override void OnMissionFinish()

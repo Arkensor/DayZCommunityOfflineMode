@@ -1,3 +1,12 @@
+
+// Saving positions to $saves:CommunityOfflineMode/COMPositions.json.
+// COMPositions.json can be customized to the users liking.
+// COMPositions.json can be renamed or deleted to restore the default COMPositions.json file.
+// Positions are now inserted into the Positions menu in the same order as the COMPositions.json file.
+// Added positions for Namalsk.
+// Disabled teleporting while in vehicle to prevent player glitching.
+// - Brandon10x15.
+
 class PositionMenu extends PopupMenu
 {
 	protected TextListboxWidget m_LstPositionList;
@@ -8,61 +17,14 @@ class PositionMenu extends PopupMenu
 	protected ButtonWidget m_TeleportButton;
 	protected ButtonWidget m_CancelButton;
 
-	autoptr map< string, vector > Positions = new map< string, vector >;
+    ref array<ref PositionData> Positions = new ref array< ref PositionData>;
 
     protected bool m_bOverCurrentPos;
+    protected bool m_positionMenuOpen = false;
 
 	void PositionMenu()
 	{
 	    m_bOverCurrentPos = false;
-        
-        Positions.Insert( "Adamow", "3175.23 0 6805.85" );
-        Positions.Insert( "Bagno", "11970.94 0 11220.80" );
-        Positions.Insert( "Bielawa", "1392.87 0 9664.53" );
-        Positions.Insert( "Borek", "9768.98 0 8497.65" );
-        Positions.Insert( "Branzow Castle", "1075.98 0 11365.36" );
-        Positions.Insert( "Brena", "6641.84 0 11130.16" );
-        Positions.Insert( "Dambog", "554.79 0 1127.55" );
-        Positions.Insert( "Drewniki", "5790.12 0 5087.65" );
-        Positions.Insert( "Dolnik", "11390.37 0 612.61" );
-        Positions.Insert( "Gieraltow", "11345.83 0 4397.68" );
-        Positions.Insert( "Gliniska", "4993.88 0 9916.66" );
-        Positions.Insert( "Grabinskie", "10959.82 0 10998.11" );
-        Positions.Insert( "Hedrykow", "4507.86 0 4803.22" );
-        Positions.Insert( "Hrud", "6479.31 0 9235.63" );
-        Positions.Insert( "Huta", "5228.30 0 5567.43" );
-        Positions.Insert( "Jantar", "3668.64 0 8889.91" );
-        Positions.Insert( "Jezurow", "2104.29 0 2330.90" );
-        Positions.Insert( "Karlin", "10078.41 0 6885.64" );
-        Positions.Insert( "Kolembrody", "8417.17 0 11968.60" );
-        Positions.Insert( "Kopa", "5555.70 0 8724.25" );
-        Positions.Insert( "Krsnik", "7813.15 0 10044.03" );
-        Positions.Insert( "Kulno", "11194.24 0 2453.57" );
-        Positions.Insert( "Lipina", "5937.02 0 6777.02" );
-        Positions.Insert( "Lukow", "3755.38 0 11720.90" );
-        Positions.Insert( "Lembork", "8837.56 0 6614.49" );
-        Positions.Insert( "Muratyn", "4586.78 0 6385.54" );
-        Positions.Insert( "Nadbor", "6171.44 0 4091.37" );
-        Positions.Insert( "Nidek", "6291.00 0 8077.26" );
-        Positions.Insert( "Olszanka", "4757.12 0 7590.45" );
-        Positions.Insert( "Piorun", "643.09 0 12108.47" );
-        Positions.Insert( "Polana", "3362.77 0 2095.52" );
-        Positions.Insert( "Radacz", "3962.44 0 7895.98" );
-        Positions.Insert( "Radunin", "7291.96 0 6487.13" );
-        Positions.Insert( "Rodzanica", "8900.85 0 2077.72" );
-        Positions.Insert( "Roztoka", "7688.82 0 5238.29" );
-        Positions.Insert( "Sitnickie", "11323.00 0 10018.24" );
-        Positions.Insert( "Skala", "2997.42 0 1958.17" );
-        Positions.Insert( "Sobotka", "6300.11 0 10161.06" );
-        Positions.Insert( "Sowa", "11665.42 0 12014.70" );
-        Positions.Insert( "Swarog", "4888.40 0 2211.34" );
-        Positions.Insert( "Tarnow", "9268.88 0 10790.26" );
-        Positions.Insert( "Topolin", "1873.00 0 7341.97" );
-        Positions.Insert( "Tymbark", "2979.45 0 1129.89" );
-        Positions.Insert( "Widok", "10256.57 0 2122.26" );
-        Positions.Insert( "Wrzeszcz", "9037.59 0 4390.65" );
-        Positions.Insert( "Zalesie", "865.18 0 5498.05" );
-        Positions.Insert( "Zapadlisko", "8111.64 0 8693.00" );
 	}
 
 	void ~PositionMenu()
@@ -79,23 +41,62 @@ class PositionMenu extends PopupMenu
 		m_TeleportButton = ButtonWidget.Cast( layoutRoot.FindAnyWidget("btn_ppp_pm_teleport") );
 		m_CancelButton = ButtonWidget.Cast( layoutRoot.FindAnyWidget("btn_ppp_pm_cancel") );
 
-        for ( int nPosition = 0; nPosition < Positions.Count(); nPosition++ )
+		SetupPositions();
+
+        foreach(auto position : Positions)
         {
-            m_LstPositionList.AddItem( Positions.GetKey( nPosition ), NULL, 0 );
+            m_LstPositionList.AddItem(position.name, NULL, 0);
+        }
+        GetGame().GetCallQueue( CALL_CATEGORY_GUI ).CallLater( Update, 1000, true );
+	}
+
+	void SetupPositions()
+	{
+		string positionsPath = BASE_COM_DIR + "COMPositions.json";
+		ref PositionSave positions = NULL;
+        if ( !FileExist( positionsPath ) )
+        {
+			positions = new PositionSave();
+			positions.New();
+			JsonFileLoader<PositionSave>.JsonSaveFile( positionsPath, positions);
+        }
+    	if(positions == NULL)
+    	{
+    	    JsonFileLoader<PositionSave>.JsonLoadFile( positionsPath, positions );
+    	}
+		if(worldMap == "ChernarusPlus") {
+            Positions = positions.ChernarusPlus;
+        }
+        else if(worldMap == "Enoch")
+        {
+            Positions = positions.Enoch;
+        }
+        else if(worldMap == "Namalsk")
+        {
+            Positions = positions.Namalsk;
         }
 	}
 
-	override void OnShow()
-	{
-        vector player_pos = COM_GetPB().GetPosition();
+    void Update()
+    {
+        if(isPositionMenuOpen())
+        {
+            vector player_pos = COM_GetPB().GetPosition();
+            m_TxtCurrentX.SetText(player_pos[0].ToString());
+            m_TxtCurrentY.SetText(player_pos[2].ToString());
+        }
+    }
 
-        m_TxtCurrentX.SetText( player_pos[0].ToString() );
-		m_TxtCurrentY.SetText( player_pos[2].ToString() );
+	bool isPositionMenuOpen() {
+		return m_positionMenuOpen;
 	}
 
-	override void OnHide()
-	{
+	override void OnShow() {
+		m_positionMenuOpen = true;
+	}
 
+	override void OnHide() {
+		m_positionMenuOpen = false;
 	}
 
 	override bool OnMouseEnter(Widget w, int x, int y)
@@ -133,6 +134,12 @@ class PositionMenu extends PopupMenu
 	{
 		if ( w == m_TeleportButton )
 		{
+            if(COM_GetPB().IsInVehicle())
+            {
+                COM_Message("Exit the vehicle before teleporting.");
+                return false;
+            }
+
 		    float pos_x = 0;
             float pos_y = 0;
 
@@ -171,17 +178,19 @@ class PositionMenu extends PopupMenu
 	override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
 	{
 		vector position = "0 0 0";
-
-		if( !Positions.Find( GetCurrentPositionName(), position ) )
-		{
-			position = "0 0 0";
-		}
-
-		m_TxtSelectedX.SetText( position[0].ToString() );
-		m_TxtSelectedY.SetText( position[2].ToString() );
-
-		return true;
-	}
+        string posName = GetCurrentPositionName();
+        if (posName) {
+            foreach(auto pos : Positions) {
+                if (pos.name == posName) {
+                    position = pos.pos;
+                    break;
+                }
+            }
+        }
+        m_TxtSelectedX.SetText(position[0].ToString());
+        m_TxtSelectedY.SetText(position[2].ToString());
+        return true;
+    }
 
 	string GetCurrentPositionName()
 	{

@@ -6,4 +6,4 @@
 /*
     Include of all .c files that belong to this module
 */
-//#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\Admintool\\gui\\PositionMenu.c"
+//#include "$mission:core\\modules\\Admintool\\gui\\PositionMenu.c"

@@ -11468,12 +11468,12 @@
 						<category name="clothes" />
 						<category name="weapons" />
 						<category name="explosives" />
-						<tag name="ground" />
 						<tag name="floor" />
 						<tag name="shelves" />
-						<point pos="-2.160580 -1.098483 0.040472" range="0.695068" height="1.737670" />
-						<point pos="-0.503185 -1.098483 -0.055332" range="0.962891" height="2.000000" />
-						<point pos="1.861666 -1.098483 0.032419" range="1.030762" height="2.000000" />
+						<tag name="ground" />
+						<point pos="-0.416001 -1.088013 -0.023456" range="1.020508" height="2.000000" />
+						<point pos="1.865466 -1.088013 0.021198" range="1.040771" height="2.000000" />
+						<point pos="-2.233888 -1.078072 0.001275" range="0.797575" height="2.000008" />
 				</container>
 		</group>
 		<group name="Land_Container_1Moh" lootmax="1">
@@ -12072,7 +12072,6 @@
 						<point pos="-0.866100 -0.489319 0.377680" range="0.100000" height="0.250000" />
 				</container>
 		</group>
-		<!-- ----------------------------------------------------------------------------------------- -->
 		<!-- ENOCH SPECIFIC-->
 		<group name="Land_Mil_Guardhouse3" lootmax="2">
 				<usage name="Police" />
@@ -15384,7 +15383,7 @@
 						<proxy type="Offroad_02_Door_2_2_Rust" pos="0.55 -0.85 1.15" rpy="2.0 170.0 0.0" />
 						<proxy type="Offroad_02_Door_2_1_Rust" pos="-0.35 -0.85 1.15" rpy="2.0 170.0 0.0" />
 						<proxy type="Offroad_02_Wheel" pos="1.5 -1.3 1.5" rpy="0.0 0.0 0.0" />
-						<proxy type="Offroad_02_Trunk_Rust" pos="1.8 -0.15 0.0" rpy="0.0 90.0 0.0" />
+						<proxy type="Offroad_02_Trunk_Rust" pos="1.75 -0.3 0.0" rpy="37.0 0.0 100.0" />
 				</dispatch>
 		</group>
 		<group name="Land_Wreck_offroad02_aban2" lootmax="2">
@@ -15695,8 +15694,6 @@
 								<proxy type="Truck_01_Door_1_1_OrangeRust" pos="-1.55 1.02 -1.10" rpy="0.0 160.0 0.0" />
 						</dispatch>
 		</group>
-		
-		<!-- ----------------------------------------------------------------------------------------- -->
 		<!-- SEASONAL EVENT-->
 		<group name="Bonfire" lootmax="5">
 				<usage name="SeasonalEvent" />

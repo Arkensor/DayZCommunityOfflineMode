@@ -1,5 +1,5 @@
 #ifndef COM_MODULES_OLDLOADING
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\BaseModuleInclude.c"
+#include "$mission:core\\BaseModuleInclude.c"
 #endif
 /*
     Define used for optional compilations
@@ -10,8 +10,8 @@
     Include of all .c files that belong to this module
 */
 #ifdef COM_MODULES_OLDLOADING
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\DebugMonitor\\CustomDebugMonitor.c"
-#include "$CurrentDir:missions\\DayZCommunityOfflineMode.Enoch\\core\\modules\\DebugMonitor\\gui\\DebugMonitor.c"
+#include "$mission:core\\modules\\DebugMonitor\\CustomDebugMonitor.c"
+#include "$mission:core\\modules\\DebugMonitor\\gui\\DebugMonitor.c"
 #endif
 
 #ifndef COM_MODULES_OLDLOADING

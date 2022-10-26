@@ -1,28 +1,38 @@
-class ObjectData 
-{
-	string classname;
-	vector position;
-	vector orientation;
+// Added scale.
+// - Brandon10x15
 
-	void ObjectData( string name, vector pos, vector ori )
+class ObjectData
+{
+	string name;
+	vector pos;
+	vector ypr;
+	float scale;
+
+	void ObjectData( string name1, vector pos1, vector ypr1, float scale1 )
 	{
-		classname = name;
-		position = pos;
-		orientation = ori;
+		name = name1;
+		pos = pos1;
+		ypr = ypr1;
+		scale = scale1;
 	}
 
 	string GetClassName() 
 	{
-		return classname;
+		return name;
 	}
 
 	vector GetPosition() 
 	{
-		return position;
+		return pos;
 	}
 
-	vector GetOrientation() 
+	vector GetOrientation()
 	{
-		return orientation;
+		return ypr;
+	}
+
+	float GetScale()
+	{
+		return scale;
 	}
 }
