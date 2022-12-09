@@ -160,7 +160,7 @@ class GameMenu extends PopupMenu
 	{
 		TStringArray attArr = {
 		"HeadlightH7", "HeadlightH7",
-		"HatchbackWheel", "HatchbackWheel", "HatchbackWheel", "HatchbackWheel",
+		"HatchbackWheel", "HatchbackWheel", "HatchbackWheel", "HatchbackWheel", "HatchbackWheel",
 		"CarBattery", "CarRadiator", "EngineBelt", "SparkPlug", "HatchbackHood",
 		"HatchbackTrunk", "HatchbackDoors_Driver", "HatchbackDoors_CoDriver",
 		};
@@ -172,7 +172,7 @@ class GameMenu extends PopupMenu
 	{
 		TStringArray attArr = {
 		"HeadlightH7", "HeadlightH7",
-		"CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel",
+		"CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel",
 		"CarBattery", "CarRadiator","EngineBelt", "SparkPlug","CivSedanHood",
 		"CivSedanTrunk", "CivSedanDoors_Driver","CivSedanDoors_CoDriver",
 		"CivSedanDoors_BackLeft", "CivSedanDoors_BackRight",
@@ -187,7 +187,7 @@ class GameMenu extends PopupMenu
 		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug", "Hatchback_02_Door_1_1",
 		"Hatchback_02_Door_1_2", "Hatchback_02_Door_2_1","Hatchback_02_Door_2_2",
 		"Hatchback_02_Trunk", "Hatchback_02_Hood", "Hatchback_02_Wheel", "Hatchback_02_Wheel",
-		"Hatchback_02_Wheel", "Hatchback_02_Wheel", "CivSedanDoors_BackRight",
+		"Hatchback_02_Wheel", "Hatchback_02_Wheel", "Hatchback_02_Wheel", "CivSedanDoors_BackRight",
 		};
 
 		SpawnVehicle( "Hatchback_02", attArr );
@@ -199,7 +199,7 @@ class GameMenu extends PopupMenu
 		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug", "Sedan_02_Hood",
 		"Sedan_02_Hood","Sedan_02_Trunk","Sedan_02_Door_1_1",
 		"Sedan_02_Door_2_1","Sedan_02_Door_1_2","Sedan_02_Door_2_2","Sedan_02_Wheel",
-		"Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel",
+		"Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel",
 		};
 
 		SpawnVehicle( "Sedan_02", attArr );
