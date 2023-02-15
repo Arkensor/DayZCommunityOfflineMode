@@ -1,0 +1,10 @@
+Go inside the folder "CommunityOfflineModeCore"
+1) Copy the init.c into your own mission (map)
+2) Edit the corresponding .bat file and make sure the name of your mission match the specified name at the end of the file
+
+if your mission is named "dayzOffline.Namalsk"
+
+-mission=.\Missions\dayzOffline.Namalsk
+
+Dont forget to save !
+3) Start the .bat file to play
