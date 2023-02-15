@@ -38,7 +38,7 @@ class CameraSettings extends PopupMenu
 	{
 	}
 	
-	void Init()
+	override void Init()
     {
     	widgetStore = new WidgetStore( layoutRoot );
 
@@ -83,7 +83,7 @@ class CameraSettings extends PopupMenu
 
     }
 	
-	void Update()
+	override void Update()
 	{
 		UpdateSliders();
 	}

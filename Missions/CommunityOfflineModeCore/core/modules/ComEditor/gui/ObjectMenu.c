@@ -67,7 +67,7 @@ class ObjectMenu extends PopupMenu
 		}
 	}
 
-	void Init()
+	override void Init()
 	{
 		m_classList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget( "classlist" ) );
 		m_SearchBox = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "search_input" ) );
@@ -106,7 +106,7 @@ class ObjectMenu extends PopupMenu
         return false;
     }
 
-    bool OnMouseEnter( Widget w , int x, int y )
+    override bool OnMouseEnter( Widget w , int x, int y )
     {
         if ( w == m_SearchBox )
         {
@@ -115,7 +115,7 @@ class ObjectMenu extends PopupMenu
         return false;
     }
 
-    bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
+    override bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
     {
         if ( w == m_SearchBox )
         {
@@ -167,9 +167,8 @@ class ObjectMenu extends PopupMenu
 
         if( strSelection != "" )
         {
-            if( CheckItemCrash(strSelection) ) return false;
+			strSelection.ToLower();
 
-          strSelection.ToLower();
           ObjectEditor obEditor = ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor ));
 
           if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) )
@@ -307,7 +306,7 @@ class ObjectMenu extends PopupMenu
 
             if ( previewItem ) GetGame().ObjectDelete( previewItem );
 
-            if( CheckItemCrash(strSelection) ) return false;
+			strSelection.ToLower();
 
             Print(strSelection);
 
@@ -439,6 +438,10 @@ class ObjectMenu extends PopupMenu
 				if ( GetGame().IsKindOf( strNameLower, classFilter ) || classFilter == "All" ) // Fix for weapon_base not being child of "All"
 				{
 					if ( (strSearch != "" && (!strNameLower.Contains( strSearch ))) ) 
+					{
+						continue;
+					}
+            		if( CheckItemCrash(strNameLower) ) 
 					{
 						continue;
 					}

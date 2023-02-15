@@ -268,7 +268,7 @@ class ObjectInfoMenu extends PopupMenu
     	GetGame().GetCallQueue( CALL_CATEGORY_GUI ).CallLater( Update, 100, true );
     }
 
-	void Update()
+	override void Update()
 	{
 		Object selectedObject = GetSelectedObject();
 		string text = "No object Selected";

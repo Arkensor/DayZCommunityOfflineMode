@@ -461,7 +461,7 @@ class PositionMenu extends PopupMenu
         Positions.Insert( "Zvir", "477.35 0 5202.98" );
     }
 
-	void Init()
+	override void Init()
 	{
 		m_LstPositionList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget("tls_ppp_pm_positions_list") );
 		m_TxtSelectedX = EditBoxWidget.Cast( layoutRoot.FindAnyWidget("pnl_ppp_pm_selected_x_value") );
