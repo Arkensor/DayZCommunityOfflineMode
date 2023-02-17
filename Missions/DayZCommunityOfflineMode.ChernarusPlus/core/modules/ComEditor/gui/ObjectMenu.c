@@ -26,9 +26,6 @@ class ObjectMenu extends PopupMenu
 	    "M203",
 	    "M203_Standalone",
 	    "ItemOptics",
-	    "ThingEffect",
-	    "QuickieBow",
-		  "LargeTentBackpack",
     };
 
 	void ~ObjectMenu()
@@ -152,9 +149,6 @@ class ObjectMenu extends PopupMenu
             COM_ForceTargetCollisionUpdate( oCursorObj );
             ObjectInfoMenu.listBox.AddItem(oCursorObj.GetType(), oCursorObj, 0);
 
-            if ( oObj.IsKindOf("CarScript") )
-              oObj.OnDebugSpawn();
-
             if ( oCursorObj.IsInherited( Magazine ) )
             {
               itemHealth = m_StateItem.GetText().ToFloat();
@@ -186,9 +180,6 @@ class ObjectMenu extends PopupMenu
             obEditor.addObject( oObj );
             COM_ForceTargetCollisionUpdate( oObj );
             ObjectInfoMenu.listBox.AddItem(oObj.GetType(), oObj, 0);
-
-            if ( oObj.IsKindOf("CarScript") )
-              oObj.OnDebugSpawn();
 
             if ( oObj.IsInherited( Magazine ) )
             {
