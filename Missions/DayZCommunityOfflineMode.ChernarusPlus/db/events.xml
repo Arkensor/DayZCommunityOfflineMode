@@ -748,7 +748,7 @@
     </event>
     <event name="StaticMilitaryConvoy">
         <nominal>5</nominal>
-        <min>5</min>
+        <min>0</min>
         <max>0</max>
         <lifetime>1800</lifetime>
         <restock>0</restock>
@@ -783,7 +783,7 @@
     </event>
     <event name="StaticPoliceSituation">
         <nominal>5</nominal>
-        <min>5</min>
+        <min>0</min>
         <max>0</max>
         <lifetime>1800</lifetime>
         <restock>0</restock>

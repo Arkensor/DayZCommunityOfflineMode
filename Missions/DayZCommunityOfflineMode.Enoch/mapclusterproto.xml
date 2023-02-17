@@ -357,7 +357,7 @@
 				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
 			</container>
 		</cluster>
-		<cluster name="quarryenoch_10_100"lootmax="2" maxinstances="30">
+		<cluster name="quarryenoch_10_100" lootmax="2" maxinstances="30">
 			<de name="TrajectoryStones" />
 			<container name="road" lootmax="1">
 				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
