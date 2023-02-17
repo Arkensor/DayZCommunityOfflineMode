@@ -616,9 +616,8 @@
     <cost>100</cost>
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
-    <value user="Tier7" />
-    <category name="lantia" />
-    <tag name="industrial" />
+    <value user="Tier5" />
+    <category name="lore" />
   </type>
   <type name="dzn_module_ext">
     <nominal>1</nominal>
@@ -769,14 +768,14 @@
     <nominal>1</nominal>
     <min>1</min>
     <lifetime>2700</lifetime>
-    <restock>300</restock>
+    <restock>1800</restock>
     <quantmin>-1</quantmin>
     <quantmax>-1</quantmax>
     <cost>100</cost>
     <flags count_in_map="1" count_in_hoarder="0" count_in_cargo="0" count_in_player="0" crafted="0" deloot="0" />
     <usage />
-    <value />
-    <category name="tools" />
+    <value user="Tier1" />
+    <category name="lantia" />
     <tag name="civilian" />
   </type>
   <type name="dzn_apsi">

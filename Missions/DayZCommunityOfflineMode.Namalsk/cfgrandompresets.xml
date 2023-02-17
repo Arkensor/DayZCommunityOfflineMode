@@ -261,10 +261,11 @@
 		<item name="dzn_milberet_black" chance="0.10" />
 	</attachments>
 	<attachments chance="0.25" name="vestsNAC">
-		<item name="dzn_ballisticvest_nac" chance="0.25" />
+		<item name="dzn_ballisticvest_nac" chance="0.20" />
 		<item name="dzn_highcapacityvest_nac" chance="0.25" />
 		<item name="dzn_smershvest_black" chance="0.25" />
 		<item name="UKAssVest_Black" chance="0.25" />
+		<item name="PlateCarrierVest_Black" chance="0.05" />
 	</attachments>
 	<!-- army infected - USMC -->
 	<attachments chance="0.70" name="headsUS">
@@ -272,10 +273,10 @@
 		<item name="dzn_milberet_green" chance="0.20" />
 	</attachments>
 	<attachments chance="0.25" name="vestsUS">
-		<item name="UKAssVest_Camo" chance="0.25" />
-		<item name="UKAssVest_Khaki" chance="0.25" />
-		<item name="UKAssVest_Olive" chance="0.25" />
-		<item name="PlateCarrierVest" chance="0.25" />
+		<item name="UKAssVest_Camo" chance="0.30" />
+		<item name="UKAssVest_Olive" chance="0.30" />
+		<item name="UKAssVest_Khaki" chance="0.30" />
+		<item name="PlateCarrierVest" chance="0.10" />
 	</attachments>
 	<!-- army infected - RU -->
 	<attachments chance="0.70" name="headsRU">
@@ -285,7 +286,13 @@
 		<item name="dzn_milberet_specnaz" chance="0.10" />
 	</attachments>
 	<attachments chance="0.25" name="vestsRU">
-		<item name="HighCapacityVest_Olive" chance="0.50" />
 		<item name="SmershVest" chance="0.50" />
+		<item name="HighCapacityVest_Olive" chance="0.45" />
+		<item name="PlateCarrierVest_Green" chance="0.05" />
+	</attachments>
+	<attachments chance="0.25" name="vestsRUCamo">
+		<item name="SmershVest" chance="0.50" />
+		<item name="HighCapacityVest_Olive" chance="0.45" />
+		<item name="PlateCarrierVest_Camo" chance="0.05" />
 	</attachments>
 </randompresets>
