@@ -264,4 +264,4 @@ class GameMenu extends PopupMenu
 		//oCar.EngineStart();
 		//oCar.SwitchLights();
 	}
-}
+};

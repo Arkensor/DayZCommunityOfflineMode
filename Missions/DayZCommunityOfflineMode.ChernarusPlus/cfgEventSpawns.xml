@@ -1404,7 +1404,7 @@
 		<pos x="11909.426" z="6432.040" a="0" y="49.747" group="Block_Dolina"/>
 		<pos x="10400.112" z="2237.542" a="0" y="5.930" group="Block_Elektro"/>
 		<pos x="8757.742" z="11875.513" a="0" y="206.034" group="Block_Gvozdno"/>
-		<pos x="2666.745" z="5887.918" a="0" y="251.544" group="Block_Zeleno"/>
+		<pos x="2686.302" z="5229.044" a="0" y="-1" group="Block_Zeleno"/>
 		<pos x="8138.609" z="8564.824" a="0" y="428.844" group="Traffic_Altar"/>
 		<pos x="4888.580" z="2784.829" a="0" y="25.428" group="Traffic_Balota"/>
 		<pos x="12932.872" z="10189.173" a="0" y="5.980" group="Traffic_Berezino"/>

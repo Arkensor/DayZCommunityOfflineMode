@@ -47,7 +47,7 @@ class WeatherMenu extends PopupMenu
 	{
 	}
 
-	void Init()
+	override void Init()
 	{
 
         m_BtnSave			= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_save" ) );
@@ -236,7 +236,7 @@ class WeatherMenu extends PopupMenu
 		*/
 	}
 
-	void Update()
+	override void Update()
 	{
 		m_TxtWeatherTime.SetText( GetGame().GetWeather().GetTime().ToString() );
 		// m_TxtAirTemperature.SetText( GetGame().GetWeather().GetAirTemperature().ToString() );

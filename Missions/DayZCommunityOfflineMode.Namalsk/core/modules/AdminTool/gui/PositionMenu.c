@@ -57,7 +57,7 @@ class PositionMenu extends PopupMenu
 	{
 	}
 
-	void Init()
+	override void Init()
 	{
 		m_LstPositionList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget("tls_ppp_pm_positions_list") );
 		m_TxtSelectedX = EditBoxWidget.Cast( layoutRoot.FindAnyWidget("pnl_ppp_pm_selected_x_value") );

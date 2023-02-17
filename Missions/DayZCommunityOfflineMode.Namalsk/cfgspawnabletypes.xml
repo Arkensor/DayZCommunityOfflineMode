@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <spawnabletypes>
-    <damage min="0.3" max="1.0" />
     <!-- NAMALSK - WEAPONS - RIFLES -->
     <type name="AK74">
         <attachments chance="1.00">
@@ -327,6 +326,7 @@
         </attachments>
     </type>
     <type name="Izh43Shotgun" />
+    <type name="Izh18Shotgun" />
     <type name="Mp133Shotgun">
         <attachments chance="0.50">
             <item name="FNP45_MRDSOptic" chance="0.27" />
@@ -350,6 +350,11 @@
             <item name="M68Optic" chance="0.60" />
             <item name="ACOGOptic" chance="0.30" />
             <item name="ACOGOptic_6x" chance="0.10" />
+        </attachments>
+    </type>
+    <type name="SSG82">
+        <attachments chance="0.30">
+            <item name="Mag_SSG82_5rnd" chance="1.00" />
         </attachments>
     </type>
 
@@ -1283,6 +1288,45 @@
     </type>
     <type name="PlateCarrierHolster" />
     <type name="PlateCarrierPouches" />
+    <type name="PlateCarrierVest_Black">
+        <attachments chance="0.30">
+            <item name="PlateCarrierHolster_Black" chance="1.00" />
+        </attachments>
+        <attachments chance="0.30">
+            <item name="PlateCarrierPouches_Black" chance="1.00" />
+        </attachments>
+        <cargo preset="toolsmilitary" />
+        <cargo preset="ammomilitary" />
+        <cargo preset="magsmilitary" />
+    </type>
+    <type name="PlateCarrierHolster_Black" />
+    <type name="PlateCarrierPouches_Black" />
+    <type name="PlateCarrierVest_Camo">
+        <attachments chance="0.30">
+            <item name="PlateCarrierHolster_Camo" chance="1.00" />
+        </attachments>
+        <attachments chance="0.30">
+            <item name="PlateCarrierPouches_Camo" chance="1.00" />
+        </attachments>
+        <cargo preset="toolsmilitary" />
+        <cargo preset="ammomilitary" />
+        <cargo preset="magsmilitary" />
+    </type>
+    <type name="PlateCarrierHolster_Camo" />
+    <type name="PlateCarrierPouches_Camo" />
+    <type name="PlateCarrierVest_Green">
+        <attachments chance="0.30">
+            <item name="PlateCarrierHolster_Green" chance="1.00" />
+        </attachments>
+        <attachments chance="0.30">
+            <item name="PlateCarrierPouches_Green" chance="1.00" />
+        </attachments>
+        <cargo preset="toolsmilitary" />
+        <cargo preset="ammomilitary" />
+        <cargo preset="magsmilitary" />
+    </type>
+    <type name="PlateCarrierHolster_Green" />
+    <type name="PlateCarrierPouches_Green" />
     <type name="ChestHolster">
         <attachments chance="0.05">
             <item name="dzn_meme_banana" chance="1.00" />
@@ -1605,6 +1649,151 @@
     <!-- none require special care -->
 
 
+    <!-- NAMALSK - SPECIFIC DMG CASES -->
+    <!-- shared -->
+    <type name="M4_Suppressor">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="AK_Suppressor">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="PistolSuppressor">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="GiftWrapPaper">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="dzn_Pot">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="FryingPan">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Tripod">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_40mm_Explosive">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_40mm_ChemGas">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_40mm_Smoke_Black">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_40mm_Smoke_Green">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_40mm_Smoke_Red">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_40mm_Smoke_White">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_45ACP">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_308Win">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_308WinTracer">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_9x19">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_380">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_556x45">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_556x45Tracer">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_762x54">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_762x54Tracer">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_762x39">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_762x39Tracer">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_9x39">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_9x39AP">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_22">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_12gaPellets">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_12gaSlug">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_12gaRubberSlug">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_357">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_545x39">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_545x39Tracer">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Ammo_FlareRed">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="dzn_module_card">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="dzn_module_lantia">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="dzn_module_surge">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="dzn_lehs_o2tank">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="dzn_lehs_battery">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <!-- specific to regular setup -->
+    <type name="SparkPlug">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="Glowplug">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="CarRadiator">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="CarBattery">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="TruckBattery">
+        <damage min="0.0" max="0.35" />
+    </type>
+    <type name="SmallStone">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="WoodenPlank">
+        <damage min="0.0" max="0.0" />
+    </type>
+    <type name="MetalPlate">
+        <damage min="0.0" max="0.0" />
+    </type>
+
     <!-- NAMALSK - CONTAINERS - GIFT BOXES -->
     <type name="GiftBox_Small_1">
         <cargo preset="Gifts_AmmoBoxes" />
@@ -1668,25 +1857,25 @@
             <item name="HatchbackWheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="HatchbackWheel" chance="0.95" />
+            <item name="HatchbackWheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="HatchbackWheel" chance="0.90" />
+            <item name="HatchbackWheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="HatchbackWheel" chance="0.85" />
+            <item name="HatchbackWheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="HatchbackWheel" chance="0.40" />
+            <item name="HatchbackWheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
             <item name="CarRadiator" chance="1.00" />
         </attachments>
-        <attachments chance="1.00">
-            <item name="CarBattery" chance="0.30" />
+        <attachments chance="0.30">
+            <item name="CarBattery" chance="1.00" />
         </attachments>
-        <attachments chance="1.00">
-            <item name="SparkPlug" chance="0.30" />
+        <attachments chance="0.30">
+            <item name="SparkPlug" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
             <item name="HeadlightH7" chance="1.00" />
@@ -1713,22 +1902,25 @@
             <item name="CivSedanWheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="CivSedanWheel" chance="0.95" />
+            <item name="CivSedanWheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="CivSedanWheel" chance="0.90" />
+            <item name="CivSedanWheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="CivSedanWheel" chance="0.85" />
+            <item name="CivSedanWheel" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="CivSedanWheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
             <item name="CarRadiator" chance="1.00" />
         </attachments>
-        <attachments chance="1.00">
-            <item name="CarBattery" chance="0.30" />
+        <attachments chance="0.30">
+            <item name="CarBattery" chance="1.00" />
         </attachments>
-        <attachments chance="1.00">
-            <item name="SparkPlug" chance="0.30" />
+        <attachments chance="0.30">
+            <item name="SparkPlug" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
             <item name="HeadlightH7" chance="1.00" />
@@ -1761,22 +1953,25 @@
             <item name="Hatchback_02_Wheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="Hatchback_02_Wheel" chance="0.95" />
+            <item name="Hatchback_02_Wheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="Hatchback_02_Wheel" chance="0.90" />
+            <item name="Hatchback_02_Wheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="Hatchback_02_Wheel" chance="0.85" />
+            <item name="Hatchback_02_Wheel" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Hatchback_02_Wheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
             <item name="CarRadiator" chance="1.00" />
         </attachments>
-        <attachments chance="1.00">
-            <item name="CarBattery" chance="0.30" />
+        <attachments chance="0.30">
+            <item name="CarBattery" chance="1.00" />
         </attachments>
-        <attachments chance="1.00">
-            <item name="SparkPlug" chance="0.30" />
+        <attachments chance="0.30">
+            <item name="SparkPlug" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
             <item name="HeadlightH7" chance="1.00" />
@@ -1809,22 +2004,25 @@
             <item name="Sedan_02_Wheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="Sedan_02_Wheel" chance="0.95" />
+            <item name="Sedan_02_Wheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="Sedan_02_Wheel" chance="0.90" />
+            <item name="Sedan_02_Wheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
-            <item name="Sedan_02_Wheel" chance="0.85" />
+            <item name="Sedan_02_Wheel" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Sedan_02_Wheel" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
             <item name="CarRadiator" chance="1.00" />
         </attachments>
-        <attachments chance="1.00">
-            <item name="CarBattery" chance="0.30" />
+        <attachments chance="0.30">
+            <item name="CarBattery" chance="1.00" />
         </attachments>
-        <attachments chance="1.00">
-            <item name="SparkPlug" chance="0.30" />
+        <attachments chance="0.30">
+            <item name="SparkPlug" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
             <item name="HeadlightH7" chance="1.00" />
@@ -1871,8 +2069,8 @@
         <attachments chance="1.00">
             <item name="Truck_01_WheelDouble" chance="1.00" />
         </attachments>
-        <attachments chance="1.00">
-            <item name="TruckBattery" chance="0.30" />
+        <attachments chance="0.30">
+            <item name="TruckBattery" chance="1.00" />
         </attachments>
         <attachments chance="1.00">
             <item name="HeadlightH7" chance="1.00" />
@@ -1891,6 +2089,47 @@
         </attachments>
     </type>
 
+    <type name="Offroad_02">
+        <attachments chance="1.00">
+            <item name="Offroad_02_Wheel" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Wheel" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Wheel" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Wheel" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Wheel" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="HeadlightH7" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="HeadlightH7" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Door_1_1" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Door_1_2" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Door_2_1" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Door_2_2" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Hood" chance="1.00" />
+        </attachments>
+        <attachments chance="1.00">
+            <item name="Offroad_02_Trunk" chance="1.00" />
+        </attachments>
+    </type>
 
     <!-- NAMALSK - INFECTED -->
     <type name="ZmbF_BlueCollarFat_Blue">
@@ -2363,7 +2602,7 @@
         <cargo preset="toolsmilitary" />
         <cargo preset="ammomilitary" />
         <attachments preset="headsRU" />
-        <attachments preset="vestsRU" />
+        <attachments preset="vestsRUCamo" />
     </type>
     <type name="ZmbM_usSoldier_Officer_Desert">
         <cargo preset="toolsmilitary" />
