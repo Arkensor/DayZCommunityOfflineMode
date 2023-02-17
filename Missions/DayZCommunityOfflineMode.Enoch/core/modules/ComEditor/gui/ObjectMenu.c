@@ -36,7 +36,7 @@ class ObjectMenu extends PopupMenu
 		}
 	}
 
-	void Init()
+	override void Init()
 	{
 		m_classList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget( "classlist" ) );
 		m_SearchBox = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "search_input" ) );
@@ -75,7 +75,7 @@ class ObjectMenu extends PopupMenu
         return false;
     }
 
-    bool OnMouseEnter( Widget w , int x, int y )
+    override bool OnMouseEnter( Widget w , int x, int y )
     {
         if ( w == m_SearchBox )
         {
@@ -84,7 +84,7 @@ class ObjectMenu extends PopupMenu
         return false;
     }
 
-    bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
+    override bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
     {
         if ( w == m_SearchBox )
         {

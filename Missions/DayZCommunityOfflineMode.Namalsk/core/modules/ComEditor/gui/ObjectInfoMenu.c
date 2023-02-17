@@ -312,7 +312,7 @@ class ObjectInfoMenu extends PopupMenu
     	//GetGame().GetUpdateQueue( CALL_CATEGORY_GUI ).Remove( Update );
     }
 
-	void Update()
+	override void Update()
 	{
 		Object selectedObject = GetSelectedObject();
 		string text = "No object Selected";

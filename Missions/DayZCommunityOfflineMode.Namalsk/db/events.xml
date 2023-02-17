@@ -528,4 +528,21 @@
             <child lootmax="0" lootmin="0" max="2" min="2" type="Truck_01_Covered"/>
         </children>
     </event>
+    <event name="VehicleMilitary">
+        <nominal>2</nominal>
+        <min>2</min>
+        <max>2</max>
+        <lifetime>300</lifetime>
+        <restock>0</restock>
+        <saferadius>200</saferadius>
+        <distanceradius>50</distanceradius>
+        <cleanupradius>200</cleanupradius>
+        <flags deletable="0" init_random="0" remove_damaged="1" sec_spawner="0"/>
+        <position>fixed</position>
+        <limit>mixed</limit>
+        <active>1</active>
+        <children>
+            <child lootmax="0" lootmin="0" max="2" min="2" type="Offroad_02"/>
+        </children>
+    </event>
 </events>

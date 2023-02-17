@@ -10657,4 +10657,11 @@
 						<point pos="-5.913086 0.800138 -1.543762" range="0.443750" height="0.899001" />
 				</container>
 		</group>
+		<group name="land_frozen_person" lootmax="1">
+				<container name="Vinyl" lootmax="1">
+						<category name="lantia" />
+						<tag name="civilian" />
+						<point pos="0.255003 -0.198449 0.280476" range="0.540625" height="0.851563" flags="32" />
+				</container>
+		</group>
 </prototype>
