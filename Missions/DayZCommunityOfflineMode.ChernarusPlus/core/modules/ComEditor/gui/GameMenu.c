@@ -8,14 +8,6 @@ class GameMenu extends PopupMenu
 
 	string checkboxLayout = "$CurrentDir:missions\\DayZCommunityOfflineMode.ChernarusPlus\\core\\modules\\ComEditor\\gui\\layouts\\CheckboxTemplate.layout";
 
-	void GameMenu()
-	{
-	}
-
-	void ~GameMenu()
-	{
-	}
-
 	override void Init()
 	{
 		m_checkboxPanel = layoutRoot.FindAnyWidget("game_checkbox_panel");
@@ -55,11 +47,6 @@ class GameMenu extends PopupMenu
 		UpdateCheckBoxes();
 	}
 
-	override void OnHide() 
-	{
-		
-	}
-
 	void UpdateCheckBoxes() 
 	{
 		foreach( string widgetName, string function : checkBoxMap ) 
@@ -74,10 +61,6 @@ class GameMenu extends PopupMenu
 				checkbox.SetChecked( checked );
 			}
 		}
-	}
-
-	void Update() 
-	{
 	}
 
 	bool ToggleOldAiming( CheckBoxWidget widget )
