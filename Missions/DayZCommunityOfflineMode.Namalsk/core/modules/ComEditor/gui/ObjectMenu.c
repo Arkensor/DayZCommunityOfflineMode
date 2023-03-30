@@ -25,11 +25,7 @@ class ObjectMenu extends PopupMenu
 	    "M203Base",
 	    "M203",
 	    "M203_Standalone",
-	    "Magnum",
-	    "Red9",
 	    "ItemOptics",
-	    "ThingEffect",
-	    "QuickieBow",
     };
 
 	void ~ObjectMenu()
@@ -40,7 +36,7 @@ class ObjectMenu extends PopupMenu
 		}
 	}
 
-	void Init()
+	override void Init()
 	{
 		m_classList = TextListboxWidget.Cast( layoutRoot.FindAnyWidget( "classlist" ) );
 		m_SearchBox = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "search_input" ) );
@@ -52,7 +48,7 @@ class ObjectMenu extends PopupMenu
 		m_QuantityItem = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "quantity_items" ) );
 		m_StateItem = EditBoxWidget.Cast( layoutRoot.FindAnyWidget( "state_items" ) );
 		
-		m_editBox = layoutRoot.FindAnyWidget("className_spawner_box");
+		m_editBox = EditBoxWidget.Cast(layoutRoot.FindAnyWidget("className_spawner_box"));
 	}
 
 	override void OnShow()
@@ -79,7 +75,7 @@ class ObjectMenu extends PopupMenu
         return false;
     }
 
-    bool OnMouseEnter( Widget w , int x, int y )
+    override bool OnMouseEnter( Widget w , int x, int y )
     {
         if ( w == m_SearchBox )
         {
@@ -88,7 +84,7 @@ class ObjectMenu extends PopupMenu
         return false;
     }
 
-    bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
+    override bool OnMouseLeave( Widget w, Widget enterW, int x, int y )
     {
         if ( w == m_SearchBox )
         {
@@ -139,7 +135,7 @@ class ObjectMenu extends PopupMenu
             if( m_excludeBroken.Find( strSelection ) != -1 ) return false;
 
           strSelection.ToLower();
-          ObjectEditor obEditor = COM_GetModuleManager().GetModule( ObjectEditor );
+          ObjectEditor obEditor = ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor ));
 
           if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) )
           {
@@ -148,7 +144,7 @@ class ObjectMenu extends PopupMenu
 
           if( w == m_btnSpawnCursor )
           {
-            EntityAI oCursorObj = g_Game.CreateObject( strSelection, COM_GetCursorPos(), true, ai );
+            EntityAI oCursorObj = EntityAI.Cast(g_Game.CreateObject( strSelection, COM_GetCursorPos(), true, ai ));
             obEditor.addObject( oCursorObj );
             COM_ForceTargetCollisionUpdate( oCursorObj );
             ObjectInfoMenu.listBox.AddItem(oCursorObj.GetType(), oCursorObj, 0);
@@ -157,15 +153,15 @@ class ObjectMenu extends PopupMenu
             {
               itemHealth = m_StateItem.GetText().ToFloat();
 
-              SetupSpawnedItem( oCursorObj, itemHealth, 1);
+              SetupSpawnedItem( ItemBase.Cast(oCursorObj), itemHealth, 1);
 
               Magazine.Cast( oCursorObj ).LocalSetAmmoCount( m_QuantityItem.GetText().ToInt() );
 
               return true;
-                  }
+            }
             else if ( oCursorObj.IsInherited( ItemBase ) )
             {
-              oItem = ( ItemBase ) oCursorObj;
+              oItem = ItemBase.Cast(oCursorObj);
 
               itemHealth = m_StateItem.GetText().ToFloat();
               itemQuantity = oItem.SetQuantity(m_QuantityItem.GetText().ToFloat());
@@ -180,7 +176,7 @@ class ObjectMenu extends PopupMenu
           }
           else if ( w == m_btnSpawnGround )
           {
-            EntityAI oObj = g_Game.CreateObject( strSelection, COM_GetPB().GetPosition(), false, ai );
+            EntityAI oObj = EntityAI.Cast(g_Game.CreateObject( strSelection, COM_GetPB().GetPosition(), false, ai ));
             obEditor.addObject( oObj );
             COM_ForceTargetCollisionUpdate( oObj );
             ObjectInfoMenu.listBox.AddItem(oObj.GetType(), oObj, 0);
@@ -189,15 +185,15 @@ class ObjectMenu extends PopupMenu
             {
               itemHealth = m_StateItem.GetText().ToFloat();
 
-              SetupSpawnedItem( oObj, itemHealth, 1);
+              SetupSpawnedItem( ItemBase.Cast(oObj), itemHealth, 1);
 
               Magazine.Cast( oObj ).LocalSetAmmoCount( m_QuantityItem.GetText().ToInt() );
 
               return true;
-                  }
+            }
             else if ( oObj.IsInherited( ItemBase ) )
             {
-              oItem = ( ItemBase ) oObj;
+              oItem = ItemBase.Cast(oObj);
 
               itemHealth = m_StateItem.GetText().ToFloat();
               itemQuantity = oItem.SetQuantity(m_QuantityItem.GetText().ToFloat());
@@ -221,15 +217,15 @@ class ObjectMenu extends PopupMenu
             {
               itemHealth = m_StateItem.GetText().ToFloat();
 
-              SetupSpawnedItem( oInvItem, itemHealth, 1);
+              SetupSpawnedItem( ItemBase.Cast(oInvItem), itemHealth, 1);
 
               Magazine.Cast( oInvItem ).LocalSetAmmoCount( m_QuantityItem.GetText().ToInt() );
 
               return true;
-                  }
+            }
             else if ( oInvItem.IsInherited( ItemBase ) )
             {
-              oItem = ( ItemBase ) oInvItem;
+              oItem = ItemBase.Cast(oInvItem);
 
               itemHealth = m_StateItem.GetText().ToFloat();
               itemQuantity = oItem.SetQuantity(m_QuantityItem.GetText().ToFloat());
@@ -280,7 +276,7 @@ class ObjectMenu extends PopupMenu
 
             Print(strSelection);
 
-            previewItem = GetGame().CreateObject( strSelection, vector.Zero, false );
+            previewItem = EntityAI.Cast(GetGame().CreateObject( strSelection, vector.Zero, false ));
 
             if( !previewItem ) return false;
 

@@ -152,7 +152,7 @@ class CameraTool extends Module
 			position[ 1 ] = position[ 1 ] + 2;
 		}
 
-		m_oCamera = g_Game.CreateObject( "staticcamera", position, false );
+		m_oCamera = Camera.Cast(g_Game.CreateObject( "staticcamera", position, false ));
 		m_oCamera.SetActive( true );
 
 		if ( !staticCam ) 

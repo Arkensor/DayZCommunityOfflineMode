@@ -103,26 +103,6 @@ class CommunityOfflineClient extends MissionGameplay
     static void SetupWeather()
     {
         /*
-          [Namalsk] Weather init
-           Warning: DO NOT ALTER following values as they are interconnected with other Namalsk-specific systems!
-           To ensure correct functionality, it is necessary to include weaher init AFTER the hive init.
-        */
-        Weather weather = GetGame().GetWeather();
-        weather.MissionWeather( true );
-        weather.GetOvercast().SetLimits( 0.10, 0.30 );
-        weather.GetRain().SetLimits( 0.0, 0.0 );
-        weather.GetFog().SetLimits( 0.0, 0.0 );
-        weather.GetOvercast().SetForecastChangeLimits( 0.1, 0.3 );
-        weather.GetOvercast().SetForecastTimeLimits( 1600, 2100 );
-        weather.GetOvercast().Set( Math.RandomFloatInclusive( 0.1, 0.2 ), 0, 0 );	// ignored if storage is present
-        weather.GetRain().Set( 0, 0, 0 );											// ignored if storage is present
-        weather.GetFog().Set( 0, 0, 0 );											// ignored if storage is present
-        weather.SetWindMaximumSpeed( 30 );
-        weather.SetWindFunctionParams( 0.1, 1.0, 42 );
-        weather.SetStorm( 0, 1, 1 );
-        weather.SetRainThresholds( 0.0, 1.0, 0 );
-        
-        /*
           [Namalsk] Mission time init
            after CE init to determine if storage mission type is outside of the required time-frame
            currently recommended time-frame is:
@@ -144,4 +124,14 @@ class CommunityOfflineClient extends MissionGameplay
             GetGame().GetWorld().SetDate( year, month, day, hour, minute );
         }
     }
-};
+    
+    override UIScriptedMenu CreateScriptedMenu(int id)
+    {
+        if(id == EditorMenu.MENU_ID)
+        {
+            return new EditorMenu();
+        }
+        
+        return super.CreateScriptedMenu(id);
+    }
+}

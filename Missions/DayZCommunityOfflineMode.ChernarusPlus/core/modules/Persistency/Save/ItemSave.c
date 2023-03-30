@@ -1,8 +1,8 @@
 class ItemSave
 {
-    static ItemData Save(EntityAI oEntity, PlayerBase oPlayer, ref ItemData oThisData) {
+    static ItemData Save(EntityAI oEntity, PlayerBase oPlayer, ItemData oThisData) {
         auto oCargo = oEntity.GetInventory().GetCargo();
-        ref ItemData oItemData = NULL;
+        ItemData oItemData = NULL;
 
         ItemBase oItem = NULL;
 

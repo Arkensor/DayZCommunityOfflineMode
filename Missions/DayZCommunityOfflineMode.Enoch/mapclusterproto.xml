@@ -42,6 +42,22 @@
 			<export name="HaybaleDecayed" shape="dz\structures\industrial\misc\misc_haybale_decayed.p3d" />
 			<export name="Strawstack" shape="dz\structures\industrial\farms\farm_strawstack.p3d" />
 			<export name="Manurepile" shape="dz\structures_bliss\industrial\farms\farm_manurepile.p3d" />
+			
+			<export name="quarryenoch_12" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_12.p3d" />
+			<export name="quarryenoch_15_75" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_15 75.p3d" />
+			<export name="quarryenoch_22_50" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_22 50.p3d" />
+			<export name="quarryenoch_25" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_25.p3d" />
+			<export name="quarryenoch_30_25" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_30 25.p3d" />
+			<export name="quarryenoch_60_10" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_60 10.p3d" />
+			<export name="quarryenoch_0_2000" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_0 2000.p3d" />
+			<export name="quarryenoch_1_1000" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_1 1000.p3d" />
+			<export name="quarryenoch_6" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_6.p3d" />
+			<export name="quarryenoch_6konec" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_6konec.p3d" />
+			<export name="quarryenoch_7_100" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_7 100.p3d" />
+			<export name="quarryenoch_10_25" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_10 25.p3d" />
+			<export name="quarryenoch_10_50" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_10 50.p3d" />
+			<export name="quarryenoch_10_75" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_10 75.p3d" />
+			<export name="quarryenoch_10_100" shape="DZ\structures_bliss\Roads\Parts\quarryenoch_10 100.p3d" />
 		</clusters>
 
 <!--Groups -->
@@ -253,6 +269,171 @@
 			</container>
 		</cluster>
 <!--STONES -->
+		<cluster name="quarryenoch_0_2000" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_1_1000" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_6" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_6konec" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_7_100" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_10_25" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_10_50" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_10_75" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_10_100" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_12"    lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_15_75" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_22_50" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_25"    lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_30_25" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
+		<cluster name="quarryenoch_60_10" lootmax="2" maxinstances="30">
+			<de name="TrajectoryStones" />
+			<container name="road" lootmax="1">
+				<point pos="4.75 -0.10 1.06" range="0.30" height="0.43" flags="32" />
+				<point pos="-4.22 -0.10 -0.88" range="0.30" height="0.43" flags="32" />
+				<point pos="1.23 -0.10 -0.94" range="0.30" height="0.43" flags="32" />
+				<point pos="3.42 -0.10 -0.70" range="0.30" height="0.43" flags="32" />
+				<point pos="-3.29 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+				<point pos="-1.13 -0.10 0.85" range="0.30" height="0.43" flags="32" />
+			</container>
+		</cluster>
 		<cluster name="PathD_02k" lootmax="2" maxinstances="30">
 			<de name="TrajectoryStones" />
 			<container name="road" lootmax="1">

@@ -47,7 +47,7 @@ class WeatherMenu extends PopupMenu
 	{
 	}
 
-	void Init()
+	override void Init()
 	{
 
         m_BtnSave			= ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_save" ) );
@@ -91,8 +91,11 @@ class WeatherMenu extends PopupMenu
 			m_OrigWindForce = m_CurrWindForce;
 
 			PluginSceneManager editor = PluginSceneManager.Cast( GetPlugin(PluginSceneManager) );
-			editor.SetWeather(m_CurrOvercast, m_CurrRain, m_CurrFog, m_CurrWindForce);
-			editor.SetDate(m_CurrYear, m_CurrMonth, m_CurrDay, m_CurrHour, m_CurrMinute);
+            if(editor)
+            {
+                editor.SetWeather(m_CurrOvercast, m_CurrRain, m_CurrFog, m_CurrWindForce);
+                editor.SetDate(m_CurrYear, m_CurrMonth, m_CurrDay, m_CurrHour, m_CurrMinute);
+            }
 
             GetGame().GetWeather().SetWindFunctionParams( m_OrigWindForce, m_CurrWindForce, 1 );
 
@@ -233,7 +236,7 @@ class WeatherMenu extends PopupMenu
 		*/
 	}
 
-	void Update()
+	override void Update()
 	{
 		m_TxtWeatherTime.SetText( GetGame().GetWeather().GetTime().ToString() );
 		// m_TxtAirTemperature.SetText( GetGame().GetWeather().GetAirTemperature().ToString() );

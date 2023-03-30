@@ -4,7 +4,7 @@ string SCENE_DATA = SCENE_DIR + "\\Scenes";
 
 class SceneManager
 {
-	ref map< SceneData, ref array< Scene >> sm_Scenes = new ref map< SceneData, ref array< Scene>>;
+	ref map< SceneData, ref array< Scene >> sm_Scenes = new map< SceneData, ref array< Scene>>;
 
 	void SceneManager() 
 	{
@@ -38,7 +38,7 @@ class SceneManager
 		}
 	}
 
-	ref SceneData LoadSceneData( string fileName ) 
+	SceneData LoadSceneData( string fileName ) 
 	{
 		SceneData data;
 		JsonFileLoader<SceneData>.JsonLoadFile( SCENE_DIR + "\\" + fileName + ".json", data );

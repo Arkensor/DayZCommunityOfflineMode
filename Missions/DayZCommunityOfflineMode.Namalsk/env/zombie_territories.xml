@@ -108,6 +108,6 @@
         <zone name="InfectedArmy" smin="0" smax="0" dmin="3" dmax="8" x="5300" z="7057.5" r="75"/>
         <zone name="InfectedArmy" smin="0" smax="0" dmin="3" dmax="8" x="4287.5" z="6345" r="75"/>
         <zone name="InfectedArmy" smin="0" smax="0" dmin="3" dmax="8" x="2837.5" z="6302.5" r="75"/>
-        <zone name="InfectedArmy" smin="0" smax="0" dmin="3" dmax="8" x="4215" z="8937.5" r="75"/>
+        <zone name="InfectedArmy" smin="0" smax="0" dmin="3" dmax="8" x="4177.5" z="8885.71" r="75"/>
     </territory>
 </territory-type>

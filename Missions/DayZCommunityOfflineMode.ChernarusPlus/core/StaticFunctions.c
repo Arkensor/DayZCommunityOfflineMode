@@ -183,17 +183,17 @@ static Weapon COM_GetWeaponInHands()
 
 static MissionBase COM_GetMission()
 {
-    return MissionBase.Cast( GetGame().COM_GetMission() );
+    return MissionBase.Cast( GetGame().GetMission() );
 }
 
 static CommunityOfflineClient COM_GetClientMission()
 {
-    return CommunityOfflineClient.Cast( GetGame().COM_GetMission() );
+    return CommunityOfflineClient.Cast( GetGame().GetMission() );
 }
 
 static CommunityOfflineServer COM_GetServerMission()
 {
-    return CommunityOfflineServer.Cast( GetGame().COM_GetMission() );
+    return CommunityOfflineServer.Cast( GetGame().GetMission() );
 }
 
 static PlayerBase COM_GetPB()
@@ -248,7 +248,6 @@ static PlayerBase COM_CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), COM_GetSpawnPoints().GetRandomElement(), 0, "NONE") );
 
-    oPlayer.GetInventory().CreateInInventory( "AviatorGlasses" );
     oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
     oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
     oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" );

@@ -15,7 +15,7 @@ class WelcomeMenu extends UIScriptedMenu
     {
         layoutRoot = GetGame().GetWorkspace().CreateWidgets( "$CurrentDir:missions\\DayZCommunityOfflineMode.Namalsk\\core\\modules\\ComMenu\\gui\\layouts\\WelcomeMenu.layout" );
 
-        m_InfoBox = TextWidget.Cast( layoutRoot.FindAnyWidget( "infotext" ) );
+        m_InfoBox = MultilineTextWidget.Cast(TextWidget.Cast( layoutRoot.FindAnyWidget( "infotext" ) ));
         m_BtnOk = ButtonWidget.Cast( layoutRoot.FindAnyWidget( "btn_ok" ) );
 
 		string infotext;

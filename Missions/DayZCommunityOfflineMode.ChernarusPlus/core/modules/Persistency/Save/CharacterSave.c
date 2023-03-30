@@ -20,7 +20,7 @@ class CharacterSave
             return;
         }
 
-        ref CharacterData oData = new CharacterData;
+        CharacterData oData = new CharacterData;
 
         oData.SModel = oPlayer.GetType();
         oData.VecPosition = oPlayer.GetPosition();
@@ -72,7 +72,7 @@ class CharacterSave
             return;
         }
 
-        ref CharacterData oData = new CharacterData;
+        CharacterData oData = new CharacterData;
 
         oData.SModel = oPlayer.GetType();
         oData.VecPosition = oPlayer.GetPosition();

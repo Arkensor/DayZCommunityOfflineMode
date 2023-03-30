@@ -94,7 +94,7 @@ class COMKeyBinds extends Module
 
     void ShowCOMEditor()
     {
-        GetGame().GetUIManager().ShowScriptedMenu( new EditorMenu(), NULL );
+        GetGame().GetUIManager().EnterScriptedMenu(EditorMenu.MENU_ID, NULL);
     }
 
     void TeleportCursor()
@@ -153,7 +153,7 @@ class COMKeyBinds extends Module
 
             if( suppAtt )
             {
-                auto supp = Object.Cast( suppAtt );
+                auto supp = suppAtt;
 
                 if( supp )
                 {
@@ -261,7 +261,7 @@ class COMKeyBinds extends Module
 
             if( oWeapon )
             {
-                Magazine oMag = ( Magazine ) oWeapon.GetAttachmentByConfigTypeName( "DefaultMagazine" );
+                Magazine oMag = Magazine.Cast(oWeapon.GetAttachmentByConfigTypeName( "DefaultMagazine" ));
 
                 if( oMag && oMag.IsMagazine() )
                 {

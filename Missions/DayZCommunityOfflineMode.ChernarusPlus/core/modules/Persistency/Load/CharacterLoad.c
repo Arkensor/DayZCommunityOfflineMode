@@ -1,7 +1,7 @@
 class CharacterLoad
 {
     static PlayerBase LoadPlayer(string sCharacter, string sSave, bool bObject = false, PlayerIdentity oIdentity = NULL ) {
-        ref CharacterData oData = new CharacterData;
+        CharacterData oData = new CharacterData;
 
 		string file = BASE_PLAYER_SAVE_DIR + "\\" + sCharacter + "\\" + sSave + ".json";
 

@@ -152,6 +152,8 @@ PanelWidgetClass WeatherMenu
                             vexactpos 1
                             hexactsize 0
                             vexactsize 0
+                            "fill in" 1
+                            "listen to input" 1
                             style Editor
 
                             {
@@ -197,8 +199,9 @@ PanelWidgetClass WeatherMenu
                             vexactpos 1
                             hexactsize 0
                             vexactsize 0
+                            "fill in" 1
+                            "listen to input" 1
                             style Editor
-
                             {
                                 TextWidgetClass txt_ppp_st_start_day_value
                                 {
@@ -242,8 +245,10 @@ PanelWidgetClass WeatherMenu
                             vexactpos 1
                             hexactsize 0
                             vexactsize 0
-                            style Editor
+                            "fill in" 1
+                            "listen to input" 1
 
+                            style Editor
                             {
                                 TextWidgetClass txt_ppp_st_overcast_value
                                 {
@@ -287,8 +292,10 @@ PanelWidgetClass WeatherMenu
                             vexactpos 1
                             hexactsize 0
                             vexactsize 0
-                            style Editor
+                            "fill in" 1
+                            "listen to input" 1
 
+                            style Editor
                             {
 
                                 TextWidgetClass txt_ppp_st_rain_value
@@ -333,6 +340,8 @@ PanelWidgetClass WeatherMenu
                             vexactpos 1
                             hexactsize 0
                             vexactsize 0
+                            "fill in" 1
+                            "listen to input" 1
                             style Editor
 
                             {
@@ -378,6 +387,8 @@ PanelWidgetClass WeatherMenu
                             vexactpos 1
                             hexactsize 0
                             vexactsize 0
+                            "fill in" 1
+                            "listen to input" 1
                             style Editor
                             {
                                 TextWidgetClass txt_ppp_st_wind_force_value

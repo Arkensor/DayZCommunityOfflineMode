@@ -123,4 +123,14 @@ class CommunityOfflineClient extends MissionGameplay
         weather.SetWindMaximumSpeed( 50 );
         weather.SetWindFunctionParams( 0, 0, 1 );
     }
-};
+    
+    override UIScriptedMenu CreateScriptedMenu(int id)
+    {
+        if(id == EditorMenu.MENU_ID)
+        {
+            return new EditorMenu();
+        }
+        
+        return super.CreateScriptedMenu(id);
+    }
+}
