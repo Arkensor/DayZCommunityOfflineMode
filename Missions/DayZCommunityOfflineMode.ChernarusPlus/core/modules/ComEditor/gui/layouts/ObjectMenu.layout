@@ -277,7 +277,7 @@ PanelWidgetClass ObjectMenu
 					vexactpos 1
 					hexactsize 1
 					vexactsize 1
-					text "State:"
+					text "Health:"
 				}
 
 				EditBoxWidgetClass state_items
