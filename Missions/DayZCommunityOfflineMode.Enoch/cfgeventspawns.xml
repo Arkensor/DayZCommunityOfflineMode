@@ -323,14 +323,11 @@
 	</event>
 	<event name="StaticBonfire">
 		<zone smin="3" smax="5" dmin="3" dmax="5" r="55" />
-		<pos x="6883.443848" z="11159.306641" />
 		<pos x="11108.389648" z="11135.529297" />
 		<pos x="4999.288086" z="7534.159180" />
-		<pos x="1329.406250" z="9815.073242" />
 		<pos x="6327.525879" z="10910.283203" />
 		<pos x="3945.859619" z="8266.165039" />
 		<pos x="8382.432617" z="11783.748047" />
-		<pos x="1222.723755" z="7468.268066" />
 		<pos x="11353.275391" z="10125.664063" />
 		<pos x="6328.831055" z="3954.533447" />
 		<pos x="11032.132813" z="734.867859" />
@@ -748,10 +745,10 @@
 		<pos x="1500.855" z="4734.762" a="0" y="258.605" group="Block_Zalesie"/>
 		<pos x="8558.479" z="8723.554" a="0" y="272.664" group="Block_Zapadlisko"/>
 		<pos x="2740.029" z="6913.033" a="0" y="257.667" group="Traffic_Adamow"/>
-		<pos x="1886.786" z="10096.979" a="0" y="272.403" group="Traffic_Bielawa"/>
+		<pos x="1890.72" z="10090.3" a="0" y="272.23" group="Traffic_Bielawa"/>
 		<pos x="865.783" z="9049.986" a="0" y="260.021" group="Traffic_Bielawa2"/>
 		<pos x="9743.615" z="9107.418" a="0" y="227.835" group="Traffic_Borek"/>
-		<pos x="5930.188" z="10933.437" a="0" y="182.797" group="Traffic_Brena"/>
+		<pos x="5932.14" z="10918.0" a="0" y="182.797" group="Traffic_Brena"/>
 		<pos x="10678.632" z="1154.983" a="0" y="232.818" group="Traffic_Dolina"/>
 		<pos x="12419.815" z="6168.886" a="0" y="284.690" group="Traffic_Gierlatow"/>
 		<pos x="5234.237" z="10300.578" a="0" y="189.468" group="Traffic_Gliniska"/>

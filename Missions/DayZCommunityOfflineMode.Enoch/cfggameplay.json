@@ -1,14 +1,14 @@
 {
-	"version": 119,
+	"version": 120,
 	"GeneralData":
 	{
-		"disableBaseDamage": 0,
-		"disableContainerDamage": 0,
-		"disableRespawnDialog": 0
+		"disableBaseDamage": false,
+		"disableContainerDamage": false,
+		"disableRespawnDialog": false
 	},
     "PlayerData":
 	{
-		"disablePersonalLight": 0,
+		"disablePersonalLight": false,
 		"StaminaData":
 		{
 			"sprintStaminaModifierErc": 1.0,
@@ -17,11 +17,11 @@
 			"staminaMax": 100.0,
 			"staminaKgToStaminaPercentPenalty": 1.75,
 			"staminaMinCap": 5.0,
-			"sprintSwimmingStaminaModifier": 1,
-			"sprintLadderStaminaModifier": 1,
-			"meleeStaminaModifier": 1,
-			"obstacleTraversalStaminaModifier": 1,
-			"holdBreathStaminaModifier": 1
+			"sprintSwimmingStaminaModifier": 1.0,
+			"sprintLadderStaminaModifier": 1.0,
+			"meleeStaminaModifier": 1.0,
+			"obstacleTraversalStaminaModifier": 1.0,
+			"holdBreathStaminaModifier": 1.0
 		},
 		"ShockHandlingData":
 		{
@@ -49,52 +49,52 @@
 	{
 		"lightingConfig": 1,
 		"objectSpawnersArr": [],
-		"environmentMinTemps": [-7, -7.4, -4.1, 1.5, 7, 11.3, 13.4, 13.1, 9.3, 5.3, 0.8, -3.6],
-		"environmentMaxTemps": [-2.5, -2.1, 2.3, 9, 15.5, 19.4, 20.9, 20.4, 16, 10.5, 4.2, 0.1],
+		"environmentMinTemps": [-7.0, -7.4, -4.1, 1.5, 7.0, 11.3, 13.4, 13.1, 9.3, 5.3, 0.8, -3.6],
+		"environmentMaxTemps": [-2.5, -2.1, 2.3, 9.0, 15.5, 19.4, 20.9, 20.4, 16.0, 10.5, 4.2, 0.1],
 		"wetnessWeightModifiers": [1.0, 1.0, 1.33, 1.66, 2.0]
 	},
 	"BaseBuildingData":
 	{
 		"HologramData":
 		{
-			"disableIsCollidingBBoxCheck": 0,
-			"disableIsCollidingPlayerCheck": 0,
-			"disableIsClippingRoofCheck": 0,
-			"disableIsBaseViableCheck": 0,
-			"disableIsCollidingGPlotCheck": 0,
-			"disableIsCollidingAngleCheck": 0,
-			"disableIsPlacementPermittedCheck": 0,
-			"disableHeightPlacementCheck": 0,
-			"disableIsUnderwaterCheck": 0,
-			"disableIsInTerrainCheck": 0
+			"disableIsCollidingBBoxCheck": false,
+			"disableIsCollidingPlayerCheck": false,
+			"disableIsClippingRoofCheck": false,
+			"disableIsBaseViableCheck": false,
+			"disableIsCollidingGPlotCheck": false,
+			"disableIsCollidingAngleCheck": false,
+			"disableIsPlacementPermittedCheck": false,
+			"disableHeightPlacementCheck": false,
+			"disableIsUnderwaterCheck": false,
+			"disableIsInTerrainCheck": false
 		},
 		"ConstructionData":
 		{
-			"disablePerformRoofCheck": 0,
-			"disableIsCollidingCheck": 0,
-			"disableDistanceCheck": 0
+			"disablePerformRoofCheck": false,
+			"disableIsCollidingCheck": false,
+			"disableDistanceCheck": false
 		}
 	},
 	"UIData":
 	{
-		"use3DMap": 0,
+		"use3DMap": false,
 		"HitIndicationData":
 		{
-			"hitDirectionOverrideEnabled": 0,
+			"hitDirectionOverrideEnabled": false,
 			"hitDirectionBehaviour": 1,
 			"hitDirectionStyle": 0,
 			"hitDirectionIndicatorColorStr": "0xffbb0a1e",
 			"hitDirectionMaxDuration": 2.0,
 			"hitDirectionBreakPointRelative": 0.2,
 			"hitDirectionScatter": 10.0,
-			"hitIndicationPostProcessEnabled": 1
+			"hitIndicationPostProcessEnabled": true
 		}
 	},
 	"MapData":
 	{
-		"ignoreMapOwnership": 0,
-		"ignoreNavItemsOwnership": 0,
-		"displayPlayerPosition": 0,
-		"displayNavInfo": 1
+		"ignoreMapOwnership": false,
+		"ignoreNavItemsOwnership": false,
+		"displayPlayerPosition": false,
+		"displayNavInfo": true
 	}
 }
