@@ -93,161 +93,63 @@ class ObjectMenu extends PopupMenu
         return false;
     }
 
-	override bool OnClick( Widget w, int x, int y, int button )
-	{
-        string strSelection = GetCurrentSelection();
-        bool ai = false;
-
-        int quantity = 0;
-        float itemHealth = 0.0;
-        float itemQuantity = 0.0;
-
-            string text = "";
-            ItemBase oItem = NULL;
-
-            /* poof
-            if ( w.GetName() == "dump_selects" )
-            {
-                if ( previewItem )
-                {
-                    string toCopy = "";
-                    TStringArray strings = new TStringArray;
-                    previewItem.GetSelectionList(strings);
-                    foreach(string selection : strings )
-                    {
-                        toCopy = toCopy + selection + "\n";
-                    }
-                    GetGame().CopyToClipboard( toCopy );
-                    COM_Message("Dumped selections to clipboard");
-
-
-                }
-            }
-            */
-
-            if ( strSelection == "" )
-            {
-                strSelection = GetEditBoxInput();
-            }
-
-        if( strSelection != "" )
+    override bool OnClick( Widget w, int x, int y, int button )
+    {
+        if (w.GetName().Contains("btn_filter"))
         {
-            if( m_excludeBroken.Find( strSelection ) != -1 ) return false;
-
-          strSelection.ToLower();
-          ObjectEditor obEditor = ObjectEditor.Cast(COM_GetModuleManager().GetModule( ObjectEditor ));
-
-          if ( GetGame().IsKindOf( strSelection, "DZ_LightAI" ) )
-          {
-            ai = true;
-          }
-
-          if( w == m_btnSpawnCursor )
-          {
-            EntityAI oCursorObj = EntityAI.Cast(g_Game.CreateObject( strSelection, COM_GetCursorPos(), true, ai ));
-            obEditor.addObject( oCursorObj );
-            COM_ForceTargetCollisionUpdate( oCursorObj );
-            ObjectInfoMenu.listBox.AddItem(oCursorObj.GetType(), oCursorObj, 0);
-
-            if ( oCursorObj.IsInherited( Magazine ) )
-            {
-              itemHealth = m_StateItem.GetText().ToFloat();
-
-              SetupSpawnedItem( ItemBase.Cast(oCursorObj), itemHealth, 1);
-
-              Magazine.Cast( oCursorObj ).LocalSetAmmoCount( m_QuantityItem.GetText().ToInt() );
-
-              return true;
-            }
-            else if ( oCursorObj.IsInherited( ItemBase ) )
-            {
-              oItem = ItemBase.Cast(oCursorObj);
-
-              itemHealth = m_StateItem.GetText().ToFloat();
-              itemQuantity = oItem.SetQuantity(m_QuantityItem.GetText().ToFloat());
-
-              // void SetupSpawnedItem (ItemBase item, float health, float quantity)
-              SetupSpawnedItem( oItem, itemHealth, itemQuantity);
-
-              return true;
-            }
-
-            oCursorObj.PlaceOnSurface();
-          }
-          else if ( w == m_btnSpawnGround )
-          {
-            EntityAI oObj = EntityAI.Cast(g_Game.CreateObject( strSelection, COM_GetPB().GetPosition(), false, ai ));
-            obEditor.addObject( oObj );
-            COM_ForceTargetCollisionUpdate( oObj );
-            ObjectInfoMenu.listBox.AddItem(oObj.GetType(), oObj, 0);
-
-            if ( oObj.IsInherited( Magazine ) )
-            {
-              itemHealth = m_StateItem.GetText().ToFloat();
-
-              SetupSpawnedItem( ItemBase.Cast(oObj), itemHealth, 1);
-
-              Magazine.Cast( oObj ).LocalSetAmmoCount( m_QuantityItem.GetText().ToInt() );
-
-              return true;
-            }
-            else if ( oObj.IsInherited( ItemBase ) )
-            {
-              oItem = ItemBase.Cast(oObj);
-
-              itemHealth = m_StateItem.GetText().ToFloat();
-              itemQuantity = oItem.SetQuantity(m_QuantityItem.GetText().ToFloat());
-
-              // void SetupSpawnedItem (ItemBase item, float health, float quantity)
-              SetupSpawnedItem( oItem, itemHealth, itemQuantity);
-
-              return true;
-            }
-
-            oObj.PlaceOnSurface();
-
-          }
-          else if ( w == m_btnSpawnInventory )
-          {
-            EntityAI oInvItem = g_Game.GetPlayer().GetInventory().CreateInInventory( strSelection );
-
-            oInvItem.SetHealth( oInvItem.GetMaxHealth() );
-
-            if ( oInvItem.IsInherited( Magazine ) )
-            {
-              itemHealth = m_StateItem.GetText().ToFloat();
-
-              SetupSpawnedItem( ItemBase.Cast(oInvItem), itemHealth, 1);
-
-              Magazine.Cast( oInvItem ).LocalSetAmmoCount( m_QuantityItem.GetText().ToInt() );
-
-              return true;
-            }
-            else if ( oInvItem.IsInherited( ItemBase ) )
-            {
-              oItem = ItemBase.Cast(oInvItem);
-
-              itemHealth = m_StateItem.GetText().ToFloat();
-              itemQuantity = oItem.SetQuantity(m_QuantityItem.GetText().ToFloat());
-
-              // void SetupSpawnedItem (ItemBase item, float health, float quantity)
-              SetupSpawnedItem( oItem, itemHealth, itemQuantity);
-            }
+            string buttonName = w.GetName();
+            buttonName.Replace("btn_filter_", "");
+            UpdateList(buttonName);
             return true;
-          }
         }
 
-        if ( w.GetName().Contains( "btn_filter" ) )
+        if ((w != m_btnSpawnCursor) && (w != m_btnSpawnGround) && (w != m_btnSpawnInventory))
+            return true;
+
+        string strSelection = GetCurrentSelection();
+        if (!strSelection)
+            strSelection = GetEditBoxInput();
+        
+        if (!strSelection)
+            return true;
+          
+        if( m_excludeBroken.Find(strSelection) != -1 ) 
+            return true;
+        
+        strSelection.ToLower();
+
+        ObjectEditor obEditor = ObjectEditor.Cast(COM_GetModuleManager().GetModule(ObjectEditor));
+
+        EntityAI spawned;
+        if (w == m_btnSpawnInventory)
         {
-          string buttonName = w.GetName();
-          buttonName.Replace("btn_filter_", "");
-          UpdateList( buttonName );
+            spawned = g_Game.GetPlayer().GetInventory().CreateInInventory( strSelection );
+        }
+        else
+        {
+            vector position = COM_GetPB().GetPosition();
+            if (w == m_btnSpawnCursor)
+              position = COM_GetCursorPos();
 
-          return true;
+            bool isAi = GetGame().IsKindOf(strSelection, "DZ_LightAI");
+            spawned = EntityAI.Cast(g_Game.CreateObject(strSelection, position, true, isAi));
+            spawned.PlaceOnSurface();
+            COM_ForceTargetCollisionUpdate(spawned);
+
+            obEditor.addObject(spawned);
+            ObjectInfoMenu.listBox.AddItem(spawned.GetType(), spawned, 0);
         }
 
-        return false;
-	}
+        ItemBase spawnedItem = ItemBase.Cast(spawned);
+        if (spawnedItem)
+        {
+            float quantity01 = m_QuantityItem.GetText().ToFloat() / spawnedItem.GetQuantityMax();
+            float health = m_StateItem.GetText().ToFloat();
+            SetupSpawnedItem(spawnedItem, health, quantity01);
+        }
+
+        return true;
+    }
 
     override bool OnItemSelected( Widget w, int x, int y, int row, int column, int oldRow, int oldColumn )
     {
@@ -293,17 +195,13 @@ class ObjectMenu extends PopupMenu
             m_item_widget.SetPos( -0.225, -0.225 );
 
             // Calculate and Set QuantityMax on text box in quantity_items
-            if ( previewItem.IsInherited( Magazine ) )
+            if (previewItem.IsInherited(Magazine))
             {
-                m_QuantityItem.SetText( Magazine.Cast( previewItem ).GetAmmoCount().ToString() );
+                m_QuantityItem.SetText(Magazine.Cast(previewItem).GetAmmoCount().ToString());
             }
-            else if ( previewItem.IsInherited( ItemBook ) )
+            else if (previewItem.IsInherited(ItemBase))
             {
-                m_QuantityItem.SetText("");
-            }
-            else
-            {
-                m_QuantityItem.SetText( (previewItem.ConfigGetInt( "varQuantityMax" )).ToString() );
+                m_QuantityItem.SetText(ItemBase.Cast(previewItem).GetQuantityMax().ToString());
             }
         }
 
