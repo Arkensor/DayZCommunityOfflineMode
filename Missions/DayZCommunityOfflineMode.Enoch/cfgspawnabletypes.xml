@@ -223,6 +223,102 @@
 		<cargo preset="foodArmy" />
 		<cargo preset="mixArmy" />
 	</type>
+	<type name="ArmyPouch_Beige">
+		<cargo preset="foodVillage" />
+		<cargo preset="mixHunter" />
+	</type>
+	<type name="ArmyPouch_Black">
+		<cargo preset="foodArmy" />
+		<cargo preset="mixArmy" />
+	</type>
+	<type name="ArmyPouch_Camo">
+		<cargo preset="foodArmy" />
+		<cargo preset="mixArmy" />
+	</type>
+	<type name="ArmyPouch_Green">
+		<cargo preset="foodVillage" />
+		<cargo preset="mixHunter" />
+	</type>
+	<type name="CanvasBag_Olive">
+		<cargo preset="foodVillage" />
+		<cargo preset="mixVillage" />
+	</type>
+	<type name="CanvasBag_Medical">
+		<cargo chance="0.6">
+			<item name="BandageDressing" />
+		</cargo>
+		<cargo chance="0.2">
+			<item name="IodineTincture" />
+		</cargo>
+		<cargo chance="0.2">
+			<item name="TetracyclineAntibiotics" />
+		</cargo>
+		<cargo chance="0.2">
+			<item name="VitaminBottle" />
+		</cargo>
+	</type>
+	<type name="Slingbag_Black">
+		<cargo preset="foodVillage" />
+		<cargo preset="mixVillage" />
+	</type>
+	<type name="SlingBag_Gray">
+		<cargo preset="foodVillage" />
+		<cargo preset="mixVillage" />
+	</type>
+	<type name="SlingBag_Brown">
+		<cargo preset="foodVillage" />
+		<cargo preset="mixVillage" />
+	</type>
+	<type name="HipPack_Black">
+		<cargo chance="0.6">
+			<item name="Zagorky" />
+		</cargo>
+		<cargo chance="0.4">
+			<item name="ChernarusMap" />
+		</cargo>
+	</type>
+	<type name="HipPack_Green">
+		<cargo chance="0.6">
+			<item name="Zagorky" />
+		</cargo>
+		<cargo chance="0.4">
+			<item name="ChernarusMap" />
+		</cargo>
+	</type>
+	<type name="HipPack_Medical">
+		<cargo chance="0.6">
+			<item name="BandageDressing" />
+		</cargo>
+		<cargo chance="0.6">
+			<item name="VitaminBottle" />
+		</cargo>
+	</type>
+	<type name="HipPack_Party">
+		<cargo chance="0.02">
+			<item name="Derringer_Pink" />
+		</cargo>
+	</type>
+	<type name="DuffelBagSmall_Camo">
+		<cargo preset="foodArmy" />
+		<cargo preset="mixArmy" />
+	</type>
+	<type name="DuffelBagSmall_Medical">
+		<cargo chance="0.8">
+			<item name="BandageDressing" />
+		</cargo>
+		<cargo chance="0.15">
+			<item name="TetracyclineAntibiotics" />
+		</cargo>
+		<cargo chance="0.01">
+			<item name="AntiChemInjector" />
+		</cargo>
+		<cargo preset="foodArmy" />
+		<cargo preset="mixArmy" />
+	</type>
+	<type name="DuffelBagSmall_Green">
+		<cargo preset="foodArmy" />
+		<cargo preset="mixArmy" />
+	</type>
 	<type name="FirstAidKit">
 		<tag name="shelves" />
 		<cargo chance="1">
@@ -1061,7 +1157,7 @@
 	<type name="ZmbM_PatrolNormal_Autumn">
 		<cargo preset="foodArmy" />
 		<cargo preset="ammoArmy" />
-		<attachments preset="glassesArmy" />
+		<attachments preset="headtorches" />
 		<attachments preset="hatsArmy" />
 		<attachments preset="bagsArmy" />
 		<attachments preset="vestsArmy" />
@@ -1069,7 +1165,7 @@
 	<type name="ZmbM_PatrolNormal_Flat">
 		<cargo preset="foodArmy" />
 		<cargo preset="ammoArmy" />
-		<attachments preset="glassesArmy" />
+		<attachments preset="headtorches" />
 		<attachments preset="hatsArmy" />
 		<attachments preset="bagsArmy" />
 		<attachments preset="vestsArmy" />
@@ -1077,7 +1173,7 @@
 	<type name="ZmbM_PatrolNormal_PautRev">
 		<cargo preset="foodArmy" />
 		<cargo preset="ammoArmy" />
-		<attachments preset="glassesArmy" />
+		<attachments preset="headtorches" />
 		<attachments preset="hatsArmy" />
 		<attachments preset="bagsArmy" />
 		<attachments preset="vestsArmy" />
@@ -1085,7 +1181,7 @@
 	<type name="ZmbM_PatrolNormal_Summer">
 		<cargo preset="foodArmy" />
 		<cargo preset="ammoArmy" />
-		<attachments preset="glassesArmy" />
+		<attachments preset="headtorches" />
 		<attachments preset="hatsArmy" />
 		<attachments preset="bagsArmy" />
 		<attachments preset="vestsArmy" />
@@ -1093,16 +1189,18 @@
 	<type name="ZmbM_SoldierNormal">
 		<cargo preset="foodArmy" />
 		<cargo preset="ammoArmy" />
-		<attachments preset="glassesArmy" />
+		<attachments preset="headtorches" />
 		<attachments preset="hatsArmy" />
 		<attachments preset="bagsArmy" />
 		<attachments preset="vestsArmy" />
 	</type>
 	<type name="ZmbM_usSoldier_Officer_Desert">
 		<cargo preset="foodArmy" />
+		<attachments preset="headtorches" />
 		<attachments preset="OfficerHatArmy" />
 	</type>
 	<type name="ZmbM_usSoldier_Officer_Convoy">
+		<attachments preset="headtorches" />
 		<attachments chance="1.00">
 			<item name="MedicalScrubsHat_Green" chance="1.0" />
 		</attachments>
@@ -1533,7 +1631,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbF_BlueCollarFat_Green">
@@ -1541,7 +1638,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbF_BlueCollarFat_Red">
@@ -1549,7 +1645,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbF_BlueCollarFat_White">
@@ -1557,7 +1652,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbF_MechanicNormal_Beige">
@@ -1565,7 +1659,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbF_MechanicNormal_Green">
@@ -1573,7 +1666,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbF_MechanicNormal_Grey">
@@ -1581,7 +1673,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbF_MechanicNormal_Orange">
@@ -1589,7 +1680,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_ConstrWorkerNormal_Beige">
@@ -1597,7 +1687,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_ConstrWorkerNormal_Black">
@@ -1605,7 +1694,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_ConstrWorkerNormal_Green">
@@ -1613,7 +1701,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_ConstrWorkerNormal_Grey">
@@ -1621,7 +1708,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_HandymanNormal_Beige">
@@ -1629,7 +1715,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_HandymanNormal_Blue">
@@ -1637,7 +1722,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_HandymanNormal_Green">
@@ -1645,7 +1729,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_HandymanNormal_Grey">
@@ -1653,7 +1736,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_HandymanNormal_White">
@@ -1661,7 +1743,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_HeavyIndustryWorker">
@@ -1669,7 +1750,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_MechanicSkinny_Blue">
@@ -1677,7 +1757,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_MechanicSkinny_Green">
@@ -1685,7 +1764,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_MechanicSkinny_Grey">
@@ -1693,7 +1771,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_MechanicSkinny_Red">
@@ -1701,7 +1778,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_OffshoreWorker_Green">
@@ -1709,7 +1785,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_OffshoreWorker_Orange">
@@ -1717,7 +1792,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_OffshoreWorker_Red">
@@ -1725,7 +1799,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<type name="ZmbM_OffshoreWorker_Yellow">
@@ -1733,7 +1806,6 @@
 		<cargo preset="toolsIndustrial" />
 		<attachments preset="glassesVillage" />
 		<attachments preset="hatsIndustrial" />
-		<attachments preset="bagsIndustrial" />
 		<attachments preset="vestsIndustrial" />
 	</type>
 	<!--FireFighter-->
@@ -1910,7 +1982,7 @@
 		<cargo preset="toolsHermit" />
 		<attachments preset="hatsFarm" />
 		<attachments preset="bagsHunter" />
-		<attachments preset="glassesVillage" />
+		<attachments preset="headtorches" />
 		<attachments preset="vestsHunter" />
 	</type>
 	<type name="ZmbM_HunterOld_Spring">
@@ -1918,7 +1990,7 @@
 		<cargo preset="toolsHermit" />
 		<attachments preset="hatsFarm" />
 		<attachments preset="bagsHunter" />
-		<attachments preset="glassesVillage" />
+		<attachments preset="headtorches" />
 		<attachments preset="vestsHunter" />
 	</type>
 	<type name="ZmbM_HunterOld_Summer">
@@ -1926,13 +1998,13 @@
 		<cargo preset="toolsHermit" />
 		<attachments preset="hatsFarm" />
 		<attachments preset="bagsHunter" />
-		<attachments preset="glassesVillage" />
+		<attachments preset="headtorches" />
 		<attachments preset="vestsHunter" />
 	</type>
 	<type name="ZmbM_HunterOld_Winter">
 		<cargo preset="foodHermit" />
 		<cargo preset="toolsHermit" />
-		<attachments preset="glassesVillage" />
+		<attachments preset="headtorches" />
 		<attachments preset="hatsFarm" />
 		<attachments preset="bagsHunter" />
 		<attachments preset="vestsHunter" />

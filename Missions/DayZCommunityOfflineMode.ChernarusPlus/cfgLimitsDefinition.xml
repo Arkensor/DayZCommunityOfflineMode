@@ -32,6 +32,7 @@
         <usage name="Lunapark"/>
         <usage name="SeasonalEvent"/>
         <usage name="ContaminatedArea"/>
+        <usage name="Historical"/>
     </usageflags>
     <valueflags>
         <value name="Tier1"/>
