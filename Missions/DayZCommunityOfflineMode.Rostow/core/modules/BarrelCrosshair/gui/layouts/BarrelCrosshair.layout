@@ -1,0 +1,39 @@
+FrameWidgetClass BarrelCrosshairFrame
+{
+	size 1 1
+	halign center_ref
+	valign center_ref
+	hexactpos 0
+	vexactpos 0
+	hexactsize 0
+	vexactsize 0
+	{
+		ImageWidgetClass BarrelCrosshair {
+			visible 1
+			disabled 0
+			clipchildren 1
+			inheritalpha 1
+			ignorepointer 0
+			keepsafezone 0
+			position 0 0
+			size 0.004 0.004
+			color 1 0 0 0.7843
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 0
+			fixaspect fixwidth
+			draggable 0
+			scriptclass "BarrelCrosshair"
+			image0 "set:dayz_crosshairs image:dot_8x8"
+			mode blend
+			"src alpha" 1
+			"no wrap" 0
+			stretch 1
+			"flip u" 0
+			"flip v" 0
+			filter 1
+			nocache 0
+		}
+	}
+}

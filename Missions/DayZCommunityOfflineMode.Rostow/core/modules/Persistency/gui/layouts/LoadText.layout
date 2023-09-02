@@ -1,0 +1,50 @@
+FrameWidgetClass LoadText_Root_Widget {
+	position 0.5 0.5
+    size 1 26
+	hexactpos 0
+	vexactpos 0
+	hexactsize 0
+	vexactsize 1
+	{
+        TextWidgetClass Bg_LoadText_TextWidget {
+            clipchildren 0
+            position 0 0
+            size 1 26
+            valign center
+            halign center
+            hexactpos 0
+            vexactpos 0
+            hexactsize 0
+            vexactsize 1
+            text ""
+            font "gui/fonts/sdf_MetronLight24"
+            "outline size" 1
+            "outline color" 0 0 0 0.3922
+            "shadow size" 4
+            "shadow color" 0 0 0 1
+            "exact text" 0
+            "text valign" center
+            "text halign" center
+        },
+        TextWidgetClass Fg_LoadText_TextWidget {
+            clipchildren 0
+            position 0 0
+            size 1 26
+            valign center
+            halign center
+            hexactpos 0
+            vexactpos 0
+            hexactsize 0
+            vexactsize 1
+            text ""
+            font "gui/fonts/sdf_MetronLight24"
+            "outline size" 1
+            "outline color" 0 0 0 0.3922
+            "shadow size" 4
+            "shadow color" 0 0 0 1
+            "exact text" 0
+            "text valign" center
+            "text halign" center
+        }
+    }
+}
