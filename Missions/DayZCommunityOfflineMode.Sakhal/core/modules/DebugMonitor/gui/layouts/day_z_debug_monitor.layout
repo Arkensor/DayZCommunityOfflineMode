@@ -1,0 +1,106 @@
+FrameWidgetClass HudDebugFrameWidget {
+ position -2 1
+ size 1 1
+ halign right_ref
+ hexactpos 1
+ vexactpos 1
+ hexactsize 0
+ vexactsize 0
+ {
+  WindowWidgetClass StatusWindowWidget {
+   visible 1
+   position 0.01 0.01
+   size 310 165
+   halign right_ref
+   hexactpos 0
+   vexactpos 0
+   hexactsize 1
+   vexactsize 1
+   style rover_sim_black_2
+   "title visible" 0
+   "text color" 0.6353 0.6353 0.6353 1
+   "disabled text color" 0.6353 0.6353 0.6353 1
+   {
+    TextWidgetClass WindowLabel {
+     disabled 0
+     position 24 7
+     size 0.8446 18
+     hexactpos 1
+     vexactpos 1
+     hexactsize 0
+     vexactsize 1
+     fixaspect fixwidth
+     draggable 0
+     style Bold
+     text "STATUS"
+     font "gui/fonts/MetronBook14"
+     "exact text" 1
+     "text halign" center
+     "text valign" center
+    }
+    TextListboxWidgetClass NamesListboxWidget {
+     visible 1
+     disabled 1
+     clipchildren 0
+     position 35 36.7
+     size 79 125
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     style Default
+     "title visible" 0
+     colums ""
+     lines 7
+     font "gui/fonts/MetronBook12"
+     "text color" 0.9451 0.9451 0.9451 1
+    }
+    TextListboxWidgetClass ValuesListboxWidget {
+     visible 1
+     disabled 1
+     clipchildren 0
+     position 125 36.7
+     size 170 125
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     style Default
+     "title visible" 0
+     colums ""
+     lines 7
+     font "gui/fonts/MetronBook12"
+     "text color" 0.6353 0.6353 0.6353 1
+     "disabled text color" 0.6353 0.6353 0.6353 1
+    }
+    MultilineTextWidgetClass ModifiersMultilineTextWidget {
+     disabled 0
+     clipchildren 1
+     keepsafezone 0
+     color 0.6353 0.6353 0.6353 1
+     position 116.58 106.7
+     size 170 34
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     style DayZNormal
+     font "gui/fonts/MetronBook12"
+     "text color" 0.6353 0.6353 0.6353 1
+     "exact text" 0
+     wrap 0
+    }
+    PanelWidgetClass PanelWidget0 {
+     color 0.6353 0.6353 0.6353 1
+     position 24 30
+     size 262 1
+     hexactpos 1
+     vexactpos 1
+     hexactsize 1
+     vexactsize 1
+     style editor_quad
+    }
+   }
+  }
+ }
+}

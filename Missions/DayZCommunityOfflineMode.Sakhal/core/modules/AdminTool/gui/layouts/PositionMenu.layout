@@ -1,0 +1,195 @@
+PanelWidgetClass PositionMenu
+{
+	visible 0
+	color 0 0 0 0
+	position 0.0425 0.09
+	size 250 450
+	halign right_ref
+	valign top_ref
+	hexactpos 0
+	vexactpos 0
+	hexactsize 1
+	vexactsize 1
+	scriptclass "PositionMenu"
+	style EditorPanel
+	{
+        PanelWidgetClass Background
+        {
+			visible 1
+			color 0 0 0 0.45
+			position 0 0
+			size 500 450
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+        }
+
+		PanelWidgetClass pnl_ppp_pm_title
+		{
+			visible 1
+			color 0 0 0 0.7843
+			position 0 0
+			size 1 25
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+			{
+				TextWidgetClass txt_ppp_pm_title_text
+				{
+					position 0 0
+					size 1 0.6
+					halign center_ref
+					valign center_ref
+					hexactpos 0
+					vexactpos 0
+					hexactsize 0
+					vexactsize 0
+					style Normal
+					text "Teleportation"
+					font "gui/fonts/Metron-Bold58"
+                    "exact text" 1
+                    "exact text size" 20
+                    "text halign" center
+                    "text valign" center
+				}
+			}
+		}
+
+		TextListboxWidgetClass tls_ppp_pm_positions_list
+		{
+			visible 1
+			position 0.02 30
+			size 0.96 235
+			hexactpos 0
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style Editor
+			lines 20
+			font "gui/fonts/Metron14"
+		}
+
+		TextWidgetClass txt_ppp_pm_selected_position
+		{
+			position 6.0025 274.99689
+			size 267 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Teleportation target position:"
+		}
+
+		TextWidgetClass pnl_ppp_pm_selected_x
+		{
+			position 14.0025 298.99689
+			size 16 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "X:"
+		}
+
+		TextWidgetClass pnl_ppp_pm_selected_y
+		{
+			position 14.0025 322.99689
+			size 267 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Y:"
+		}
+
+		EditBoxWidgetClass pnl_ppp_pm_selected_x_value
+		{
+			position 30 299
+			size 267 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+		}
+
+		EditBoxWidgetClass pnl_ppp_pm_selected_y_value
+		{
+			position 30 323
+			size 267 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+		}
+
+		TextWidgetClass txt_ppp_pm_current_position
+		{
+			position 6.0025 358.99689
+			size 267 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Your position:"
+		}
+
+		TextWidgetClass pnl_ppp_pm_current_x
+		{
+			position 14.0025 382.99689
+			size 267 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "X:"
+		}
+
+		TextWidgetClass pnl_ppp_pm_current_y
+		{
+			position 14.0025 406.99689
+			size 267 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Y:"
+		}
+
+		EditBoxWidgetClass pnl_ppp_pm_current_x_value
+		{
+			position 30 382.99689
+			size 267 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+		}
+
+		EditBoxWidgetClass pnl_ppp_pm_current_y_value
+		{
+			position 30 406.99689
+			size 267 17
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+		}
+
+		ButtonWidgetClass btn_ppp_pm_teleport
+		{
+			position 5 5
+			size 80 20
+			halign right_ref
+			valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Teleport"
+		}
+	}
+}
