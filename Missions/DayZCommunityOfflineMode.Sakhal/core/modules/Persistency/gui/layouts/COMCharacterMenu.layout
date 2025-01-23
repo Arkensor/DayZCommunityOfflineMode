@@ -1,0 +1,927 @@
+FrameWidgetClass character_creation_root {
+	position 0 0
+	size 1 1
+	hexactpos 1
+	vexactpos 1
+	hexactsize 0
+	vexactsize 0
+	{
+		GridSpacerWidgetClass character_root {
+			visible 1
+			ignorepointer 1
+			position 80 80
+			size 480 200
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			priority 3
+			Padding 0
+			Margin 0
+			"Size To Content V" 1
+			Columns 1
+			Rows 2
+			{
+				PanelWidgetClass character_header {
+					visible 1
+					ignorepointer 1
+					color 0 0 0 0.9608
+					position 0 0
+					size 480 36
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					style DayZDefaultPanelTop
+					{
+						ButtonWidgetClass prev_character {
+							visible 1
+							color 1 1 1 0
+							size 38 38
+							valign center_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							fixaspect fixwidth
+							priority 1
+							style Empty
+							"no focus" 0
+							font "gui/fonts/sdf_MetronLight24"
+							{
+								ImageWidgetClass prev_character_image {
+									inheritalpha 0
+									ignorepointer 1
+									size 0.75 1
+									halign center_ref
+									valign center_ref
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									image0 "set:dayz_gui image:arrow_left"
+									mode blend
+									"src alpha" 1
+								}
+							}
+						}
+						TextWidgetClass character_text {
+							visible 1
+							ignorepointer 1
+							position 0 0
+							size 480 0.5
+							valign center_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 0
+							style Normal
+							text "CHARACTER"
+							font "gui/fonts/sdf_MetronBook72"
+							"exact text" 0
+							"text halign" center
+							"text valign" center
+						}
+						ButtonWidgetClass next_character {
+							visible 1
+							color 1 1 1 0
+							size 38 38
+							halign right_ref
+							valign center_ref
+							hexactpos 1
+							vexactpos 1
+							hexactsize 1
+							vexactsize 1
+							fixaspect fixwidth
+							priority 1
+							style Empty
+							"no focus" 0
+							font "gui/fonts/sdf_MetronLight24"
+							{
+								ImageWidgetClass next_character_image {
+								ignorepointer 1
+								size 0.75 1
+								halign center_ref
+								valign center_ref
+								hexactpos 1
+								vexactpos 1
+								hexactsize 0
+								vexactsize 0
+								image0 "set:dayz_gui image:arrow_right"
+								mode blend
+								"src alpha" 1
+								}
+							}
+						}
+					}
+				}
+				GridSpacerWidgetClass character_save {
+					ignorepointer 1
+					color 0 0 0 0.8627
+					position 0 36
+					size 1 1
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 0
+					style DayZDefaultPanelBottom
+					Padding 0
+					Margin 10
+					"Size To Content H" 1
+					"Size To Content V" 1
+					Columns 1
+					Rows 1
+					{
+						ButtonWidgetClass character_save_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							style Empty
+							"next up" "character_name_button"
+							"next down" "character_gender_button"
+							{
+								GridSpacerWidgetClass character_save_setting {
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									"no focus" 1
+									Padding 0
+									Margin 0
+									"Size To Content H" 1
+									Columns 2
+									Rows 1
+									{
+										FrameWidgetClass character_save_setting_panel {
+											ignorepointer 1
+											position 0 0
+											size 0.4 0.6
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												TextWidgetClass character_save_setting_label {
+													ignorepointer 1
+													size 1 0.55
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													text "SAVE"
+													font "gui/fonts/sdf_MetronLight24"
+													"text offset" 8 0
+													"exact text" 0
+													"exact text size" 18
+													"text valign" center
+												}
+											}
+										}
+										FrameWidgetClass character_save_setting_option {
+											ignorepointer 1
+											position 0 0
+											size 0.6 1
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+										}
+									}
+								}
+								PanelWidgetClass character_save_setting_disable {
+									visible 0
+									ignorepointer 1
+									color 0.1569 0.1569 0.1569 0.902
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									style rover_sim_colorable
+									{
+										TextWidgetClass character_save_no_saves_text {
+											ignorepointer 1
+											size 1 0.55
+											valign center_ref
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											text "ERROR: NO SAVES FOUND"
+											font "gui/fonts/sdf_MetronLight24"
+											"text offset" 8 0
+											"exact text" 0
+											"exact text size" 18
+											"text valign" center
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				GridSpacerWidgetClass character_content {
+					ignorepointer 1
+					color 0 0 0 0.8627
+					position 0 36
+					size 1 1
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 0
+					style DayZDefaultPanelBottom
+					Padding 0
+					Margin 10
+					"Size To Content H" 1
+					"Size To Content V" 1
+					Columns 1
+					Rows 1
+					{
+						ButtonWidgetClass character_name_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							style Empty
+							"next up" "character_shoes_button"
+							"next down" "character_gender_button"
+							{
+								GridSpacerWidgetClass general_name_setting {
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									"no focus" 1
+									Padding 0
+									Margin 0
+									"Size To Content H" 1
+									Columns 2
+									Rows 1
+									{
+										FrameWidgetClass general_name_setting_panel {
+											ignorepointer 1
+											position 0 0
+											size 0.4 0.6
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												TextWidgetClass general_name_setting_label {
+													ignorepointer 1
+													size 1 0.55
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													text "NAME"
+													font "gui/fonts/sdf_MetronLight24"
+													"text offset" 8 0
+													"exact text" 0
+													"exact text size" 18
+													"text valign" center
+												}
+											}
+										}
+										FrameWidgetClass general_name_setting_option {
+											ignorepointer 1
+											position 0 0
+											size 0.6 1
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												EditBoxWidgetClass general_name_setting_text {
+													ignorepointer 0
+													position 0 0
+													size 1 0.6
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													"exact text" 0
+													font "gui/fonts/sdf_MetronLight24"
+												}
+											}
+										}
+									}
+								}
+								PanelWidgetClass general_name_setting_disable {
+									visible 0
+									ignorepointer 1
+									color 0.1569 0.1569 0.1569 0.902
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									style rover_sim_colorable
+								}
+							}
+						}
+						ButtonWidgetClass character_save_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							style Empty
+							"next up" "character_save_button"
+							"next down" "character_head_button"
+							{
+								GridSpacerWidgetClass character_gender_setting {
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									"no focus" 1
+									Padding 0
+									Margin 0
+									"Size To Content H" 1
+									Columns 2
+									Rows 1
+									{
+										FrameWidgetClass character_gender_setting_panel {
+											ignorepointer 1
+											position 0 0
+											size 0.4 0.6
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												TextWidgetClass character_gender_setting_label {
+													ignorepointer 1
+													size 1 0.55
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													text "GENDER"
+													font "gui/fonts/sdf_MetronLight24"
+													"text offset" 8 0
+													"exact text" 0
+													"exact text size" 18
+													"text valign" center
+												}
+											}
+										}
+										FrameWidgetClass character_gender_setting_option {
+											ignorepointer 1
+											position 0 0
+											size 0.6 1
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+										}
+									}
+								}
+								PanelWidgetClass character_gender_setting_disable {
+									visible 0
+									ignorepointer 1
+									color 0.1569 0.1569 0.1569 0.902
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									style rover_sim_colorable
+								}
+							}
+						}
+						ButtonWidgetClass character_head_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							style Empty
+							"next up" "character_gender_button"
+							"next down" "character_top_button"
+							{
+								GridSpacerWidgetClass character_head_setting {
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									"no focus" 1
+									Padding 0
+									Margin 0
+									"Size To Content H" 1
+									Columns 2
+									Rows 1
+									{
+										FrameWidgetClass character_head_setting_panel {
+											ignorepointer 1
+											position 0 0
+											size 0.4 0.6
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												TextWidgetClass character_head_setting_label {
+													ignorepointer 1
+													size 1 0.55
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													text "HEAD"
+													font "gui/fonts/sdf_MetronLight24"
+													"text offset" 8 0
+													"exact text" 0
+													"exact text size" 18
+													"text valign" center
+												}
+											}
+										}
+										FrameWidgetClass character_head_setting_option {
+											ignorepointer 1
+											position 0 0
+											size 0.6 1
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+										}
+									}
+								}
+								PanelWidgetClass character_head_setting_disable {
+									visible 0
+									ignorepointer 1
+									color 0.1569 0.1569 0.1569 0.902
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									style rover_sim_colorable
+								}
+							}
+						}
+						ButtonWidgetClass character_top_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							style Empty
+							"next up" "character_head_button"
+							"next down" "character_bottom_button"
+							{
+								GridSpacerWidgetClass character_top_setting {
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									"no focus" 1
+									Padding 0
+									Margin 0
+									"Size To Content H" 1
+									Columns 2
+									Rows 1
+									{
+										FrameWidgetClass character_top_setting_panel {
+											ignorepointer 1
+											position 0 0
+											size 0.4 0.6
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												TextWidgetClass character_top_setting_label {
+													ignorepointer 1
+													size 1 0.55
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													text "TOP"
+													font "gui/fonts/sdf_MetronLight24"
+													"text offset" 8 0
+													"exact text" 0
+													"exact text size" 18
+													"text valign" center
+												}
+											}
+										}
+										FrameWidgetClass character_top_setting_option {
+											ignorepointer 1
+											position 0 0
+											size 0.6 1
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+										}
+									}
+								}
+								PanelWidgetClass character_top_setting_disable {
+									visible 0
+									ignorepointer 1
+									color 0.1569 0.1569 0.1569 0.902
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									style rover_sim_colorable
+								}
+							}
+						}
+						ButtonWidgetClass character_bottom_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							style Empty
+							"next up" "character_top_button"
+							"next down" "character_shoes_button"
+							{
+								GridSpacerWidgetClass character_bottom_setting {
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									"no focus" 1
+									Padding 0
+									Margin 0
+									"Size To Content H" 1
+									Columns 2
+									Rows 1
+									{
+										FrameWidgetClass character_bottom_setting_panel {
+											ignorepointer 1
+											position 0 0
+											size 0.4 0.6
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												TextWidgetClass character_bottom_setting_label {
+													ignorepointer 1
+													size 1 0.55
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													text "BOTTOM"
+													font "gui/fonts/sdf_MetronLight24"
+													"text offset" 8 0
+													"exact text" 0
+													"exact text size" 18
+													"text valign" center
+												}
+											}
+										}
+										FrameWidgetClass character_bottom_setting_option {
+											ignorepointer 1
+											position 0 0
+											size 0.6 1
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+										}
+									}
+								}
+								PanelWidgetClass character_bottom_setting_disable {
+									visible 0
+									ignorepointer 1
+									color 0.1569 0.1569 0.1569 0.902
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									style rover_sim_colorable
+								}
+							}
+						}
+						ButtonWidgetClass character_shoes_button {
+							position 0 0
+							size 1 30
+							hexactpos 1
+							vexactpos 1
+							hexactsize 0
+							vexactsize 1
+							style Empty
+							"next up" "character_bottom_button"
+							"next down" "character_name_button"
+							{
+								GridSpacerWidgetClass character_shoes_setting {
+									ignorepointer 1
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									"no focus" 1
+									Padding 0
+									Margin 0
+									"Size To Content H" 1
+									Columns 2
+									Rows 1
+									{
+										FrameWidgetClass character_shoes_setting_panel {
+											ignorepointer 1
+											position 0 0
+											size 0.4 0.6
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+											{
+												TextWidgetClass character_shoes_setting_label {
+													ignorepointer 1
+													size 1 0.55
+													valign center_ref
+													hexactpos 1
+													vexactpos 1
+													hexactsize 0
+													vexactsize 0
+													text "SHOES"
+													font "gui/fonts/sdf_MetronLight24"
+													"text offset" 8 0
+													"exact text" 0
+													"exact text size" 18
+													"text valign" center
+												}
+											}
+										}
+										FrameWidgetClass character_shoes_setting_option {
+											ignorepointer 1
+											position 0 0
+											size 0.6 1
+											hexactpos 1
+											vexactpos 1
+											hexactsize 0
+											vexactsize 0
+										}
+									}
+								}
+								PanelWidgetClass character_shoes_setting_disable {
+									visible 0
+									ignorepointer 1
+									color 0.1569 0.1569 0.1569 0.902
+									position 0 0
+									size 1 1
+									hexactpos 1
+									vexactpos 1
+									hexactsize 0
+									vexactsize 0
+									style rover_sim_colorable
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		ImageWidgetClass vignette {
+			visible 1
+			ignorepointer 0
+			color 0 0 0 0.902
+			position 0 0
+			size 1.6 0.9
+			halign center_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 0
+			fixaspect outside
+			priority 1
+			imageTexture "{E6B3EF816E067499}Gui/textures/inventory_bgvignette.edds"
+			mode blend
+			"src alpha" 1
+			"no wrap" 1
+			stretch 1
+			filter 0
+			nocache 1
+		}
+		WrapSpacerWidgetClass play_panel_root {
+			visible 1
+			ignorepointer 1
+			position 80 80
+			size 340 230
+			halign right_ref
+			valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			priority 3
+			"Ignore invisible" 0
+			Padding 8
+			Margin 0
+			"Size To Content H" 1
+			content_halign center
+			content_valign bottom
+			{
+				ButtonWidgetClass apply {
+					color 0 0 0 0.7843
+					position 0 0
+					size 1 84
+					halign center_ref
+					valign bottom_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 1
+					style DayZDefaultButton
+					"no focus" 0
+					"next left" ""
+					"next right" ""
+					"next up" "new_character"
+					"next down" "cancel"
+					text "PLAY"
+					text_proportion 0.8
+					font "gui/fonts/sdf_MetronLight72"
+					switch normal
+				}
+				ButtonWidgetClass new_character {
+					color 0 0 0 0.7843
+					position 0 0
+					size 1 38
+					halign center_ref
+					valign bottom_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 1
+					style DayZDefaultButton
+					"no focus" 0
+					"next left" ""
+					"next right" ""
+					"next up" "apply"
+					"next down" "cancel"
+					text "NEW CHARACTER"
+					text_proportion 0.55
+					font "gui/fonts/sdf_MetronLight24"
+					switch normal
+				}
+				ButtonWidgetClass cancel {
+					color 0 0 0 0.7843
+					position 0 0
+					size 1 38
+					halign center_ref
+					valign bottom_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 1
+					style DayZDefaultButton
+					"no focus" 0
+					"next left" ""
+					"next right" ""
+					"next up" "apply"
+					"next down" "new_character"
+					text "EXIT"
+					text_proportion 0.55
+					font "gui/fonts/sdf_MetronLight24"
+					switch normal
+				}
+				PanelWidgetClass character {
+					visible 0
+					ignorepointer 0
+					color 0 0 0 0.7843
+					position 0 0
+					size 1 38
+					halign center_ref
+					valign bottom_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 0
+					vexactsize 1
+					style DayZDefaultPanel
+				}
+			}
+		}
+		FrameWidgetClass character_rotation_frame {
+			size 0.3 1
+			halign center_ref
+			valign center_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 0
+			priority 2
+		}
+		TextWidgetClass version {
+			visible 1
+			clipchildren 0
+			ignorepointer 1
+			position 80 60
+			size 180 14
+			valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			priority 2
+			text "#main_menu_version"
+			font "gui/fonts/sdf_MetronLight24"
+			"exact text" 0
+			"text valign" center
+		}
+		TextWidgetClass copyright {
+			visible 1
+			clipchildren 0
+			position 80 40
+			size 600 14
+			valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			priority 2
+			text "#copyright_disclamer"
+			font "gui/fonts/sdf_MetronLight24"
+			"exact text" 0
+			"text valign" center
+		}
+		TextWidgetClass copyright2 {
+			visible 1
+			clipchildren 0
+			position 80 20
+			size 600 14
+			valign bottom_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			priority 2
+			text "This was modified by the Community Offline Mode team"
+			font "gui/fonts/sdf_MetronLight24"
+			"exact text" 0
+			"text valign" center
+		}
+		TextWidgetClass CharacterCreationTextWidget {
+			ignorepointer 1
+			position 80 80
+			size 0.35 50
+			halign right_ref
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			priority 1
+			style Normal
+			text "CHARACTER MENU"
+			font "gui/fonts/sdf_MetronLight72"
+			"text color" 0.8157 0.1255 0.7843 1
+			"exact text" 0
+			"size to text h" 0
+			"size to text v" 1
+			"text halign" right
+			"text valign" center
+		}
+	}
+}
