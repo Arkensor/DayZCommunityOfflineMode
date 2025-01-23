@@ -220,7 +220,7 @@ static Weapon_Base COM_CreateWeapon( PlayerBase oPlayer )
 }
 */
 
-static Weapon_Base COM_CreateWeapon( PlayerBase oPlayer, string sWeapon )
+/* static Weapon_Base COM_CreateWeapon( PlayerBase oPlayer, string sWeapon )
 {
     Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( sWeapon ));
     oWpn.GetInventory().CreateAttachment( "PistolSuppressor" );
@@ -228,11 +228,45 @@ static Weapon_Base COM_CreateWeapon( PlayerBase oPlayer, string sWeapon )
     optic.GetInventory().CreateAttachment("Battery9V");
 
     return oWpn;
+} */
+
+static Weapon_Base COM_CreateWeapon( PlayerBase oPlayer )
+{
+    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "SVD" ));
+    oWpn.GetInventory().CreateAttachment( "AK_Suppressor" );
+    oWpn.GetInventory().CreateAttachment( "Mag_SVD_10Rnd" );
+    oWpn.GetInventory().CreateAttachment( "PSO1Optic" ).GetInventory().CreateAttachment( "Battery9V" );
+    oWpn.GetInventory().CreateAttachment( "GhillieAtt_Woodland" );
+
+    return oWpn;
+}
+
+static Weapon_Base COM_CreateWeapon2( PlayerBase oPlayer )
+{
+    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "Aug" ));
+    oWpn.GetInventory().CreateAttachment( "M4_Suppressor" );
+    oWpn.GetInventory().CreateAttachment( "Mag_STANAG_60Rnd" );
+    oWpn.GetInventory().CreateAttachment( "ACOGOptic_6x" );
+    oWpn.GetInventory().CreateAttachment( "GhillieAtt_Woodland" );
+
+    return oWpn;
+}
+
+static Weapon_Base COM_CreateWeapon3( PlayerBase oPlayer )
+{
+    Weapon_Base oWpn = Weapon_Base.Cast(oPlayer.GetInventory().CreateInInventory( "FNX45" ));
+    oWpn.GetInventory().CreateAttachment( "PistolSuppressor" );
+    oWpn.GetInventory().CreateAttachment( "Mag_FNX45_15Rnd" );
+    oWpn.GetInventory().CreateAttachment( "FNP45_MRDSOptic" ).GetInventory().CreateAttachment( "Battery9V" );
+
+    return oWpn;
 }
 
 static PlayerBase COM_CreateCustomDefaultCharacter()
 {
     PlayerBase oPlayer = PlayerBase.Cast( GetGame().CreatePlayer( NULL, GetGame().CreateRandomPlayer(), COM_GetSpawnPoints().GetRandomElement(), 0, "NONE") );
+
+    /* DEFAULT SET:
 
     oPlayer.GetInventory().CreateInInventory( "MilitaryBeret_UN" );
     oPlayer.GetInventory().CreateInInventory( "M65Jacket_Black" );
@@ -252,6 +286,74 @@ static PlayerBase COM_CreateCustomDefaultCharacter()
 
     oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );
     oPlayer.SetQuickBarEntityShortcut( oMag, 1, true );
+    */
+
+    PlayerBase oVest = oPlayer.GetInventory().CreateInInventory( "PlateCarrierVest_Green" ); // PlateCarrierVest_Camo | PlateCarrierVest_Green
+    oVest.GetInventory().CreateAttachment( "PlateCarrierHolster_Green" ); // PlateCarrierHolster_Camo | PlateCarrierHolster_Green
+    oVest.GetInventory().CreateAttachment( "PlateCarrierPouches_Green" ); // PlateCarrierPouches_Camo | PlateCarrierPouches_Green
+    oVest.GetInventory().CreateAttachment( "M67Grenade" );
+    oVest.GetInventory().CreateAttachment( "M67Grenade" );
+    oVest.GetInventory().CreateAttachment( "M67Grenade" );
+
+    PlayerBase oBelt = oPlayer.GetInventory().CreateInInventory( "HipPack_Green" ); // HipPack_Green | MilitaryBelt
+    // oBelt.GetInventory().CreateAttachment( "PlateCarrierHolster_Green" ); // PlateCarrierHolster_Green | PlateCarrierHolster_Camo
+    // oBelt.GetInventory().CreateAttachment( "NylonKnifeSheath" );
+    oBelt.GetInventory().CreateAttachment( "Canteen" );
+
+    PlayerBase oHeadstrap = oPlayer.GetInventory().CreateInInventory( "NVGHeadstrap" );
+    oHeadstrap.GetInventory().CreateAttachment( "NVGoggles" ).GetInventory().CreateAttachment( "Battery9V" );
+
+    oPlayer.GetInventory().CreateInInventory( "BalaclavaMask_BDU" ); // BalaclavaMask_BDU | BalaclavaMask_Green | BalaclavaMask_Beige
+    oPlayer.GetInventory().CreateInInventory( "TacticalGloves_Black" ); // TacticalGloves_Black | TacticalGloves_Green | TacticalGloves_Beige
+    oPlayer.GetInventory().CreateInInventory( "Armband_Black" ); // Armband_Yellow | Armband_Green | Armband_Black
+    oPlayer.GetInventory().CreateInInventory( "TTSKOBoots" ); // TTSKOBoots | MilitaryBoots_Brown | JungleBoots_Green
+    oPlayer.GetInventory().CreateInInventory( "Rangefinder" ).GetInventory().CreateAttachment( "Battery9V" );
+
+    /* Camo set */
+    PlayerBase oBag = oPlayer.GetInventory().CreateInInventory( "TortillaBag" ); // AliceBag_Green | AliceBag_Camo | CoyoteBag_Green | TortillaBag
+    oBag.GetInventory().CreateAttachment( "GPSReceiver" ).GetInventory().CreateAttachment( "Battery9V" ); // PersonalRadio | GPSReceiver
+
+    oPlayer.GetInventory().CreateInInventory( "BallisticHelmet_BDU" ); // BallisticHelmet_Green | BallisticHelmet_Woodland | BallisticHelmet_BDU
+    oPlayer.GetInventory().CreateInInventory( "BDUJacket" ); // USMCJacket_Woodland | TTsKOJacket_Camo | BDUJacket | M65Jacket_Olive
+    oPlayer.GetInventory().CreateInInventory( "BDUPants" ); // USMCPants_Woodland | TTSKOPants | BDUPants | HunterPants_Spring
+
+    /* Ghillie set */
+    // oBag.GetInventory().CreateInInventory( "GhillieHood_Woodlan" );
+    // oBag.GetInventory().CreateInInventory( "GhillieSuit_Woodlan" );
+    // PlayerBase oVest2 = oPlayer.GetInventory().CreateInInventory( "SmershVest" )
+    // oVest2.GetInventory().CreateAttachment( "SmershBag" );
+
+    /* NBC set */
+    // oPlayer.GetInventory().CreateInInventory( "NBCBootsGray" );
+    // oPlayer.GetInventory().CreateInInventory( "NBCGlovesGray" );
+    // oPlayer.GetInventory().CreateInInventory( "NBCHoodGray" );
+    // oPlayer.GetInventory().CreateInInventory( "NBCJacketGray" );
+    // oPlayer.GetInventory().CreateInInventory( "NBCPantsGray" );
+    // oPlayer.GetInventory().CreateInInventory( "AirborneMask" );
+    // oPlayer.GetInventory().CreateInInventory( "GasMask_Filter" );
+
+    PlayerBase oGrenade = oPlayer.GetInventory().CreateInInventory( "M67Grenade" );
+
+    PlayerBase oBandage = oPlayer.GetInventory().CreateInInventory( "BandageDressing" );
+    
+    PlayerBase oKnife = oPlayer.GetInventory().CreateInInventory( "CombatKnife" );
+    // PlayerBase oMachete = oPlayer.GetInventory().CreateInInventory( "OrientalMachete" );
+    // PlayerBase oShovel = oPlayer.GetInventory().CreateInInventory( "FieldShovel" ); // Shovel | FieldShovel
+
+    Weapon_Base oWpn = COM_CreateWeapon( oPlayer );
+    oPlayer.PredictiveTakeEntityToHands( oWpn );
+    Weapon_Base oWpn2 = COM_CreateWeapon2( oPlayer );
+    Weapon_Base oWpn3 = COM_CreateWeapon3( oPlayer );
+
+    oPlayer.SetQuickBarEntityShortcut( oWpn, 0, true );
+    oPlayer.SetQuickBarEntityShortcut( oWpn2, 1, true );
+    oPlayer.SetQuickBarEntityShortcut( oWpn3, 2, true );
+    oPlayer.SetQuickBarEntityShortcut( oKnife, 3, true );
+    // oPlayer.SetQuickBarEntityShortcut( oMachete, 4, true );
+    // oPlayer.SetQuickBarEntityShortcut( oWpn4, 5, true );
+    // oPlayer.SetQuickBarEntityShortcut( oShovel, 6, true );
+    oPlayer.SetQuickBarEntityShortcut( oBandage, 7, true );
+    oPlayer.SetQuickBarEntityShortcut( oGrenade, 8, true );
 
     return oPlayer;
 }
