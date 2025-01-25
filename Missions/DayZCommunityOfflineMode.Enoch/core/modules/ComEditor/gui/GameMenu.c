@@ -14,11 +14,16 @@ class GameMenu extends PopupMenu
 		m_gameScriptList = TextListboxWidget.Cast(layoutRoot.FindAnyWidget("game_list_box"));
 		m_gameScriptButton = ButtonWidget.Cast(layoutRoot.FindAnyWidget("game_script_button"));
 
-		m_gameScriptList.AddItem( "Spawn HMMWV",     new Param1< string >( "SpawnHMMWV" ),     0 );
-		m_gameScriptList.AddItem( "Spawn Hatchback", new Param1< string >( "SpawnHatchback" ), 0 );
-		m_gameScriptList.AddItem( "Spawn Sedan", 	 new Param1< string >( "SpawnSedan" ), 	   0 );
-        m_gameScriptList.AddItem( "Spawn Gunter 2",  new Param1< string >( "SpawnGunter" ),    0 );
-        m_gameScriptList.AddItem( "Spawn Sarka",     new Param1< string >( "SpawnSarka" ),     0 );
+		m_gameScriptList.AddItem( "Spawn HMMWV",             new Param1< string >( "SpawnHMMWV" ),     0 );
+		m_gameScriptList.AddItem( "Spawn Hatchback",         new Param1< string >( "SpawnHatchback" ), 0 );
+		m_gameScriptList.AddItem( "Spawn Sedan (White)", 	 new Param1< string >( "SpawnSedanWhite" ), 	   0 );
+		m_gameScriptList.AddItem( "Spawn Sedan (Wine)", 	 new Param1< string >( "SpawnSedanWine" ), 	   0 );
+		m_gameScriptList.AddItem( "Spawn Sedan (Black)", 	 new Param1< string >( "SpawnSedanBlack" ), 	   0 );
+        m_gameScriptList.AddItem( "Spawn Gunter 2",          new Param1< string >( "SpawnGunter" ),    0 );
+        m_gameScriptList.AddItem( "Spawn Sarka (Yellow)",    new Param1< string >( "SpawnSarkaYellow" ),     0 );
+        m_gameScriptList.AddItem( "Spawn Sarka (Green)",     new Param1< string >( "SpawnSarkaGreen" ),     0 );
+		m_gameScriptList.AddItem( "Spawn M3S (Green)",		 new Param1< string >( "SpawnM3SGreen" ), 	   0 );
+		m_gameScriptList.AddItem( "Spawn M3S (Orange)",		 new Param1< string >( "SpawnM3SOrange" ), 	   0 );
 //      m_gameScriptList.AddItem( "Spawn V3S",		 new Param1< string >( "SpawnV3S" ), 	   0 );
 //		m_gameScriptList.AddItem( "Spawn V3S_Cargo", new Param1< string >( "SpawnV3SCargo" ),  0 );
 //		m_gameScriptList.AddItem( "Spawn Bus", 		 new Param1< string >( "SpawnBus" ), 	   0 );
@@ -151,7 +156,7 @@ class GameMenu extends PopupMenu
 		SpawnVehicle( "OffroadHatchback", attArr );
 	}
 
-	void SpawnSedan() 
+	void SpawnSedanWhite() 
 	{
 		TStringArray attArr = {
 		"HeadlightH7", "HeadlightH7",
@@ -162,6 +167,32 @@ class GameMenu extends PopupMenu
 		};
 
 		SpawnVehicle( "CivilianSedan", attArr );
+	}
+
+	void SpawnSedanWine() 
+	{
+		TStringArray attArr = {
+		"HeadlightH7", "HeadlightH7",
+		"CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel",
+		"CarBattery", "CarRadiator","EngineBelt", "SparkPlug","CivSedanHood_Wine",
+		"CivSedanTrunk_Wine", "CivSedanDoors_Driver_Wine","CivSedanDoors_CoDriver_Wine",
+		"CivSedanDoors_BackLeft_Wine", "CivSedanDoors_BackRight_Wine",
+		};
+
+		SpawnVehicle( "CivilianSedan_Wine", attArr );
+	}
+
+	void SpawnSedanBlack() 
+	{
+		TStringArray attArr = {
+		"HeadlightH7", "HeadlightH7",
+		"CivSedanWheel", "CivSedanWheel", "CivSedanWheel", "CivSedanWheel",
+		"CarBattery", "CarRadiator","EngineBelt", "SparkPlug","CivSedanHood_Black",
+		"CivSedanTrunk_Black", "CivSedanDoors_Driver_Black","CivSedanDoors_CoDriver_Black",
+		"CivSedanDoors_BackLeft_Black", "CivSedanDoors_BackRight_Black",
+		};
+
+		SpawnVehicle( "CivilianSedan_Wine", attArr );
 	}
 
 	void SpawnGunter()
@@ -176,7 +207,7 @@ class GameMenu extends PopupMenu
 		SpawnVehicle( "Hatchback_02", attArr );
 	}
 
-	void SpawnSarka()
+	void SpawnSarkaYellow()
 	{
 		TStringArray attArr = {
 		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug", "Sedan_02_Hood",
@@ -186,6 +217,40 @@ class GameMenu extends PopupMenu
 		};
 
 		SpawnVehicle( "Sedan_02", attArr );
+	}
+
+	void SpawnSarkaGreen()
+	{
+		TStringArray attArr = {
+		"HeadlightH7", "HeadlightH7", "CarBattery", "CarRadiator", "SparkPlug", "Sedan_02_Hood_Grey",
+		"Sedan_02_Hood_Grey","Sedan_02_Trunk_Grey","Sedan_02_Door_1_1_Grey",
+		"Sedan_02_Door_2_1_Grey","Sedan_02_Door_1_2_Grey","Sedan_02_Door_2_2_Grey","Sedan_02_Wheel",
+		"Sedan_02_Wheel","Sedan_02_Wheel","Sedan_02_Wheel",
+		};
+
+		SpawnVehicle( "Sedan_02_Grey", attArr );
+	}
+
+	void SpawnM3SGreen() 
+	{
+		TStringArray attArr = {
+		"Truck_01_Wheel", "Truck_01_Wheel", "Truck_01_Wheel","Truck_01_Wheel", "Truck_01_WheelDouble","Truck_01_WheelDouble", "Truck_01_WheelDouble","Truck_01_WheelDouble",
+		"TruckBattery", "HeadlightH7", "HeadlightH7",
+		"Truck_01_Hood", "Truck_01_Door_1_1", "Truck_01_Door_2_1",
+		};
+
+		SpawnVehicle( "Truck_01_Covered", attArr );
+	}
+
+	void SpawnM3SOrange() 
+	{
+		TStringArray attArr = {
+		"Truck_01_Wheel", "Truck_01_Wheel", "Truck_01_Wheel","Truck_01_Wheel", "Truck_01_WheelDouble","Truck_01_WheelDouble", "Truck_01_WheelDouble","Truck_01_WheelDouble",
+		"TruckBattery", "HeadlightH7", "HeadlightH7",
+		"Truck_01_Hood_Orange", "Truck_01_Door_1_1_Orange", "Truck_01_Door_2_1_Orange",
+		};
+
+		SpawnVehicle( "Truck_01_Covered_Orange", attArr );
 	}
 
 	void SpawnV3SCargo() 

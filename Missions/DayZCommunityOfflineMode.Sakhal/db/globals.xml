@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<variables>
+    <var name="AnimalMaxCount" type="0" value="200"/>
+    <var name="CleanupAvoidance" type="0" value="100"/>
+    <var name="CleanupLifetimeDeadAnimal" type="0" value="1200"/>
+    <var name="CleanupLifetimeDeadInfected" type="0" value="330"/>
+    <var name="CleanupLifetimeDeadPlayer" type="0" value="3600"/>
+    <var name="CleanupLifetimeDefault" type="0" value="45"/>
+    <var name="CleanupLifetimeLimit" type="0" value="50"/>
+    <var name="CleanupLifetimeRuined" type="0" value="330"/>
+    <var name="FlagRefreshFrequency" type="0" value="432000"/>
+    <var name="FlagRefreshMaxDuration" type="0" value="3456000"/>
+    <var name="FoodDecay" type="0" value="1"/>
+    <var name="IdleModeCountdown" type="0" value="60"/>
+    <var name="IdleModeStartup" type="0" value="1"/>
+    <var name="InitialSpawn" type="0" value="100"/>
+    <var name="LootDamageMax" type="1" value="0.82"/>
+    <var name="LootDamageMin" type="1" value="0.0"/>
+    <var name="LootProxyPlacement" type="0" value="1"/>
+    <var name="LootSpawnAvoidance" type="0" value="100"/>
+    <var name="RespawnAttempt" type="0" value="2"/>
+    <var name="RespawnLimit" type="0" value="20"/>
+    <var name="RespawnTypes" type="0" value="12"/>
+    <var name="RestartSpawn" type="0" value="0"/>
+    <var name="SpawnInitial" type="0" value="1200"/>
+    <var name="TimeHopping" type="0" value="60"/>
+    <var name="TimeLogin" type="0" value="15"/>
+    <var name="TimeLogout" type="0" value="15"/>
+    <var name="TimePenalty" type="0" value="20"/>
+    <var name="WorldWetTempUpdate" type="0" value="1"/>
+    <var name="ZombieMaxCount" type="0" value="1000"/>
+    <var name="ZoneSpawnDist" type="0" value="300"/>
+</variables>

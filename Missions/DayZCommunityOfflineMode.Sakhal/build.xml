@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<project name="Addon worlds_sakhal_ce.pbo" default="main" basedir=".">
+
+  <!-- Project specific properties -->
+  <property name="addon.filename" value="sakhal\Addons\worlds_sakhal_ce"/>
+  <property name="depend.list" value="Core"/>
+  <property name="PRODUCT" value="dayz sakhal"/>
+
+
+  <!-- Execute the common data pipeline-->
+  <import file="${src.root.dir}/build/buildData.xml" />
+
+</project>
