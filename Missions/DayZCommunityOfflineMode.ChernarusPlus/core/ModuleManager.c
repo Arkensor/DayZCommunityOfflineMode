@@ -222,7 +222,7 @@ ModuleManager COM_GetModuleManager()
 {
     if( !g_com_ModuleManager )
     {
-        g_com_ModuleManager = new ref ModuleManager();
+        g_com_ModuleManager = new ModuleManager();
     }
 
     return g_com_ModuleManager;
@@ -235,7 +235,7 @@ ModuleManager NewModuleManager()
         delete g_com_ModuleManager;
     }
 
-    g_com_ModuleManager = new ref ModuleManager();
+    g_com_ModuleManager = new ModuleManager();
 
     return g_com_ModuleManager;
 }
