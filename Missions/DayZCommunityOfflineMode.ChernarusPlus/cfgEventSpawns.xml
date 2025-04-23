@@ -454,7 +454,7 @@
 		<pos x="1363.39" z="9308.64" />
 	</event>
     <event name="StaticContaminatedArea">
-		<zone smin="0" smax="0" dmin="5" dmax="8" r="75" />
+		<zone smin="0" smax="0" dmin="70" dmax="78" r="75" />
 		<pos x="6034" z="7823" />
 		<pos x="5045" z="9840" />
 		<pos x="8496" z="13976" />

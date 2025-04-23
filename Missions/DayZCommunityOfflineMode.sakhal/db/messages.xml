@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<messages>
+<!--
+See https://community.bistudio.com/wiki/DayZ:Server_Messages for more information
+
+Example messages:
+
+1) following message will be displayed to every player in countdown manner
+    and shuts down server in 10 hours from its start
+
+    <message>
+        <deadline>600</deadline>
+        <shutdown>1</shutdown>
+        <text>#name will shutdown in #tmin minutes.</text>
+    </message>
+
+
+2) following message will be displayed every 15 minutes to every player
+
+    <message>
+        <repeat>15</repeat>
+        <text>You're playing on my server (#name). Thank you .)</text>
+    </message>
+
+
+3) following message will be displayed every 50 minutes to every player
+    and 10 minutes after player connect
+
+    <message>
+        <delay>10</delay>
+        <repeat>50</repeat>
+        <onconnect>1</onconnect>
+        <text>Check our web page at www.dayz.com</text>
+    </message>
+
+
+4) following message will be displayed once
+    and 2 minutes after player connect
+
+    <message>
+        <delay>2</delay>
+        <onconnect>1</onconnect>
+        <text>Welcome to my server #name</text>
+    </message>
+    -->
+
+</messages>

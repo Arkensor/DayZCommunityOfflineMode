@@ -1,0 +1,4 @@
+class InventoryData : ItemData
+{
+    
+}
