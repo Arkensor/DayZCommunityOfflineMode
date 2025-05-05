@@ -240,6 +240,8 @@ class WeatherMenu extends PopupMenu
 	{
 		m_TxtWeatherTime.SetText( GetGame().GetWeather().GetTime().ToString() );
 		// m_TxtAirTemperature.SetText( GetGame().GetWeather().GetAirTemperature().ToString() );
+		PlayerBase player = PlayerBase.Cast( COM_GetPB() ); //Get player
+		m_TxtAirTemperature.SetText(player.m_Environment.GetTemperature().ToString() ); //Get player environment temperature instad of game temperature
 	}
 
 	void ResetSliders()

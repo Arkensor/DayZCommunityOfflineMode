@@ -24,12 +24,18 @@ class ArkDebugMonitor
 
 		m_pNamesListboxWidget.AddItem("BLOOD:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
-
-		/*m_pNamesListboxWidget.AddItem("BODY TEMP:", NULL, 0);
-		m_pValuesListboxWidget.AddItem("", NULL, 0);*/
-
-		m_pNamesListboxWidget.AddItem("LAST DAMAGE:", NULL, 0);
+		
+		m_pNamesListboxWidget.AddItem("SHOCK:", NULL, 0); //Added shcok
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
+		
+		/* m_pNamesListboxWidget.AddItem("BODY t°:", NULL, 0); // Not working
+		m_pValuesListboxWidget.AddItem("", NULL, 0); */
+
+		m_pNamesListboxWidget.AddItem("AIR TEMP°:", NULL, 0); //Fixed air temp
+		m_pValuesListboxWidget.AddItem("", NULL, 0);
+
+		/*m_pNamesListboxWidget.AddItem("LAST DAMAGE:", NULL, 0); // Removed, not working.
+		m_pValuesListboxWidget.AddItem("", NULL, 0);*/
 
 		m_pNamesListboxWidget.AddItem("POSITION:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
@@ -37,14 +43,14 @@ class ArkDebugMonitor
 		m_pNamesListboxWidget.AddItem("ORIENTATION:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
-		m_pNamesListboxWidget.AddItem("DATETIME:", NULL, 0);
+		m_pNamesListboxWidget.AddItem("TIME:", NULL, 0); //Shorter text, easier to read
 		m_pValuesListboxWidget.AddItem("", NULL, 0);
 
         string version;
         GetGame().GetVersion(version);
 
 		m_pNamesListboxWidget.AddItem("VERSION:", NULL, 0);
-		m_pValuesListboxWidget.AddItem( " " + version, NULL, 0);
+		m_pValuesListboxWidget.AddItem(" " + version, NULL, 0);
 
 		/*m_pNamesListboxWidget.AddItem("MODIFIERS:", NULL, 0);
 		m_pValuesListboxWidget.AddItem("", NULL, 0);*/
@@ -67,28 +73,46 @@ class ArkDebugMonitor
 		m_pValuesListboxWidget.SetItem(1, blood, NULL, 0);
 	}
 
-	void SetLastDamage(string value)
+	void SetShock(float value)
+	{
+		string shock = string.Format(" %1", value.ToString());
+		m_pValuesListboxWidget.SetItem(2, shock, NULL, 0);
+	}
+
+	/* void SetBodyTemp(float value)
+	{
+		string bodyTemp = string.Format(" %1", value.ToString());
+		m_pValuesListboxWidget.SetItem(3, bodyTemp, NULL, 0);
+	} */
+
+	void SetAirTemp(float value)
+	{
+		string airTemp = string.Format(" %1", value.ToString());
+		m_pValuesListboxWidget.SetItem(3, airTemp, NULL, 0);
+	}
+
+	/*void SetLastDamage(string value)
 	{
 		string lastDamage = string.Format(" %1", value);
-		m_pValuesListboxWidget.SetItem(2, lastDamage, NULL, 0);
-	}
+		m_pValuesListboxWidget.SetItem(4, lastDamage, NULL, 0);
+	}*/
 
 	void SetPosition(vector value)
 	{
 		string position = string.Format(" %1 %2 %3", value[0].ToString(), value[1].ToString(), value[2].ToString());
-		m_pValuesListboxWidget.SetItem(3, position, NULL, 0);
+		m_pValuesListboxWidget.SetItem(4, position, NULL, 0);
 	}
 
 	void SetOrientation(vector value)
 	{
 		string orientation = string.Format(" %1 %2 %3", value[0].ToString(), value[1].ToString(), value[2].ToString());
-		m_pValuesListboxWidget.SetItem(4, orientation, NULL, 0);
+		m_pValuesListboxWidget.SetItem(5, orientation, NULL, 0);
 	}
 
 	void SetDateTime(string value)
 	{
-		string orientation = string.Format(" %1", value);
-		m_pValuesListboxWidget.SetItem(5, orientation, NULL, 0);
+		string dateTime = string.Format(" %1", value);
+		m_pValuesListboxWidget.SetItem(6, dateTime, NULL, 0);
 	}
 
 	void Hide()
