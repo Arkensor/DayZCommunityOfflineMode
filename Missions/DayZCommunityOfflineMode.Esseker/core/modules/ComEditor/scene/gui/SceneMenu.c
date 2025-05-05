@@ -1,0 +1,4 @@
+class SceneMenu extends PopupMenu 
+{
+	
+}
