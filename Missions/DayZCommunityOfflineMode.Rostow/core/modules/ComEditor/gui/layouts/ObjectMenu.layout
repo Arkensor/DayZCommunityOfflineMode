@@ -1,0 +1,354 @@
+PanelWidgetClass ObjectMenu
+{
+	visible 0
+	color 0 0 0 0
+	position 0.0425 0.0425
+	size 650 450
+	halign right_ref
+	valign top_ref
+	hexactpos 0
+	vexactpos 0
+	hexactsize 1
+	vexactsize 1
+	scriptclass "ObjectMenu"
+	style EditorPanel
+	{
+        
+        PanelWidgetClass Background
+        {
+			visible 1
+			color 0 0 0 0.45
+			position 0 0
+			size 500 450
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+        }
+
+		PanelWidgetClass title_wrapper
+		{
+			visible 1
+			color 0 0 0 0.7843
+			position 0 0
+			size 1 25
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+
+			{
+				TextWidgetClass title_text
+				{
+					position 0 0
+					size 1 0.6
+					halign center_ref
+					valign center_ref
+					hexactpos 0
+					vexactpos 0
+					hexactsize 0
+					vexactsize 0
+					style Normal
+					text "Items and Objects"
+					font "gui/fonts/Metron-Bold58"
+                    "exact text" 1
+                    "exact text size" 20
+                    "text halign" center
+                    "text valign" center
+				}
+			}
+		}
+
+		TextWidgetClass search_text
+		{
+			position 6 34
+			size 50 18
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Search:"
+		}
+
+		EditBoxWidgetClass search_input
+		{
+			position 58 32
+			size 437 20
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			style ServerBrowser
+		}
+
+		PanelWidgetClass hr
+		{
+			visible 1
+			color 0 0 0 0.7843
+			position 5 58
+			size 0.985 2
+			hexactpos 1
+			vexactpos 1
+			hexactsize 0
+			vexactsize 1
+			style rover_sim_colorable
+		}
+
+		ButtonWidgetClass btn_filter_All
+		{
+			position 5 65
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "All"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_edible_base
+		{
+			position 5 100
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Food"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_weapon_base
+		{
+			position 5 135
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Firearms"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_clothing_base
+		{
+			position 5 170
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Clothing"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_transport
+		{
+			position 5 205
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Vehicles"
+            text_proportion 0.75
+		}
+		ButtonWidgetClass btn_filter_house
+		{
+			position 5 240
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Buildings"
+            text_proportion 0.75
+		}
+
+		ButtonWidgetClass btn_filter_dz_lightai
+		{
+			position 5 275
+			size 80 30
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			text "Ai"
+            text_proportion 0.75
+		}
+
+		TextListboxWidgetClass classlist
+		{
+			visible 1
+			position 95 65
+			size 275 300
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			style Editor
+			lines 20
+			font "gui/fonts/Metron14"
+		}
+
+		PanelWidgetClass preview_pnl
+		{
+			visible 1
+			color 0 0 0 0.8
+			position 375 65
+			size 270 300
+			hexactpos 1
+			vexactpos 1
+			hexactsize 1
+			vexactsize 1
+			style rover_sim_colorable
+		}
+
+		PanelWidgetClass buttonframe
+		{
+			position 0 0.825
+			size 1 1				
+			halign left_ref
+			valign top_ref
+			hexactpos 1
+			vexactpos 0
+			{
+				TextWidgetClass search_text
+				{
+					position 5 30
+					size 100 18
+					halign left_ref
+					valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "Spawn type:"
+				}
+
+				ButtonWidgetClass btn_spawn_cursorpos
+				{
+					position 460 30
+					size 80 20
+					halign right_ref
+					valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "Cursor"
+				}
+
+				ButtonWidgetClass btn_spawn_ground
+				{
+					position 380 30
+					size 80 20
+					halign right_ref
+					valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "Ground"
+				}
+
+        ButtonWidgetClass btn_spawn_inventory
+        {
+          position 300 30
+          size 80 20
+          halign right_ref
+          valign top_ref
+          hexactpos 1
+          vexactpos 1
+          hexactsize 1
+          vexactsize 1
+          text "Inventory"
+        }
+        
+				TextWidgetClass state_text
+				{
+          position 100 5
+          size 180 18
+          halign right_ref
+          valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "State:"
+				}
+
+				EditBoxWidgetClass state_items
+				{
+          position 175 5
+					size 60 16
+          halign right_ref
+          valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+          text "100"
+					style ServerBrowser
+				}
+
+				TextWidgetClass quantity_text
+				{
+          position 100 30
+          size 180 18
+          halign right_ref
+          valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text "Quantity:"
+				}
+
+				EditBoxWidgetClass quantity_items
+				{
+          position 145 30
+          size 70 16
+          halign right_ref
+          valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+          text ""
+					style ServerBrowser
+				}
+				
+				TextWidgetClass className_spawner
+				{
+					position 5 5
+          size 150 20
+          halign left_ref
+          valign top_ref
+          hexactpos 1
+          vexactpos 1
+          hexactsize 1
+          vexactsize 1
+          text "Class Name:"
+				}
+				
+				EditBoxWidgetClass className_spawner_box
+				{
+					color 1 1 1 1
+		            position 110 5
+					size 240 20
+		            halign left_ref
+		            valign top_ref
+					hexactpos 1
+					vexactpos 1
+					hexactsize 1
+					vexactsize 1
+					text ""
+					style ServerBrowser
+				}
+			}
+		}
+	}
+}
