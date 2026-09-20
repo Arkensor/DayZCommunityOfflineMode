@@ -1,61 +1,60 @@
 class CommunityOfflineClient extends MissionGameplay
 {
-	protected bool HIVE_ENABLED = true; //Local Hive / Economy / Infected spawn
+    protected bool HIVE_ENABLED = true; //Local Hive / Economy / Infected spawn
 
     protected bool m_loaded;
 
-	void CommunityOfflineClient()
-	{
-	    m_loaded = false;
+    void CommunityOfflineClient()
+    {
+        m_loaded = false;
 
-		NewModuleManager();
-	}
+        NewModuleManager();
+    }
 
-	override void OnInit()
-	{
-		super.OnInit();
+    override void OnInit()
+    {
+        super.OnInit();
 
         InitHive();
 
         SetupWeather();
 
-		SpawnPlayer();
+        SpawnPlayer();
 
-		GetDayZGame().SetMissionPath( "$saves:CommunityOfflineMode\\" ); // CameraToolsMenu
-	}
+        GetDayZGame().SetMissionPath( "$saves:CommunityOfflineMode\\" ); // CameraToolsMenu
+    }
 
-	override void OnMissionStart()
-	{
-		super.OnMissionStart();
+    override void OnMissionStart()
+    {
+        super.OnMissionStart();
 
         COM_GetModuleManager().OnInit();
-		COM_GetModuleManager().OnMissionStart();
-	}
+        COM_GetModuleManager().OnMissionStart();
+    }
 
-	override void OnMissionFinish()
-	{
+    override void OnMissionFinish()
+    {
         COM_GetModuleManager().OnMissionFinish();
 
-		CloseAllMenus();
+        CloseAllMenus();
+        DestroyAllMenus();
 
-		DestroyAllMenus();
+        if( GetHive() )
+        {
+            DestroyHive();
+        }
 
-		if( GetHive() )
-		{
-			DestroyHive();
-		}
-
-		super.OnMissionFinish();
-	}
+        super.OnMissionFinish();
+    }
 
     void OnMissionLoaded()
     {
-		COM_GetModuleManager().OnMissionLoaded();
+        COM_GetModuleManager().OnMissionLoaded();
     }
 
-	override void OnUpdate( float timeslice )
-	{
-	    super.OnUpdate( timeslice );
+    override void OnUpdate( float timeslice )
+    {
+        super.OnUpdate( timeslice );
 
         COM_GetModuleManager().OnUpdate( timeslice );
 
@@ -64,41 +63,36 @@ class CommunityOfflineClient extends MissionGameplay
             m_loaded = true;
             OnMissionLoaded();
         }
-	}
+    }
 
     void SpawnPlayer()
     {
-//		#ifndef MODULE_PERSISTENCY
-//		GetGame().SelectPlayer( NULL, COM_CreateCustomDefaultCharacter() );
-//		#endif
-
-//		#ifdef DISABLE_PERSISTENCY
-		GetGame().SelectPlayer( NULL, COM_CreateCustomDefaultCharacter() );
-//		#endif
+#ifdef DISABLE_PERSISTENCY
+        GetGame().SelectPlayer( NULL, COM_CreateCustomDefaultCharacter() );
+#endif
     }
 
-	void InitHive()
-	{
-		if ( GetGame().IsClient() && GetGame().IsMultiplayer() ) return;
+    void InitHive()
+    {
+        if ( GetGame().IsClient() && GetGame().IsMultiplayer() ) return;
 
-		// RD /s /q "storage_-1" > nul 2>&1
-		if ( !HIVE_ENABLED ) return;
-	
-		Hive oHive = GetHive();
-		
-		if( !oHive )
-		{
-			oHive = CreateHive();
-		}
+        if ( !HIVE_ENABLED ) return;
 
-		if( oHive )
-		{
-			oHive.InitOffline();
-		}
+        Hive oHive = GetHive();
 
-		oHive.SetShardID("100");
-		oHive.SetEnviroment("stable");
-	}
+        if( !oHive )
+        {
+            oHive = CreateHive();
+        }
+
+        if( oHive )
+        {
+            oHive.InitOffline();
+        }
+
+        oHive.SetShardID("100");
+        oHive.SetEnviroment("stable");
+    }
 
     static void SetupWeather()
     {
@@ -116,21 +110,17 @@ class CommunityOfflineClient extends MissionGameplay
         weather.GetRain().SetForecastTimeLimits( 600 , 600 );
         weather.GetFog().SetForecastTimeLimits( 600 , 600 );
 
-        weather.GetOvercast().Set( 0.0, 0, 0 );
-        weather.GetRain().Set( 0.0, 0, 0 );
-        weather.GetFog().Set( 0.0, 0, 0 );
-
         weather.SetWindMaximumSpeed( 50 );
         weather.SetWindFunctionParams( 0, 0, 1 );
     }
-    
+
     override UIScriptedMenu CreateScriptedMenu(int id)
     {
         if(id == EditorMenu.MENU_ID)
         {
             return new EditorMenu();
         }
-        
+
         return super.CreateScriptedMenu(id);
     }
 }
